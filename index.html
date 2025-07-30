@@ -563,6 +563,31 @@
             color: #ffffff;
         }
 
+        .rarity-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .rarity-common { background: rgba(46, 204, 113, 0.3); color: #2ecc71; }
+        .rarity-rare { background: rgba(52, 152, 219, 0.3); color: #3498db; }
+        .rarity-epic { background: rgba(155, 89, 182, 0.3); color: #9b59b6; }
+        .rarity-legendary { background: rgba(231, 76, 60, 0.3); color: #e74c3c; }
+
+        .special-item {
+            border: 1px solid rgba(162, 155, 254, 0.4);
+            background: rgba(162, 155, 254, 0.1);
+        }
+
+        .no-materials {
+            text-align: center;
+            padding: 2rem;
+            color: #a29bfe;
+            font-style: italic;
+        }
+
         .cost-summary {
             background: rgba(108, 92, 231, 0.1);
             border: 1px solid rgba(162, 155, 254, 0.3);
@@ -1606,24 +1631,42 @@
             }
         }
 
-        // Update cost summary
-        function updateCostSummary(materials) {
+        // Enhanced cost summary calculation
+        function updateCostSummary(evolutionMaterials) {
+            if (!evolutionMaterials) {
+                document.getElementById('materialCost').textContent = '0 Gold';
+                document.getElementById('evolutionCost').textContent = '0 Gold';
+                document.getElementById('totalCost').textContent = '0 Gold';
+                return;
+            }
+
             let materialCost = 0;
-            let evolutionCost = 0;
+            let goldCost = evolutionMaterials.goldCost || 0;
 
-            Object.entries(materials).forEach(([materialKey, quantity]) => {
-                const material = materialsConfig[materialKey];
+            // Calculate special item cost
+            if (evolutionMaterials.specialItem) {
+                const material = materialsConfig[evolutionMaterials.specialItem.name];
                 if (material) {
-                    materialCost += material.cost * quantity;
+                    materialCost += material.cost;
                 }
-            });
+            }
 
-            // Evolution fee is 10% of base cost
-            evolutionCost = Math.floor(materialCost * 0.1);
-            const totalCost = materialCost + evolutionCost;
+            // Calculate essence stones cost
+            if (evolutionMaterials.essenceStones) {
+                Object.entries(evolutionMaterials.essenceStones).forEach(([stoneName, quantity]) => {
+                    const material = materialsConfig[stoneName];
+                    if (material) {
+                        materialCost += material.cost * quantity;
+                    }
+                });
+            }
+
+            // Evolution fee is 10% of total material cost
+            const evolutionFee = Math.floor(materialCost * 0.1);
+            const totalCost = materialCost + goldCost + evolutionFee;
 
             document.getElementById('materialCost').textContent = `${materialCost.toLocaleString()} Gold`;
-            document.getElementById('evolutionCost').textContent = `${evolutionCost.toLocaleString()} Gold`;
+            document.getElementById('evolutionCost').textContent = `${(goldCost + evolutionFee).toLocaleString()} Gold`;
             document.getElementById('totalCost').textContent = `${totalCost.toLocaleString()} Gold`;
         }
 
