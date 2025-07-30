@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Vanguards Calculator</title>
+    <meta name="description" content="Anime Vanguards Evolution Materials & DPS Calculator - Calculate evolution costs and farming guides for meta units">
+    <meta name="keywords" content="Anime Vanguards, evolution calculator, materials, farming guide, meta units">
+    <meta name="author" content="Anime Vanguards Calculator">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Anime Vanguards Calculator">
+    <meta property="og:description" content="Calculate evolution materials and costs for Anime Vanguards meta units">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://animevanguardscalculator.com">
+    <title>Anime Vanguards Calculator - Evolution Materials & DPS Calculator</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -588,6 +597,157 @@
             font-style: italic;
         }
 
+        /* Materials Table Styles */
+        .materials-table {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .gold-cost-section,
+        .essence-stones-section,
+        .special-item-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .gold-cost-section h3,
+        .essence-stones-section h3,
+        .special-item-section h3 {
+            color: #a29bfe;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gold-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f1c40f;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(241, 196, 15, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(241, 196, 15, 0.3);
+        }
+
+        .essence-table {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .special-item-display {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* Farming Guide Styles */
+        .farming-guide {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .farming-placeholder {
+            text-align: center;
+            padding: 2rem;
+            color: #a29bfe;
+            font-style: italic;
+        }
+
+        .farming-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .priority-highest { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .priority-high { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .priority-medium { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .priority-low { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .difficulty-very-hard { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .difficulty-hard { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .difficulty-medium { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .difficulty-easy { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+
+        .farming-tips {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .farming-tips li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .farming-tips li:last-child {
+            border-bottom: none;
+        }
+
+        .farming-tips li::before {
+            content: '💡';
+            font-size: 0.8rem;
+            margin-top: 0.1rem;
+        }
+
+        /* Enhanced Material Item Styles */
+        .material-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .material-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .material-item.special-item {
+            border: 1px solid rgba(162, 155, 254, 0.4);
+            background: rgba(162, 155, 254, 0.1);
+        }
+
+        .material-item.special-item:hover {
+            background: rgba(162, 155, 254, 0.15);
+        }
+
         .cost-summary {
             background: rgba(108, 92, 231, 0.1);
             border: 1px solid rgba(162, 155, 254, 0.3);
@@ -649,6 +809,18 @@
             display: block;
         }
 
+        .error-message.warning {
+            background: rgba(241, 196, 15, 0.2);
+            border-color: rgba(241, 196, 15, 0.5);
+            color: #f1c40f;
+        }
+
+        .error-message.error {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: rgba(231, 76, 60, 0.5);
+            color: #e74c3c;
+        }
+
         /* Footer Styles */
         .footer {
             background: rgba(0, 0, 0, 0.3);
@@ -684,7 +856,20 @@
             line-height: 1.5;
         }
 
-        /* Responsive Design */
+        /* Enhanced Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .results-area {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -696,8 +881,6 @@
             }
 
             .main-content {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
                 padding: 0 1rem;
             }
 
@@ -726,6 +909,16 @@
 
             .select-option {
                 padding: 1rem;
+            }
+
+            .materials-table {
+                gap: 1rem;
+            }
+
+            .gold-cost-section,
+            .essence-stones-section,
+            .special-item-section {
+                padding: 0.75rem;
             }
         }
 
@@ -770,6 +963,17 @@
 
             .option-meta {
                 font-size: 0.7rem;
+            }
+
+            .gold-amount {
+                font-size: 1.2rem;
+                padding: 0.75rem;
+            }
+
+            .priority-badge,
+            .difficulty-badge {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
             }
         }
     </style>
@@ -882,56 +1086,38 @@
         </div>
 
         <!-- Right Side - Results -->
-        <div class="results-area">
-            <div class="card">
-                <h2><i class="fas fa-list"></i> Materials List</h2>
+        <aside class="results-area">
+            <!-- Evolution Requirements Section -->
+            <section class="card evolution-requirements">
+                <h2><i class="fas fa-list"></i> Evolution Requirements</h2>
                 
-                <div class="materials-list" id="materialsList">
-                    <div class="material-item">
-                        <div class="material-info">
-                            <div class="material-icon">
-                                <i class="fas fa-gem"></i>
-                            </div>
-                            <div class="material-details">
-                                <h4>Evolution Gem</h4>
-                                <p>Rare Material</p>
-                            </div>
-                        </div>
-                        <div class="material-quantity">0</div>
+                <div class="materials-table" id="materialsTable">
+                    <div class="gold-cost-section">
+                        <h3><i class="fas fa-coins"></i> Gold Cost</h3>
+                        <div class="gold-amount" id="goldAmount">0</div>
                     </div>
                     
-                    <div class="material-item">
-                        <div class="material-info">
-                            <div class="material-icon">
-                                <i class="fas fa-coins"></i>
-                            </div>
-                            <div class="material-details">
-                                <h4>Gold</h4>
-                                <p>Basic Currency</p>
-                            </div>
+                    <div class="essence-stones-section">
+                        <h3><i class="fas fa-gem"></i> Essence Stones</h3>
+                        <div class="essence-table" id="essenceTable">
+                            <div class="no-materials">No essence stones required</div>
                         </div>
-                        <div class="material-quantity">0</div>
                     </div>
                     
-                    <div class="material-item">
-                        <div class="material-info">
-                            <div class="material-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="material-details">
-                                <h4>Experience Material</h4>
-                                <p>Upgrade Material</p>
-                            </div>
+                    <div class="special-item-section">
+                        <h3><i class="fas fa-star"></i> Special Item</h3>
+                        <div class="special-item-display" id="specialItemDisplay">
+                            <div class="no-materials">No special item required</div>
                         </div>
-                        <div class="material-quantity">0</div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="card">
+            <!-- Cost Summary Section -->
+            <section class="card cost-summary-section">
                 <h2><i class="fas fa-calculator"></i> Cost Summary</h2>
                 
-                <div class="cost-summary">
+                <div class="cost-summary" id="costSummary">
                     <div class="cost-item">
                         <span>Material Cost:</span>
                         <span id="materialCost">0 Gold</span>
@@ -945,8 +1131,19 @@
                         <span id="totalCost">0 Gold</span>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            <!-- Farming Guide Section -->
+            <section class="card farming-guide-section">
+                <h2><i class="fas fa-map"></i> Farming Guide</h2>
+                
+                <div class="farming-guide" id="farmingGuide">
+                    <div class="farming-placeholder">
+                        <p>Select a unit to view farming recommendations</p>
+                    </div>
+                </div>
+            </section>
+        </aside>
     </main>
 
     <!-- Footer -->
@@ -1321,6 +1518,129 @@
             'Blast': 'fas fa-radiation'
         };
 
+        // Evolution Calculator Class
+        class EvolutionCalculator {
+            constructor(unitsData, materialsConfig) {
+                this.units = unitsData;
+                this.materials = materialsConfig;
+                this.selectedUnit = null;
+                this.cache = new Map();
+            }
+
+            // Select unit and calculate materials
+            selectUnit(unitId) {
+                const unit = this.units[unitId];
+                if (!unit) {
+                    return { error: 'Unit not found' };
+                }
+
+                this.selectedUnit = unit;
+                const result = this.calculateEvolutionCost(unit);
+                return { unit, ...result };
+            }
+
+            // Calculate total evolution cost
+            calculateEvolutionCost(unit) {
+                const cacheKey = unit.id;
+                if (this.cache.has(cacheKey)) {
+                    return this.cache.get(cacheKey);
+                }
+
+                if (!unit.evolutionMaterials) {
+                    return { error: 'No evolution materials data' };
+                }
+
+                const { goldCost, specialItem, essenceStones } = unit.evolutionMaterials;
+                let materialCost = 0;
+                let details = [];
+
+                // Calculate special item cost
+                if (specialItem) {
+                    const material = this.materials[specialItem.name];
+                    if (material) {
+                        materialCost += material.cost;
+                        details.push({
+                            ...specialItem,
+                            type: 'Special Item',
+                            cost: material.cost,
+                            color: material.color,
+                            icon: material.icon,
+                            rarity: material.rarity
+                        });
+                    }
+                }
+
+                // Calculate essence stones cost
+                if (essenceStones) {
+                    Object.entries(essenceStones).forEach(([name, quantity]) => {
+                        const material = this.materials[name];
+                        if (material) {
+                            materialCost += material.cost * quantity;
+                            details.push({
+                                name,
+                                quantity,
+                                type: 'Essence Stone',
+                                cost: material.cost,
+                                color: material.color,
+                                icon: material.icon,
+                                rarity: material.rarity
+                            });
+                        }
+                    });
+                }
+
+                // Sort by priority
+                details = this.calculateMaterialPriority(details);
+
+                // Calculate evolution fee
+                const evolutionFee = Math.floor(materialCost * 0.1);
+                const totalCost = materialCost + (goldCost || 0) + evolutionFee;
+
+                const result = {
+                    details,
+                    goldCost: goldCost || 0,
+                    materialCost,
+                    evolutionFee,
+                    totalCost,
+                    farmingGuide: unit.farmingGuide,
+                    error: null
+                };
+
+                // Cache the result
+                this.cache.set(cacheKey, result);
+                return result;
+            }
+
+            // Calculate material priority
+            calculateMaterialPriority(materials) {
+                const order = { 'Legendary': 1, 'Epic': 2, 'Rare': 3, 'Common': 4 };
+                return materials.sort((a, b) => (order[a.rarity] || 99) - (order[b.rarity] || 99));
+            }
+
+            // Generate farming plan
+            generateFarmingPlan(unit) {
+                if (!unit.farmingGuide) {
+                    return { error: 'No farming guide available' };
+                }
+
+                return {
+                    priority: unit.farmingGuide.priority,
+                    difficulty: unit.farmingGuide.difficulty,
+                    tips: unit.farmingGuide.tips,
+                    obtainMethod: unit.obtainMethod,
+                    dropRate: unit.dropRate
+                };
+            }
+
+            // Clear cache
+            clearCache() {
+                this.cache.clear();
+            }
+        }
+
+        // Initialize calculator
+        const evolutionCalculator = new EvolutionCalculator(unitsData, materialsConfig);
+
         // Unit Select Handler
         const unitSelectHandler = {
             // Filter units based on search term and filters
@@ -1382,29 +1702,45 @@
                 `;
             },
 
-            // Handle unit selection
+            // Handle unit selection with enhanced calculation
             onUnitSelect: (unitId) => {
-                const unitData = unitsData[unitId];
-                if (!unitData) {
-                    showError('Unit data not found');
+                showLoading();
+                
+                // Use calculator to get results
+                const result = evolutionCalculator.selectUnit(unitId);
+                
+                if (result.error) {
+                    showError(result.error);
+                    hideLoading();
                     return;
                 }
 
                 currentUnit = unitId;
-                unitSelectHandler.updateUnitCard(unitData);
-                updateMaterialsList(unitData.evolutionMaterials);
-                updateCostSummary(unitData.evolutionMaterials);
+                const { unit, goldCost, materialCost, evolutionFee, totalCost, farmingGuide } = result;
+
+                // Update unit card
+                unitSelectHandler.updateUnitCard(unit);
+                
+                // Update materials display
+                updateMaterialsList(unit.evolutionMaterials);
+                
+                // Update cost summary
+                updateCostSummary({ goldCost, materialCost, evolutionFee, totalCost });
+                
+                // Update farming guide
+                updateFarmingGuide(unit);
                 
                 // Update select header
                 const selectPlaceholder = selectHeader.querySelector('.select-placeholder');
-                selectPlaceholder.textContent = `${unitData.name} ${unitData.evolution}`;
+                selectPlaceholder.textContent = `${unit.name} ${unit.evolution}`;
                 selectPlaceholder.style.color = '#ffffff';
                 
                 // Close dropdown
                 closeDropdown();
+                hideLoading();
             },
 
-            // Handle search input
+            // Handle search input with debouncing
             onSearchInput: (inputValue) => {
                 const rarityValue = rarityFilter.value;
                 const elementValue = elementFilter.value;
@@ -1421,23 +1757,23 @@
             }
         };
 
-        // Event listeners
+        // Event listeners with debounced search
         unitSearch.addEventListener('input', (e) => {
-            unitSelectHandler.onSearchInput(e.target.value);
+            debouncedSearch(e.target.value);
         });
 
         clearSearch.addEventListener('click', () => {
             unitSearch.value = '';
-            unitSelectHandler.onSearchInput('');
+            debouncedSearch('');
             unitSearch.focus();
         });
 
         rarityFilter.addEventListener('change', () => {
-            unitSelectHandler.onSearchInput(unitSearch.value);
+            debouncedSearch(unitSearch.value);
         });
 
         elementFilter.addEventListener('change', () => {
-            unitSelectHandler.onSearchInput(unitSearch.value);
+            debouncedSearch(unitSearch.value);
         });
 
         // Custom select functionality
@@ -1552,57 +1888,13 @@
 
         // Update materials list with enhanced display
         function updateMaterialsList(evolutionMaterials) {
-            materialsList.innerHTML = '';
-            
-            if (!evolutionMaterials) {
-                materialsList.innerHTML = '<div class="no-materials">No evolution materials required</div>';
-                return;
-            }
+            const goldAmount = document.getElementById('goldAmount');
+            const essenceTable = document.getElementById('essenceTable');
+            const specialItemDisplay = document.getElementById('specialItemDisplay');
 
-            // Add Gold Cost
-            if (evolutionMaterials.goldCost) {
-                const goldItem = document.createElement('div');
-                goldItem.className = 'material-item';
-                goldItem.innerHTML = `
-                    <div class="material-info">
-                        <div class="material-icon" style="background: linear-gradient(45deg, #f1c40f, #f39c12);">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <div class="material-details">
-                            <h4>Gold Cost</h4>
-                            <p>Evolution currency requirement</p>
-                        </div>
-                    </div>
-                    <div class="material-quantity">${evolutionMaterials.goldCost.toLocaleString()}</div>
-                `;
-                materialsList.appendChild(goldItem);
-            }
+            goldAmount.textContent = evolutionMaterials.goldCost ? evolutionMaterials.goldCost.toLocaleString() : '0';
 
-            // Add Special Item
-            if (evolutionMaterials.specialItem) {
-                const specialItem = document.createElement('div');
-                specialItem.className = 'material-item special-item';
-                const material = materialsConfig[evolutionMaterials.specialItem.name];
-                const rarityClass = material ? `rarity-${material.rarity.toLowerCase()}` : '';
-                
-                specialItem.innerHTML = `
-                    <div class="material-info">
-                        <div class="material-icon" style="background: linear-gradient(45deg, ${material?.color || '#6c5ce7'}, #a29bfe);">
-                            <i class="${material?.icon || 'fas fa-star'}"></i>
-                        </div>
-                        <div class="material-details">
-                            <h4>${evolutionMaterials.specialItem.name}</h4>
-                            <p>${evolutionMaterials.specialItem.source}${evolutionMaterials.specialItem.cost ? ` • ${evolutionMaterials.specialItem.cost}` : ''}${evolutionMaterials.specialItem.dropRate ? ` • ${evolutionMaterials.specialItem.dropRate}` : ''}</p>
-                        </div>
-                    </div>
-                    <div class="material-quantity">
-                        <span class="rarity-badge ${rarityClass}">1</span>
-                    </div>
-                `;
-                materialsList.appendChild(specialItem);
-            }
-
-            // Add Essence Stones
+            essenceTable.innerHTML = '';
             if (evolutionMaterials.essenceStones) {
                 Object.entries(evolutionMaterials.essenceStones).forEach(([stoneName, quantity]) => {
                     const material = materialsConfig[stoneName];
@@ -1625,95 +1917,127 @@
                                 <span class="rarity-badge ${rarityClass}">${quantity}</span>
                             </div>
                         `;
-                        materialsList.appendChild(stoneItem);
+                        essenceTable.appendChild(stoneItem);
                     }
                 });
+            } else {
+                essenceTable.innerHTML = '<div class="no-materials">No essence stones required</div>';
+            }
+
+            specialItemDisplay.innerHTML = '';
+            if (evolutionMaterials.specialItem) {
+                const material = materialsConfig[evolutionMaterials.specialItem.name];
+                if (material) {
+                    const specialItem = document.createElement('div');
+                    specialItem.className = 'material-item special-item';
+                    const rarityClass = material ? `rarity-${material.rarity.toLowerCase()}` : '';
+                    
+                    specialItem.innerHTML = `
+                        <div class="material-info">
+                            <div class="material-icon" style="background: linear-gradient(45deg, ${material?.color || '#6c5ce7'}, #a29bfe);">
+                                <i class="${material?.icon || 'fas fa-star'}"></i>
+                            </div>
+                            <div class="material-details">
+                                <h4>${material.name}</h4>
+                                <p>${material.description}</p>
+                            </div>
+                        </div>
+                        <div class="material-quantity">
+                            <span class="rarity-badge ${rarityClass}">1</span>
+                        </div>
+                    `;
+                    specialItemDisplay.appendChild(specialItem);
+                } else {
+                    specialItemDisplay.innerHTML = '<div class="no-materials">Special item not found in config</div>';
+                }
+            } else {
+                specialItemDisplay.innerHTML = '<div class="no-materials">No special item required</div>';
             }
         }
 
         // Enhanced cost summary calculation
-        function updateCostSummary(evolutionMaterials) {
-            if (!evolutionMaterials) {
-                document.getElementById('materialCost').textContent = '0 Gold';
-                document.getElementById('evolutionCost').textContent = '0 Gold';
-                document.getElementById('totalCost').textContent = '0 Gold';
-                return;
-            }
-
-            let materialCost = 0;
-            let goldCost = evolutionMaterials.goldCost || 0;
-
-            // Calculate special item cost
-            if (evolutionMaterials.specialItem) {
-                const material = materialsConfig[evolutionMaterials.specialItem.name];
-                if (material) {
-                    materialCost += material.cost;
-                }
-            }
-
-            // Calculate essence stones cost
-            if (evolutionMaterials.essenceStones) {
-                Object.entries(evolutionMaterials.essenceStones).forEach(([stoneName, quantity]) => {
-                    const material = materialsConfig[stoneName];
-                    if (material) {
-                        materialCost += material.cost * quantity;
-                    }
-                });
-            }
-
-            // Evolution fee is 10% of total material cost
-            const evolutionFee = Math.floor(materialCost * 0.1);
-            const totalCost = materialCost + goldCost + evolutionFee;
+        function updateCostSummary(costData) {
+            const { goldCost = 0, materialCost = 0, evolutionFee = 0, totalCost = 0 } = costData;
 
             document.getElementById('materialCost').textContent = `${materialCost.toLocaleString()} Gold`;
             document.getElementById('evolutionCost').textContent = `${(goldCost + evolutionFee).toLocaleString()} Gold`;
             document.getElementById('totalCost').textContent = `${totalCost.toLocaleString()} Gold`;
         }
 
+        // Debounce function for search
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Debounced search function
+        const debouncedSearch = debounce((inputValue) => {
+            unitSelectHandler.onSearchInput(inputValue);
+        }, 300);
+
+        // Update farming guide display
+        function updateFarmingGuide(unit) {
+            const farmingGuideSection = document.getElementById('farmingGuide');
+            const farmingPlaceholder = farmingGuideSection.querySelector('.farming-placeholder');
+            const farmingInfo = farmingGuideSection.querySelector('.farming-info');
+
+            if (!unit.farmingGuide) {
+                farmingPlaceholder.textContent = 'No farming guide available for this unit.';
+                farmingInfo.style.display = 'none';
+                return;
+            }
+
+            const { priority, difficulty, tips, obtainMethod, dropRate } = unit.farmingGuide;
+
+            farmingPlaceholder.style.display = 'none';
+            farmingInfo.style.display = 'block';
+
+            const priorityBadge = document.createElement('div');
+            priorityBadge.className = `priority-badge ${priority.toLowerCase()}`;
+            priorityBadge.textContent = priority;
+            farmingInfo.appendChild(priorityBadge);
+
+            const difficultyBadge = document.createElement('div');
+            difficultyBadge.className = `difficulty-badge ${difficulty.toLowerCase()}`;
+            difficultyBadge.textContent = difficulty;
+            farmingInfo.appendChild(difficultyBadge);
+
+            const tipsList = document.createElement('ul');
+            tipsList.className = 'farming-tips';
+            tips.forEach(tip => {
+                const tipItem = document.createElement('li');
+                tipItem.textContent = `💡 ${tip}`;
+                tipsList.appendChild(tipItem);
+            });
+            farmingInfo.appendChild(tipsList);
+
+            const obtainMethodText = document.createElement('p');
+            obtainMethodText.textContent = `Obtain Method: ${obtainMethod}`;
+            farmingInfo.appendChild(obtainMethodText);
+
+            const dropRateText = document.createElement('p');
+            dropRateText.textContent = `Drop Rate: ${dropRate}`;
+            farmingInfo.appendChild(dropRateText);
+        }
+
         // Reset display
         function resetDisplay() {
             unitSelectHandler.updateUnitCard(null);
             
-            materialsList.innerHTML = `
-                <div class="material-item">
-                    <div class="material-info">
-                        <div class="material-icon">
-                            <i class="fas fa-gem"></i>
-                        </div>
-                        <div class="material-details">
-                            <h4>Evolution Gem</h4>
-                            <p>Rare Material</p>
-                        </div>
-                    </div>
-                    <div class="material-quantity">0</div>
-                </div>
-                
-                <div class="material-item">
-                    <div class="material-info">
-                        <div class="material-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <div class="material-details">
-                            <h4>Gold</h4>
-                            <p>Basic Currency</p>
-                        </div>
-                    </div>
-                    <div class="material-quantity">0</div>
-                </div>
-                
-                <div class="material-item">
-                    <div class="material-info">
-                        <div class="material-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="material-details">
-                            <h4>Experience Material</h4>
-                            <p>Upgrade Material</p>
-                        </div>
-                    </div>
-                    <div class="material-quantity">0</div>
-                </div>
-            `;
+            const goldAmount = document.getElementById('goldAmount');
+            const essenceTable = document.getElementById('essenceTable');
+            const specialItemDisplay = document.getElementById('specialItemDisplay');
+
+            goldAmount.textContent = '0';
+            essenceTable.innerHTML = '<div class="no-materials">No essence stones required</div>';
+            specialItemDisplay.innerHTML = '<div class="no-materials">No special item required</div>';
 
             document.getElementById('materialCost').textContent = '0 Gold';
             document.getElementById('evolutionCost').textContent = '0 Gold';
@@ -1731,38 +2055,101 @@
             loading.classList.remove('show');
         }
 
-        // Show error message
-        function showError(message) {
-            errorText.textContent = message;
-            errorMessage.classList.add('show');
-            loading.classList.remove('show');
+        // Data validation
+        function validateUnitData(unit) {
+            if (!unit) {
+                return { valid: false, error: "Unit data is missing" };
+            }
+            
+            if (!unit.evolutionMaterials) {
+                return { valid: false, error: "Evolution materials data is missing" };
+            }
+            
+            const { goldCost, specialItem, essenceStones } = unit.evolutionMaterials;
+            
+            if (goldCost === undefined || goldCost === null) {
+                return { valid: false, error: "Gold cost is missing" };
+            }
+            
+            if (specialItem && !materialsConfig[specialItem.name]) {
+                return { valid: false, error: `Special item "${specialItem.name}" not found in materials config` };
+            }
+            
+            if (essenceStones) {
+                for (const [stoneName, quantity] of Object.entries(essenceStones)) {
+                    if (!materialsConfig[stoneName]) {
+                        return { valid: false, error: `Essence stone "${stoneName}" not found in materials config` };
+                    }
+                    if (quantity <= 0) {
+                        return { valid: false, error: `Invalid quantity for "${stoneName}"` };
+                    }
+                }
+            }
+            
+            return { valid: true };
         }
 
-        // Initialize page
+        // Enhanced error handling
+        function showError(message, type = 'error') {
+            errorText.textContent = message;
+            errorMessage.className = `error-message show ${type}`;
+            loading.classList.remove('show');
+            
+            // Auto-hide error after 5 seconds
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        // Initialize page with enhanced validation
         function init() {
-            console.log('Anime Vanguards Calculator initialized');
+            console.log('Anime Vanguards Calculator MVP initialized');
             
-            // Convert unitsData object to array
-            allUnits = Object.values(unitsData);
-            filteredUnits = [...allUnits];
-            
-            // Initialize with placeholder state
-            unitSelectHandler.updateUnitCard(null);
-            
-            // Set up keyboard navigation for search
-            unitSearch.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    unitSearch.blur();
-                    closeDropdown();
+            try {
+                // Validate all unit data
+                const validationErrors = [];
+                Object.entries(unitsData).forEach(([unitId, unit]) => {
+                    const validation = validateUnitData(unit);
+                    if (!validation.valid) {
+                        validationErrors.push(`${unitId}: ${validation.error}`);
+                    }
+                });
+                
+                if (validationErrors.length > 0) {
+                    console.error('Data validation errors:', validationErrors);
+                    showError('Some unit data has validation errors. Check console for details.', 'warning');
                 }
-            });
-            
-            // Add loading animation for better UX
-            unitSearch.addEventListener('focus', () => {
-                if (!customSelect.classList.contains('open')) {
-                    openDropdown();
-                }
-            });
+                
+                // Convert unitsData object to array
+                allUnits = Object.values(unitsData);
+                filteredUnits = [...allUnits];
+                
+                // Initialize with placeholder state
+                unitSelectHandler.updateUnitCard(null);
+                resetDisplay();
+                
+                // Set up keyboard navigation for search
+                unitSearch.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        unitSearch.blur();
+                        closeDropdown();
+                    }
+                });
+                
+                // Add loading animation for better UX
+                unitSearch.addEventListener('focus', () => {
+                    if (!customSelect.classList.contains('open')) {
+                        openDropdown();
+                    }
+                });
+                
+                // Add performance monitoring
+                console.log(`Loaded ${allUnits.length} units with ${Object.keys(materialsConfig).length} materials`);
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                showError('Failed to initialize calculator. Please refresh the page.', 'error');
+            }
         }
 
         // Initialize when page loads
