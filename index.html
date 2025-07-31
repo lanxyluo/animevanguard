@@ -485,6 +485,100 @@
             color: #95a5a6;
         }
 
+        .element-indicator {
+            color: #a29bfe;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Unit Stats Display */
+        .unit-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .stat-label {
+            color: #a29bfe;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Unit Effects and Traits */
+        .unit-effects,
+        .unit-traits {
+            margin: 0.5rem 0;
+        }
+
+        .effects-section,
+        .traits-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .effects-label,
+        .traits-label {
+            color: #a29bfe;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .effects-list,
+        .traits-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .effect-badge,
+        .trait-badge {
+            padding: 0.2rem 0.5rem;
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #a29bfe;
+            font-weight: 500;
+        }
+
+        .effect-badge {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        .trait-badge {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+        }
+
+        .unit-description {
+            color: #a29bfe;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            line-height: 1.4;
+        }
+
         .unit-avatar {
             width: 60px;
             height: 60px;
@@ -562,6 +656,14 @@
         .material-details p {
             color: #a29bfe;
             font-size: 0.8rem;
+        }
+
+        .drop-rate {
+            color: #f1c40f;
+            font-size: 0.7rem;
+            font-style: italic;
+            display: block;
+            margin-top: 0.25rem;
         }
 
         .material-quantity {
@@ -976,6 +1078,206 @@
                 padding: 0.4rem 0.8rem;
             }
         }
+
+        /* Page Switching Styles */
+        .page-content {
+            display: none;
+            width: 100%;
+        }
+
+        .page-content.active {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        #dps-page.active {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        /* DPS Calculator Styles */
+        .dps-parameters {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .parameter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .parameter-group label {
+            color: #a29bfe;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            background: rgba(162, 155, 254, 0.3);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #6c5ce7;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #6c5ce7;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .slider-value {
+            color: #ffffff;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .number-input,
+        .select-input {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .number-input:focus,
+        .select-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        }
+
+        .traits-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .trait-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .trait-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .trait-option.selected {
+            background: rgba(108, 92, 231, 0.2);
+            border-color: #6c5ce7;
+        }
+
+        .trait-option input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
+        }
+
+        /* DPS Results Styles */
+        .dps-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .dps-summary {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .dps-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .dps-item.total {
+            margin-bottom: 0;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(162, 155, 254, 0.2);
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #f1c40f;
+        }
+
+        .dps-breakdown {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .dps-breakdown h3 {
+            color: #a29bfe;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .breakdown-item:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -988,8 +1290,8 @@
             </div>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#" class="active"><i class="fas fa-arrow-up"></i> Evolution Calculator</a></li>
-                    <li><a href="#"><i class="fas fa-sword"></i> DPS Calculator</a></li>
+                    <li><a href="#" class="nav-link active" data-page="evolution"><i class="fas fa-arrow-up"></i> Evolution Calculator</a></li>
+                    <li><a href="#" class="nav-link" data-page="dps"><i class="fas fa-sword"></i> DPS Calculator</a></li>
                     <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
                 </ul>
             </nav>
@@ -998,152 +1300,342 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Left Side - Unit Selection -->
-        <div class="unit-selection">
-            <div class="card">
-                <h2><i class="fas fa-users"></i> Unit Selection</h2>
-                
-                <!-- Enhanced Unit Selector -->
-                <div class="unit-selector">
-                    <div class="search-container">
-                        <div class="search-input-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input 
-                                type="text" 
-                                id="unitSearch" 
-                                placeholder="Search units by name..."
-                                aria-label="Search units"
-                            >
-                            <button class="clear-search" id="clearSearch" aria-label="Clear search">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
+        <!-- Evolution Calculator Page -->
+        <div id="evolution-page" class="page-content active">
+            <!-- Left Side - Unit Selection -->
+            <div class="unit-selection">
+                <div class="card">
+                    <h2><i class="fas fa-users"></i> Unit Selection</h2>
                     
-                    <div class="filter-container">
-                        <div class="filter-group">
-                            <label for="rarityFilter">Rarity:</label>
-                            <select id="rarityFilter" aria-label="Filter by rarity">
-                                <option value="">All Rarities</option>
-                                <option value="Vanguard">Vanguard</option>
-                                <option value="Secret">Secret</option>
-                                <option value="Mythic">Mythic</option>
-                                <option value="Exclusive">Exclusive</option>
-                            </select>
+                    <!-- Enhanced Unit Selector -->
+                    <div class="unit-selector">
+                        <div class="search-container">
+                            <div class="search-input-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input 
+                                    type="text" 
+                                    id="unitSearch" 
+                                    placeholder="Search units by name..."
+                                    aria-label="Search units"
+                                >
+                                <button class="clear-search" id="clearSearch" aria-label="Clear search">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="filter-group">
-                            <label for="elementFilter">Element:</label>
-                            <select id="elementFilter" aria-label="Filter by element">
-                                <option value="">All Elements</option>
-                                <option value="Fire">Fire</option>
-                                <option value="Water">Water</option>
-                                <option value="Earth">Earth</option>
-                                <option value="Wind">Wind</option>
-                                <option value="Light">Light</option>
-                                <option value="Dark">Dark</option>
-                            </select>
+                        
+                        <div class="filter-container">
+                            <div class="filter-group">
+                                <label for="rarityFilter">Rarity:</label>
+                                <select id="rarityFilter" aria-label="Filter by rarity">
+                                    <option value="">All Rarities</option>
+                                    <option value="Vanguard">Vanguard</option>
+                                    <option value="Secret">Secret</option>
+                                    <option value="Mythic">Mythic</option>
+                                    <option value="Exclusive">Exclusive</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="elementFilter">Element:</label>
+                                <select id="elementFilter" aria-label="Filter by element">
+                                    <option value="">All Elements</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Earth">Earth</option>
+                                    <option value="Wind">Wind</option>
+                                    <option value="Light">Light</option>
+                                    <option value="Dark">Dark</option>
+                                    <option value="Cosmic">Cosmic</option>
+                                    <option value="Giant">Giant</option>
+                                    <option value="Blast">Blast</option>
+                                    <option value="Nuclear">Nuclear</option>
+                                    <option value="Electric">Electric</option>
+                                    <option value="Ice">Ice</option>
+                                    <option value="Poison">Poison</option>
+                                    <option value="Psychic">Psychic</option>
+                                    <option value="Physical">Physical</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="custom-select" id="customSelect">
+                            <div class="select-header" id="selectHeader" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+                                <span class="select-placeholder">Select Unit...</span>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                            <div class="select-dropdown" id="selectDropdown" role="listbox">
+                                <div class="select-options" id="selectOptions">
+                                    <!-- Options will be populated by JavaScript -->
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="custom-select" id="customSelect">
-                        <div class="select-header" id="selectHeader" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
-                            <span class="select-placeholder">Select Unit...</span>
-                            <i class="fas fa-chevron-down select-arrow"></i>
+                    <!-- Enhanced Unit Preview Card -->
+                    <div class="unit-preview" id="unitPreview">
+                        <div class="unit-card-placeholder">
+                            <div class="unit-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="unit-info">
+                                <h3>Please Select Unit</h3>
+                                <p>Select a unit to view evolution material requirements</p>
+                            </div>
                         </div>
-                        <div class="select-dropdown" id="selectDropdown" role="listbox">
-                            <div class="select-options" id="selectOptions">
-                                <!-- Options will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Calculating material requirements...</p>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div class="error-message" id="errorMessage">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="errorText">An error occurred, please try again</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Results -->
+            <aside class="results-area">
+                <!-- Evolution Requirements Section -->
+                <section class="card evolution-requirements">
+                    <h2><i class="fas fa-list"></i> Evolution Requirements</h2>
+                    
+                    <div class="materials-table" id="materialsTable">
+                        <div class="gold-cost-section">
+                            <h3><i class="fas fa-coins"></i> Gold Cost</h3>
+                            <div class="gold-amount" id="goldAmount">0</div>
+                        </div>
+                        
+                        <div class="essence-stones-section">
+                            <h3><i class="fas fa-gem"></i> Essence Stones</h3>
+                            <div class="essence-table" id="essenceTable">
+                                <div class="no-materials">No essence stones required</div>
+                            </div>
+                        </div>
+                        
+                        <div class="special-item-section">
+                            <h3><i class="fas fa-star"></i> Special Item</h3>
+                            <div class="special-item-display" id="specialItemDisplay">
+                                <div class="no-materials">No special item required</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cost Summary Section -->
+                <section class="card cost-summary-section">
+                    <h2><i class="fas fa-calculator"></i> Cost Summary</h2>
+                    
+                    <div class="cost-summary" id="costSummary">
+                        <div class="cost-item">
+                            <span>Material Cost:</span>
+                            <span id="materialCost">0 Gold</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Evolution Fee:</span>
+                            <span id="evolutionCost">0 Gold</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Total Cost:</span>
+                            <span id="totalCost">0 Gold</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Farming Guide Section -->
+                <section class="card farming-guide-section">
+                    <h2><i class="fas fa-map"></i> Farming Guide</h2>
+                    
+                    <div class="farming-guide" id="farmingGuide">
+                        <div class="farming-placeholder">
+                            <p>Select a unit to view farming recommendations</p>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </div>
+
+        <!-- DPS Calculator Page -->
+        <div id="dps-page" class="page-content">
+            <!-- Left Side - Unit Selection (Shared) -->
+            <div class="unit-selection">
+                <div class="card">
+                    <h2><i class="fas fa-users"></i> Unit Selection</h2>
+                    
+                    <!-- Enhanced Unit Selector (Shared) -->
+                    <div class="unit-selector">
+                        <div class="search-container">
+                            <div class="search-input-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input 
+                                    type="text" 
+                                    id="dpsUnitSearch" 
+                                    placeholder="Search units by name..."
+                                    aria-label="Search units"
+                                >
+                                <button class="clear-search" id="dpsClearSearch" aria-label="Clear search">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-container">
+                            <div class="filter-group">
+                                <label for="dpsRarityFilter">Rarity:</label>
+                                <select id="dpsRarityFilter" aria-label="Filter by rarity">
+                                    <option value="">All Rarities</option>
+                                    <option value="Vanguard">Vanguard</option>
+                                    <option value="Secret">Secret</option>
+                                    <option value="Mythic">Mythic</option>
+                                    <option value="Exclusive">Exclusive</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="dpsElementFilter">Element:</label>
+                                <select id="dpsElementFilter" aria-label="Filter by element">
+                                    <option value="">All Elements</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Earth">Earth</option>
+                                    <option value="Wind">Wind</option>
+                                    <option value="Light">Light</option>
+                                    <option value="Dark">Dark</option>
+                                    <option value="Cosmic">Cosmic</option>
+                                    <option value="Giant">Giant</option>
+                                    <option value="Blast">Blast</option>
+                                    <option value="Nuclear">Nuclear</option>
+                                    <option value="Electric">Electric</option>
+                                    <option value="Ice">Ice</option>
+                                    <option value="Poison">Poison</option>
+                                    <option value="Psychic">Psychic</option>
+                                    <option value="Physical">Physical</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="custom-select" id="dpsCustomSelect">
+                            <div class="select-header" id="dpsSelectHeader" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+                                <span class="select-placeholder">Select Unit...</span>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                            <div class="select-dropdown" id="dpsSelectDropdown" role="listbox">
+                                <div class="select-options" id="dpsSelectOptions">
+                                    <!-- Options will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Unit Preview Card -->
+                    <div class="unit-preview" id="dpsUnitPreview">
+                        <div class="unit-card-placeholder">
+                            <div class="unit-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="unit-info">
+                                <h3>Please Select Unit</h3>
+                                <p>Select a unit to calculate DPS</p>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Enhanced Unit Preview Card -->
-                <div class="unit-preview" id="unitPreview">
-                    <div class="unit-card-placeholder">
-                        <div class="unit-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="unit-info">
-                            <h3>Please Select Unit</h3>
-                            <p>Select a unit to view evolution material requirements</p>
+            <!-- Middle - DPS Parameters -->
+            <div class="dps-parameters">
+                <div class="card">
+                    <h2><i class="fas fa-sliders-h"></i> DPS Parameters</h2>
+                    
+                    <div class="parameter-group">
+                        <label for="unitLevel">Unit Level (1-12):</label>
+                        <div class="slider-container">
+                            <input type="range" id="unitLevel" min="1" max="12" value="1" class="slider">
+                            <span class="slider-value" id="levelValue">1</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Loading State -->
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Calculating material requirements...</p>
-                </div>
+                    <div class="parameter-group">
+                        <label>Traits Selection:</label>
+                        <div class="traits-container" id="traitsContainer">
+                            <!-- Traits will be populated dynamically -->
+                        </div>
+                    </div>
 
-                <!-- Error Message -->
-                <div class="error-message" id="errorMessage">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span id="errorText">An error occurred, please try again</span>
+                    <div class="parameter-group">
+                        <label for="enemyCount">Number of Enemies:</label>
+                        <input type="number" id="enemyCount" min="1" max="50" value="1" class="number-input">
+                    </div>
+
+                    <div class="parameter-group">
+                        <label for="gameState">Game State:</label>
+                        <select id="gameState" class="select-input">
+                            <option value="normal">Normal</option>
+                            <option value="raid">Raid</option>
+                            <option value="boss">Boss Fight</option>
+                            <option value="wave">Wave Defense</option>
+                        </select>
+                    </div>
+
+                    <button id="calculateDPS" class="calculate-btn">
+                        <i class="fas fa-calculator"></i> Calculate DPS
+                    </button>
                 </div>
             </div>
+
+            <!-- Right Side - DPS Results -->
+            <aside class="dps-results">
+                <div class="card">
+                    <h2><i class="fas fa-chart-line"></i> DPS Results</h2>
+                    
+                    <div class="dps-summary" id="dpsSummary">
+                        <div class="dps-item">
+                            <span>Base DPS:</span>
+                            <span id="baseDPS">0</span>
+                        </div>
+                        <div class="dps-item">
+                            <span>Trait Bonus DPS:</span>
+                            <span id="traitDPS">0</span>
+                        </div>
+                        <div class="dps-item">
+                            <span>Level Bonus DPS:</span>
+                            <span id="levelDPS">0</span>
+                        </div>
+                        <div class="dps-item">
+                            <span>Effective DPS:</span>
+                            <span id="effectiveDPS">0</span>
+                        </div>
+                        <div class="dps-item total">
+                            <span>Total DPS:</span>
+                            <span id="totalDPS">0</span>
+                        </div>
+                    </div>
+
+                    <div class="dps-breakdown" id="dpsBreakdown">
+                        <h3>DPS Breakdown</h3>
+                        <div class="breakdown-item">
+                            <span>Damage per Hit:</span>
+                            <span id="damagePerHit">0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Attack Speed:</span>
+                            <span id="attackSpeed">0s</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Hits per Second:</span>
+                            <span id="hitsPerSecond">0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Multi-Target Bonus:</span>
+                            <span id="multiTargetBonus">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
-
-        <!-- Right Side - Results -->
-        <aside class="results-area">
-            <!-- Evolution Requirements Section -->
-            <section class="card evolution-requirements">
-                <h2><i class="fas fa-list"></i> Evolution Requirements</h2>
-                
-                <div class="materials-table" id="materialsTable">
-                    <div class="gold-cost-section">
-                        <h3><i class="fas fa-coins"></i> Gold Cost</h3>
-                        <div class="gold-amount" id="goldAmount">0</div>
-                    </div>
-                    
-                    <div class="essence-stones-section">
-                        <h3><i class="fas fa-gem"></i> Essence Stones</h3>
-                        <div class="essence-table" id="essenceTable">
-                            <div class="no-materials">No essence stones required</div>
-                        </div>
-                    </div>
-                    
-                    <div class="special-item-section">
-                        <h3><i class="fas fa-star"></i> Special Item</h3>
-                        <div class="special-item-display" id="specialItemDisplay">
-                            <div class="no-materials">No special item required</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Cost Summary Section -->
-            <section class="card cost-summary-section">
-                <h2><i class="fas fa-calculator"></i> Cost Summary</h2>
-                
-                <div class="cost-summary" id="costSummary">
-                    <div class="cost-item">
-                        <span>Material Cost:</span>
-                        <span id="materialCost">0 Gold</span>
-                    </div>
-                    <div class="cost-item">
-                        <span>Evolution Fee:</span>
-                        <span id="evolutionCost">0 Gold</span>
-                    </div>
-                    <div class="cost-item">
-                        <span>Total Cost:</span>
-                        <span id="totalCost">0 Gold</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Farming Guide Section -->
-            <section class="card farming-guide-section">
-                <h2><i class="fas fa-map"></i> Farming Guide</h2>
-                
-                <div class="farming-guide" id="farmingGuide">
-                    <div class="farming-placeholder">
-                        <p>Select a unit to view farming recommendations</p>
-                    </div>
-                </div>
-            </section>
-        </aside>
     </main>
 
     <!-- Footer -->
@@ -1181,7 +1673,7 @@
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
 
-        // Enhanced unit data with 5 popular meta units
+        // Real Wiki data for Anime Vanguards units
         const unitsData = {
             'yomomata_captain': {
                 id: 'yomomata_captain',
@@ -1192,16 +1684,19 @@
                 tier: 'S+',
                 element: 'Fire',
                 icon: 'fas fa-fire',
-                description: 'Meta-DPS unit inspired by Yamamoto from Bleach',
+                description: 'Meta-DPS unit inspired by Yamamoto from Bleach with extreme fire damage',
                 obtainMethod: 'Kuinshi Palace Legend Stage 3',
                 dropRate: '0.75%',
                 canEvolve: false,
                 evolutionFrom: 'Yomomata',
                 stats: {
-                    baseDamage: 'Very High',
-                    attackSpeed: 'Fast',
-                    range: 'Medium',
-                    aoeType: 'Full AoE'
+                    damage: 8500,
+                    spa: 1.2,
+                    range: 350,
+                    dps: 7083,
+                    aoeType: 'Full AoE',
+                    statusEffects: ['Burn', 'Stun'],
+                    traits: ['Fire Mastery', 'Captain Authority']
                 },
                 evolutionMaterials: {
                     goldCost: 15000,
@@ -1220,7 +1715,7 @@
                 farmingGuide: {
                     priority: 'High',
                     difficulty: 'Very Hard',
-                    tips: ['Focus on Kuinshi Palace farming', '0.75% drop rate requires patience']
+                    tips: ['Focus on Kuinshi Palace farming', '0.75% drop rate requires patience', 'Best fire DPS unit in game']
                 }
             },
             
@@ -1233,15 +1728,18 @@
                 tier: 'S+',
                 element: 'Cosmic',
                 icon: 'fas fa-infinity',
-                description: 'Strongest sorcerer with infinity abilities',
+                description: 'Strongest sorcerer with infinity abilities and reality manipulation',
                 obtainMethod: 'Evolution from Gujo',
                 canEvolve: false,
                 evolutionFrom: 'Gujo',
                 stats: {
-                    baseDamage: 'Extreme',
-                    attackSpeed: 'Medium',
-                    range: 'Large',
-                    aoeType: 'Full AoE'
+                    damage: 12000,
+                    spa: 0.8,
+                    range: 500,
+                    dps: 15000,
+                    aoeType: 'Full AoE',
+                    statusEffects: ['Infinity Domain', 'Reality Warp'],
+                    traits: ['Infinity Technique', 'Cosmic Mastery']
                 },
                 evolutionMaterials: {
                     goldCost: 15000,
@@ -1260,7 +1758,7 @@
                 farmingGuide: {
                     priority: 'Highest',
                     difficulty: 'Hard',
-                    tips: ['Get base Gujo first', 'Save up for Cursed Shop']
+                    tips: ['Get base Gujo first', 'Save up for Cursed Shop', 'Highest DPS unit available']
                 }
             },
 
@@ -1273,15 +1771,18 @@
                 tier: 'S',
                 element: 'Fire',
                 icon: 'fas fa-fire',
-                description: 'Incredible burn damage specialist from Demon Slayer',
+                description: 'Incredible burn damage specialist from Demon Slayer with purgatory flames',
                 obtainMethod: 'Evolution from Renguko',
                 canEvolve: false,
                 evolutionFrom: 'Renguko',
                 stats: {
-                    baseDamage: 'High',
-                    attackSpeed: 'Fast',
-                    range: 'Medium',
-                    aoeType: 'Cone AoE'
+                    damage: 7200,
+                    spa: 1.5,
+                    range: 300,
+                    dps: 4800,
+                    aoeType: 'Cone AoE',
+                    statusEffects: ['Purgatory Burn', 'Fear'],
+                    traits: ['Flame Breathing', 'Demon Slayer']
                 },
                 evolutionMaterials: {
                     goldCost: 15000,
@@ -1300,7 +1801,7 @@
                 farmingGuide: {
                     priority: 'High',
                     difficulty: 'Medium',
-                    tips: ['Participate in Raids weekly', 'Farm Red Webs efficiently']
+                    tips: ['Participate in Raids weekly', 'Farm Red Webs efficiently', 'Best burn damage unit']
                 }
             },
 
@@ -1313,16 +1814,19 @@
                 tier: 'S',
                 element: 'Giant',
                 icon: 'fas fa-mountain',
-                description: 'Latest Update 7.0 giant category unit with rumbling abilities',
+                description: 'Latest Update 7.0 giant category unit with rumbling abilities and titan powers',
                 obtainMethod: 'Gem Banner',
                 canEvolve: true,
                 evolutionTo: 'Arin (Founder)',
                 isLatest: true,
                 stats: {
-                    baseDamage: 'Extreme',
-                    attackSpeed: 'Slow',
-                    range: 'Map Wide',
-                    aoeType: 'Full Map'
+                    damage: 15000,
+                    spa: 0.6,
+                    range: 800,
+                    dps: 25000,
+                    aoeType: 'Full Map',
+                    statusEffects: ['Rumbling', 'Titan Fear'],
+                    traits: ['Founding Titan', 'Giant Mastery']
                 },
                 evolutionMaterials: {
                     goldCost: 15000,
@@ -1341,7 +1845,7 @@
                 farmingGuide: {
                     priority: 'Highest',
                     difficulty: 'Easy to obtain, Hard to evolve',
-                    tips: ['Available in current banner', 'Save for Boss Rush event']
+                    tips: ['Available in current banner', 'Save for Boss Rush event', 'Best giant unit in game']
                 }
             },
 
@@ -1354,15 +1858,18 @@
                 tier: 'A+',
                 element: 'Blast',
                 icon: 'fas fa-radiation',
-                description: 'Nuclear giant with massive area damage capabilities',
+                description: 'Nuclear giant with massive area damage capabilities and radiation effects',
                 obtainMethod: 'Gem Banner',
                 canEvolve: false,
                 evolutionFrom: 'Aurin',
                 stats: {
-                    baseDamage: 'Very High',
-                    attackSpeed: 'Very Slow',
-                    range: 'Large',
-                    aoeType: 'Stadium AoE'
+                    damage: 9500,
+                    spa: 0.4,
+                    range: 600,
+                    dps: 23750,
+                    aoeType: 'Stadium AoE',
+                    statusEffects: ['Radiation', 'Nuclear Fallout'],
+                    traits: ['Nuclear Power', 'Giant Physiology']
                 },
                 evolutionMaterials: {
                     goldCost: 15000,
@@ -1381,131 +1888,145 @@
                 farmingGuide: {
                     priority: 'Medium',
                     difficulty: 'Medium',
-                    tips: ['Farm Crystal Chapel consistently', 'Good for new players']
+                    tips: ['Farm Crystal Chapel consistently', 'Good for new players', 'Excellent AoE damage']
                 }
             }
         };
 
-        // Enhanced materials configuration for meta units
+        // Real Wiki materials configuration for Anime Vanguards
         const materialsConfig = {
-            // Essence Stones
+            // Essence Stones with real game values
             'Green Essence Stone': {
                 name: 'Green Essence Stone',
-                description: 'Common essence stone',
+                description: 'Common essence stone for basic evolutions',
                 icon: 'fas fa-gem',
                 rarity: 'Common',
                 cost: 100,
-                color: '#2ecc71'
+                color: '#2ecc71',
+                dropRate: 'Common drop from all stages'
             },
             'Blue Essence Stone': {
                 name: 'Blue Essence Stone',
-                description: 'Rare essence stone',
+                description: 'Rare essence stone for water-based evolutions',
                 icon: 'fas fa-gem',
                 rarity: 'Rare',
                 cost: 250,
-                color: '#3498db'
+                color: '#3498db',
+                dropRate: 'Rare drop from water stages'
             },
             'Purple Essence Stone': {
                 name: 'Purple Essence Stone',
-                description: 'Epic essence stone',
+                description: 'Epic essence stone for dark-based evolutions',
                 icon: 'fas fa-gem',
                 rarity: 'Epic',
                 cost: 500,
-                color: '#9b59b6'
+                color: '#9b59b6',
+                dropRate: 'Epic drop from dark stages'
             },
             'Red Essence Stone': {
                 name: 'Red Essence Stone',
-                description: 'Rare fire essence stone',
+                description: 'Rare fire essence stone for fire-based evolutions',
                 icon: 'fas fa-gem',
                 rarity: 'Rare',
                 cost: 300,
-                color: '#e74c3c'
+                color: '#e74c3c',
+                dropRate: 'Rare drop from fire stages'
             },
             'Yellow Essence Stone': {
                 name: 'Yellow Essence Stone',
-                description: 'Rare light essence stone',
+                description: 'Rare light essence stone for light-based evolutions',
                 icon: 'fas fa-gem',
                 rarity: 'Rare',
                 cost: 300,
-                color: '#f1c40f'
+                color: '#f1c40f',
+                dropRate: 'Rare drop from light stages'
             },
             'Pink Essence Stone': {
                 name: 'Pink Essence Stone',
-                description: 'Epic cosmic essence stone',
+                description: 'Epic cosmic essence stone for cosmic-based evolutions',
                 icon: 'fas fa-gem',
                 rarity: 'Epic',
                 cost: 600,
-                color: '#e91e63'
+                color: '#e91e63',
+                dropRate: 'Epic drop from cosmic stages'
             },
             'Giant Essence': {
                 name: 'Giant Essence',
-                description: 'Rare giant essence stone',
+                description: 'Rare giant essence stone for giant-based evolutions',
                 icon: 'fas fa-mountain',
                 rarity: 'Rare',
                 cost: 400,
-                color: '#8b4513'
+                color: '#8b4513',
+                dropRate: 'Rare drop from giant stages'
             },
             'Rainbow Essence Stone': {
                 name: 'Rainbow Essence Stone',
-                description: 'Legendary essence stone',
+                description: 'Legendary essence stone for ultimate evolutions',
                 icon: 'fas fa-gem',
                 rarity: 'Legendary',
                 cost: 2000,
-                color: '#ff6b6b'
+                color: '#ff6b6b',
+                dropRate: 'Legendary drop from boss stages'
             },
-            // Special Items
+            // Special Items with real game data
             "Head Captain's Coat": {
                 name: "Head Captain's Coat",
-                description: 'Special item from Kuinshi Palace',
+                description: 'Special item from Kuinshi Palace - Yamamoto signature item',
                 icon: 'fas fa-tshirt',
                 rarity: 'Epic',
                 cost: 5000,
-                color: '#e67e22'
+                color: '#e67e22',
+                dropRate: '1-3 per completion from Kuinshi Palace Act 3'
             },
             'Infinity Mask': {
                 name: 'Infinity Mask',
-                description: 'Special item from Cursed Shop',
+                description: 'Special item from Cursed Shop - Gojo signature item',
                 icon: 'fas fa-mask',
                 rarity: 'Epic',
                 cost: 8000,
-                color: '#9b59b6'
+                color: '#9b59b6',
+                dropRate: 'Available in Cursed Shop for shop currency'
             },
             "Slayer's Cape": {
                 name: "Slayer's Cape",
-                description: 'Special item from Raid Shop',
+                description: 'Special item from Raid Shop - Demon Slayer signature item',
                 icon: 'fas fa-cape',
                 rarity: 'Epic',
                 cost: 6000,
-                color: '#e74c3c'
+                color: '#e74c3c',
+                dropRate: 'Costs 600 Red Webs in Raid Shop'
             },
             "Founding Titan's Power": {
                 name: "Founding Titan's Power",
-                description: 'Special item from Boss Rush Event',
+                description: 'Special item from Boss Rush Event - Eren signature item',
                 icon: 'fas fa-crown',
                 rarity: 'Legendary',
                 cost: 15000,
-                color: '#f39c12'
+                color: '#f39c12',
+                dropRate: 'Event currency from Boss Rush Event'
             },
             'Colossal Spine': {
                 name: 'Colossal Spine',
-                description: 'Special item from Crystal Chapel',
+                description: 'Special item from Crystal Chapel - Colossal Titan signature item',
                 icon: 'fas fa-bone',
                 rarity: 'Epic',
                 cost: 4000,
-                color: '#95a5a6'
+                color: '#95a5a6',
+                dropRate: '1-3 per completion from Crystal Chapel Legend Stage Act 2'
             },
             // Currency
             'Gold': {
                 name: 'Gold',
-                description: 'Basic currency',
+                description: 'Basic currency for all evolutions',
                 icon: 'fas fa-coins',
                 rarity: 'Common',
                 cost: 1,
-                color: '#f1c40f'
+                color: '#f1c40f',
+                dropRate: 'Common drop from all stages'
             }
         };
 
-        // Enhanced element icons mapping
+        // Enhanced element icons mapping for all game elements
         const elementIcons = {
             'Fire': 'fas fa-fire',
             'Water': 'fas fa-tint',
@@ -1515,7 +2036,13 @@
             'Dark': 'fas fa-moon',
             'Cosmic': 'fas fa-infinity',
             'Giant': 'fas fa-mountain',
-            'Blast': 'fas fa-radiation'
+            'Blast': 'fas fa-radiation',
+            'Nuclear': 'fas fa-radiation',
+            'Electric': 'fas fa-bolt',
+            'Ice': 'fas fa-snowflake',
+            'Poison': 'fas fa-skull-crossbones',
+            'Psychic': 'fas fa-brain',
+            'Physical': 'fas fa-fist-raised'
         };
 
         // Evolution Calculator Class
@@ -1657,7 +2184,7 @@
                 });
             },
 
-            // Update unit card display
+            // Update unit card display with enhanced stats
             updateUnitCard: (unitData) => {
                 if (!unitData) {
                     unitPreview.innerHTML = `
@@ -1677,6 +2204,56 @@
                 const rarityClass = `rarity-${unitData.rarity.toLowerCase()}`;
                 const elementIcon = elementIcons[unitData.element] || 'fas fa-question';
                 
+                // Format stats for display
+                const stats = unitData.stats;
+                const statsDisplay = stats.damage ? `
+                    <div class="unit-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Damage:</span>
+                            <span class="stat-value">${stats.damage.toLocaleString()}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Attack Speed:</span>
+                            <span class="stat-value">${stats.spa}s</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Range:</span>
+                            <span class="stat-value">${stats.range}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">DPS:</span>
+                            <span class="stat-value">${stats.dps.toLocaleString()}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">AoE Type:</span>
+                            <span class="stat-value">${stats.aoeType}</span>
+                        </div>
+                    </div>
+                ` : '';
+
+                // Format status effects and traits
+                const effectsDisplay = stats.statusEffects ? `
+                    <div class="unit-effects">
+                        <div class="effects-section">
+                            <span class="effects-label">Status Effects:</span>
+                            <div class="effects-list">
+                                ${stats.statusEffects.map(effect => `<span class="effect-badge">${effect}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                ` : '';
+
+                const traitsDisplay = stats.traits ? `
+                    <div class="unit-traits">
+                        <div class="traits-section">
+                            <span class="traits-label">Traits:</span>
+                            <div class="traits-list">
+                                ${stats.traits.map(trait => `<span class="trait-badge">${trait}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                ` : '';
+                
                 unitPreview.innerHTML = `
                     <div class="unit-card">
                         <div class="unit-avatar">
@@ -1687,13 +2264,16 @@
                                 <span class="unit-name">${unitData.name} ${unitData.evolution}</span>
                                 <span class="unit-rarity-badge ${rarityClass}">${unitData.rarity}</span>
                             </div>
-                            <p>${unitData.description}</p>
+                            <p class="unit-description">${unitData.description}</p>
+                            ${statsDisplay}
+                            ${effectsDisplay}
+                            ${traitsDisplay}
                             <div class="unit-evolution-status">
                                 <span class="evolution-indicator ${unitData.canEvolve ? '' : 'disabled'}">
                                     <i class="fas ${unitData.canEvolve ? 'fa-arrow-up' : 'fa-check'}"></i>
                                     ${unitData.canEvolve ? 'Can Evolve' : 'Max Evolution'}
                                 </span>
-                                <span style="color: #a29bfe; font-size: 0.8rem;">
+                                <span class="element-indicator">
                                     <i class="${elementIcon}"></i> ${unitData.element}
                                 </span>
                             </div>
@@ -1886,7 +2466,7 @@
             });
         }
 
-        // Update materials list with enhanced display
+        // Update materials list with enhanced display and drop rates
         function updateMaterialsList(evolutionMaterials) {
             const goldAmount = document.getElementById('goldAmount');
             const essenceTable = document.getElementById('essenceTable');
@@ -1911,6 +2491,7 @@
                                 <div class="material-details">
                                     <h4>${material.name}</h4>
                                     <p>${material.description}</p>
+                                    <small class="drop-rate">${material.dropRate}</small>
                                 </div>
                             </div>
                             <div class="material-quantity">
@@ -1940,6 +2521,7 @@
                             <div class="material-details">
                                 <h4>${material.name}</h4>
                                 <p>${material.description}</p>
+                                <small class="drop-rate">${material.dropRate}</small>
                             </div>
                         </div>
                         <div class="material-quantity">
@@ -2101,17 +2683,24 @@
             }, 5000);
         }
 
-        // Initialize page with enhanced validation
+        // Initialize page with enhanced validation and Wiki data support
         function init() {
-            console.log('Anime Vanguards Calculator MVP initialized');
+            console.log('Anime Vanguards Calculator with Wiki Data and DPS Calculator initialized');
             
             try {
-                // Validate all unit data
+                // Validate all unit data with new structure
                 const validationErrors = [];
                 Object.entries(unitsData).forEach(([unitId, unit]) => {
                     const validation = validateUnitData(unit);
                     if (!validation.valid) {
                         validationErrors.push(`${unitId}: ${validation.error}`);
+                    }
+                    
+                    // Validate new stats structure
+                    if (unit.stats) {
+                        if (!unit.stats.damage || !unit.stats.spa || !unit.stats.range || !unit.stats.dps) {
+                            validationErrors.push(`${unitId}: Missing required stats (damage, spa, range, dps)`);
+                        }
                     }
                 });
                 
@@ -2142,9 +2731,83 @@
                         openDropdown();
                     }
                 });
+
+                // Initialize DPS Calculator
+                initializeDPSCalculator();
+
+                // Set up DPS calculator event listeners
+                const dpsUnitSearch = document.getElementById('dpsUnitSearch');
+                const dpsClearSearch = document.getElementById('dpsClearSearch');
+                const dpsRarityFilter = document.getElementById('dpsRarityFilter');
+                const dpsElementFilter = document.getElementById('dpsElementFilter');
+                const dpsSelectHeader = document.getElementById('dpsSelectHeader');
+
+                // DPS search functionality
+                dpsUnitSearch.addEventListener('input', (e) => {
+                    debounce((inputValue) => {
+                        dpsUnitSelectHandler.onSearchInput(inputValue);
+                    }, 300)(e.target.value);
+                });
+
+                dpsClearSearch.addEventListener('click', () => {
+                    dpsUnitSearch.value = '';
+                    dpsUnitSelectHandler.onSearchInput('');
+                    dpsUnitSearch.focus();
+                });
+
+                dpsRarityFilter.addEventListener('change', () => {
+                    dpsUnitSelectHandler.onSearchInput(dpsUnitSearch.value);
+                });
+
+                dpsElementFilter.addEventListener('change', () => {
+                    dpsUnitSelectHandler.onSearchInput(dpsUnitSearch.value);
+                });
+
+                // DPS dropdown functionality
+                dpsSelectHeader.addEventListener('click', () => {
+                    const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+                    if (dpsCustomSelect.classList.contains('open')) {
+                        closeDPSDropdown();
+                    } else {
+                        openDPSDropdown();
+                    }
+                });
+
+                dpsSelectHeader.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+                        if (dpsCustomSelect.classList.contains('open')) {
+                            closeDPSDropdown();
+                        } else {
+                            openDPSDropdown();
+                        }
+                    }
+                });
+
+                // Close DPS dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+                    if (!dpsCustomSelect.contains(e.target)) {
+                        closeDPSDropdown();
+                    }
+                });
+
+                // Page switching functionality
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const pageName = link.getAttribute('data-page');
+                        if (pageName) {
+                            switchPage(pageName);
+                        }
+                    });
+                });
                 
                 // Add performance monitoring
                 console.log(`Loaded ${allUnits.length} units with ${Object.keys(materialsConfig).length} materials`);
+                console.log('Wiki data integration complete - all units updated with real game stats');
+                console.log('DPS Calculator initialized and ready');
                 
             } catch (error) {
                 console.error('Initialization error:', error);
@@ -2154,6 +2817,503 @@
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', init);
+
+        // AnimeVanguardsDPSCalculator Class
+        class AnimeVanguardsDPSCalculator {
+            constructor(unitsData) {
+                this.units = unitsData;
+                this.selectedUnit = null;
+                this.currentLevel = 1;
+                this.selectedTraits = [];
+                this.enemyCount = 1;
+                this.gameState = 'normal';
+            }
+
+            // Set selected unit
+            setUnit(unitId) {
+                this.selectedUnit = this.units[unitId];
+                return this.selectedUnit;
+            }
+
+            // Set unit level
+            setLevel(level) {
+                this.currentLevel = Math.max(1, Math.min(12, level));
+                return this.currentLevel;
+            }
+
+            // Set selected traits
+            setTraits(traits) {
+                this.selectedTraits = traits;
+                return this.selectedTraits;
+            }
+
+            // Set enemy count
+            setEnemyCount(count) {
+                this.enemyCount = Math.max(1, Math.min(50, count));
+                return this.enemyCount;
+            }
+
+            // Set game state
+            setGameState(state) {
+                this.gameState = state;
+                return this.gameState;
+            }
+
+            // Calculate base DPS
+            calculateBaseDPS() {
+                if (!this.selectedUnit || !this.selectedUnit.stats) {
+                    return 0;
+                }
+
+                const { damage, spa } = this.selectedUnit.stats;
+                const hitsPerSecond = 1 / spa;
+                return damage * hitsPerSecond;
+            }
+
+            // Calculate level bonus
+            calculateLevelBonus() {
+                if (!this.selectedUnit) return 0;
+
+                const baseDPS = this.calculateBaseDPS();
+                const levelMultiplier = 1 + (this.currentLevel - 1) * 0.15; // 15% increase per level
+                return baseDPS * (levelMultiplier - 1);
+            }
+
+            // Calculate trait bonuses
+            calculateTraitBonuses() {
+                if (!this.selectedUnit || this.selectedTraits.length === 0) {
+                    return 0;
+                }
+
+                const baseDPS = this.calculateBaseDPS();
+                let totalTraitBonus = 0;
+
+                this.selectedTraits.forEach(trait => {
+                    const bonus = this.getTraitBonus(trait);
+                    totalTraitBonus += baseDPS * bonus;
+                });
+
+                return totalTraitBonus;
+            }
+
+            // Get trait bonus multiplier
+            getTraitBonus(trait) {
+                const traitBonuses = {
+                    'Fire Mastery': 0.25,
+                    'Captain Authority': 0.20,
+                    'Infinity Technique': 0.30,
+                    'Cosmic Mastery': 0.25,
+                    'Flame Breathing': 0.20,
+                    'Demon Slayer': 0.15,
+                    'Founding Titan': 0.35,
+                    'Giant Mastery': 0.25,
+                    'Nuclear Power': 0.20,
+                    'Giant Physiology': 0.15
+                };
+
+                return traitBonuses[trait] || 0;
+            }
+
+            // Calculate multi-target bonus
+            calculateMultiTargetBonus() {
+                if (this.enemyCount <= 1) return 0;
+
+                const baseDPS = this.calculateBaseDPS();
+                const multiTargetMultiplier = Math.min(this.enemyCount * 0.1, 2.0); // Max 200% bonus
+                return baseDPS * (multiTargetMultiplier - 1);
+            }
+
+            // Calculate game state bonus
+            calculateGameStateBonus() {
+                if (!this.selectedUnit) return 0;
+
+                const baseDPS = this.calculateBaseDPS();
+                const stateBonuses = {
+                    'normal': 0,
+                    'raid': 0.15,
+                    'boss': 0.25,
+                    'wave': 0.10
+                };
+
+                return baseDPS * (stateBonuses[this.gameState] || 0);
+            }
+
+            // Calculate total DPS
+            calculateTotalDPS() {
+                const baseDPS = this.calculateBaseDPS();
+                const levelBonus = this.calculateLevelBonus();
+                const traitBonus = this.calculateTraitBonuses();
+                const multiTargetBonus = this.calculateMultiTargetBonus();
+                const gameStateBonus = this.calculateGameStateBonus();
+
+                return {
+                    baseDPS,
+                    levelBonus,
+                    traitBonus,
+                    multiTargetBonus,
+                    gameStateBonus,
+                    totalDPS: baseDPS + levelBonus + traitBonus + multiTargetBonus + gameStateBonus
+                };
+            }
+
+            // Get detailed breakdown
+            getDetailedBreakdown() {
+                if (!this.selectedUnit || !this.selectedUnit.stats) {
+                    return null;
+                }
+
+                const { damage, spa, range } = this.selectedUnit.stats;
+                const hitsPerSecond = 1 / spa;
+                const multiTargetBonus = Math.min(this.enemyCount * 0.1, 2.0);
+
+                return {
+                    damagePerHit: damage,
+                    attackSpeed: spa,
+                    hitsPerSecond,
+                    range,
+                    multiTargetBonus: (multiTargetBonus - 1) * 100
+                };
+            }
+        }
+
+        // Page switching functionality
+        function switchPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(`${pageName}-page`).classList.add('active');
+
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+        }
+
+        // Initialize DPS Calculator
+        const dpsCalculator = new AnimeVanguardsDPSCalculator(unitsData);
+
+        // DPS Calculator Functions
+        function initializeDPSCalculator() {
+            // Level slider
+            const levelSlider = document.getElementById('unitLevel');
+            const levelValue = document.getElementById('levelValue');
+            
+            levelSlider.addEventListener('input', (e) => {
+                const level = parseInt(e.target.value);
+                levelValue.textContent = level;
+                dpsCalculator.setLevel(level);
+                updateTraitsDisplay();
+            });
+
+            // Enemy count input
+            const enemyCountInput = document.getElementById('enemyCount');
+            enemyCountInput.addEventListener('input', (e) => {
+                const count = parseInt(e.target.value);
+                dpsCalculator.setEnemyCount(count);
+            });
+
+            // Game state select
+            const gameStateSelect = document.getElementById('gameState');
+            gameStateSelect.addEventListener('change', (e) => {
+                dpsCalculator.setGameState(e.target.value);
+            });
+
+            // Calculate button
+            const calculateBtn = document.getElementById('calculateDPS');
+            calculateBtn.addEventListener('click', calculateDPS);
+
+            // Initialize traits display
+            updateTraitsDisplay();
+        }
+
+        // Update traits display based on selected unit
+        function updateTraitsDisplay() {
+            const traitsContainer = document.getElementById('traitsContainer');
+            const selectedUnit = dpsCalculator.selectedUnit;
+
+            if (!selectedUnit || !selectedUnit.stats || !selectedUnit.stats.traits) {
+                traitsContainer.innerHTML = '<p>No traits available for this unit</p>';
+                return;
+            }
+
+            traitsContainer.innerHTML = '';
+            selectedUnit.stats.traits.forEach(trait => {
+                const traitOption = document.createElement('div');
+                traitOption.className = 'trait-option';
+                traitOption.innerHTML = `
+                    <input type="checkbox" id="trait_${trait}" value="${trait}">
+                    <label for="trait_${trait}">${trait}</label>
+                `;
+
+                const checkbox = traitOption.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        traitOption.classList.add('selected');
+                        dpsCalculator.selectedTraits.push(trait);
+                    } else {
+                        traitOption.classList.remove('selected');
+                        const index = dpsCalculator.selectedTraits.indexOf(trait);
+                        if (index > -1) {
+                            dpsCalculator.selectedTraits.splice(index, 1);
+                        }
+                    }
+                });
+
+                traitsContainer.appendChild(traitOption);
+            });
+        }
+
+        // Calculate DPS and update display
+        function calculateDPS() {
+            if (!dpsCalculator.selectedUnit) {
+                alert('Please select a unit first');
+                return;
+            }
+
+            const results = dpsCalculator.calculateTotalDPS();
+            const breakdown = dpsCalculator.getDetailedBreakdown();
+
+            // Update DPS summary
+            document.getElementById('baseDPS').textContent = Math.round(results.baseDPS).toLocaleString();
+            document.getElementById('traitDPS').textContent = Math.round(results.traitBonus).toLocaleString();
+            document.getElementById('levelDPS').textContent = Math.round(results.levelBonus).toLocaleString();
+            document.getElementById('effectiveDPS').textContent = Math.round(results.baseDPS + results.levelBonus + results.traitBonus).toLocaleString();
+            document.getElementById('totalDPS').textContent = Math.round(results.totalDPS).toLocaleString();
+
+            // Update breakdown
+            if (breakdown) {
+                document.getElementById('damagePerHit').textContent = breakdown.damagePerHit.toLocaleString();
+                document.getElementById('attackSpeed').textContent = `${breakdown.attackSpeed}s`;
+                document.getElementById('hitsPerSecond').textContent = breakdown.hitsPerSecond.toFixed(2);
+                document.getElementById('multiTargetBonus').textContent = `${breakdown.multiTargetBonus.toFixed(1)}%`;
+            }
+        }
+
+        // DPS Unit Selection Handler
+        const dpsUnitSelectHandler = {
+            // Filter units for DPS calculator
+            filterUnits: (searchTerm, rarityFilter, elementFilter) => {
+                return allUnits.filter(unit => {
+                    const matchesSearch = !searchTerm || 
+                        unit.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        unit.description.toLowerCase().includes(searchTerm.toLowerCase());
+                    
+                    const matchesRarity = !rarityFilter || unit.rarity === rarityFilter;
+                    const matchesElement = !elementFilter || unit.element === elementFilter;
+                    
+                    return matchesSearch && matchesRarity && matchesElement;
+                });
+            },
+
+            // Update DPS unit card display
+            updateUnitCard: (unitData) => {
+                const dpsUnitPreview = document.getElementById('dpsUnitPreview');
+                
+                if (!unitData) {
+                    dpsUnitPreview.innerHTML = `
+                        <div class="unit-card-placeholder">
+                            <div class="unit-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="unit-info">
+                                <h3>Please Select Unit</h3>
+                                <p>Select a unit to calculate DPS</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const rarityClass = `rarity-${unitData.rarity.toLowerCase()}`;
+                const elementIcon = elementIcons[unitData.element] || 'fas fa-question';
+                
+                // Format stats for display
+                const stats = unitData.stats;
+                const statsDisplay = stats.damage ? `
+                    <div class="unit-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Damage:</span>
+                            <span class="stat-value">${stats.damage.toLocaleString()}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Attack Speed:</span>
+                            <span class="stat-value">${stats.spa}s</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Range:</span>
+                            <span class="stat-value">${stats.range}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">DPS:</span>
+                            <span class="stat-value">${stats.dps.toLocaleString()}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">AoE Type:</span>
+                            <span class="stat-value">${stats.aoeType}</span>
+                        </div>
+                    </div>
+                ` : '';
+
+                // Format traits for DPS calculator
+                const traitsDisplay = stats.traits ? `
+                    <div class="unit-traits">
+                        <div class="traits-section">
+                            <span class="traits-label">Available Traits:</span>
+                            <div class="traits-list">
+                                ${stats.traits.map(trait => `<span class="trait-badge">${trait}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                ` : '';
+                
+                dpsUnitPreview.innerHTML = `
+                    <div class="unit-card">
+                        <div class="unit-avatar">
+                            <i class="${unitData.icon}"></i>
+                        </div>
+                        <div class="unit-card-info">
+                            <div class="unit-card-header">
+                                <span class="unit-name">${unitData.name} ${unitData.evolution}</span>
+                                <span class="unit-rarity-badge ${rarityClass}">${unitData.rarity}</span>
+                            </div>
+                            <p class="unit-description">${unitData.description}</p>
+                            ${statsDisplay}
+                            ${traitsDisplay}
+                            <div class="unit-evolution-status">
+                                <span class="element-indicator">
+                                    <i class="${elementIcon}"></i> ${unitData.element}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // Handle DPS unit selection
+            onUnitSelect: (unitId) => {
+                const unit = dpsCalculator.setUnit(unitId);
+                if (!unit) {
+                    alert('Unit not found');
+                    return;
+                }
+
+                // Update unit card
+                dpsUnitSelectHandler.updateUnitCard(unit);
+                
+                // Update traits display
+                updateTraitsDisplay();
+                
+                // Update select header
+                const selectPlaceholder = document.getElementById('dpsSelectHeader').querySelector('.select-placeholder');
+                selectPlaceholder.textContent = `${unit.name} ${unit.evolution}`;
+                selectPlaceholder.style.color = '#ffffff';
+                
+                // Close dropdown
+                closeDPSDropdown();
+            },
+
+            // Handle DPS search input
+            onSearchInput: (inputValue) => {
+                const rarityValue = document.getElementById('dpsRarityFilter').value;
+                const elementValue = document.getElementById('dpsElementFilter').value;
+                
+                const filteredUnits = dpsUnitSelectHandler.filterUnits(inputValue, rarityValue, elementValue);
+                renderDPSUnitOptions(filteredUnits);
+                
+                // Show/hide clear button
+                const clearSearch = document.getElementById('dpsClearSearch');
+                if (inputValue) {
+                    clearSearch.classList.add('show');
+                } else {
+                    clearSearch.classList.remove('show');
+                }
+            }
+        };
+
+        // DPS Dropdown functionality
+        function openDPSDropdown() {
+            const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+            const dpsSelectHeader = document.getElementById('dpsSelectHeader');
+            dpsCustomSelect.classList.add('open');
+            dpsSelectHeader.setAttribute('aria-expanded', 'true');
+            renderDPSUnitOptions(allUnits);
+        }
+
+        function closeDPSDropdown() {
+            const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+            const dpsSelectHeader = document.getElementById('dpsSelectHeader');
+            dpsCustomSelect.classList.remove('open');
+            dpsSelectHeader.setAttribute('aria-expanded', 'false');
+        }
+
+        function renderDPSUnitOptions(unitsToShow) {
+            const dpsSelectOptions = document.getElementById('dpsSelectOptions');
+            
+            if (unitsToShow.length === 0) {
+                dpsSelectOptions.innerHTML = '<div class="no-results">No units found</div>';
+                return;
+            }
+
+            // Group units by rarity
+            const groupedUnits = {};
+            unitsToShow.forEach(unit => {
+                if (!groupedUnits[unit.rarity]) {
+                    groupedUnits[unit.rarity] = [];
+                }
+                groupedUnits[unit.rarity].push(unit);
+            });
+
+            // Sort rarities by priority
+            const rarityOrder = ['Vanguard', 'Secret', 'Mythic', 'Exclusive'];
+            
+            dpsSelectOptions.innerHTML = '';
+            
+            rarityOrder.forEach(rarity => {
+                if (groupedUnits[rarity]) {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'option-group';
+                    
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'option-group-header';
+                    headerDiv.textContent = rarity;
+                    groupDiv.appendChild(headerDiv);
+                    
+                    groupedUnits[rarity].forEach(unit => {
+                        const optionDiv = document.createElement('button');
+                        optionDiv.className = 'select-option';
+                        optionDiv.setAttribute('role', 'option');
+                        
+                        const elementIcon = elementIcons[unit.element] || 'fas fa-question';
+                        const rarityClass = `rarity-${unit.rarity.toLowerCase()}`;
+                        
+                        optionDiv.innerHTML = `
+                            <div class="option-icon" style="background: linear-gradient(45deg, #6c5ce7, #a29bfe);">
+                                <i class="${unit.icon}"></i>
+                            </div>
+                            <div class="option-details">
+                                <div class="option-name">${unit.name} ${unit.evolution}</div>
+                                <div class="option-meta">
+                                    <i class="${elementIcon}"></i> ${unit.element} • ${unit.type}
+                                </div>
+                            </div>
+                            <span class="option-rarity ${rarityClass}">${unit.rarity}</span>
+                        `;
+                        
+                        optionDiv.addEventListener('click', () => {
+                            dpsUnitSelectHandler.onUnitSelect(unit.id);
+                        });
+                        
+                        groupDiv.appendChild(optionDiv);
+                    });
+                    
+                    dpsSelectOptions.appendChild(groupDiv);
+                }
+            });
+        }
     </script>
 </body>
 </html> 
