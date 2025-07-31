@@ -1278,6 +1278,369 @@
         .breakdown-item:last-child {
             margin-bottom: 0;
         }
+
+        /* Unit Database Styles */
+        #database-page.active {
+            grid-template-columns: 300px 1fr 350px;
+            gap: 1.5rem;
+        }
+
+        .database-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .filter-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .view-options {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .view-options label {
+            color: #a29bfe;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .view-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .view-btn.active {
+            background: rgba(108, 92, 231, 0.3);
+            border-color: #6c5ce7;
+        }
+
+        .comparison-tools {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .comparison-tools h3 {
+            color: #a29bfe;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-slot {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .comparison-slot:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-slot.filled {
+            background: rgba(108, 92, 231, 0.2);
+            border-color: #6c5ce7;
+        }
+
+        .slot-placeholder {
+            color: #a29bfe;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .compare-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border: none;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .compare-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
+        }
+
+        .compare-btn:disabled {
+            background: rgba(149, 165, 166, 0.3);
+            cursor: not-allowed;
+        }
+
+        /* Unit Database Grid */
+        .unit-database {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .database-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .database-stats {
+            color: #a29bfe;
+            font-size: 0.9rem;
+        }
+
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .unit-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .unit-grid.detailed-view {
+            grid-template-columns: 1fr;
+        }
+
+        /* Unit Card Styles */
+        .unit-card-database {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unit-card-database:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #6c5ce7;
+        }
+
+        .unit-card-database.selected {
+            border-color: #f1c40f;
+            box-shadow: 0 0 0 2px rgba(241, 196, 15, 0.3);
+        }
+
+        .unit-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .unit-card-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .unit-card-info {
+            flex: 1;
+        }
+
+        .unit-card-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+        }
+
+        .unit-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .unit-card-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .unit-stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+
+        .unit-stat-label {
+            color: #a29bfe;
+        }
+
+        .unit-stat-value {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* List View Styles */
+        .unit-card-database.list-view {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .unit-card-database.list-view .unit-card-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0;
+        }
+
+        /* Detailed View Styles */
+        .unit-card-database.detailed-view {
+            padding: 1.5rem;
+        }
+
+        .unit-card-database.detailed-view .unit-card-stats {
+            grid-template-columns: repeat(3, 1fr);
+            margin-top: 1rem;
+        }
+
+        /* Unit Details Panel */
+        .unit-details-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .unit-details {
+            min-height: 400px;
+        }
+
+        .details-placeholder {
+            text-align: center;
+            padding: 2rem;
+            color: #a29bfe;
+        }
+
+        .details-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .unit-detail-content {
+            display: none;
+        }
+
+        .unit-detail-content.active {
+            display: block;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section h3 {
+            color: #a29bfe;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .detail-stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+        }
+
+        .detail-stat-label {
+            color: #a29bfe;
+            font-size: 0.9rem;
+        }
+
+        .detail-stat-value {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .detail-traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .detail-trait {
+            padding: 0.25rem 0.5rem;
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #2ecc71;
+        }
+
+        .detail-effects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .detail-effect {
+            padding: 0.25rem 0.5rem;
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #e74c3c;
+        }
     </style>
 </head>
 <body>
@@ -1292,6 +1655,7 @@
                 <ul class="nav-menu">
                     <li><a href="#" class="nav-link active" data-page="evolution"><i class="fas fa-arrow-up"></i> Evolution Calculator</a></li>
                     <li><a href="#" class="nav-link" data-page="dps"><i class="fas fa-sword"></i> DPS Calculator</a></li>
+                    <li><a href="#" class="nav-link" data-page="database"><i class="fas fa-book"></i> Unit Database</a></li>
                     <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
                 </ul>
             </nav>
@@ -1635,6 +1999,182 @@
                     </div>
                 </div>
             </aside>
+        </div>
+
+        <!-- Unit Database Page -->
+        <div id="database-page" class="page-content">
+            <!-- Left Side - Filters and Search -->
+            <div class="database-filters">
+                <div class="card">
+                    <h2><i class="fas fa-filter"></i> Filters & Search</h2>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="text" 
+                                id="databaseSearch" 
+                                placeholder="Search units by name, abilities, or description..."
+                                aria-label="Search units"
+                            >
+                            <button class="clear-search" id="databaseClearSearch" aria-label="Clear search">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Groups -->
+                    <div class="filter-groups">
+                        <div class="filter-group">
+                            <label for="databaseRarityFilter">Rarity:</label>
+                            <select id="databaseRarityFilter" aria-label="Filter by rarity">
+                                <option value="">All Rarities</option>
+                                <option value="Vanguard">Vanguard</option>
+                                <option value="Secret">Secret</option>
+                                <option value="Mythic">Mythic</option>
+                                <option value="Exclusive">Exclusive</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="databaseElementFilter">Element:</label>
+                            <select id="databaseElementFilter" aria-label="Filter by element">
+                                <option value="">All Elements</option>
+                                <option value="Fire">Fire</option>
+                                <option value="Water">Water</option>
+                                <option value="Earth">Earth</option>
+                                <option value="Wind">Wind</option>
+                                <option value="Light">Light</option>
+                                <option value="Dark">Dark</option>
+                                <option value="Cosmic">Cosmic</option>
+                                <option value="Giant">Giant</option>
+                                <option value="Blast">Blast</option>
+                                <option value="Nuclear">Nuclear</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Ice">Ice</option>
+                                <option value="Poison">Poison</option>
+                                <option value="Psychic">Psychic</option>
+                                <option value="Physical">Physical</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="databaseTierFilter">Tier:</label>
+                            <select id="databaseTierFilter" aria-label="Filter by tier">
+                                <option value="">All Tiers</option>
+                                <option value="S+">S+</option>
+                                <option value="S">S</option>
+                                <option value="A+">A+</option>
+                                <option value="A">A</option>
+                                <option value="B+">B+</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="databaseTypeFilter">Type:</label>
+                            <select id="databaseTypeFilter" aria-label="Filter by type">
+                                <option value="">All Types</option>
+                                <option value="Meta-DPS">Meta-DPS</option>
+                                <option value="Sorcerer">Sorcerer</option>
+                                <option value="Burn Specialist">Burn Specialist</option>
+                                <option value="Giant">Giant</option>
+                                <option value="Nuclear">Nuclear</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="databaseSortBy">Sort By:</label>
+                            <select id="databaseSortBy" aria-label="Sort units">
+                                <option value="tier">Tier</option>
+                                <option value="dps">DPS</option>
+                                <option value="name">Name</option>
+                                <option value="rarity">Rarity</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- View Options -->
+                    <div class="view-options">
+                        <label>View:</label>
+                        <div class="view-buttons">
+                            <button class="view-btn active" data-view="grid">
+                                <i class="fas fa-th"></i> Grid
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <i class="fas fa-list"></i> List
+                            </button>
+                            <button class="view-btn" data-view="detailed">
+                                <i class="fas fa-table"></i> Detailed
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Tools -->
+                    <div class="comparison-tools">
+                        <h3><i class="fas fa-balance-scale"></i> Unit Comparison</h3>
+                        <div class="comparison-slots">
+                            <div class="comparison-slot" data-slot="1">
+                                <div class="slot-placeholder">Select Unit 1</div>
+                            </div>
+                            <div class="comparison-slot" data-slot="2">
+                                <div class="slot-placeholder">Select Unit 2</div>
+                            </div>
+                            <div class="comparison-slot" data-slot="3">
+                                <div class="slot-placeholder">Select Unit 3</div>
+                            </div>
+                        </div>
+                        <button id="compareUnits" class="compare-btn" disabled>
+                            <i class="fas fa-balance-scale"></i> Compare Units
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle - Unit Grid -->
+            <div class="unit-database">
+                <div class="card">
+                    <div class="database-header">
+                        <h2><i class="fas fa-book"></i> Unit Database</h2>
+                        <div class="database-stats">
+                            <span id="unitCount">0</span> units found
+                        </div>
+                    </div>
+
+                    <!-- Unit Grid Container -->
+                    <div class="unit-grid" id="unitGrid">
+                        <!-- Units will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="loading" id="databaseLoading">
+                        <div class="spinner"></div>
+                        <p>Loading units...</p>
+                    </div>
+
+                    <!-- No Results -->
+                    <div class="no-results" id="databaseNoResults" style="display: none;">
+                        <i class="fas fa-search"></i>
+                        <p>No units found matching your criteria</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Unit Details -->
+            <div class="unit-details-panel">
+                <div class="card">
+                    <h2><i class="fas fa-info-circle"></i> Unit Details</h2>
+                    
+                    <div class="unit-details" id="unitDetails">
+                        <div class="details-placeholder">
+                            <i class="fas fa-user"></i>
+                            <p>Select a unit to view detailed information</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -2735,6 +3275,9 @@
                 // Initialize DPS Calculator
                 initializeDPSCalculator();
 
+                // Initialize Unit Database
+                initializeUnitDatabase();
+
                 // Set up DPS calculator event listeners
                 const dpsUnitSearch = document.getElementById('dpsUnitSearch');
                 const dpsClearSearch = document.getElementById('dpsClearSearch');
@@ -3313,6 +3856,473 @@
                     dpsSelectOptions.appendChild(groupDiv);
                 }
             });
+        }
+
+        // Unit Database Class
+        class UnitDatabase {
+            constructor(unitsData) {
+                this.units = unitsData;
+                this.filteredUnits = [...Object.values(unitsData)];
+                this.selectedUnit = null;
+                this.comparisonUnits = [];
+                this.currentView = 'grid';
+                this.filters = {
+                    search: '',
+                    rarity: '',
+                    element: '',
+                    tier: '',
+                    type: ''
+                };
+                this.sortBy = 'tier';
+            }
+
+            // Filter units based on current filters
+            filterUnits() {
+                this.filteredUnits = Object.values(this.units).filter(unit => {
+                    const matchesSearch = !this.filters.search || 
+                        unit.name.toLowerCase().includes(this.filters.search.toLowerCase()) ||
+                        unit.description.toLowerCase().includes(this.filters.search.toLowerCase()) ||
+                        (unit.stats && unit.stats.traits && unit.stats.traits.some(trait => 
+                            trait.toLowerCase().includes(this.filters.search.toLowerCase())
+                        ));
+                    
+                    const matchesRarity = !this.filters.rarity || unit.rarity === this.filters.rarity;
+                    const matchesElement = !this.filters.element || unit.element === this.filters.element;
+                    const matchesTier = !this.filters.tier || unit.tier === this.filters.tier;
+                    const matchesType = !this.filters.type || unit.type === this.filters.type;
+                    
+                    return matchesSearch && matchesRarity && matchesElement && matchesTier && matchesType;
+                });
+
+                this.sortUnits();
+                return this.filteredUnits;
+            }
+
+            // Sort units based on current sort criteria
+            sortUnits() {
+                const tierOrder = { 'S+': 1, 'S': 2, 'A+': 3, 'A': 4, 'B+': 5, 'B': 6, 'C': 7 };
+                const rarityOrder = { 'Exclusive': 1, 'Secret': 2, 'Mythic': 3, 'Vanguard': 4 };
+
+                this.filteredUnits.sort((a, b) => {
+                    switch (this.sortBy) {
+                        case 'tier':
+                            return (tierOrder[a.tier] || 99) - (tierOrder[b.tier] || 99);
+                        case 'dps':
+                            return (b.stats?.dps || 0) - (a.stats?.dps || 0);
+                        case 'name':
+                            return a.name.localeCompare(b.name);
+                        case 'rarity':
+                            return (rarityOrder[a.rarity] || 99) - (rarityOrder[b.rarity] || 99);
+                        default:
+                            return 0;
+                    }
+                });
+            }
+
+            // Set filter
+            setFilter(type, value) {
+                this.filters[type] = value;
+                this.filterUnits();
+            }
+
+            // Set sort criteria
+            setSortBy(sortBy) {
+                this.sortBy = sortBy;
+                this.sortUnits();
+            }
+
+            // Set view mode
+            setView(view) {
+                this.currentView = view;
+            }
+
+            // Select unit for details
+            selectUnit(unitId) {
+                this.selectedUnit = this.units[unitId];
+                return this.selectedUnit;
+            }
+
+            // Add unit to comparison
+            addToComparison(unitId) {
+                if (this.comparisonUnits.length >= 3) {
+                    this.comparisonUnits.shift();
+                }
+                if (!this.comparisonUnits.includes(unitId)) {
+                    this.comparisonUnits.push(unitId);
+                }
+                return this.comparisonUnits;
+            }
+
+            // Remove unit from comparison
+            removeFromComparison(unitId) {
+                const index = this.comparisonUnits.indexOf(unitId);
+                if (index > -1) {
+                    this.comparisonUnits.splice(index, 1);
+                }
+                return this.comparisonUnits;
+            }
+
+            // Get comparison units
+            getComparisonUnits() {
+                return this.comparisonUnits.map(id => this.units[id]).filter(Boolean);
+            }
+
+            // Get unit count
+            getUnitCount() {
+                return this.filteredUnits.length;
+            }
+        }
+
+        // Initialize Unit Database
+        const unitDatabase = new UnitDatabase(unitsData);
+
+        // Unit Database Functions
+        function initializeUnitDatabase() {
+            // Search functionality
+            const databaseSearch = document.getElementById('databaseSearch');
+            const databaseClearSearch = document.getElementById('databaseClearSearch');
+
+            databaseSearch.addEventListener('input', (e) => {
+                debounce((inputValue) => {
+                    unitDatabase.setFilter('search', inputValue);
+                    renderUnitGrid();
+                    updateUnitCount();
+                }, 300)(e.target.value);
+            });
+
+            databaseClearSearch.addEventListener('click', () => {
+                databaseSearch.value = '';
+                unitDatabase.setFilter('search', '');
+                renderUnitGrid();
+                updateUnitCount();
+                databaseSearch.focus();
+            });
+
+            // Filter functionality
+            const filters = ['databaseRarityFilter', 'databaseElementFilter', 'databaseTierFilter', 'databaseTypeFilter'];
+            filters.forEach(filterId => {
+                const filter = document.getElementById(filterId);
+                const filterType = filterId.replace('database', '').replace('Filter', '').toLowerCase();
+                
+                filter.addEventListener('change', (e) => {
+                    unitDatabase.setFilter(filterType, e.target.value);
+                    renderUnitGrid();
+                    updateUnitCount();
+                });
+            });
+
+            // Sort functionality
+            const sortSelect = document.getElementById('databaseSortBy');
+            sortSelect.addEventListener('change', (e) => {
+                unitDatabase.setSortBy(e.target.value);
+                renderUnitGrid();
+            });
+
+            // View buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const view = e.target.getAttribute('data-view');
+                    unitDatabase.setView(view);
+                    renderUnitGrid();
+                });
+            });
+
+            // Comparison slots
+            document.querySelectorAll('.comparison-slot').forEach(slot => {
+                slot.addEventListener('click', () => {
+                    if (unitDatabase.selectedUnit) {
+                        const slotNumber = slot.getAttribute('data-slot');
+                        addUnitToComparison(unitDatabase.selectedUnit.id, slotNumber);
+                    }
+                });
+            });
+
+            // Compare button
+            const compareBtn = document.getElementById('compareUnits');
+            compareBtn.addEventListener('click', showUnitComparison);
+
+            // Initial render
+            renderUnitGrid();
+            updateUnitCount();
+        }
+
+        // Render unit grid
+        function renderUnitGrid() {
+            const unitGrid = document.getElementById('unitGrid');
+            const units = unitDatabase.filteredUnits;
+            const view = unitDatabase.currentView;
+
+            if (units.length === 0) {
+                document.getElementById('databaseNoResults').style.display = 'block';
+                unitGrid.innerHTML = '';
+                return;
+            }
+
+            document.getElementById('databaseNoResults').style.display = 'none';
+
+            unitGrid.className = `unit-grid ${view}-view`;
+            unitGrid.innerHTML = '';
+
+            units.forEach(unit => {
+                const unitCard = createUnitCard(unit, view);
+                unitGrid.appendChild(unitCard);
+            });
+        }
+
+        // Create unit card
+        function createUnitCard(unit, view) {
+            const card = document.createElement('div');
+            card.className = `unit-card-database ${view}-view`;
+            card.setAttribute('data-unit-id', unit.id);
+
+            const rarityClass = `rarity-${unit.rarity.toLowerCase()}`;
+            const elementIcon = elementIcons[unit.element] || 'fas fa-question';
+
+            const stats = unit.stats || {};
+            const dps = stats.dps || 0;
+            const damage = stats.damage || 0;
+            const spa = stats.spa || 0;
+
+            card.innerHTML = `
+                <div class="unit-card-header">
+                    <div class="unit-card-avatar">
+                        <i class="${unit.icon}"></i>
+                    </div>
+                    <div class="unit-card-info">
+                        <div class="unit-card-name">${unit.name} ${unit.evolution}</div>
+                        <div class="unit-card-meta">
+                            <span class="unit-rarity-badge ${rarityClass}">${unit.rarity}</span>
+                            <span><i class="${elementIcon}"></i> ${unit.element}</span>
+                            <span>${unit.tier}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="unit-card-stats">
+                    <div class="unit-stat-item">
+                        <span class="unit-stat-label">DPS:</span>
+                        <span class="unit-stat-value">${dps.toLocaleString()}</span>
+                    </div>
+                    <div class="unit-stat-item">
+                        <span class="unit-stat-label">Damage:</span>
+                        <span class="unit-stat-value">${damage.toLocaleString()}</span>
+                    </div>
+                    <div class="unit-stat-item">
+                        <span class="unit-stat-label">Attack Speed:</span>
+                        <span class="unit-stat-value">${spa}s</span>
+                    </div>
+                    <div class="unit-stat-item">
+                        <span class="unit-stat-label">Type:</span>
+                        <span class="unit-stat-value">${unit.type}</span>
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                selectUnitForDetails(unit.id);
+            });
+
+            return card;
+        }
+
+        // Select unit for details
+        function selectUnitForDetails(unitId) {
+            // Remove previous selection
+            document.querySelectorAll('.unit-card-database').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selection to clicked card
+            const selectedCard = document.querySelector(`[data-unit-id="${unitId}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+
+            // Update details panel
+            const unit = unitDatabase.selectUnit(unitId);
+            if (unit) {
+                showUnitDetails(unit);
+            }
+        }
+
+        // Show unit details
+        function showUnitDetails(unit) {
+            const detailsContainer = document.getElementById('unitDetails');
+            const stats = unit.stats || {};
+
+            detailsContainer.innerHTML = `
+                <div class="unit-detail-content active">
+                    <div class="detail-section">
+                        <h3><i class="fas fa-user"></i> Basic Info</h3>
+                        <div class="detail-stats-grid">
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Name:</span>
+                                <span class="detail-stat-value">${unit.name} ${unit.evolution}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Rarity:</span>
+                                <span class="detail-stat-value">${unit.rarity}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Tier:</span>
+                                <span class="detail-stat-value">${unit.tier}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Element:</span>
+                                <span class="detail-stat-value">${unit.element}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Type:</span>
+                                <span class="detail-stat-value">${unit.type}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Can Evolve:</span>
+                                <span class="detail-stat-value">${unit.canEvolve ? 'Yes' : 'No'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3><i class="fas fa-chart-bar"></i> Combat Stats</h3>
+                        <div class="detail-stats-grid">
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Damage:</span>
+                                <span class="detail-stat-value">${stats.damage?.toLocaleString() || 'N/A'}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Attack Speed:</span>
+                                <span class="detail-stat-value">${stats.spa ? stats.spa + 's' : 'N/A'}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Range:</span>
+                                <span class="detail-stat-value">${stats.range || 'N/A'}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">DPS:</span>
+                                <span class="detail-stat-value">${stats.dps?.toLocaleString() || 'N/A'}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">AoE Type:</span>
+                                <span class="detail-stat-value">${stats.aoeType || 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${stats.traits ? `
+                        <div class="detail-section">
+                            <h3><i class="fas fa-star"></i> Traits</h3>
+                            <div class="detail-traits">
+                                ${stats.traits.map(trait => `<span class="detail-trait">${trait}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${stats.statusEffects ? `
+                        <div class="detail-section">
+                            <h3><i class="fas fa-bolt"></i> Status Effects</h3>
+                            <div class="detail-effects">
+                                ${stats.statusEffects.map(effect => `<span class="detail-effect">${effect}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="detail-section">
+                        <h3><i class="fas fa-info-circle"></i> Description</h3>
+                        <p style="color: #a29bfe; line-height: 1.5;">${unit.description}</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3><i class="fas fa-map-marker-alt"></i> Obtain Method</h3>
+                        <p style="color: #a29bfe;">${unit.obtainMethod}</p>
+                        ${unit.dropRate ? `<p style="color: #f1c40f; font-size: 0.9rem;">Drop Rate: ${unit.dropRate}</p>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add unit to comparison
+        function addUnitToComparison(unitId, slotNumber) {
+            const slot = document.querySelector(`[data-slot="${slotNumber}"]`);
+            const unit = unitsData[unitId];
+            
+            if (unit) {
+                unitDatabase.addToComparison(unitId);
+                slot.innerHTML = `
+                    <div class="comparison-unit">
+                        <span>${unit.name} ${unit.evolution}</span>
+                        <button class="remove-comparison" onclick="removeFromComparison('${unitId}', ${slotNumber})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                slot.classList.add('filled');
+                updateCompareButton();
+            }
+        }
+
+        // Remove from comparison
+        function removeFromComparison(unitId, slotNumber) {
+            const slot = document.querySelector(`[data-slot="${slotNumber}"]`);
+            unitDatabase.removeFromComparison(unitId);
+            
+            slot.innerHTML = '<div class="slot-placeholder">Select Unit ' + slotNumber + '</div>';
+            slot.classList.remove('filled');
+            updateCompareButton();
+        }
+
+        // Update compare button state
+        function updateCompareButton() {
+            const compareBtn = document.getElementById('compareUnits');
+            const hasUnits = unitDatabase.comparisonUnits.length > 0;
+            compareBtn.disabled = !hasUnits;
+        }
+
+        // Show unit comparison
+        function showUnitComparison() {
+            const comparisonUnits = unitDatabase.getComparisonUnits();
+            if (comparisonUnits.length === 0) return;
+
+            // Create comparison modal or update details panel
+            const detailsContainer = document.getElementById('unitDetails');
+            let comparisonHTML = '<div class="unit-detail-content active"><h3><i class="fas fa-balance-scale"></i> Unit Comparison</h3>';
+
+            comparisonUnits.forEach(unit => {
+                const stats = unit.stats || {};
+                comparisonHTML += `
+                    <div class="comparison-unit-section" style="margin-bottom: 2rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                        <h4 style="color: #ffffff; margin-bottom: 1rem;">${unit.name} ${unit.evolution}</h4>
+                        <div class="detail-stats-grid">
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">DPS:</span>
+                                <span class="detail-stat-value">${stats.dps?.toLocaleString() || 'N/A'}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Damage:</span>
+                                <span class="detail-stat-value">${stats.damage?.toLocaleString() || 'N/A'}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Attack Speed:</span>
+                                <span class="detail-stat-value">${stats.spa ? stats.spa + 's' : 'N/A'}</span>
+                            </div>
+                            <div class="detail-stat-item">
+                                <span class="detail-stat-label">Tier:</span>
+                                <span class="detail-stat-value">${unit.tier}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            comparisonHTML += '</div>';
+            detailsContainer.innerHTML = comparisonHTML;
+        }
+
+        // Update unit count
+        function updateUnitCount() {
+            const count = unitDatabase.getUnitCount();
+            document.getElementById('unitCount').textContent = count;
         }
     </script>
 </body>
