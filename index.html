@@ -1641,316 +1641,6 @@
             font-size: 0.8rem;
             color: #e74c3c;
         }
-
-        /* Settings Page Styles */
-        #settings-page.active {
-            grid-template-columns: 1fr;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .settings-container {
-            width: 100%;
-        }
-
-        .settings-section {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
-        }
-
-        .settings-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .settings-section h3 {
-            color: #a29bfe;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .setting-group {
-            margin-bottom: 1rem;
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(162, 155, 254, 0.1);
-        }
-
-        .setting-info {
-            flex: 1;
-        }
-
-        .setting-info label {
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 1rem;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .setting-info p {
-            color: #a29bfe;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .setting-controls {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* Button Styles */
-        .btn-primary, .btn-secondary {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
-            color: #ffffff;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(162, 155, 254, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Toggle Switch */
-        .toggle-switch {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-            gap: 0.5rem;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-            background: rgba(149, 165, 166, 0.3);
-            border-radius: 24px;
-            transition: 0.3s;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background: #ffffff;
-            border-radius: 50%;
-            transition: 0.3s;
-        }
-
-        .toggle-switch input:checked + .toggle-slider {
-            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
-        }
-
-        .toggle-switch input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-        }
-
-        .toggle-label {
-            color: #ffffff;
-            font-size: 0.9rem;
-        }
-
-        /* Select Styles */
-        .setting-select {
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(162, 155, 254, 0.3);
-            border-radius: 6px;
-            color: #ffffff;
-            font-size: 0.9rem;
-        }
-
-        .setting-select option {
-            background: #2c3e50;
-            color: #ffffff;
-        }
-
-        /* Info Display */
-        .update-info, .count-info {
-            color: #a29bfe;
-            font-size: 0.8rem;
-            font-style: italic;
-        }
-
-        .system-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            border: 1px solid rgba(162, 155, 254, 0.1);
-        }
-
-        .info-label {
-            color: #a29bfe;
-            font-size: 0.9rem;
-        }
-
-        .info-value {
-            color: #ffffff;
-            font-weight: 600;
-        }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: #2c3e50;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow: hidden;
-            border: 1px solid rgba(162, 155, 254, 0.3);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
-        }
-
-        .modal-header h3 {
-            color: #a29bfe;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: #a29bfe;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .modal-close:hover {
-            background: rgba(162, 155, 254, 0.2);
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-
-        .favorites-list {
-            margin-bottom: 1rem;
-        }
-
-        .favorite-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            margin-bottom: 0.5rem;
-        }
-
-        .favorite-name {
-            color: #ffffff;
-            font-weight: 500;
-        }
-
-        .remove-favorite {
-            background: rgba(231, 76, 60, 0.2);
-            border: 1px solid rgba(231, 76, 60, 0.3);
-            color: #e74c3c;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .add-favorite {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .favorite-select {
-            flex: 1;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(162, 155, 254, 0.3);
-            border-radius: 6px;
-            color: #ffffff;
-        }
-
-        .favorite-select option {
-            background: #2c3e50;
-            color: #ffffff;
-        }
     </style>
 </head>
 <body>
@@ -1966,7 +1656,6 @@
                     <li><a href="#" class="nav-link active" data-page="evolution"><i class="fas fa-arrow-up"></i> Evolution Calculator</a></li>
                     <li><a href="#" class="nav-link" data-page="dps"><i class="fas fa-sword"></i> DPS Calculator</a></li>
                     <li><a href="#" class="nav-link" data-page="database"><i class="fas fa-book"></i> Unit Database</a></li>
-                    <li><a href="#" class="nav-link" data-page="settings"><i class="fas fa-cog"></i> Settings</a></li>
                     <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
                 </ul>
             </nav>
@@ -2482,169 +2171,6 @@
                         <div class="details-placeholder">
                             <i class="fas fa-user"></i>
                             <p>Select a unit to view detailed information</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Settings Page -->
-        <div id="settings-page" class="page-content">
-            <div class="settings-container">
-                <div class="card">
-                    <h2><i class="fas fa-cog"></i> Settings & Data Management</h2>
-                    
-                    <!-- Data Management Section -->
-                    <div class="settings-section">
-                        <h3><i class="fas fa-database"></i> Data Management</h3>
-                        
-                        <div class="setting-group">
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label>Data Cache Status</label>
-                                    <p>Manage cached calculation results and unit data</p>
-                                </div>
-                                <div class="setting-controls">
-                                    <button id="clearCache" class="btn-secondary">
-                                        <i class="fas fa-trash"></i> Clear Cache
-                                    </button>
-                                    <button id="exportData" class="btn-secondary">
-                                        <i class="fas fa-download"></i> Export Data
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="setting-group">
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label>Wiki Data Sync</label>
-                                    <p>Check for updates from Anime Vanguards Wiki</p>
-                                </div>
-                                <div class="setting-controls">
-                                    <button id="checkUpdates" class="btn-primary">
-                                        <i class="fas fa-sync"></i> Check Updates
-                                    </button>
-                                    <span id="lastUpdateInfo" class="update-info">Last checked: Never</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="setting-group">
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label>Performance Optimization</label>
-                                    <p>Enable/disable performance features</p>
-                                </div>
-                                <div class="setting-controls">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="enableCaching" checked>
-                                        <span class="toggle-slider"></span>
-                                        <span class="toggle-label">Enable Result Caching</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- User Preferences Section -->
-                    <div class="settings-section">
-                        <h3><i class="fas fa-user"></i> User Preferences</h3>
-                        
-                        <div class="setting-group">
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label>Favorite Units</label>
-                                    <p>Manage your favorite units for quick access</p>
-                                </div>
-                                <div class="setting-controls">
-                                    <button id="manageFavorites" class="btn-secondary">
-                                        <i class="fas fa-heart"></i> Manage Favorites
-                                    </button>
-                                    <span id="favoritesCount" class="count-info">0 favorites</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="setting-group">
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label>Default Settings</label>
-                                    <p>Set default values for calculators</p>
-                                </div>
-                                <div class="setting-controls">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" id="rememberFilters" checked>
-                                        <span class="toggle-slider"></span>
-                                        <span class="toggle-label">Remember Filter Settings</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="setting-group">
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <label>Display Options</label>
-                                    <p>Customize the interface appearance</p>
-                                </div>
-                                <div class="setting-controls">
-                                    <select id="defaultView" class="setting-select">
-                                        <option value="grid">Grid View</option>
-                                        <option value="list">List View</option>
-                                        <option value="detailed">Detailed View</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- System Information Section -->
-                    <div class="settings-section">
-                        <h3><i class="fas fa-info-circle"></i> System Information</h3>
-                        
-                        <div class="system-info">
-                            <div class="info-item">
-                                <span class="info-label">Total Units:</span>
-                                <span id="totalUnitsCount" class="info-value">0</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Cached Results:</span>
-                                <span id="cachedResultsCount" class="info-value">0</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Storage Used:</span>
-                                <span id="storageUsed" class="info-value">0 KB</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Last Data Update:</span>
-                                <span id="lastDataUpdate" class="info-value">Never</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Favorites Management Modal -->
-                    <div id="favoritesModal" class="modal" style="display: none;">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3><i class="fas fa-heart"></i> Manage Favorite Units</h3>
-                                <button class="modal-close" id="closeFavoritesModal">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="favorites-list" id="favoritesList">
-                                    <!-- Favorites will be populated here -->
-                                </div>
-                                <div class="add-favorite">
-                                    <select id="addFavoriteSelect" class="favorite-select">
-                                        <option value="">Select unit to add...</option>
-                                    </select>
-                                    <button id="addFavoriteBtn" class="btn-primary">
-                                        <i class="fas fa-plus"></i> Add
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -3752,24 +3278,75 @@
                 // Initialize Unit Database
                 initializeUnitDatabase();
 
-                // Initialize Settings
-                initializeSettings();
+                // Set up DPS calculator event listeners
+                const dpsUnitSearch = document.getElementById('dpsUnitSearch');
+                const dpsClearSearch = document.getElementById('dpsClearSearch');
+                const dpsRarityFilter = document.getElementById('dpsRarityFilter');
+                const dpsElementFilter = document.getElementById('dpsElementFilter');
+                const dpsSelectHeader = document.getElementById('dpsSelectHeader');
 
-                // Load saved filters for all pages
-                loadSavedFilters('evolution');
-                loadSavedFilters('dps');
-                loadSavedFilters('database');
+                // DPS search functionality
+                dpsUnitSearch.addEventListener('input', (e) => {
+                    debounce((inputValue) => {
+                        dpsUnitSelectHandler.onSearchInput(inputValue);
+                    }, 300)(e.target.value);
+                });
 
-                // Set up enhanced event listeners with filter saving
-                document.querySelectorAll('input[type="text"], select').forEach(element => {
-                    element.addEventListener('change', () => {
-                        const page = getCurrentPage();
-                        if (page) {
-                            saveCurrentFilters(page);
+                dpsClearSearch.addEventListener('click', () => {
+                    dpsUnitSearch.value = '';
+                    dpsUnitSelectHandler.onSearchInput('');
+                    dpsUnitSearch.focus();
+                });
+
+                dpsRarityFilter.addEventListener('change', () => {
+                    dpsUnitSelectHandler.onSearchInput(dpsUnitSearch.value);
+                });
+
+                dpsElementFilter.addEventListener('change', () => {
+                    dpsUnitSelectHandler.onSearchInput(dpsUnitSearch.value);
+                });
+
+                // DPS dropdown functionality
+                dpsSelectHeader.addEventListener('click', () => {
+                    const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+                    if (dpsCustomSelect.classList.contains('open')) {
+                        closeDPSDropdown();
+                    } else {
+                        openDPSDropdown();
+                    }
+                });
+
+                dpsSelectHeader.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+                        if (dpsCustomSelect.classList.contains('open')) {
+                            closeDPSDropdown();
+                        } else {
+                            openDPSDropdown();
+                        }
+                    }
+                });
+
+                // Close DPS dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    const dpsCustomSelect = document.getElementById('dpsCustomSelect');
+                    if (!dpsCustomSelect.contains(e.target)) {
+                        closeDPSDropdown();
+                    }
+                });
+
+                // Page switching functionality
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const pageName = link.getAttribute('data-page');
+                        if (pageName) {
+                            switchPage(pageName);
                         }
                     });
                 });
-
+                
                 // Add performance monitoring
                 console.log(`Loaded ${allUnits.length} units with ${Object.keys(materialsConfig).length} materials`);
                 console.log('Wiki data integration complete - all units updated with real game stats');
@@ -3944,30 +3521,19 @@
 
         // Page switching functionality
         function switchPage(pageName) {
-            // Save current page filters
-            const currentPage = getCurrentPage();
-            if (currentPage) {
-                saveCurrentFilters(currentPage);
-            }
-
-            // Switch pages
+            // Hide all pages
             document.querySelectorAll('.page-content').forEach(page => {
                 page.classList.remove('active');
             });
+
+            // Show selected page
+            document.getElementById(`${pageName}-page`).classList.add('active');
+
+            // Update navigation
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
-
-            document.getElementById(`${pageName}-page`).classList.add('active');
             document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
-
-            // Load saved filters for new page
-            loadSavedFilters(pageName);
-
-            // Update settings display if on settings page
-            if (pageName === 'settings') {
-                updateSettingsDisplay();
-            }
         }
 
         // Initialize DPS Calculator
@@ -4757,564 +4323,6 @@
         function updateUnitCount() {
             const count = unitDatabase.getUnitCount();
             document.getElementById('unitCount').textContent = count;
-        }
-
-        // Data Management and Performance Optimization Classes
-        class DataManager {
-            constructor() {
-                this.storageKeys = {
-                    dpsCache: 'animevanguard_dps_cache',
-                    favorites: 'animevanguard_favorites',
-                    filters: 'animevanguard_filters',
-                    preferences: 'animevanguard_preferences',
-                    lastUpdate: 'animevanguard_last_update'
-                };
-                this.cache = new Map();
-                this.favorites = new Set();
-                this.preferences = this.loadPreferences();
-                this.loadCache();
-                this.loadFavorites();
-            }
-
-            // Cache Management
-            loadCache() {
-                try {
-                    const cached = localStorage.getItem(this.storageKeys.dpsCache);
-                    if (cached) {
-                        const cacheData = JSON.parse(cached);
-                        this.cache = new Map(Object.entries(cacheData));
-                    }
-                } catch (error) {
-                    console.warn('Failed to load cache:', error);
-                }
-            }
-
-            saveCache() {
-                try {
-                    const cacheData = Object.fromEntries(this.cache);
-                    localStorage.setItem(this.storageKeys.dpsCache, JSON.stringify(cacheData));
-                } catch (error) {
-                    console.warn('Failed to save cache:', error);
-                }
-            }
-
-            getCachedResult(key) {
-                return this.cache.get(key);
-            }
-
-            setCachedResult(key, value) {
-                this.cache.set(key, value);
-                this.saveCache();
-            }
-
-            clearCache() {
-                this.cache.clear();
-                localStorage.removeItem(this.storageKeys.dpsCache);
-                return this.cache.size;
-            }
-
-            // Favorites Management
-            loadFavorites() {
-                try {
-                    const favorites = localStorage.getItem(this.storageKeys.favorites);
-                    if (favorites) {
-                        this.favorites = new Set(JSON.parse(favorites));
-                    }
-                } catch (error) {
-                    console.warn('Failed to load favorites:', error);
-                }
-            }
-
-            saveFavorites() {
-                try {
-                    localStorage.setItem(this.storageKeys.favorites, JSON.stringify([...this.favorites]));
-                } catch (error) {
-                    console.warn('Failed to save favorites:', error);
-                }
-            }
-
-            addFavorite(unitId) {
-                this.favorites.add(unitId);
-                this.saveFavorites();
-            }
-
-            removeFavorite(unitId) {
-                this.favorites.delete(unitId);
-                this.saveFavorites();
-            }
-
-            isFavorite(unitId) {
-                return this.favorites.has(unitId);
-            }
-
-            getFavorites() {
-                return [...this.favorites];
-            }
-
-            // Filter Preferences
-            saveFilters(page, filters) {
-                try {
-                    const allFilters = JSON.parse(localStorage.getItem(this.storageKeys.filters) || '{}');
-                    allFilters[page] = filters;
-                    localStorage.setItem(this.storageKeys.filters, JSON.stringify(allFilters));
-                } catch (error) {
-                    console.warn('Failed to save filters:', error);
-                }
-            }
-
-            loadFilters(page) {
-                try {
-                    const allFilters = JSON.parse(localStorage.getItem(this.storageKeys.filters) || '{}');
-                    return allFilters[page] || {};
-                } catch (error) {
-                    console.warn('Failed to load filters:', error);
-                    return {};
-                }
-            }
-
-            // User Preferences
-            loadPreferences() {
-                try {
-                    const prefs = localStorage.getItem(this.storageKeys.preferences);
-                    return prefs ? JSON.parse(prefs) : {
-                        enableCaching: true,
-                        rememberFilters: true,
-                        defaultView: 'grid',
-                        lastUpdate: null
-                    };
-                } catch (error) {
-                    console.warn('Failed to load preferences:', error);
-                    return {
-                        enableCaching: true,
-                        rememberFilters: true,
-                        defaultView: 'grid',
-                        lastUpdate: null
-                    };
-                }
-            }
-
-            savePreferences() {
-                try {
-                    localStorage.setItem(this.storageKeys.preferences, JSON.stringify(this.preferences));
-                } catch (error) {
-                    console.warn('Failed to save preferences:', error);
-                }
-            }
-
-            updatePreference(key, value) {
-                this.preferences[key] = value;
-                this.savePreferences();
-            }
-
-            // Storage Information
-            getStorageInfo() {
-                const info = {
-                    totalUnits: Object.keys(unitsData).length,
-                    cachedResults: this.cache.size,
-                    favorites: this.favorites.size,
-                    storageUsed: 0,
-                    lastUpdate: this.preferences.lastUpdate
-                };
-
-                try {
-                    let totalSize = 0;
-                    for (let key in localStorage) {
-                        if (localStorage.hasOwnProperty(key)) {
-                            totalSize += localStorage[key].length * 2; // UTF-16 characters
-                        }
-                    }
-                    info.storageUsed = Math.round(totalSize / 1024); // Convert to KB
-                } catch (error) {
-                    console.warn('Failed to calculate storage size:', error);
-                }
-
-                return info;
-            }
-        }
-
-        // Wiki Data Sync Class
-        class WikiDataSync {
-            constructor(dataManager) {
-                this.dataManager = dataManager;
-                this.baseURL = 'https://animevanguards.fandom.com';
-                this.lastUpdate = this.dataManager.preferences.lastUpdate;
-            }
-
-            async checkForUpdates() {
-                try {
-                    // Simulate checking for updates (in real implementation, this would fetch from Wiki API)
-                    const now = new Date();
-                    const lastCheck = this.lastUpdate ? new Date(this.lastUpdate) : new Date(0);
-                    const timeDiff = now - lastCheck;
-                    
-                    // Simulate update check (replace with actual Wiki API call)
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    const hasUpdates = timeDiff > 24 * 60 * 60 * 1000; // Check if more than 24 hours
-                    
-                    this.lastUpdate = now.toISOString();
-                    this.dataManager.updatePreference('lastUpdate', this.lastUpdate);
-                    
-                    return {
-                        hasUpdates,
-                        lastUpdate: this.lastUpdate,
-                        message: hasUpdates ? 'Updates available' : 'No updates found'
-                    };
-                } catch (error) {
-                    console.error('Failed to check for updates:', error);
-                    return {
-                        hasUpdates: false,
-                        error: 'Failed to check for updates'
-                    };
-                }
-            }
-
-            async syncUnitData() {
-                try {
-                    // Simulate data sync (in real implementation, this would fetch and parse Wiki pages)
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    
-                    // Update last sync time
-                    this.lastUpdate = new Date().toISOString();
-                    this.dataManager.updatePreference('lastUpdate', this.lastUpdate);
-                    
-                    return {
-                        success: true,
-                        message: 'Data synchronized successfully',
-                        lastUpdate: this.lastUpdate
-                    };
-                } catch (error) {
-                    console.error('Failed to sync unit data:', error);
-                    return {
-                        success: false,
-                        error: 'Failed to sync unit data'
-                    };
-                }
-            }
-        }
-
-        // Performance Optimized DPS Calculator
-        class OptimizedDPSCalculator extends AnimeVanguardsDPSCalculator {
-            constructor(unitsData, dataManager) {
-                super(unitsData);
-                this.dataManager = dataManager;
-            }
-
-            calculateTotalDPS(unitId, level, traits, enemyCount, gameState) {
-                // Create cache key
-                const cacheKey = `${unitId}_${level}_${traits.sort().join(',')}_${enemyCount}_${gameState}`;
-                
-                // Check cache first
-                if (this.dataManager.preferences.enableCaching) {
-                    const cached = this.dataManager.getCachedResult(cacheKey);
-                    if (cached) {
-                        return cached;
-                    }
-                }
-
-                // Calculate result
-                const result = super.calculateTotalDPS(unitId, level, traits, enemyCount, gameState);
-                
-                // Cache result
-                if (this.dataManager.preferences.enableCaching) {
-                    this.dataManager.setCachedResult(cacheKey, result);
-                }
-                
-                return result;
-            }
-        }
-
-        // Initialize data management
-        const dataManager = new DataManager();
-        const wikiDataSync = new WikiDataSync(dataManager);
-        const optimizedDPSCalculator = new OptimizedDPSCalculator(unitsData, dataManager);
-
-        // Settings Page Functions
-        function initializeSettings() {
-            // Load current settings
-            loadSettingsDisplay();
-            
-            // Event listeners
-            document.getElementById('clearCache').addEventListener('click', clearCacheHandler);
-            document.getElementById('exportData').addEventListener('click', exportDataHandler);
-            document.getElementById('checkUpdates').addEventListener('click', checkUpdatesHandler);
-            document.getElementById('manageFavorites').addEventListener('click', openFavoritesModal);
-            document.getElementById('closeFavoritesModal').addEventListener('click', closeFavoritesModal);
-            document.getElementById('addFavoriteBtn').addEventListener('click', addFavoriteHandler);
-            
-            // Toggle switches
-            document.getElementById('enableCaching').addEventListener('change', (e) => {
-                dataManager.updatePreference('enableCaching', e.target.checked);
-                updateSettingsDisplay();
-            });
-            
-            document.getElementById('rememberFilters').addEventListener('change', (e) => {
-                dataManager.updatePreference('rememberFilters', e.target.checked);
-                updateSettingsDisplay();
-            });
-            
-            // Default view selector
-            document.getElementById('defaultView').addEventListener('change', (e) => {
-                dataManager.updatePreference('defaultView', e.target.value);
-                updateSettingsDisplay();
-            });
-        }
-
-        function loadSettingsDisplay() {
-            // Set toggle states
-            document.getElementById('enableCaching').checked = dataManager.preferences.enableCaching;
-            document.getElementById('rememberFilters').checked = dataManager.preferences.rememberFilters;
-            document.getElementById('defaultView').value = dataManager.preferences.defaultView;
-            
-            // Update info displays
-            updateSettingsDisplay();
-        }
-
-        function updateSettingsDisplay() {
-            const info = dataManager.getStorageInfo();
-            
-            document.getElementById('totalUnitsCount').textContent = info.totalUnits;
-            document.getElementById('cachedResultsCount').textContent = info.cachedResults;
-            document.getElementById('storageUsed').textContent = `${info.storageUsed} KB`;
-            document.getElementById('lastDataUpdate').textContent = info.lastUpdate ? 
-                new Date(info.lastUpdate).toLocaleString() : 'Never';
-            document.getElementById('favoritesCount').textContent = `${info.favorites} favorites`;
-            
-            // Update last update info
-            const lastUpdateInfo = document.getElementById('lastUpdateInfo');
-            if (info.lastUpdate) {
-                lastUpdateInfo.textContent = `Last checked: ${new Date(info.lastUpdate).toLocaleString()}`;
-            }
-        }
-
-        async function clearCacheHandler() {
-            const count = dataManager.clearCache();
-            showNotification(`Cleared ${count} cached results`, 'success');
-            updateSettingsDisplay();
-        }
-
-        function exportDataHandler() {
-            try {
-                const exportData = {
-                    favorites: dataManager.getFavorites(),
-                    preferences: dataManager.preferences,
-                    timestamp: new Date().toISOString()
-                };
-                
-                const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `animevanguard_data_${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                showNotification('Data exported successfully', 'success');
-            } catch (error) {
-                console.error('Export failed:', error);
-                showNotification('Failed to export data', 'error');
-            }
-        }
-
-        async function checkUpdatesHandler() {
-            const button = document.getElementById('checkUpdates');
-            const originalText = button.innerHTML;
-            
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
-            button.disabled = true;
-            
-            try {
-                const result = await wikiDataSync.checkForUpdates();
-                
-                if (result.error) {
-                    showNotification(result.error, 'error');
-                } else if (result.hasUpdates) {
-                    showNotification('Updates available! Syncing data...', 'info');
-                    const syncResult = await wikiDataSync.syncUnitData();
-                    if (syncResult.success) {
-                        showNotification('Data synchronized successfully', 'success');
-                    } else {
-                        showNotification('Failed to sync data', 'error');
-                    }
-                } else {
-                    showNotification('No updates found', 'info');
-                }
-                
-                updateSettingsDisplay();
-            } catch (error) {
-                console.error('Update check failed:', error);
-                showNotification('Failed to check for updates', 'error');
-            } finally {
-                button.innerHTML = originalText;
-                button.disabled = false;
-            }
-        }
-
-        function openFavoritesModal() {
-            const modal = document.getElementById('favoritesModal');
-            const favoritesList = document.getElementById('favoritesList');
-            const addFavoriteSelect = document.getElementById('addFavoriteSelect');
-            
-            // Populate favorites list
-            favoritesList.innerHTML = '';
-            dataManager.getFavorites().forEach(unitId => {
-                const unit = unitsData[unitId];
-                if (unit) {
-                    const favoriteItem = document.createElement('div');
-                    favoriteItem.className = 'favorite-item';
-                    favoriteItem.innerHTML = `
-                        <span class="favorite-name">${unit.name} ${unit.evolution}</span>
-                        <button class="remove-favorite" onclick="removeFavoriteHandler('${unitId}')">
-                            <i class="fas fa-times"></i> Remove
-                        </button>
-                    `;
-                    favoritesList.appendChild(favoriteItem);
-                }
-            });
-            
-            // Populate add favorite select
-            addFavoriteSelect.innerHTML = '<option value="">Select unit to add...</option>';
-            Object.values(unitsData).forEach(unit => {
-                if (!dataManager.isFavorite(unit.id)) {
-                    const option = document.createElement('option');
-                    option.value = unit.id;
-                    option.textContent = `${unit.name} ${unit.evolution}`;
-                    addFavoriteSelect.appendChild(option);
-                }
-            });
-            
-            modal.style.display = 'flex';
-        }
-
-        function closeFavoritesModal() {
-            document.getElementById('favoritesModal').style.display = 'none';
-        }
-
-        function addFavoriteHandler() {
-            const select = document.getElementById('addFavoriteSelect');
-            const unitId = select.value;
-            
-            if (unitId) {
-                dataManager.addFavorite(unitId);
-                openFavoritesModal(); // Refresh modal
-                updateSettingsDisplay();
-                showNotification('Unit added to favorites', 'success');
-            }
-        }
-
-        function removeFavoriteHandler(unitId) {
-            dataManager.removeFavorite(unitId);
-            openFavoritesModal(); // Refresh modal
-            updateSettingsDisplay();
-            showNotification('Unit removed from favorites', 'success');
-        }
-
-        // Enhanced notification system
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                <span>${message}</span>
-                <button class="notification-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            // Add styles if not already present
-            if (!document.getElementById('notification-styles')) {
-                const style = document.createElement('style');
-                style.id = 'notification-styles';
-                style.textContent = `
-                    .notification {
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        padding: 1rem 1.5rem;
-                        border-radius: 8px;
-                        color: #ffffff;
-                        font-weight: 500;
-                        display: flex;
-                        align-items: center;
-                        gap: 0.5rem;
-                        z-index: 1001;
-                        animation: slideIn 0.3s ease;
-                        max-width: 400px;
-                    }
-                    .notification-success { background: rgba(46, 204, 113, 0.9); }
-                    .notification-error { background: rgba(231, 76, 60, 0.9); }
-                    .notification-info { background: rgba(52, 152, 219, 0.9); }
-                    .notification-close {
-                        background: none;
-                        border: none;
-                        color: #ffffff;
-                        cursor: pointer;
-                        margin-left: auto;
-                    }
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            document.body.appendChild(notification);
-            
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 5000);
-            
-            // Close button
-            notification.querySelector('.notification-close').addEventListener('click', () => {
-                notification.remove();
-            });
-        }
-
-        // Enhanced filter saving
-        function saveCurrentFilters(page) {
-            if (!dataManager.preferences.rememberFilters) return;
-            
-            const filters = {};
-            
-            // Save search and filter values
-            const searchInput = document.getElementById(`${page}Search`);
-            if (searchInput) filters.search = searchInput.value;
-            
-            const rarityFilter = document.getElementById(`${page}RarityFilter`);
-            if (rarityFilter) filters.rarity = rarityFilter.value;
-            
-            const elementFilter = document.getElementById(`${page}ElementFilter`);
-            if (elementFilter) filters.element = elementFilter.value;
-            
-            dataManager.saveFilters(page, filters);
-        }
-
-        function loadSavedFilters(page) {
-            if (!dataManager.preferences.rememberFilters) return;
-            
-            const filters = dataManager.loadFilters(page);
-            
-            const searchInput = document.getElementById(`${page}Search`);
-            if (searchInput && filters.search) searchInput.value = filters.search;
-            
-            const rarityFilter = document.getElementById(`${page}RarityFilter`);
-            if (rarityFilter && filters.rarity) rarityFilter.value = filters.rarity;
-            
-            const elementFilter = document.getElementById(`${page}ElementFilter`);
-            if (elementFilter && filters.element) elementFilter.value = filters.element;
-        }
-
-        // Get current page
-        function getCurrentPage() {
-            const activePage = document.querySelector('.page-content.active');
-            if (activePage) {
-                return activePage.id.replace('-page', '');
-            }
-            return null;
         }
     </script>
 </body>
