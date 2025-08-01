@@ -31,126 +31,23 @@
             <p>Evolution Materials & DPS Calculator</p>
         </div>
 
-        <!-- Unit Selector Component -->
-        <div id="unitSelectorContainer"></div>
+        <!-- Evolution Page Container -->
+        <div class="evolution-page">
+            <!-- Unit Selector Component -->
+            <div id="unitSelectorContainer"></div>
 
-        <!-- Materials List Component -->
-        <div id="materialsListContainer"></div>
+            <!-- Materials List Component -->
+            <div id="materialsListContainer"></div>
 
-        <!-- Cost Summary Component -->
-        <div id="costSummaryContainer"></div>
+            <!-- Cost Summary Component -->
+            <div id="costSummaryContainer"></div>
 
-        <!-- Farming Guide Component -->
-        <div id="farmingGuideContainer"></div>
+            <!-- Farming Guide Component -->
+            <div id="farmingGuideContainer"></div>
+        </div>
     </div>
 
-    <script type="module">
-        // Import data modules
-        import { unitsData } from './js/config/units.js';
-        import { materialsConfig } from './js/config/materials.js';
-        import { elementIcons } from './js/config/constants.js';
-        
-        // Import utility functions
-        import { showError } from './js/utils/dom.js';
-        import { validateUnitData, validateMaterialsConfig, validateElementIcons } from './js/utils/validation.js';
-        
-        // Import components
-        import { UnitSelector } from './js/components/UnitSelector.js';
-        import { MaterialsList } from './js/components/MaterialsList.js';
-        import { CostSummary } from './js/components/CostSummary.js';
-        import { FarmingGuide } from './js/components/FarmingGuide.js';
-
-        console.log('✅ Data modules loaded successfully!');
-        console.log('📊 Units:', Object.keys(unitsData).length);
-        console.log('🔧 Materials:', Object.keys(materialsConfig).length);
-        console.log('🎨 Elements:', Object.keys(elementIcons).length);
-
-        // Component instances
-        let unitSelector;
-        let materialsList;
-        let costSummary;
-        let farmingGuide;
-
-        // Initialize
-        function init() {
-            console.log('🚀 Initializing application...');
-            
-            // Validate data
-            const unitValidation = validateUnitData(unitsData);
-            const materialValidation = validateMaterialsConfig(materialsConfig);
-            const iconValidation = validateElementIcons(elementIcons);
-            
-            if (!unitValidation.isValid) {
-                console.error('❌ Unit data validation failed:', unitValidation.errors);
-                showError('Unit data validation failed', 'error');
-            }
-            
-            if (!materialValidation.isValid) {
-                console.error('❌ Materials validation failed:', materialValidation.errors);
-                showError('Materials validation failed', 'error');
-            }
-            
-            if (!iconValidation.isValid) {
-                console.error('❌ Element icons validation failed:', iconValidation.errors);
-                showError('Element icons validation failed', 'error');
-            }
-            
-            // Initialize components
-            initializeComponents();
-            
-            console.log('✅ Application initialized!');
-        }
-
-        // Initialize all components
-        function initializeComponents() {
-            // Initialize Unit Selector
-            unitSelector = new UnitSelector('unitSelectorContainer', {
-                onUnitSelect: handleUnitSelect,
-                showFilters: true,
-                showSearch: true,
-                debounceDelay: 300
-            });
-            
-            // Initialize Materials List
-            materialsList = new MaterialsList('materialsListContainer', {
-                showRarity: true,
-                showDescription: true,
-                showQuantity: true
-            });
-            
-            // Initialize Cost Summary
-            costSummary = new CostSummary('costSummaryContainer', {
-                showBreakdown: true,
-                showTotal: true,
-                currency: 'Gold'
-            });
-            
-            // Initialize Farming Guide
-            farmingGuide = new FarmingGuide('farmingGuideContainer', {
-                showPriority: true,
-                showDifficulty: true,
-                showTips: true,
-                showObtainMethods: true
-            });
-            
-            // Set up component data
-            unitSelector.setUnits(unitsData, elementIcons);
-            materialsList.setMaterialsConfig(materialsConfig);
-            costSummary.setMaterialsConfig(materialsConfig);
-        }
-
-        // Handle unit selection
-        function handleUnitSelect(unit) {
-            console.log('Unit selected:', unit.name);
-            
-            // Update all components with the selected unit
-            materialsList.updateMaterials(unit);
-            costSummary.updateCost(unit);
-            farmingGuide.updateGuide(unit);
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    <!-- Main Application Script -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html> 

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Anime Vanguards Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #16213e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #0f3460;
+            border-radius: 5px;
+        }
+        .test-button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #c73e5a;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .status.success {
+            background: #4CAF50;
+        }
+        .status.error {
+            background: #f44336;
+        }
+        .status.info {
+            background: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1><i class="fas fa-vial"></i> Page Controller Test</h1>
+        
+        <div class="test-section">
+            <h3>Module Loading Test</h3>
+            <button class="test-button" onclick="testModuleLoading()">Test Module Loading</button>
+            <div id="moduleStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Page Controller Test</h3>
+            <button class="test-button" onclick="testPageControllers()">Test Page Controllers</button>
+            <div id="pageStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Navigation Test</h3>
+            <button class="test-button" onclick="testNavigation()">Test Navigation</button>
+            <div id="navStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Full App Test</h3>
+            <button class="test-button" onclick="testFullApp()">Test Full App</button>
+            <div id="appStatus"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Test functions
+        window.testModuleLoading = async function() {
+            const statusDiv = document.getElementById('moduleStatus');
+            statusDiv.innerHTML = '<div class="status info">Testing module loading...</div>';
+            
+            try {
+                // Test data modules
+                const { unitsData } = await import('./js/config/units.js');
+                const { materialsConfig } = await import('./js/config/materials.js');
+                const { elementIcons } = await import('./js/config/constants.js');
+                
+                // Test utility modules
+                const { showError } = await import('./js/utils/dom.js');
+                const { validateUnitData } = await import('./js/utils/validation.js');
+                
+                // Test component modules
+                const { UnitSelector } = await import('./js/components/UnitSelector.js');
+                const { MaterialsList } = await import('./js/components/MaterialsList.js');
+                
+                // Test page modules
+                const { EvolutionPage } = await import('./js/pages/evolution.js');
+                const { DPSPage } = await import('./js/pages/dps.js');
+                const { DatabasePage } = await import('./js/pages/database.js');
+                
+                // Test app module
+                const { App } = await import('./js/app.js');
+                
+                statusDiv.innerHTML = `
+                    <div class="status success">
+                        ✅ All modules loaded successfully!<br>
+                        📊 Units: ${Object.keys(unitsData).length}<br>
+                        🔧 Materials: ${Object.keys(materialsConfig).length}<br>
+                        🎨 Elements: ${Object.keys(elementIcons).length}
+                    </div>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Module loading failed: ${error.message}
+                    </div>
+                `;
+            }
+        };
+        
+        window.testPageControllers = async function() {
+            const statusDiv = document.getElementById('pageStatus');
+            statusDiv.innerHTML = '<div class="status info">Testing page controllers...</div>';
+            
+            try {
+                const { EvolutionPage } = await import('./js/pages/evolution.js');
+                const { DPSPage } = await import('./js/pages/dps.js');
+                const { DatabasePage } = await import('./js/pages/database.js');
+                
+                // Test page instantiation
+                const mockApp = { onUnitSelect: () => {} };
+                const evolutionPage = new EvolutionPage(mockApp);
+                const dpsPage = new DPSPage(mockApp);
+                const databasePage = new DatabasePage(mockApp);
+                
+                statusDiv.innerHTML = `
+                    <div class="status success">
+                        ✅ All page controllers instantiated successfully!<br>
+                        📄 Evolution Page: ${evolutionPage.constructor.name}<br>
+                        📄 DPS Page: ${dpsPage.constructor.name}<br>
+                        📄 Database Page: ${databasePage.constructor.name}
+                    </div>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Page controller test failed: ${error.message}
+                    </div>
+                `;
+            }
+        };
+        
+        window.testNavigation = async function() {
+            const statusDiv = document.getElementById('navStatus');
+            statusDiv.innerHTML = '<div class="status info">Testing navigation...</div>';
+            
+            try {
+                // Create a simple navigation test
+                const nav = document.createElement('nav');
+                nav.innerHTML = `
+                    <a href="#" class="nav-link" data-page="evolution">Evolution</a>
+                    <a href="#" class="nav-link" data-page="dps">DPS</a>
+                    <a href="#" class="nav-link" data-page="database">Database</a>
+                `;
+                
+                // Test navigation event handling
+                let clickedPage = null;
+                nav.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    clickedPage = e.target.dataset.page;
+                });
+                
+                // Simulate click
+                const firstLink = nav.querySelector('.nav-link');
+                firstLink.click();
+                
+                statusDiv.innerHTML = `
+                    <div class="status success">
+                        ✅ Navigation test passed!<br>
+                        🖱️ Clicked page: ${clickedPage}<br>
+                        🔗 Navigation structure created successfully
+                    </div>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Navigation test failed: ${error.message}
+                    </div>
+                `;
+            }
+        };
+        
+        window.testFullApp = async function() {
+            const statusDiv = document.getElementById('appStatus');
+            statusDiv.innerHTML = '<div class="status info">Testing full app...</div>';
+            
+            try {
+                const { App } = await import('./js/app.js');
+                
+                // Test app instantiation
+                const app = new App();
+                
+                statusDiv.innerHTML = `
+                    <div class="status success">
+                        ✅ Full app test passed!<br>
+                        🚀 App class instantiated successfully<br>
+                        📊 App data structure: ${Object.keys(app.data).join(', ')}<br>
+                        📄 Page structure: ${Object.keys(app.pages).join(', ')}
+                    </div>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Full app test failed: ${error.message}
+                    </div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html> 
