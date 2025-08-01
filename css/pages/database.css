@@ -1,0 +1,223 @@
+/* Unit Database Page Styles */
+
+.unit-database {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.database-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.database-header h1 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.database-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* Search and filters */
+.database-filters {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--card-border);
+}
+
+.filters-row {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    align-items: end;
+    margin-bottom: var(--spacing-md);
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.search-box {
+    position: relative;
+    flex: 2;
+    min-width: 200px;
+}
+
+.search-box input {
+    padding-left: 40px;
+}
+
+.search-icon {
+    position: absolute;
+    left: var(--spacing-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+/* View controls */
+.view-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.view-toggle {
+    display: flex;
+    gap: var(--spacing-xs);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-xs);
+}
+
+.view-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: transparent;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.view-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Unit grid view */
+.unit-grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.unit-grid-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--card-border);
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.unit-grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-color);
+}
+
+.unit-grid-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+.unit-grid-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.unit-grid-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.unit-grid-info h3 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+    font-size: 1.2rem;
+}
+
+.unit-grid-info p {
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.unit-grid-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.unit-grid-stat {
+    text-align: center;
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-sm);
+}
+
+.unit-grid-stat-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.unit-grid-stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+/* Database responsive */
+@media (max-width: 768px) {
+    .filters-row {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .filter-group {
+        min-width: auto;
+    }
+    
+    .search-box {
+        min-width: auto;
+    }
+    
+    .view-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .unit-grid-view {
+        grid-template-columns: 1fr;
+    }
+    
+    .unit-grid-stats {
+        grid-template-columns: 1fr;
+    }
+} 
