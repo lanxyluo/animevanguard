@@ -72,6 +72,7 @@ export class App {
         } catch (error) {
             console.error('❌ App initialization failed:', error);
             showError('Failed to initialize application: ' + error.message, 'error');
+            throw error; // Re-throw for main.js to handle
         }
     }
     
@@ -357,19 +358,4 @@ export class App {
         this.isInitialized = false;
         console.log('✅ App destroyed');
     }
-}
-
-// Initialize app when DOM is loaded
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const app = new App();
-        await app.initialize();
-        
-        // Make app globally accessible for debugging
-        window.app = app;
-        
-    } catch (error) {
-        console.error('Failed to initialize app:', error);
-        showError('Application failed to start. Please refresh the page.', 'error');
-    }
-}); 
+} 
