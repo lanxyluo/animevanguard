@@ -31,42 +31,17 @@
             <p>Evolution Materials & DPS Calculator</p>
         </div>
 
-        <div class="card">
-            <h2><i class="fas fa-search"></i> Unit Selection</h2>
-            <div class="unit-selector">
-                <input type="text" id="unitSearch" placeholder="Search units...">
-                <select id="rarityFilter">
-                    <option value="">All Rarities</option>
-                    <option value="Vanguard">Vanguard</option>
-                    <option value="Secret">Secret</option>
-                    <option value="Mythic">Mythic</option>
-                </select>
-                <select id="elementFilter">
-                    <option value="">All Elements</option>
-                    <option value="Fire">Fire</option>
-                    <option value="Water">Water</option>
-                    <option value="Cosmic">Cosmic</option>
-                    <option value="Giant">Giant</option>
-                </select>
-            </div>
+        <!-- Unit Selector Component -->
+        <div id="unitSelectorContainer"></div>
 
-            <div id="unitPreview" class="unit-info">
-                <div class="unit-avatar">
-                    <i class="fas fa-question"></i>
-                </div>
-                <div>
-                    <h3>No unit selected</h3>
-                    <p>Select a unit to view details and calculate evolution materials</p>
-                </div>
-            </div>
-        </div>
+        <!-- Materials List Component -->
+        <div id="materialsListContainer"></div>
 
-        <div class="card">
-            <h2><i class="fas fa-list"></i> Evolution Materials</h2>
-            <div id="materialsList" class="materials-list">
-                <p>Select a unit to view evolution materials</p>
-            </div>
-        </div>
+        <!-- Cost Summary Component -->
+        <div id="costSummaryContainer"></div>
+
+        <!-- Farming Guide Component -->
+        <div id="farmingGuideContainer"></div>
     </div>
 
     <script type="module">
@@ -76,21 +51,25 @@
         import { elementIcons } from './js/config/constants.js';
         
         // Import utility functions
-        import { debounce, formatNumber, getElementColor } from './js/utils/helpers.js';
-        import { showLoading, hideLoading, showError, showNotification } from './js/utils/dom.js';
+        import { showError } from './js/utils/dom.js';
         import { validateUnitData, validateMaterialsConfig, validateElementIcons } from './js/utils/validation.js';
+        
+        // Import components
+        import { UnitSelector } from './js/components/UnitSelector.js';
+        import { MaterialsList } from './js/components/MaterialsList.js';
+        import { CostSummary } from './js/components/CostSummary.js';
+        import { FarmingGuide } from './js/components/FarmingGuide.js';
 
         console.log('✅ Data modules loaded successfully!');
         console.log('📊 Units:', Object.keys(unitsData).length);
         console.log('🔧 Materials:', Object.keys(materialsConfig).length);
         console.log('🎨 Elements:', Object.keys(elementIcons).length);
 
-        // DOM elements
-        const unitSearch = document.getElementById('unitSearch');
-        const rarityFilter = document.getElementById('rarityFilter');
-        const elementFilter = document.getElementById('elementFilter');
-        const unitPreview = document.getElementById('unitPreview');
-        const materialsList = document.getElementById('materialsList');
+        // Component instances
+        let unitSelector;
+        let materialsList;
+        let costSummary;
+        let farmingGuide;
 
         // Initialize
         function init() {
@@ -116,135 +95,59 @@
                 showError('Element icons validation failed', 'error');
             }
             
-            // Set up event listeners with debounced search
-            unitSearch.addEventListener('input', debounce(handleSearch, 300));
-            rarityFilter.addEventListener('change', handleFilter);
-            elementFilter.addEventListener('change', handleFilter);
-            
-            // Show first unit as example
-            const firstUnit = Object.values(unitsData)[0];
-            if (firstUnit) {
-                selectUnit(firstUnit.id);
-            }
+            // Initialize components
+            initializeComponents();
             
             console.log('✅ Application initialized!');
         }
 
-        // Handle search
-        function handleSearch(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            filterAndDisplayUnits(searchTerm);
-        }
-
-        // Handle filter
-        function handleFilter() {
-            const searchTerm = unitSearch.value.toLowerCase();
-            filterAndDisplayUnits(searchTerm);
-        }
-
-        // Filter and display units
-        function filterAndDisplayUnits(searchTerm) {
-            const rarityFilterValue = rarityFilter.value;
-            const elementFilterValue = elementFilter.value;
-            
-            const filteredUnits = Object.values(unitsData).filter(unit => {
-                const matchesSearch = !searchTerm || 
-                    unit.name.toLowerCase().includes(searchTerm) ||
-                    unit.evolution.toLowerCase().includes(searchTerm);
-                
-                const matchesRarity = !rarityFilterValue || unit.rarity === rarityFilterValue;
-                const matchesElement = !elementFilterValue || unit.element === elementFilterValue;
-                
-                return matchesSearch && matchesRarity && matchesElement;
+        // Initialize all components
+        function initializeComponents() {
+            // Initialize Unit Selector
+            unitSelector = new UnitSelector('unitSelectorContainer', {
+                onUnitSelect: handleUnitSelect,
+                showFilters: true,
+                showSearch: true,
+                debounceDelay: 300
             });
-
-            // Display first filtered unit
-            if (filteredUnits.length > 0) {
-                selectUnit(filteredUnits[0].id);
-            }
+            
+            // Initialize Materials List
+            materialsList = new MaterialsList('materialsListContainer', {
+                showRarity: true,
+                showDescription: true,
+                showQuantity: true
+            });
+            
+            // Initialize Cost Summary
+            costSummary = new CostSummary('costSummaryContainer', {
+                showBreakdown: true,
+                showTotal: true,
+                currency: 'Gold'
+            });
+            
+            // Initialize Farming Guide
+            farmingGuide = new FarmingGuide('farmingGuideContainer', {
+                showPriority: true,
+                showDifficulty: true,
+                showTips: true,
+                showObtainMethods: true
+            });
+            
+            // Set up component data
+            unitSelector.setUnits(unitsData, elementIcons);
+            materialsList.setMaterialsConfig(materialsConfig);
+            costSummary.setMaterialsConfig(materialsConfig);
         }
 
-        // Select unit
-        function selectUnit(unitId) {
-            const unit = unitsData[unitId];
-            if (!unit) return;
+        // Handle unit selection
+        function handleUnitSelect(unit) {
+            console.log('Unit selected:', unit.name);
             
-            updateUnitCard(unit);
-            updateMaterialsList(unit);
+            // Update all components with the selected unit
+            materialsList.updateMaterials(unit);
+            costSummary.updateCost(unit);
+            farmingGuide.updateGuide(unit);
         }
-
-        // Update unit card
-        function updateUnitCard(unit) {
-            unitPreview.innerHTML = `
-                <div class="unit-avatar" style="background: ${getElementColor(unit.element)}">
-                    <i class="${elementIcons[unit.element] || 'fas fa-question'}"></i>
-                </div>
-                <div>
-                    <h3>${unit.name} (${unit.evolution})</h3>
-                    <p><strong>${unit.rarity}</strong> • ${unit.element} • ${unit.type}</p>
-                    <p>${unit.description}</p>
-                </div>
-            `;
-        }
-
-        // Update materials list
-        function updateMaterialsList(unit) {
-            if (!unit.evolutionMaterials) {
-                materialsList.innerHTML = '<p>No evolution materials available</p>';
-                return;
-            }
-            
-            const { goldCost, specialItem, essenceStones } = unit.evolutionMaterials;
-            let materialsHTML = '';
-            
-            if (goldCost) {
-                materialsHTML += `
-                    <div class="material-item">
-                        <div>
-                            <strong>Gold</strong>
-                            <p>Basic currency for evolution</p>
-                        </div>
-                        <div>${formatNumber(goldCost)}</div>
-                    </div>
-                `;
-            }
-            
-            if (specialItem) {
-                const material = materialsConfig[specialItem.name];
-                if (material) {
-                    materialsHTML += `
-                        <div class="material-item">
-                            <div>
-                                <strong>${specialItem.name}</strong>
-                                <p>${material.description}</p>
-                            </div>
-                            <div>${material.rarity}</div>
-                        </div>
-                    `;
-                }
-            }
-            
-            if (essenceStones) {
-                Object.entries(essenceStones).forEach(([name, quantity]) => {
-                    const material = materialsConfig[name];
-                    if (material) {
-                        materialsHTML += `
-                            <div class="material-item">
-                                <div>
-                                    <strong>${name}</strong>
-                                    <p>${material.description}</p>
-                                </div>
-                                <div>${quantity}</div>
-                            </div>
-                        `;
-                    }
-                });
-            }
-            
-            materialsList.innerHTML = materialsHTML;
-        }
-
-
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
