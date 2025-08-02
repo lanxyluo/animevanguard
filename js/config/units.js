@@ -622,40 +622,85 @@ export const unitsData = {
         evolution: 'Base',
         type: 'Physical Specialist',
         rarity: 'Vanguard',
-        tier: 'A',
+        tier: 'B+',
         element: 'Physical',
         icon: 'fas fa-fist-raised',
-        description: 'Skilled warrior with pure physical combat abilities',
-        obtainMethod: 'Warrior Arena Stage 2',
-        dropRate: '3.0%',
+        description: 'Master of physical combat with powerful melee attacks',
+        obtainMethod: 'Story Mode Chapter 5',
+        dropRate: '15%',
         canEvolve: true,
-        evolutionTo: 'Physical Warrior (Master)',
+        evolutionTo: 'Physical Berserker',
         stats: {
-            damage: 3000,
-            spa: 1.2,
-            range: 250,
-            dps: 2500,
-            aoeType: 'Melee AoE',
-            statusEffects: ['Stun', 'Bleed'],
-            traits: ['Physical Mastery', 'Warrior Spirit']
+            damage: 3200,
+            spa: 1.8,
+            range: 150,
+            dps: 1778,
+            aoeType: 'Single Target',
+            statusEffects: ['Stun'],
+            traits: ['Physical Mastery', 'Combat Expert']
         },
         evolutionMaterials: {
             goldCost: 8000,
             specialItem: {
-                name: 'Warrior Medal',
-                source: 'Warrior Arena Act 2',
-                dropRate: '1-3 per completion'
+                name: 'Warrior\'s Gauntlets',
+                source: 'Story Mode Chapter 5',
+                dropRate: '25%'
             },
             essenceStones: {
-                'Green Essence Stone': 25,
-                'Red Essence Stone': 12,
-                'Blue Essence Stone': 8
+                'Green Essence Stone': 20,
+                'Blue Essence Stone': 8,
+                'Pink Essence Stone': 5
             }
         },
         farmingGuide: {
             priority: 'Medium',
             difficulty: 'Easy',
-            tips: ['Farm Warrior Arena', 'Good physical unit', 'Balanced stats']
+            tips: ['Complete Story Mode Chapter 5', 'Good for beginners', 'Strong physical damage']
+        }
+    },
+
+    // Add missing Cosmic element unit
+    'cosmic_sorcerer': {
+        id: 'cosmic_sorcerer',
+        name: 'Cosmic Sorcerer',
+        evolution: 'Base',
+        type: 'Cosmic Specialist',
+        rarity: 'Secret',
+        tier: 'S',
+        element: 'Cosmic',
+        icon: 'fas fa-infinity',
+        description: 'Master of cosmic magic with reality-bending abilities',
+        obtainMethod: 'Cosmic Tower Floor 50',
+        dropRate: '2%',
+        canEvolve: true,
+        evolutionTo: 'Cosmic Archmage',
+        stats: {
+            damage: 7500,
+            spa: 1.0,
+            range: 400,
+            dps: 7500,
+            aoeType: 'Full AoE',
+            statusEffects: ['Reality Warp', 'Time Slow'],
+            traits: ['Cosmic Mastery', 'Reality Manipulation']
+        },
+        evolutionMaterials: {
+            goldCost: 12000,
+            specialItem: {
+                name: 'Cosmic Orb',
+                source: 'Cosmic Tower Floor 50',
+                dropRate: '5%'
+            },
+            essenceStones: {
+                'Green Essence Stone': 25,
+                'Blue Essence Stone': 15,
+                'Purple Essence Stone': 10,
+                'Rainbow Essence Stone': 1
+            }
+        },
+        farmingGuide: {
+            priority: 'High',
+            difficulty: 'Hard',
+            tips: ['Reach Cosmic Tower Floor 50', 'Very rare drop rate', 'Excellent cosmic damage']
         }
     }
 }; 

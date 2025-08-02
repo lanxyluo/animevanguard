@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Calculator Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        select, input {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #666;
+            background: #333;
+            color: white;
+        }
+        .results {
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Evolution Calculator Test</h1>
+        
+        <div class="test-section">
+            <h3>Filters</h3>
+            <input type="text" id="unitSearch" placeholder="Search units...">
+            <select id="rarityFilter">
+                <option value="">All Rarities</option>
+            </select>
+            <select id="elementFilter">
+                <option value="">All Elements</option>
+            </select>
+        </div>
+        
+        <div class="test-section">
+            <h3>Unit Selection</h3>
+            <select id="unitSelect">
+                <option value="">Select Unit...</option>
+            </select>
+            <div id="unitPlaceholder">No unit selected</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Evolution Requirements</h3>
+            <div id="evolutionRequirements" class="results">No requirements shown</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Cost Summary</h3>
+            <div id="costSummary" class="results">No cost shown</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Farming Guide</h3>
+            <div id="farmingGuide" class="results">No farming guide shown</div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { App } from './js/app.js';
+        
+        console.log('Starting evolution calculator test...');
+        
+        try {
+            const app = new App();
+            await app.initialize();
+            console.log('App initialized successfully!');
+            
+            // Test selecting a unit after a short delay
+            setTimeout(() => {
+                const unitSelect = document.getElementById('unitSelect');
+                if (unitSelect && unitSelect.options.length > 1) {
+                    console.log('Testing unit selection...');
+                    unitSelect.value = unitSelect.options[1].value;
+                    unitSelect.dispatchEvent(new Event('change'));
+                }
+            }, 1000);
+            
+        } catch (error) {
+            console.error('Test failed:', error);
+        }
+    </script>
+</body>
+</html> 

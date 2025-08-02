@@ -23,7 +23,8 @@ export class UnitSelector {
         this.unitSearch = null;
         this.rarityFilter = null;
         this.elementFilter = null;
-        this.unitPreview = null;
+        this.unitSelect = null;
+        this.unitPlaceholder = null;
         
         this.init();
     }
@@ -34,52 +35,47 @@ export class UnitSelector {
             return;
         }
         
-        this.createDOM();
+        this.findExistingElements();
+        this.populateElementFilter();
         this.bindEvents();
         this.render();
     }
     
-    createDOM() {
-        this.container.innerHTML = `
-            <div class="card">
-                <h2><i class="fas fa-search"></i> Unit Selection</h2>
-                ${this.options.showSearch ? `
-                    <div class="unit-selector">
-                        <input type="text" id="unitSearch" placeholder="Search units...">
-                        ${this.options.showFilters ? `
-                            <select id="rarityFilter">
-                                <option value="">All Rarities</option>
-                                <option value="Vanguard">Vanguard</option>
-                                <option value="Secret">Secret</option>
-                                <option value="Mythic">Mythic</option>
-                            </select>
-                            <select id="elementFilter">
-                                <option value="">All Elements</option>
-                                <option value="Fire">Fire</option>
-                                <option value="Water">Water</option>
-                                <option value="Cosmic">Cosmic</option>
-                                <option value="Giant">Giant</option>
-                            </select>
-                        ` : ''}
-                    </div>
-                ` : ''}
-                <div id="unitPreview" class="unit-info">
-                    <div class="unit-avatar">
-                        <i class="fas fa-question"></i>
-                    </div>
-                    <div>
-                        <h3>No unit selected</h3>
-                        <p>Select a unit to view details and calculate evolution materials</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Get DOM elements
+    findExistingElements() {
+        // Find existing elements in the HTML structure
         this.unitSearch = document.getElementById('unitSearch');
         this.rarityFilter = document.getElementById('rarityFilter');
         this.elementFilter = document.getElementById('elementFilter');
-        this.unitPreview = document.getElementById('unitPreview');
+        this.unitSelect = document.getElementById('unitSelect');
+        this.unitPlaceholder = document.getElementById('unitPlaceholder');
+        
+        console.log('UnitSelector elements found:', {
+            unitSearch: !!this.unitSearch,
+            rarityFilter: !!this.rarityFilter,
+            elementFilter: !!this.elementFilter,
+            unitSelect: !!this.unitSelect,
+            unitPlaceholder: !!this.unitPlaceholder
+        });
+    }
+    
+    populateElementFilter() {
+        if (!this.elementFilter) return;
+        
+        // Clear existing options except "All Elements"
+        this.elementFilter.innerHTML = '<option value="">All Elements</option>';
+        
+        // Add all element options
+        const elements = [
+            'Fire', 'Water', 'Earth', 'Wind', 'Light', 'Dark', 'Cosmic',
+            'Giant', 'Blast', 'Nuclear', 'Electric', 'Ice', 'Poison', 'Psychic', 'Physical'
+        ];
+        
+        elements.forEach(element => {
+            const option = document.createElement('option');
+            option.value = element;
+            option.textContent = element;
+            this.elementFilter.appendChild(option);
+        });
     }
     
     bindEvents() {
@@ -94,6 +90,10 @@ export class UnitSelector {
         if (this.elementFilter) {
             this.elementFilter.addEventListener('change', this.handleFilter.bind(this));
         }
+        
+        if (this.unitSelect) {
+            this.unitSelect.addEventListener('change', this.handleUnitSelect.bind(this));
+        }
     }
     
     setUnits(unitsData, elementIcons) {
@@ -101,10 +101,23 @@ export class UnitSelector {
         this.elementIcons = elementIcons;
         this.filteredUnits = [...this.allUnits];
         
-        // Show first unit as example
-        if (this.allUnits.length > 0) {
-            this.selectUnit(this.allUnits[0].id);
-        }
+        console.log(`UnitSelector: Loaded ${this.allUnits.length} units`);
+        this.populateUnitSelect();
+    }
+    
+    populateUnitSelect() {
+        if (!this.unitSelect) return;
+        
+        // Clear existing options except "Select Unit..."
+        this.unitSelect.innerHTML = '<option value="">Select Unit...</option>';
+        
+        // Add unit options
+        this.allUnits.forEach(unit => {
+            const option = document.createElement('option');
+            option.value = unit.id;
+            option.textContent = `${unit.name} (${unit.evolution})`;
+            this.unitSelect.appendChild(option);
+        });
     }
     
     handleSearch(e) {
@@ -113,76 +126,85 @@ export class UnitSelector {
     }
     
     handleFilter() {
-        const searchTerm = this.unitSearch ? this.unitSearch.value.toLowerCase() : '';
-        this.filterAndDisplayUnits(searchTerm);
+        this.filterAndDisplayUnits();
     }
     
-    filterAndDisplayUnits(searchTerm) {
-        const rarityFilterValue = this.rarityFilter ? this.rarityFilter.value : '';
-        const elementFilterValue = this.elementFilter ? this.elementFilter.value : '';
+    handleUnitSelect(e) {
+        const unitId = e.target.value;
+        if (unitId) {
+            const unit = this.allUnits.find(u => u.id === unitId);
+            if (unit) {
+                this.selectUnit(unit);
+            }
+        } else {
+            this.clearSelection();
+        }
+    }
+    
+    filterAndDisplayUnits(searchTerm = '') {
+        const rarityFilter = this.rarityFilter ? this.rarityFilter.value : '';
+        const elementFilter = this.elementFilter ? this.elementFilter.value : '';
         
         this.filteredUnits = this.allUnits.filter(unit => {
             const matchesSearch = !searchTerm || 
                 unit.name.toLowerCase().includes(searchTerm) ||
-                unit.evolution.toLowerCase().includes(searchTerm);
+                unit.description.toLowerCase().includes(searchTerm);
             
-            const matchesRarity = !rarityFilterValue || unit.rarity === rarityFilterValue;
-            const matchesElement = !elementFilterValue || unit.element === elementFilterValue;
+            const matchesRarity = !rarityFilter || unit.rarity === rarityFilter;
+            const matchesElement = !elementFilter || unit.element === elementFilter;
             
             return matchesSearch && matchesRarity && matchesElement;
         });
         
-        // Display first filtered unit
-        if (this.filteredUnits.length > 0) {
-            this.selectUnit(this.filteredUnits[0].id);
-        } else {
-            this.showNoResults();
+        // Update unit select dropdown
+        if (this.unitSelect) {
+            this.unitSelect.innerHTML = '<option value="">Select Unit...</option>';
+            this.filteredUnits.forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit.id;
+                option.textContent = `${unit.name} (${unit.evolution})`;
+                this.unitSelect.appendChild(option);
+            });
         }
     }
     
-    selectUnit(unitId) {
-        const unit = this.allUnits.find(u => u.id === unitId);
-        if (!unit) {
-            console.warn(`UnitSelector: Unit with id "${unitId}" not found`);
-            return;
-        }
-        
+    selectUnit(unit) {
         this.currentUnit = unit;
         this.updateUnitCard(unit);
         
-        // Trigger callback
         if (this.options.onUnitSelect) {
             this.options.onUnitSelect(unit);
         }
     }
     
-    updateUnitCard(unit) {
-        if (!this.unitPreview) return;
-        
-        this.unitPreview.innerHTML = `
-            <div class="unit-avatar" style="background: ${getElementColor(unit.element)}">
-                <i class="${this.elementIcons[unit.element] || 'fas fa-question'}"></i>
-            </div>
-            <div>
-                <h3>${unit.name} (${unit.evolution})</h3>
-                <p><strong>${unit.rarity}</strong> • ${unit.element} • ${unit.type}</p>
-                <p>${unit.description}</p>
-            </div>
-        `;
+    clearSelection() {
+        this.currentUnit = null;
+        if (this.unitPlaceholder) {
+            this.unitPlaceholder.style.display = 'block';
+        }
     }
     
-    showNoResults() {
-        if (!this.unitPreview) return;
+    updateUnitCard(unit) {
+        if (!this.unitPlaceholder) return;
         
-        this.unitPreview.innerHTML = `
-            <div class="unit-avatar">
-                <i class="fas fa-search"></i>
+        this.unitPlaceholder.style.display = 'none';
+        
+        // Create unit card
+        const unitCard = document.createElement('div');
+        unitCard.className = 'unit-card selected';
+        unitCard.innerHTML = `
+            <div class="unit-header">
+                <i class="${unit.icon}" style="color: ${getElementColor(unit.element)}"></i>
+                <h3>${unit.name} (${unit.evolution})</h3>
             </div>
-            <div>
-                <h3>No units found</h3>
-                <p>Try adjusting your search or filters</p>
+            <div class="unit-details">
+                <p class="unit-meta">${unit.rarity} • ${unit.element} • ${unit.type}</p>
+                <p class="unit-description">${unit.description}</p>
             </div>
         `;
+        
+        // Replace placeholder with unit card
+        this.unitPlaceholder.parentNode.insertBefore(unitCard, this.unitPlaceholder);
     }
     
     getCurrentUnit() {
@@ -197,15 +219,16 @@ export class UnitSelector {
         if (this.unitSearch) this.unitSearch.value = '';
         if (this.rarityFilter) this.rarityFilter.value = '';
         if (this.elementFilter) this.elementFilter.value = '';
-        this.filterAndDisplayUnits('');
+        this.filterAndDisplayUnits();
     }
     
     render() {
-        // Component is already rendered in createDOM
+        // Component is already rendered in HTML
+        console.log('UnitSelector: Using existing HTML structure');
     }
     
     destroy() {
-        // Remove event listeners
+        // Clean up event listeners
         if (this.unitSearch) {
             this.unitSearch.removeEventListener('input', this.handleSearch);
         }
@@ -215,10 +238,9 @@ export class UnitSelector {
         if (this.elementFilter) {
             this.elementFilter.removeEventListener('change', this.handleFilter);
         }
-        
-        // Clear container
-        if (this.container) {
-            this.container.innerHTML = '';
+        if (this.unitSelect) {
+            this.unitSelect.removeEventListener('change', this.handleUnitSelect);
         }
     }
+} 
 } 
