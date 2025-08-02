@@ -210,7 +210,10 @@ export class DatabasePage {
                         <i class="fas fa-sword"></i> ${unit.stats.damage}
                     </span>
                     <span class="stat">
-                        <i class="fas fa-bolt"></i> ${unit.stats.attackSpeed}
+                        <i class="fas fa-bolt"></i> ${unit.stats.spa}s
+                    </span>
+                    <span class="stat">
+                        <i class="fas fa-chart-line"></i> ${unit.stats.dps}
                     </span>
                 </div>
             </div>

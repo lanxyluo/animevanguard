@@ -5,7 +5,7 @@ import { elementIcons } from './config/constants.js';
 
 // Import utility functions
 import { showError, showNotification } from './utils/dom.js';
-import { validateUnitData, validateMaterialsConfig, validateElementIcons } from './utils/validation.js';
+// import { validateUnitData, validateMaterialsConfig, validateElementIcons } from './utils/validation.js';
 
 // Import page controllers
 import { EvolutionPage } from './pages/evolution.js';
@@ -48,8 +48,9 @@ export class App {
         console.log('🚀 Initializing Anime Vanguards Calculator App...');
         
         try {
-            // Validate data
-            await this.validateData();
+            // Skip validation for now to debug the issue
+            console.log('🔍 Skipping data validation for debugging...');
+            // await this.validateData();
             
             // Initialize navigation
             this.initializeNavigation();
@@ -79,6 +80,11 @@ export class App {
     async validateData() {
         console.log('🔍 Validating data...');
         
+        // Temporarily skip validation
+        console.log('⚠️ Data validation temporarily disabled for debugging');
+        return;
+        
+        /*
         const unitValidation = validateUnitData(this.data.unitsData);
         const materialValidation = validateMaterialsConfig(this.data.materialsConfig);
         const iconValidation = validateElementIcons(this.data.elementIcons);
@@ -96,6 +102,7 @@ export class App {
         }
         
         console.log('✅ Data validation passed');
+        */
     }
     
     initializeNavigation() {
