@@ -48,67 +48,40 @@ export class DPSPage {
     }
     
     initializeUI() {
-        // Create DPS page HTML structure
-        const dpsContainer = document.getElementById('dpsPageContainer');
+        // Get existing DPS page container from HTML
+        const dpsContainer = document.getElementById('dpsPage');
         if (!dpsContainer) {
             console.error('DPS page container not found');
             return;
         }
         
-        dpsContainer.innerHTML = `
-            <div class="dps-calculator">
-                <div class="dps-header">
-                    <h2><i class="fas fa-crosshairs"></i> DPS Calculator</h2>
-                    <p>Calculate damage per second for your units</p>
-                </div>
-                
-                <div class="dps-content">
-                    <div class="dps-inputs">
-                        <div class="input-group">
-                            <label for="dpsUnitSelect">Select Unit:</label>
-                            <select id="dpsUnitSelect" class="form-control">
-                                <option value="">Choose a unit...</option>
-                            </select>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="unitLevel">Unit Level:</label>
-                            <input type="number" id="unitLevel" class="form-control" min="1" max="100" value="1">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="traitSelect">Active Trait:</label>
-                            <select id="traitSelect" class="form-control">
-                                <option value="">No trait</option>
-                            </select>
-                        </div>
-                        
-                        <button id="calculateDPS" class="btn btn-primary">
-                            <i class="fas fa-calculator"></i> Calculate DPS
-                        </button>
-                    </div>
-                    
-                    <div class="dps-results" id="dpsResults">
-                        <div class="results-placeholder">
-                            <i class="fas fa-chart-line"></i>
-                            <p>Select a unit and click Calculate to see DPS results</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Store element references
+        // Store element references from existing HTML
         this.elements = {
             unitSelect: document.getElementById('dpsUnitSelect'),
             levelInput: document.getElementById('unitLevel'),
-            traitSelect: document.getElementById('traitSelect'),
+            traitSelect: document.getElementById('traitsSelection'),
             calculateBtn: document.getElementById('calculateDPS'),
-            results: document.getElementById('dpsResults')
+            results: document.getElementById('dpsResults'),
+            unitSearch: document.getElementById('dpsUnitSearch'),
+            rarityFilter: document.getElementById('dpsRarityFilter'),
+            elementFilter: document.getElementById('dpsElementFilter'),
+            enemyCount: document.getElementById('enemyCount'),
+            gameState: document.getElementById('gameState')
         };
         
-        // Populate unit select
-        this.populateUnitSelect();
+        // Verify all required elements exist
+        Object.entries(this.elements).forEach(([name, element]) => {
+            if (!element) {
+                console.warn(`DPS element '${name}' not found in HTML`);
+            }
+        });
+        
+        console.log('✅ DPS UI elements initialized');
+        
+        // Populate unit select if it exists
+        if (this.elements.unitSelect) {
+            this.populateUnitSelect();
+        }
     }
     
     populateUnitSelect() {
@@ -151,6 +124,51 @@ export class DPSPage {
         } else {
             console.warn('Calculate button element not found');
         }
+        
+        // Unit search
+        if (this.elements.unitSearch) {
+            this.elements.unitSearch.addEventListener('input', debounce((e) => {
+                this.filterUnits(e.target.value);
+            }, 300));
+        } else {
+            console.warn('Unit search element not found');
+        }
+        
+        // Rarity filter
+        if (this.elements.rarityFilter) {
+            this.elements.rarityFilter.addEventListener('change', (e) => {
+                this.filterUnits();
+            });
+        } else {
+            console.warn('Rarity filter element not found');
+        }
+        
+        // Element filter
+        if (this.elements.elementFilter) {
+            this.elements.elementFilter.addEventListener('change', (e) => {
+                this.filterUnits();
+            });
+        } else {
+            console.warn('Element filter element not found');
+        }
+        
+        // Enemy count
+        if (this.elements.enemyCount) {
+            this.elements.enemyCount.addEventListener('change', (e) => {
+                this.enemyCount = parseInt(e.target.value) || 1;
+            });
+        } else {
+            console.warn('Enemy count element not found');
+        }
+        
+        // Game state
+        if (this.elements.gameState) {
+            this.elements.gameState.addEventListener('change', (e) => {
+                this.gameState = e.target.value;
+            });
+        } else {
+            console.warn('Game state element not found');
+        }
     }
     
     handleUnitChange(unitId) {
@@ -167,6 +185,34 @@ export class DPSPage {
         if (this.selectedUnit) {
             this.calculateDPS();
         }
+    }
+    
+    filterUnits(searchTerm = '') {
+        if (!this.elements.unitSelect) return;
+        
+        const rarityFilter = this.elements.rarityFilter?.value || '';
+        const elementFilter = this.elements.elementFilter?.value || '';
+        
+        // Filter units based on criteria
+        const filteredUnits = Object.values(this.unitsData).filter(unit => {
+            const matchesSearch = !searchTerm || 
+                unit.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                unit.description.toLowerCase().includes(searchTerm.toLowerCase());
+            
+            const matchesRarity = !rarityFilter || unit.rarity === rarityFilter;
+            const matchesElement = !elementFilter || unit.element === elementFilter;
+            
+            return matchesSearch && matchesRarity && matchesElement;
+        });
+        
+        // Update unit select options
+        this.elements.unitSelect.innerHTML = '<option value="">Choose a unit...</option>';
+        filteredUnits.forEach(unit => {
+            const option = document.createElement('option');
+            option.value = unit.id;
+            option.textContent = `${unit.name} (${unit.rarity})`;
+            this.elements.unitSelect.appendChild(option);
+        });
     }
     
     updateTraitOptions() {
