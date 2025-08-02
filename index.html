@@ -322,9 +322,244 @@
             opacity: 0.5;
         }
 
+        /* DPS Calculator Styles */
+        .dps-page {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .dps-left, .dps-middle, .dps-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .parameter-group {
+            margin-bottom: 1rem;
+        }
+
+        .parameter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #a29bfe;
+            font-size: 0.9rem;
+        }
+
+        .range-slider {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .dps-result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .dps-result-item.total {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #a29bfe;
+        }
+
+        .dps-breakdown {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .dps-breakdown h4 {
+            margin-bottom: 1rem;
+            color: #a29bfe;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* Database Page Styles */
+        .database-page {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 2rem;
+        }
+
+        .database-left, .database-middle, .database-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .unit-card {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .unit-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.2);
+            border-color: rgba(162, 155, 254, 0.5);
+        }
+
+        .unit-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .unit-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .unit-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .unit-rarity {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.25rem;
+        }
+
+        .unit-element {
+            font-size: 0.8rem;
+            color: #a29bfe;
+        }
+
+        .unit-card-body p {
+            font-size: 0.85rem;
+            color: #a29bfe;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .stats-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .stat i {
+            color: #a29bfe;
+            margin-right: 0.25rem;
+        }
+
+        .view-section {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .view-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            color: #a29bfe;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn.active {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+        }
+
+        .comparison-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .comparison-section h4 {
+            margin-bottom: 1rem;
+            color: #a29bfe;
+        }
+
+        .compare-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
-            .evolution-page {
+            .evolution-page, .dps-page {
+                grid-template-columns: 1fr;
+            }
+            
+            .database-page {
                 grid-template-columns: 1fr;
             }
         }
@@ -347,6 +582,36 @@
             .filter-section {
                 grid-template-columns: 1fr;
             }
+            
+            .units-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading and Error States */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #a29bfe;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #e74c3c;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: #a29bfe;
+            opacity: 0.7;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -388,37 +653,39 @@
                             <i class="fas fa-search"></i>
                             <h3>Unit Selection</h3>
                         </div>
-                        <div class="search-section">
-                            <input type="text" id="unitSearch" class="search-input" placeholder="Search units by name...">
-                        </div>
-                        <div class="filter-section">
-                            <select id="rarityFilter" class="filter-select">
-                                <option value="">All Rarities</option>
-                                <option value="Vanguard">Vanguard</option>
-                                <option value="Secret">Secret</option>
-                                <option value="Mythic">Mythic</option>
-                                <option value="Exclusive">Exclusive</option>
+                        <div id="unitSelectorContainer">
+                            <div class="search-section">
+                                <input type="text" id="unitSearch" class="search-input" placeholder="Search units by name...">
+                            </div>
+                            <div class="filter-section">
+                                <select id="rarityFilter" class="filter-select">
+                                    <option value="">All Rarities</option>
+                                    <option value="Vanguard">Vanguard</option>
+                                    <option value="Secret">Secret</option>
+                                    <option value="Mythic">Mythic</option>
+                                    <option value="Exclusive">Exclusive</option>
+                                </select>
+                                <select id="elementFilter" class="filter-select">
+                                    <option value="">All Elements</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Earth">Earth</option>
+                                    <option value="Wind">Wind</option>
+                                    <option value="Light">Light</option>
+                                    <option value="Dark">Dark</option>
+                                    <option value="Cosmic">Cosmic</option>
+                                    <option value="Physical">Physical</option>
+                                    <option value="Blast">Blast</option>
+                                </select>
+                            </div>
+                            <select id="unitSelect" class="unit-select">
+                                <option value="">Select Unit...</option>
                             </select>
-                            <select id="elementFilter" class="filter-select">
-                                <option value="">All Elements</option>
-                                <option value="Fire">Fire</option>
-                                <option value="Water">Water</option>
-                                <option value="Earth">Earth</option>
-                                <option value="Wind">Wind</option>
-                                <option value="Light">Light</option>
-                                <option value="Dark">Dark</option>
-                                <option value="Cosmic">Cosmic</option>
-                                <option value="Physical">Physical</option>
-                                <option value="Blast">Blast</option>
-                            </select>
-                        </div>
-                        <select id="unitSelect" class="unit-select">
-                            <option value="">Select Unit...</option>
-                        </select>
-                        <div id="unitPlaceholder" class="unit-placeholder">
-                            <i class="fas fa-user"></i>
-                            <p>Please Select Unit</p>
-                            <p>Select a unit to view evolution material requirements</p>
+                            <div id="unitPlaceholder" class="unit-placeholder">
+                                <i class="fas fa-user"></i>
+                                <p>Please Select Unit</p>
+                                <p>Select a unit to view evolution material requirements</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -431,18 +698,20 @@
                             <i class="fas fa-list"></i>
                             <h3>Evolution Requirements</h3>
                         </div>
-                        <div id="evolutionRequirements" class="requirements-grid">
-                            <div class="requirement-item">
-                                <div class="requirement-info">
-                                    <div class="requirement-icon">
-                                        <i class="fas fa-coins"></i>
+                        <div id="materialsListContainer">
+                            <div id="evolutionRequirements" class="requirements-grid">
+                                <div class="requirement-item">
+                                    <div class="requirement-info">
+                                        <div class="requirement-icon">
+                                            <i class="fas fa-coins"></i>
+                                        </div>
+                                        <div class="requirement-details">
+                                            <h4>Gold Cost</h4>
+                                            <p>Basic currency for evolution</p>
+                                        </div>
                                     </div>
-                                    <div class="requirement-details">
-                                        <h4>Gold Cost</h4>
-                                        <p>Basic currency for evolution</p>
-                                    </div>
+                                    <div class="requirement-amount">0</div>
                                 </div>
-                                <div class="requirement-amount">0</div>
                             </div>
                         </div>
                     </div>
@@ -453,18 +722,20 @@
                             <i class="fas fa-calculator"></i>
                             <h3>Cost Summary</h3>
                         </div>
-                        <div id="costSummary">
-                            <div class="cost-item">
-                                <span>Material Cost:</span>
-                                <span>0 Gold</span>
-                            </div>
-                            <div class="cost-item">
-                                <span>Evolution Fee:</span>
-                                <span>0 Gold</span>
-                            </div>
-                            <div class="cost-item">
-                                <span>Total Cost:</span>
-                                <span>0 Gold</span>
+                        <div id="costSummaryContainer">
+                            <div id="costSummary">
+                                <div class="cost-item">
+                                    <span>Material Cost:</span>
+                                    <span>0 Gold</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Evolution Fee:</span>
+                                    <span>0 Gold</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Total Cost:</span>
+                                    <span>0 Gold</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -475,42 +746,293 @@
                             <i class="fas fa-map"></i>
                             <h3>Farming Guide</h3>
                         </div>
-                        <div id="farmingGuide">
-                            <p>Select a unit to view farming recommendations</p>
+                        <div id="farmingGuideContainer">
+                            <div id="farmingGuide">
+                                <p>Select a unit to view farming recommendations</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Other pages will be added here -->
+        <!-- DPS Calculator Page -->
         <div id="dpsPage" class="page-container">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-crosshairs"></i>
-                    <h3>DPS Calculator</h3>
+            <div class="dps-page">
+                <!-- Left Column -->
+                <div class="dps-left">
+                    <!-- Unit Selection -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-users"></i>
+                            <h3>Unit Selection</h3>
+                        </div>
+                        <div class="search-section">
+                            <input type="text" id="dpsUnitSearch" class="search-input" placeholder="Search units by name...">
+                        </div>
+                        <div class="filter-section">
+                            <select id="dpsRarityFilter" class="filter-select">
+                                <option value="">All Rarities</option>
+                                <option value="Vanguard">Vanguard</option>
+                                <option value="Secret">Secret</option>
+                                <option value="Mythic">Mythic</option>
+                                <option value="Exclusive">Exclusive</option>
+                            </select>
+                            <select id="dpsElementFilter" class="filter-select">
+                                <option value="">All Elements</option>
+                                <option value="Fire">Fire</option>
+                                <option value="Water">Water</option>
+                                <option value="Earth">Earth</option>
+                                <option value="Wind">Wind</option>
+                                <option value="Light">Light</option>
+                                <option value="Dark">Dark</option>
+                                <option value="Cosmic">Cosmic</option>
+                                <option value="Physical">Physical</option>
+                                <option value="Blast">Blast</option>
+                            </select>
+                        </div>
+                        <select id="dpsUnitSelect" class="unit-select">
+                            <option value="">Select Unit...</option>
+                        </select>
+                        <div id="dpsUnitPlaceholder" class="unit-placeholder">
+                            <i class="fas fa-user"></i>
+                            <p>Please Select Unit</p>
+                            <p>Select a unit to calculate DPS</p>
+                        </div>
+                    </div>
                 </div>
-                <p>DPS Calculator content will be implemented here.</p>
+
+                <!-- Middle Column -->
+                <div class="dps-middle">
+                    <!-- DPS Parameters -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-cog"></i>
+                            <h3>DPS Parameters</h3>
+                        </div>
+                        <div class="parameter-group">
+                            <label for="unitLevel">Unit Level (1-12):</label>
+                            <input type="range" id="unitLevel" min="1" max="12" value="1" class="range-slider">
+                            <span id="levelValue">1</span>
+                        </div>
+                        <div class="parameter-group">
+                            <label for="traitsSelection">Traits Selection:</label>
+                            <select id="traitsSelection" class="filter-select">
+                                <option value="">No traits available for this unit</option>
+                            </select>
+                        </div>
+                        <div class="parameter-group">
+                            <label for="enemyCount">Number of Enemies:</label>
+                            <input type="number" id="enemyCount" min="1" max="10" value="1" class="search-input">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="gameState">Game State:</label>
+                            <select id="gameState" class="filter-select">
+                                <option value="normal">Normal</option>
+                                <option value="hard">Hard</option>
+                                <option value="extreme">Extreme</option>
+                            </select>
+                        </div>
+                        <button id="calculateDPS" class="calculate-btn">
+                            <i class="fas fa-calculator"></i> Calculate DPS
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="dps-right">
+                    <!-- DPS Results -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>DPS Results</h3>
+                        </div>
+                        <div id="dpsResults">
+                            <div class="dps-result-item">
+                                <span>Base DPS:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="dps-result-item">
+                                <span>Trait Bonus DPS:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="dps-result-item">
+                                <span>Level Bonus DPS:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="dps-result-item">
+                                <span>Effective DPS:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="dps-result-item total">
+                                <span>Total DPS:</span>
+                                <span>0</span>
+                            </div>
+                        </div>
+                        <div class="dps-breakdown">
+                            <h4>DPS Breakdown</h4>
+                            <div class="breakdown-item">
+                                <span>Damage per Hit:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Attack Speed:</span>
+                                <span>0s</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Hits per Second:</span>
+                                <span>0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Multi-Target Bonus:</span>
+                                <span>0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- Unit Database Page -->
         <div id="databasePage" class="page-container">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-database"></i>
-                    <h3>Unit Database</h3>
+            <div class="database-page">
+                <!-- Left Column -->
+                <div class="database-left">
+                    <!-- Filters & Search -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-filter"></i>
+                            <h3>Filters & Search</h3>
+                        </div>
+                        <div class="search-section">
+                            <input type="text" id="dbSearch" class="search-input" placeholder="Search units by name, ability">
+                        </div>
+                        <div class="filter-section">
+                            <select id="dbRarityFilter" class="filter-select">
+                                <option value="">All Rarities</option>
+                                <option value="Vanguard">Vanguard</option>
+                                <option value="Secret">Secret</option>
+                                <option value="Mythic">Mythic</option>
+                                <option value="Exclusive">Exclusive</option>
+                            </select>
+                            <select id="dbElementFilter" class="filter-select">
+                                <option value="">All Elements</option>
+                                <option value="Fire">Fire</option>
+                                <option value="Water">Water</option>
+                                <option value="Earth">Earth</option>
+                                <option value="Wind">Wind</option>
+                                <option value="Light">Light</option>
+                                <option value="Dark">Dark</option>
+                                <option value="Cosmic">Cosmic</option>
+                                <option value="Physical">Physical</option>
+                                <option value="Blast">Blast</option>
+                            </select>
+                            <select id="dbTierFilter" class="filter-select">
+                                <option value="">All Tiers</option>
+                                <option value="S+">S+</option>
+                                <option value="S">S</option>
+                                <option value="A+">A+</option>
+                                <option value="A">A</option>
+                                <option value="B+">B+</option>
+                                <option value="B">B</option>
+                            </select>
+                            <select id="dbTypeFilter" class="filter-select">
+                                <option value="">All Types</option>
+                                <option value="Meta-DPS">Meta-DPS</option>
+                                <option value="Burn Specialist">Burn Specialist</option>
+                                <option value="Sorcerer">Sorcerer</option>
+                                <option value="AoE Specialist">AoE Specialist</option>
+                            </select>
+                        </div>
+                        <div class="sort-section">
+                            <select id="dbSortBy" class="filter-select">
+                                <option value="tier">Sort By: Tier</option>
+                                <option value="dps">Sort By: DPS</option>
+                                <option value="name">Sort By: Name</option>
+                                <option value="rarity">Sort By: Rarity</option>
+                            </select>
+                        </div>
+                        <div class="view-section">
+                            <button class="view-btn active" data-view="grid">
+                                <i class="fas fa-th"></i> Grid
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <i class="fas fa-list"></i> List
+                            </button>
+                            <button class="view-btn" data-view="detailed">
+                                <i class="fas fa-table"></i> Detailed
+                            </button>
+                        </div>
+                        <div class="comparison-section">
+                            <h4>Unit Comparison</h4>
+                            <select id="compareUnit1" class="filter-select">
+                                <option value="">Select Unit 1</option>
+                            </select>
+                            <select id="compareUnit2" class="filter-select">
+                                <option value="">Select Unit 2</option>
+                            </select>
+                            <select id="compareUnit3" class="filter-select">
+                                <option value="">Select Unit 3</option>
+                            </select>
+                            <button id="compareUnits" class="compare-btn">
+                                <i class="fas fa-balance-scale"></i> Compare Units
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <p>Unit Database content will be implemented here.</p>
+
+                <!-- Middle Column -->
+                <div class="database-middle">
+                    <!-- Unit Database -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-database"></i>
+                            <h3>Unit Database</h3>
+                        </div>
+                        <div id="unitsCount" style="margin-bottom: 1rem; color: #a29bfe;">0 units found</div>
+                        <div id="unitsGrid" class="units-grid">
+                            <div class="no-results">
+                                <i class="fas fa-search"></i>
+                                <p>No units found matching your criteria</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="database-right">
+                    <!-- Unit Details -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>Unit Details</h3>
+                        </div>
+                        <div id="unitDetails" class="unit-placeholder">
+                            <i class="fas fa-user"></i>
+                            <p>Select a unit to view detailed information</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- About Page -->
         <div id="aboutPage" class="page-container">
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-info-circle"></i>
-                    <h3>About</h3>
+                    <h3>About Anime Vanguards Calculator</h3>
                 </div>
-                <p>About page content will be implemented here.</p>
+                <div style="padding: 1rem;">
+                    <p>This calculator helps you plan your unit evolutions and calculate DPS for Anime Vanguards.</p>
+                    <p>Features include:</p>
+                    <ul style="margin: 1rem 0; padding-left: 2rem;">
+                        <li>Evolution material requirements and costs</li>
+                        <li>DPS calculations with various parameters</li>
+                        <li>Complete unit database with search and filters</li>
+                        <li>Farming guides and recommendations</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>

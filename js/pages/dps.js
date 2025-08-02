@@ -125,20 +125,32 @@ export class DPSPage {
     
     bindEvents() {
         // Unit selection
-        this.elements.unitSelect.addEventListener('change', (e) => {
-            this.handleUnitChange(e.target.value);
-        });
+        if (this.elements.unitSelect) {
+            this.elements.unitSelect.addEventListener('change', (e) => {
+                this.handleUnitChange(e.target.value);
+            });
+        } else {
+            console.warn('Unit select element not found');
+        }
         
         // Level change
-        this.elements.levelInput.addEventListener('input', debounce((e) => {
-            this.currentLevel = parseInt(e.target.value) || 1;
-            this.updateTraitOptions();
-        }, 300));
+        if (this.elements.levelInput) {
+            this.elements.levelInput.addEventListener('input', debounce((e) => {
+                this.currentLevel = parseInt(e.target.value) || 1;
+                this.updateTraitOptions();
+            }, 300));
+        } else {
+            console.warn('Level input element not found');
+        }
         
         // Calculate button
-        this.elements.calculateBtn.addEventListener('click', () => {
-            this.calculateDPS();
-        });
+        if (this.elements.calculateBtn) {
+            this.elements.calculateBtn.addEventListener('click', () => {
+                this.calculateDPS();
+            });
+        } else {
+            console.warn('Calculate button element not found');
+        }
     }
     
     handleUnitChange(unitId) {

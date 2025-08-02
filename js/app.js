@@ -139,20 +139,20 @@ export class App {
     }
     
     createPageContainers() {
-        const container = document.querySelector('.container');
-        if (!container) return;
-        
         // Get existing page containers from HTML
         const pageContainers = {
-            evolution: document.getElementById('evolutionPageContainer'),
-            dps: document.getElementById('dpsPageContainer'),
-            database: document.getElementById('databasePageContainer')
+            evolution: document.getElementById('evolutionPage'),
+            dps: document.getElementById('dpsPage'),
+            database: document.getElementById('databasePage'),
+            about: document.getElementById('aboutPage')
         };
         
         // Verify all containers exist
         Object.entries(pageContainers).forEach(([name, element]) => {
             if (!element) {
                 console.error(`Page container '${name}' not found in HTML`);
+            } else {
+                console.log(`✅ Found page container: ${name}`);
             }
         });
         
@@ -183,19 +183,20 @@ export class App {
     setupGlobalEvents() {
         console.log('🔗 Setting up global events...');
         
-        // Navigation event listeners
-        if (this.navElements && this.navElements.links) {
-            this.navElements.links.forEach(link => {
-                link.addEventListener('click', (e) => {
+        // Navigation event listeners - use existing nav-tabs
+        const navTabs = document.querySelectorAll('.nav-tab');
+        if (navTabs && navTabs.length > 0) {
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const page = e.target.closest('.nav-link').dataset.page;
+                    const page = e.target.closest('.nav-tab').dataset.page;
                     console.log(`Navigation clicked: ${page}`);
                     this.showPage(page);
                 });
             });
-            console.log(`✅ Added event listeners to ${this.navElements.links.length} navigation links`);
+            console.log(`✅ Added event listeners to ${navTabs.length} navigation tabs`);
         } else {
-            console.error('❌ Navigation elements not found');
+            console.error('❌ Navigation tabs not found');
         }
         
         // Global unit selection handler
@@ -205,33 +206,13 @@ export class App {
             
             // Notify all pages about unit selection
             Object.values(this.pages).forEach(page => {
-                if (page && page.onGlobalUnitSelect) {
-                    page.onGlobalUnitSelect(unit);
+                if (page && typeof page.onUnitSelect === 'function') {
+                    page.onUnitSelect(unit);
                 }
             });
         };
         
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey || e.metaKey) {
-                switch (e.key) {
-                    case '1':
-                        e.preventDefault();
-                        this.showPage('evolution');
-                        break;
-                    case '2':
-                        e.preventDefault();
-                        this.showPage('dps');
-                        break;
-                    case '3':
-                        e.preventDefault();
-                        this.showPage('database');
-                        break;
-                }
-            }
-        });
-        
-        console.log('✅ Global events set up');
+        console.log('✅ Global events setup complete');
     }
     
     showPage(pageName) {
@@ -288,10 +269,13 @@ export class App {
     }
     
     updateNavigation(activePage) {
-        this.navElements.links.forEach(link => {
-            link.classList.remove('active');
-            if (link.dataset.page === activePage) {
-                link.classList.add('active');
+        // Update navigation tabs
+        const navTabs = document.querySelectorAll('.nav-tab');
+        navTabs.forEach(tab => {
+            if (tab.dataset.page === activePage) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
             }
         });
     }

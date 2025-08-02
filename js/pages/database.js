@@ -44,87 +44,118 @@ export class DatabasePage {
     }
     
     initializeUI() {
-        // Create database page HTML structure
-        const dbContainer = document.getElementById('databasePageContainer');
+        // Get existing database page container from HTML
+        const dbContainer = document.getElementById('databasePage');
         if (!dbContainer) {
             console.error('Database page container not found');
             return;
         }
         
-        dbContainer.innerHTML = `
-            <div class="database-page">
-                <div class="database-header">
-                    <h2><i class="fas fa-database"></i> Unit Database</h2>
-                    <p>Browse and compare all available units</p>
-                </div>
-                
-                <div class="database-controls">
-                    <div class="search-section">
-                        <input type="text" id="unitSearch" class="form-control" placeholder="Search units...">
-                    </div>
-                    
-                    <div class="filter-section">
-                        <select id="rarityFilter" class="form-control">
-                            <option value="">All Rarities</option>
-                            <option value="Vanguard">Vanguard</option>
-                            <option value="Secret">Secret</option>
-                            <option value="Mythic">Mythic</option>
-                            <option value="Exclusive">Exclusive</option>
-                        </select>
-                        
-                        <select id="elementFilter" class="form-control">
-                            <option value="">All Elements</option>
-                            <option value="Fire">Fire</option>
-                            <option value="Water">Water</option>
-                            <option value="Earth">Earth</option>
-                            <option value="Wind">Wind</option>
-                            <option value="Light">Light</option>
-                            <option value="Dark">Dark</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="database-content">
-                    <div class="units-grid" id="unitsGrid">
-                        <!-- Units will be loaded here -->
-                    </div>
-                </div>
-                
-                <div class="database-footer">
-                    <div class="stats">
-                        <span id="unitsCount">0 units</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Store element references
+        // Store element references from existing HTML
         this.elements = {
-            search: document.getElementById('unitSearch'),
-            rarityFilter: document.getElementById('rarityFilter'),
-            elementFilter: document.getElementById('elementFilter'),
+            search: document.getElementById('dbSearch'),
+            rarityFilter: document.getElementById('dbRarityFilter'),
+            elementFilter: document.getElementById('dbElementFilter'),
+            tierFilter: document.getElementById('dbTierFilter'),
+            typeFilter: document.getElementById('dbTypeFilter'),
+            sortBy: document.getElementById('dbSortBy'),
             unitsGrid: document.getElementById('unitsGrid'),
-            unitsCount: document.getElementById('unitsCount')
+            unitsCount: document.getElementById('unitsCount'),
+            compareUnit1: document.getElementById('compareUnit1'),
+            compareUnit2: document.getElementById('compareUnit2'),
+            compareUnit3: document.getElementById('compareUnit3'),
+            compareBtn: document.getElementById('compareUnits'),
+            unitDetails: document.getElementById('unitDetails')
         };
+        
+        // Verify all required elements exist
+        Object.entries(this.elements).forEach(([name, element]) => {
+            if (!element) {
+                console.warn(`Database element '${name}' not found in HTML`);
+            }
+        });
+        
+        console.log('✅ Database UI elements initialized');
     }
     
     bindEvents() {
         // Search functionality
-        this.elements.search.addEventListener('input', debounce((e) => {
-            this.currentFilters.search = e.target.value;
-            this.applyFilters();
-        }, 300));
+        if (this.elements.search) {
+            this.elements.search.addEventListener('input', debounce((e) => {
+                this.currentFilters.search = e.target.value;
+                this.applyFilters();
+            }, 300));
+        } else {
+            console.warn('Search element not found');
+        }
         
         // Filter changes
-        this.elements.rarityFilter.addEventListener('change', (e) => {
-            this.currentFilters.rarity = e.target.value;
-            this.applyFilters();
-        });
+        if (this.elements.rarityFilter) {
+            this.elements.rarityFilter.addEventListener('change', (e) => {
+                this.currentFilters.rarity = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Rarity filter element not found');
+        }
         
-        this.elements.elementFilter.addEventListener('change', (e) => {
-            this.currentFilters.element = e.target.value;
-            this.applyFilters();
-        });
+        if (this.elements.elementFilter) {
+            this.elements.elementFilter.addEventListener('change', (e) => {
+                this.currentFilters.element = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Element filter element not found');
+        }
+        
+        if (this.elements.tierFilter) {
+            this.elements.tierFilter.addEventListener('change', (e) => {
+                this.currentFilters.tier = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Tier filter element not found');
+        }
+        
+        if (this.elements.typeFilter) {
+            this.elements.typeFilter.addEventListener('change', (e) => {
+                this.currentFilters.type = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Type filter element not found');
+        }
+        
+        if (this.elements.sortBy) {
+            this.elements.sortBy.addEventListener('change', (e) => {
+                this.currentFilters.sortBy = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Sort by element not found');
+        }
+        
+        // View buttons
+        const viewBtns = document.querySelectorAll('.view-btn');
+        if (viewBtns.length > 0) {
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const view = e.target.closest('.view-btn').dataset.view;
+                    this.changeView(view);
+                });
+            });
+        } else {
+            console.warn('View buttons not found');
+        }
+        
+        // Compare button
+        if (this.elements.compareBtn) {
+            this.elements.compareBtn.addEventListener('click', () => {
+                this.compareUnits();
+            });
+        } else {
+            console.warn('Compare button not found');
+        }
     }
     
     loadUnits() {
@@ -265,15 +296,21 @@ export class DatabasePage {
         
         // Close modal functionality
         const closeBtn = modal.querySelector('.modal-close');
-        closeBtn.addEventListener('click', () => {
-            document.body.removeChild(modal);
-        });
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                if (modal.parentNode) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
         
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                document.body.removeChild(modal);
-            }
-        });
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal && modal.parentNode) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
     }
     
     updateStats() {
@@ -329,6 +366,151 @@ export class DatabasePage {
         // Reload units if already initialized
         if (this.isInitialized) {
             this.loadUnits();
+        }
+    }
+    
+    changeView(view) {
+        // Update view buttons
+        const viewBtns = document.querySelectorAll('.view-btn');
+        viewBtns.forEach(btn => {
+            if (btn.dataset.view === view) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        // Update grid class
+        if (this.elements.unitsGrid) {
+            this.elements.unitsGrid.className = `units-grid view-${view}`;
+        }
+        
+        console.log(`Changed view to: ${view}`);
+    }
+    
+    compareUnits() {
+        const unit1 = this.elements.compareUnit1?.value;
+        const unit2 = this.elements.compareUnit2?.value;
+        const unit3 = this.elements.compareUnit3?.value;
+        
+        if (!unit1 && !unit2 && !unit3) {
+            showError('Please select at least one unit to compare', 'warning');
+            return;
+        }
+        
+        const units = [unit1, unit2, unit3].filter(id => id);
+        const unitData = units.map(id => this.unitsData[id]).filter(unit => unit);
+        
+        if (unitData.length === 0) {
+            showError('No valid units selected for comparison', 'error');
+            return;
+        }
+        
+        this.showComparison(unitData);
+    }
+    
+    showComparison(units) {
+        // Create comparison modal
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        `;
+        
+        let comparisonHTML = `
+            <div class="modal-content" style="
+                background: #1a1a2e;
+                color: white;
+                padding: 2rem;
+                border-radius: 12px;
+                max-width: 90%;
+                max-height: 90%;
+                overflow-y: auto;
+            ">
+                <div class="modal-header" style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                    border-bottom: 1px solid rgba(162, 155, 254, 0.3);
+                    padding-bottom: 1rem;
+                ">
+                    <h3>Unit Comparison</h3>
+                    <button class="modal-close" style="
+                        background: none;
+                        border: none;
+                        color: #a29bfe;
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                    ">&times;</button>
+                </div>
+                <div class="comparison-table">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">Property</th>
+                                ${units.map(unit => `<th style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">${unit.name}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">Rarity</td>
+                                ${units.map(unit => `<td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">${unit.rarity}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">Element</td>
+                                ${units.map(unit => `<td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">${unit.element}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">Damage</td>
+                                ${units.map(unit => `<td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">${unit.stats.damage}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">Attack Speed</td>
+                                ${units.map(unit => `<td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">${unit.stats.spa}s</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">DPS</td>
+                                ${units.map(unit => `<td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">${unit.stats.dps}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">Range</td>
+                                ${units.map(unit => `<td style="padding: 0.5rem; border: 1px solid rgba(162, 155, 254, 0.3);">${unit.stats.range}</td>`).join('')}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        
+        modal.innerHTML = comparisonHTML;
+        document.body.appendChild(modal);
+        
+        // Close modal functionality
+        const closeBtn = modal.querySelector('.modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                if (modal.parentNode) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+        
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal && modal.parentNode) {
+                    document.body.removeChild(modal);
+                }
+            });
         }
     }
 } 
