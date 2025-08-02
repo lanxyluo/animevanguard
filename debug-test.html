@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - Anime Vanguards Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: #16213e;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #0f3460;
+        }
+        .page-container {
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            background: #0f3460;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+        .page-container.active {
+            display: block;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            color: #ccc;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .nav-link.active {
+            color: #e94560;
+            background: rgba(233, 69, 96, 0.2);
+        }
+        button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #d63384; }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1><i class="fas fa-bug"></i> Debug Test - Page Switching</h1>
+        
+        <div class="test-section">
+            <h2>Navigation Test</h2>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active" data-page="evolution">
+                    <i class="fas fa-calculator"></i> Evolution
+                </a>
+                <a href="#" class="nav-link" data-page="dps">
+                    <i class="fas fa-crosshairs"></i> DPS Calculator
+                </a>
+                <a href="#" class="nav-link" data-page="database">
+                    <i class="fas fa-database"></i> Unit Database
+                </a>
+            </nav>
+            
+            <button onclick="testPageSwitch('evolution')">Test Evolution</button>
+            <button onclick="testPageSwitch('dps')">Test DPS</button>
+            <button onclick="testPageSwitch('database')">Test Database</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Page Containers</h2>
+            
+            <div id="evolutionPageContainer" class="page-container active">
+                <h3>Evolution Page</h3>
+                <p>This is the evolution calculator page content.</p>
+            </div>
+            
+            <div id="dpsPageContainer" class="page-container">
+                <h3>DPS Calculator Page</h3>
+                <p>This is the DPS calculator page content.</p>
+            </div>
+            
+            <div id="databasePageContainer" class="page-container">
+                <h3>Unit Database Page</h3>
+                <p>This is the unit database page content.</p>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Debug Log</h2>
+            <div id="debugLog" class="log"></div>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <script>
+        // Debug logging
+        function log(message) {
+            const logElement = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            document.getElementById('debugLog').innerHTML = '';
+        }
+        
+        // Page switching logic
+        function showPage(pageName) {
+            log(`Switching to page: ${pageName}`);
+            
+            // Hide all page containers
+            document.querySelectorAll('.page-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            
+            // Show target page container
+            const targetContainer = document.getElementById(`${pageName}PageContainer`);
+            if (targetContainer) {
+                targetContainer.classList.add('active');
+                log(`✅ Page container '${pageName}' shown`);
+            } else {
+                log(`❌ Page container '${pageName}' not found`);
+            }
+            
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`[data-page="${pageName}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+                log(`✅ Navigation updated for '${pageName}'`);
+            } else {
+                log(`❌ Navigation link for '${pageName}' not found`);
+            }
+        }
+        
+        // Test function
+        function testPageSwitch(pageName) {
+            log(`=== Testing page switch to: ${pageName} ===`);
+            showPage(pageName);
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Debug test page loaded');
+            
+            // Add click event listeners to navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = e.target.closest('.nav-link').dataset.page;
+                    log(`Navigation clicked: ${page}`);
+                    showPage(page);
+                });
+            });
+            
+            log('✅ Event listeners attached');
+        });
+        
+        // Test all pages on load
+        setTimeout(() => {
+            log('🧪 Running initial tests...');
+            testPageSwitch('evolution');
+            setTimeout(() => testPageSwitch('dps'), 1000);
+            setTimeout(() => testPageSwitch('database'), 2000);
+            setTimeout(() => testPageSwitch('evolution'), 3000);
+        }, 1000);
+    </script>
+</body>
+</html> 

@@ -135,29 +135,24 @@ export class App {
         const container = document.querySelector('.container');
         if (!container) return;
         
-        // Create page containers
+        // Get existing page containers from HTML
         const pageContainers = {
-            evolution: document.getElementById('unitSelectorContainer')?.parentElement,
-            dps: document.createElement('div'),
-            database: document.createElement('div')
+            evolution: document.getElementById('evolutionPageContainer'),
+            dps: document.getElementById('dpsPageContainer'),
+            database: document.getElementById('databasePageContainer')
         };
         
-        // Set up DPS page container
-        pageContainers.dps.id = 'dpsPageContainer';
-        pageContainers.dps.className = 'page-container';
-        pageContainers.dps.style.display = 'none';
-        
-        // Set up Database page container
-        pageContainers.database.id = 'databasePageContainer';
-        pageContainers.database.className = 'page-container';
-        pageContainers.database.style.display = 'none';
-        
-        // Add new containers to the main container
-        container.appendChild(pageContainers.dps);
-        container.appendChild(pageContainers.database);
+        // Verify all containers exist
+        Object.entries(pageContainers).forEach(([name, element]) => {
+            if (!element) {
+                console.error(`Page container '${name}' not found in HTML`);
+            }
+        });
         
         // Store references
         this.pageContainers = pageContainers;
+        
+        console.log('✅ Page containers initialized');
     }
     
     async initializePages() {
@@ -182,13 +177,19 @@ export class App {
         console.log('🔗 Setting up global events...');
         
         // Navigation event listeners
-        this.navElements.links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const page = e.target.closest('.nav-link').dataset.page;
-                this.showPage(page);
+        if (this.navElements && this.navElements.links) {
+            this.navElements.links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = e.target.closest('.nav-link').dataset.page;
+                    console.log(`Navigation clicked: ${page}`);
+                    this.showPage(page);
+                });
             });
-        });
+            console.log(`✅ Added event listeners to ${this.navElements.links.length} navigation links`);
+        } else {
+            console.error('❌ Navigation elements not found');
+        }
         
         // Global unit selection handler
         this.onUnitSelect = (unit) => {
@@ -227,19 +228,43 @@ export class App {
     }
     
     showPage(pageName) {
+        console.log(`🔍 Attempting to switch to page: ${pageName}`);
+        
         if (!this.pages[pageName]) {
-            console.error(`Page '${pageName}' not found`);
+            console.error(`❌ Page '${pageName}' not found in pages object`);
+            console.log('Available pages:', Object.keys(this.pages));
             return;
         }
         
         console.log(`📄 Switching to page: ${pageName}`);
         
-        // Hide current page
+        // Hide all page containers first
+        Object.entries(this.pageContainers).forEach(([name, container]) => {
+            if (container) {
+                container.style.display = 'none';
+                console.log(`Hidden container: ${name}`);
+            } else {
+                console.warn(`Container not found: ${name}`);
+            }
+        });
+        
+        // Hide current page controller
         if (this.currentPage && this.pages[this.currentPage]) {
+            console.log(`Hiding current page: ${this.currentPage}`);
             this.pages[this.currentPage].hide();
         }
         
-        // Show new page
+        // Show the target page container
+        const targetContainer = this.pageContainers[pageName];
+        if (targetContainer) {
+            targetContainer.style.display = 'block';
+            console.log(`✅ Showed container: ${pageName}`);
+        } else {
+            console.error(`❌ Target container not found: ${pageName}`);
+        }
+        
+        // Show new page controller
+        console.log(`Showing page controller: ${pageName}`);
         this.pages[pageName].show();
         this.currentPage = pageName;
         
@@ -251,6 +276,8 @@ export class App {
         
         // Trigger page change event
         this.onPageChange(pageName);
+        
+        console.log(`✅ Successfully switched to page: ${pageName}`);
     }
     
     updateNavigation(activePage) {

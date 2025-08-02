@@ -295,12 +295,6 @@ export class DatabasePage {
         
         console.log('📄 Showing Database Page');
         
-        // Show the page container
-        const container = document.getElementById('databasePageContainer');
-        if (container) {
-            container.style.display = 'block';
-        }
-        
         // Update page title
         document.title = 'Anime Vanguards Calculator - Database';
         
@@ -309,13 +303,6 @@ export class DatabasePage {
     
     hide() {
         console.log('📄 Hiding Database Page');
-        
-        // Hide the page container
-        const container = document.getElementById('databasePageContainer');
-        if (container) {
-            container.style.display = 'none';
-        }
-        
         this.onPageHide();
     }
     

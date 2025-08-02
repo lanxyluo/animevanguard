@@ -231,12 +231,6 @@ export class DPSPage {
         
         console.log('📄 Showing DPS Page');
         
-        // Show the page container
-        const container = document.getElementById('dpsPageContainer');
-        if (container) {
-            container.style.display = 'block';
-        }
-        
         // Update page title
         document.title = 'Anime Vanguards Calculator - DPS';
         
@@ -245,13 +239,6 @@ export class DPSPage {
     
     hide() {
         console.log('📄 Hiding DPS Page');
-        
-        // Hide the page container
-        const container = document.getElementById('dpsPageContainer');
-        if (container) {
-            container.style.display = 'none';
-        }
-        
         this.onPageHide();
     }
     

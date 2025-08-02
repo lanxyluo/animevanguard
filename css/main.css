@@ -164,3 +164,36 @@ a:hover {
 
 .rounded { border-radius: var(--border-radius); }
 .rounded-sm { border-radius: var(--border-radius-sm); } 
+
+/* Page Container Styles */
+.page-container {
+    width: 100%;
+    min-height: 400px;
+    padding: 20px;
+    background: #16213e;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.page-container:not([style*="display: none"]) {
+    display: block;
+}
+
+/* Ensure proper spacing between page containers */
+.page-container + .page-container {
+    margin-top: 20px;
+}
+
+/* Page transition animations */
+.page-container {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.page-container[style*="display: none"] {
+    opacity: 0;
+}
+
+.page-container:not([style*="display: none"]) {
+    opacity: 1;
+} 

@@ -123,12 +123,6 @@ export class EvolutionPage {
         
         console.log('📄 Showing Evolution Page');
         
-        // Show the page container
-        const container = document.querySelector('.container');
-        if (container) {
-            container.style.display = 'block';
-        }
-        
         // Update page title
         document.title = 'Anime Vanguards Calculator - Evolution';
         
@@ -138,12 +132,6 @@ export class EvolutionPage {
     
     hide() {
         console.log('📄 Hiding Evolution Page');
-        
-        // Hide the page container
-        const container = document.querySelector('.container');
-        if (container) {
-            container.style.display = 'none';
-        }
         
         // Trigger any page-specific hide logic
         this.onPageHide();
