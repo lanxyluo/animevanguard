@@ -157,7 +157,7 @@
         .search-input, .filter-select, .unit-select {
             width: 100%;
             padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
+            background: #1a1a2e;
             border: 1px solid rgba(162, 155, 254, 0.3);
             border-radius: 8px;
             color: #ffffff;
@@ -168,6 +168,17 @@
         .search-input::placeholder {
             color: #a29bfe;
             opacity: 0.7;
+        }
+
+        .filter-select option, .unit-select option {
+            background: #1a1a2e;
+            color: #ffffff;
+            padding: 0.5rem;
+        }
+
+        .filter-select option:hover, .unit-select option:hover {
+            background: #6c5ce7;
+            color: #ffffff;
         }
 
         .filter-section {
