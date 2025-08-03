@@ -1,5 +1,136 @@
 // Real Wiki data for Anime Vanguards units
 export const unitsData = {
+    'arin_rumbling': {
+        id: 'arin_rumbling',
+        name: 'Arin',
+        evolution: 'Rumbling',
+        type: 'Giant',
+        rarity: 'Vanguard',
+        tier: 'A+',
+        element: 'Giant',
+        icon: 'fas fa-mountain',
+        description: 'Giant warrior with immense physical strength and earth-shattering attacks',
+        obtainMethod: 'Giant Forest Act 2',
+        dropRate: '2.5%',
+        canEvolve: false,
+        evolutionFrom: 'Arin',
+        stats: {
+            damage: 6500,
+            spa: 1.5,
+            range: 200,
+            dps: 4333,
+            aoeType: 'Single Target',
+            statusEffects: ['Stun', 'Knockback'],
+            traits: ['Giant Strength', 'Earth Shaker']
+        },
+        evolutionMaterials: {
+            goldCost: 12000,
+            specialItem: {
+                name: 'Giant\'s Heart',
+                source: 'Giant Forest Act 4',
+                dropRate: '1 per completion'
+            },
+            essenceStones: {
+                'Green Essence Stone': 25,
+                'Brown Essence Stone': 15,
+                'Yellow Essence Stone': 8
+            }
+        },
+        farmingGuide: {
+            priority: 'Medium',
+            difficulty: 'Medium',
+            tips: ['Good for early game', 'Reliable tank unit', 'Easy to obtain']
+        }
+    },
+
+    'renguko_purgatory': {
+        id: 'renguko_purgatory',
+        name: 'Renguko',
+        evolution: 'Purgatory',
+        type: 'Burn Specialist',
+        rarity: 'Secret',
+        tier: 'S',
+        element: 'Fire',
+        icon: 'fas fa-fire',
+        description: 'Master of fire techniques with devastating burn damage over time',
+        obtainMethod: 'Purgatory Tower Act 3',
+        dropRate: '1.2%',
+        canEvolve: false,
+        evolutionFrom: 'Renguko',
+        stats: {
+            damage: 7200,
+            spa: 1.1,
+            range: 300,
+            dps: 6545,
+            aoeType: 'Line AoE',
+            statusEffects: ['Burn', 'Ignite', 'Heat Wave'],
+            traits: ['Fire Mastery', 'Burn Specialist', 'Heat Manipulation']
+        },
+        evolutionMaterials: {
+            goldCost: 18000,
+            specialItem: {
+                name: 'Purgatory Flame',
+                source: 'Purgatory Tower Act 5',
+                dropRate: '1 per completion'
+            },
+            essenceStones: {
+                'Green Essence Stone': 30,
+                'Red Essence Stone': 20,
+                'Orange Essence Stone': 15,
+                'Rainbow Essence Stone': 1
+            }
+        },
+        farmingGuide: {
+            priority: 'High',
+            difficulty: 'Hard',
+            tips: ['Best burn specialist', 'Excellent for boss fights', 'High damage over time']
+        }
+    },
+
+    'aurin_nuclear_giant': {
+        id: 'aurin_nuclear_giant',
+        name: 'Aurin',
+        evolution: 'Nuclear Giant',
+        type: 'Nuclear Specialist',
+        rarity: 'Mythic',
+        tier: 'SS',
+        element: 'Blast',
+        icon: 'fas fa-radiation',
+        description: 'Nuclear-powered giant with devastating radiation attacks',
+        obtainMethod: 'Nuclear Facility Legend Stage',
+        dropRate: '0.5%',
+        canEvolve: false,
+        evolutionFrom: 'Aurin',
+        stats: {
+            damage: 15000,
+            spa: 0.9,
+            range: 400,
+            dps: 16667,
+            aoeType: 'Full AoE',
+            statusEffects: ['Radiation', 'Poison', 'Nuclear Fallout'],
+            traits: ['Nuclear Mastery', 'Giant Form', 'Radiation Immunity']
+        },
+        evolutionMaterials: {
+            goldCost: 25000,
+            specialItem: {
+                name: 'Nuclear Core',
+                source: 'Nuclear Facility Act 6',
+                dropRate: '1 per completion'
+            },
+            essenceStones: {
+                'Green Essence Stone': 40,
+                'Yellow Essence Stone': 25,
+                'Rainbow Essence Stone': 3,
+                'Nuclear Essence Stone': 1
+            }
+        },
+        farmingGuide: {
+            priority: 'Highest',
+            difficulty: 'Very Hard',
+            tips: ['Rarest unit in game', 'Highest damage potential', 'Nuclear specialist']
+        }
+    },
+
     'yomomata_captain': {
         id: 'yomomata_captain',
         name: 'Yomomata',
@@ -664,43 +795,128 @@ export const unitsData = {
         id: 'cosmic_sorcerer',
         name: 'Cosmic Sorcerer',
         evolution: 'Base',
-        type: 'Cosmic Specialist',
+        type: 'Sorcerer',
         rarity: 'Secret',
         tier: 'S',
         element: 'Cosmic',
-        icon: 'fas fa-infinity',
+        icon: 'fas fa-star',
         description: 'Master of cosmic magic with reality-bending abilities',
-        obtainMethod: 'Cosmic Tower Floor 50',
-        dropRate: '2%',
-        canEvolve: true,
-        evolutionTo: 'Cosmic Archmage',
+        obtainMethod: 'Cosmic Realm Act 3',
+        dropRate: '1.5%',
+        canEvolve: false,
+        evolutionFrom: null,
         stats: {
-            damage: 7500,
+            damage: 9000,
             spa: 1.0,
-            range: 400,
-            dps: 7500,
+            range: 450,
+            dps: 9000,
             aoeType: 'Full AoE',
-            statusEffects: ['Reality Warp', 'Time Slow'],
+            statusEffects: ['Cosmic Bind', 'Reality Warp'],
             traits: ['Cosmic Mastery', 'Reality Manipulation']
         },
         evolutionMaterials: {
-            goldCost: 12000,
+            goldCost: 20000,
             specialItem: {
-                name: 'Cosmic Orb',
-                source: 'Cosmic Tower Floor 50',
-                dropRate: '5%'
+                name: 'Cosmic Crystal',
+                source: 'Cosmic Realm Act 5',
+                dropRate: '1 per completion'
             },
             essenceStones: {
-                'Green Essence Stone': 25,
-                'Blue Essence Stone': 15,
-                'Purple Essence Stone': 10,
-                'Rainbow Essence Stone': 1
+                'Green Essence Stone': 35,
+                'Blue Essence Stone': 20,
+                'Rainbow Essence Stone': 2
             }
         },
         farmingGuide: {
             priority: 'High',
             difficulty: 'Hard',
-            tips: ['Reach Cosmic Tower Floor 50', 'Very rare drop rate', 'Excellent cosmic damage']
+            tips: ['Excellent cosmic unit', 'Reality manipulation abilities', 'High tier sorcerer']
+        }
+    },
+
+    'exclusive_legend': {
+        id: 'exclusive_legend',
+        name: 'Exclusive Legend',
+        evolution: 'Base',
+        type: 'Legendary Warrior',
+        rarity: 'Exclusive',
+        tier: 'SSS',
+        element: 'Physical',
+        icon: 'fas fa-crown',
+        description: 'Exclusive legendary warrior with unmatched combat prowess',
+        obtainMethod: 'Exclusive Event Only',
+        dropRate: '0.1%',
+        canEvolve: false,
+        evolutionFrom: null,
+        stats: {
+            damage: 20000,
+            spa: 0.7,
+            range: 300,
+            dps: 28571,
+            aoeType: 'Full AoE',
+            statusEffects: ['Legendary Strike', 'Divine Protection'],
+            traits: ['Legendary Status', 'Divine Power', 'Exclusive Access']
+        },
+        evolutionMaterials: {
+            goldCost: 50000,
+            specialItem: {
+                name: 'Legendary Crown',
+                source: 'Exclusive Event',
+                dropRate: '1 per event'
+            },
+            essenceStones: {
+                'Rainbow Essence Stone': 10,
+                'Legendary Essence Stone': 5,
+                'Divine Essence Stone': 1
+            }
+        },
+        farmingGuide: {
+            priority: 'Highest',
+            difficulty: 'Impossible',
+            tips: ['Exclusive event only', 'Rarest unit in game', 'Ultimate power']
+        }
+    },
+
+    'exclusive_mage': {
+        id: 'exclusive_mage',
+        name: 'Exclusive Mage',
+        evolution: 'Base',
+        type: 'Archmage',
+        rarity: 'Exclusive',
+        tier: 'SSS',
+        element: 'Cosmic',
+        icon: 'fas fa-magic',
+        description: 'Exclusive archmage with ultimate magical power',
+        obtainMethod: 'Exclusive Event Only',
+        dropRate: '0.1%',
+        canEvolve: false,
+        evolutionFrom: null,
+        stats: {
+            damage: 18000,
+            spa: 0.8,
+            range: 500,
+            dps: 22500,
+            aoeType: 'Full AoE',
+            statusEffects: ['Arcane Mastery', 'Reality Control'],
+            traits: ['Arcane Power', 'Exclusive Access', 'Ultimate Magic']
+        },
+        evolutionMaterials: {
+            goldCost: 45000,
+            specialItem: {
+                name: 'Arcane Staff',
+                source: 'Exclusive Event',
+                dropRate: '1 per event'
+            },
+            essenceStones: {
+                'Rainbow Essence Stone': 8,
+                'Arcane Essence Stone': 5,
+                'Divine Essence Stone': 1
+            }
+        },
+        farmingGuide: {
+            priority: 'Highest',
+            difficulty: 'Impossible',
+            tips: ['Exclusive event only', 'Ultimate mage', 'Reality control']
         }
     }
 }; 
