@@ -2,6 +2,8 @@
 import { unitsData } from './config/units.js';
 import { materialsConfig } from './config/materials.js';
 import { elementIcons } from './config/constants.js';
+import { traitsData } from './config/traits.js';
+import { gameStatesData } from './config/gameStates.js';
 
 // Import pages
 import { EvolutionPage } from './pages/evolution.js';
@@ -18,7 +20,9 @@ export class App {
         this.data = {
             unitsData,
             materialsConfig,
-            elementIcons
+            elementIcons,
+            traitsData,
+            gameStatesData
         };
         
         // Current state

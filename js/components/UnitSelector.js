@@ -68,7 +68,7 @@ export class UnitSelector {
         // Add all element options
         const elements = [
             'Fire', 'Water', 'Earth', 'Wind', 'Light', 'Dark', 'Cosmic',
-            'Giant', 'Blast', 'Nuclear', 'Electric', 'Ice', 'Poison', 'Psychic', 'Physical'
+            'Giant', 'Blast', 'Nuclear', 'Electric', 'Ice', 'Poison', 'Psychic', 'Physical', 'Unknown'
         ];
         
         elements.forEach(element => {

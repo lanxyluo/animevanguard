@@ -693,6 +693,7 @@
                                     <option value="Poison">Poison</option>
                                     <option value="Psychic">Psychic</option>
                                     <option value="Physical">Physical</option>
+                                    <option value="Unknown">Unknown</option>
                                 </select>
                             </div>
                             <select id="unitSelect" class="unit-select">
@@ -812,6 +813,7 @@
                                 <option value="Poison">Poison</option>
                                 <option value="Psychic">Psychic</option>
                                 <option value="Physical">Physical</option>
+                                <option value="Unknown">Unknown</option>
                             </select>
                         </div>
                         <select id="dpsUnitSelect" class="unit-select">
@@ -852,8 +854,7 @@
                             <label for="gameState">Game State:</label>
                             <select id="gameState" class="filter-select">
                                 <option value="normal">Normal</option>
-                                <option value="hard">Hard</option>
-                                <option value="extreme">Extreme</option>
+                                <option value="nightmare">Nightmare</option>
                             </select>
                         </div>
                         <button id="calculateDPS" class="calculate-btn">
@@ -876,16 +877,12 @@
                                 <span>0</span>
                             </div>
                             <div class="dps-result-item">
-                                <span>Trait Bonus DPS:</span>
-                                <span>0</span>
+                                <span>Trait Bonus:</span>
+                                <span>No Trait</span>
                             </div>
                             <div class="dps-result-item">
-                                <span>Level Bonus DPS:</span>
-                                <span>0</span>
-                            </div>
-                            <div class="dps-result-item">
-                                <span>Effective DPS:</span>
-                                <span>0</span>
+                                <span>Placement Limit:</span>
+                                <span>No Limit</span>
                             </div>
                             <div class="dps-result-item total">
                                 <span>Total DPS:</span>
@@ -907,8 +904,8 @@
                                 <span>0</span>
                             </div>
                             <div class="breakdown-item">
-                                <span>Multi-Target Bonus:</span>
-                                <span>0%</span>
+                                <span>Attack Range:</span>
+                                <span>0</span>
                             </div>
                         </div>
                     </div>
@@ -955,6 +952,7 @@
                                 <option value="Poison">Poison</option>
                                 <option value="Psychic">Psychic</option>
                                 <option value="Physical">Physical</option>
+                                <option value="Unknown">Unknown</option>
                             </select>
                             <select id="dbTierFilter" class="filter-select">
                                 <option value="">All Tiers</option>
