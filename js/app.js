@@ -250,19 +250,25 @@ export class App {
         console.log('🔧 Selecting unit:', unit.name);
         this.selectedUnit = unit;
         
-        console.log('Updating unit display...');
-        this.updateUnitDisplay(unit);
+        // Show loading state
+        this.showCalculationLoading();
         
-        console.log('Updating materials list...');
-        this.updateMaterialsList(unit);
-        
-        console.log('Updating cost summary...');
-        this.updateCostSummary(unit);
-        
-        console.log('Updating farming guide...');
-        this.updateFarmingGuide(unit);
-        
-        console.log('✅ Unit selection completed');
+        // Simulate calculation delay for better UX
+        setTimeout(() => {
+            console.log('Updating unit display...');
+            this.updateUnitDisplay(unit);
+            
+            console.log('Calculating evolution requirements...');
+            this.calculateEvolutionRequirements(unit);
+            
+            console.log('Updating cost summary...');
+            this.updateCostSummary(unit);
+            
+            console.log('Updating farming guide...');
+            this.updateFarmingGuide(unit);
+            
+            console.log('✅ Unit selection completed');
+        }, 500);
     }
     
     clearUnitSelection() {
@@ -474,6 +480,186 @@ export class App {
         if (this.evolutionElements.farmingGuide) {
             this.evolutionElements.farmingGuide.innerHTML = '<p>Select a unit to view farming recommendations</p>';
         }
+    }
+
+    showCalculationLoading() {
+        if (this.evolutionElements.materialsList) {
+            this.evolutionElements.materialsList.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Calculating material requirements...</p>
+                </div>
+            `;
+        }
+    }
+
+    calculateEvolutionRequirements(unit) {
+        console.log('🔧 Calculating evolution requirements for:', unit.name);
+        
+        if (!this.evolutionElements.materialsList) {
+            console.error('❌ Materials list element not found!');
+            return;
+        }
+        
+        // Calculate based on unit properties
+        const baseGoldCost = this.calculateBaseGoldCost(unit);
+        const essenceStones = this.calculateEssenceStones(unit);
+        const specialItem = this.calculateSpecialItem(unit);
+        
+        let html = '';
+        
+        // Gold cost
+        html += `
+            <div class="requirement-item">
+                <div class="requirement-info">
+                    <div class="requirement-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="requirement-details">
+                        <h4>Gold Cost</h4>
+                        <p>Basic currency for evolution</p>
+                    </div>
+                </div>
+                <div class="requirement-amount">${baseGoldCost.toLocaleString()}</div>
+            </div>
+        `;
+        
+        // Special item
+        if (specialItem) {
+            html += `
+                <div class="requirement-item">
+                    <div class="requirement-info">
+                        <div class="requirement-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="requirement-details">
+                            <h4>${specialItem.name}</h4>
+                            <p>Source: ${specialItem.source}</p>
+                        </div>
+                    </div>
+                    <div class="requirement-amount">${specialItem.dropRate}</div>
+                </div>
+            `;
+        }
+        
+        // Essence stones
+        Object.entries(essenceStones).forEach(([stoneName, quantity]) => {
+            const stoneConfig = this.data.materialsConfig[stoneName];
+            html += `
+                <div class="requirement-item">
+                    <div class="requirement-info">
+                        <div class="requirement-icon">
+                            <i class="fas fa-gem" style="color: ${stoneConfig ? stoneConfig.color : '#fff'}"></i>
+                        </div>
+                        <div class="requirement-details">
+                            <h4>${stoneName}</h4>
+                            <p>${stoneConfig ? stoneConfig.description : 'Evolution material'}</p>
+                        </div>
+                    </div>
+                    <div class="requirement-amount">${quantity}</div>
+                </div>
+            `;
+        });
+        
+        this.evolutionElements.materialsList.innerHTML = html;
+        console.log('✅ Evolution requirements calculated');
+    }
+
+    calculateBaseGoldCost(unit) {
+        // Base calculation based on rarity and tier
+        let baseCost = 5000; // Base cost
+        
+        // Rarity multiplier
+        const rarityMultipliers = {
+            'Vanguard': 1.0,
+            'Secret': 2.5,
+            'Mythic': 5.0,
+            'Exclusive': 10.0
+        };
+        
+        // Tier multiplier
+        const tierMultipliers = {
+            'B': 0.8,
+            'B+': 1.0,
+            'A': 1.5,
+            'A+': 2.0,
+            'S': 3.0,
+            'S+': 4.0,
+            'SS': 6.0,
+            'SSS': 10.0
+        };
+        
+        const rarityMultiplier = rarityMultipliers[unit.rarity] || 1.0;
+        const tierMultiplier = tierMultipliers[unit.tier] || 1.0;
+        
+        return Math.round(baseCost * rarityMultiplier * tierMultiplier);
+    }
+
+    calculateEssenceStones(unit) {
+        const stones = {};
+        
+        // Base essence stones based on rarity
+        const baseStones = {
+            'Vanguard': { 'Green Essence Stone': 15 },
+            'Secret': { 'Green Essence Stone': 25, 'Blue Essence Stone': 10 },
+            'Mythic': { 'Green Essence Stone': 35, 'Purple Essence Stone': 15, 'Rainbow Essence Stone': 1 },
+            'Exclusive': { 'Rainbow Essence Stone': 5, 'Divine Essence Stone': 1 }
+        };
+        
+        // Add base stones
+        const baseStonesForRarity = baseStones[unit.rarity] || {};
+        Object.entries(baseStonesForRarity).forEach(([stone, quantity]) => {
+            stones[stone] = quantity;
+        });
+        
+        // Add element-specific stones
+        const elementStones = {
+            'Fire': { 'Red Essence Stone': 8 },
+            'Water': { 'Blue Essence Stone': 8 },
+            'Earth': { 'Brown Essence Stone': 8 },
+            'Wind': { 'Green Essence Stone': 8 },
+            'Light': { 'Yellow Essence Stone': 8 },
+            'Dark': { 'Purple Essence Stone': 8 },
+            'Cosmic': { 'Pink Essence Stone': 8 },
+            'Giant': { 'Giant Essence': 8 },
+            'Blast': { 'Blast Essence': 8 },
+            'Nuclear': { 'Nuclear Essence': 8 },
+            'Electric': { 'Yellow Essence Stone': 8 },
+            'Ice': { 'Blue Essence Stone': 8 },
+            'Poison': { 'Purple Essence Stone': 8 },
+            'Psychic': { 'Pink Essence Stone': 8 },
+            'Physical': { 'Brown Essence Stone': 8 }
+        };
+        
+        const elementStonesForUnit = elementStones[unit.element] || {};
+        Object.entries(elementStonesForUnit).forEach(([stone, quantity]) => {
+            stones[stone] = (stones[stone] || 0) + quantity;
+        });
+        
+        return stones;
+    }
+
+    calculateSpecialItem(unit) {
+        // Generate special item based on unit properties
+        const specialItems = {
+            'Fire': { name: 'Flame Crystal', source: 'Fire Temple', dropRate: '1 per completion' },
+            'Water': { name: 'Ocean Pearl', source: 'Water Temple', dropRate: '1 per completion' },
+            'Earth': { name: 'Earth Core', source: 'Earth Temple', dropRate: '1 per completion' },
+            'Wind': { name: 'Wind Essence', source: 'Wind Temple', dropRate: '1 per completion' },
+            'Light': { name: 'Divine Light Crystal', source: 'Light Cathedral', dropRate: '1 per completion' },
+            'Dark': { name: 'Shadow Orb', source: 'Dark Cathedral', dropRate: '1 per completion' },
+            'Cosmic': { name: 'Cosmic Fragment', source: 'Cosmic Realm', dropRate: '1 per completion' },
+            'Giant': { name: 'Giant\'s Heart', source: 'Giant Forest', dropRate: '1 per completion' },
+            'Blast': { name: 'Explosive Core', source: 'Blast Valley', dropRate: '1 per completion' },
+            'Nuclear': { name: 'Nuclear Core', source: 'Nuclear Facility', dropRate: '1 per completion' },
+            'Electric': { name: 'Lightning Rod', source: 'Thunder Peak', dropRate: '1 per completion' },
+            'Ice': { name: 'Ice Crystal', source: 'Frozen Peak', dropRate: '1 per completion' },
+            'Poison': { name: 'Venom Fang', source: 'Poison Swamp', dropRate: '1 per completion' },
+            'Psychic': { name: 'Mind Crystal', source: 'Mind Temple', dropRate: '1 per completion' },
+            'Physical': { name: 'Warrior\'s Medal', source: 'Training Grounds', dropRate: '1 per completion' }
+        };
+        
+        return specialItems[unit.element] || { name: 'Evolution Crystal', source: 'General Store', dropRate: '1 per completion' };
     }
     
     getElementColor(element) {
