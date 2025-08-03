@@ -108,11 +108,6 @@ export class EvolutionPage {
         this.materialsList.updateMaterials(unit);
         this.costSummary.updateCost(unit);
         this.farmingGuide.updateGuide(unit);
-        
-        // Notify app about unit selection
-        if (this.app && this.app.onUnitSelect) {
-            this.app.onUnitSelect(unit);
-        }
     }
     
     show() {

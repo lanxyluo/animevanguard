@@ -78,11 +78,6 @@ export class App {
     onUnitSelect(unit) {
         console.log('🔧 Unit selected in App:', unit.name);
         this.selectedUnit = unit;
-        
-        // Notify evolution page components
-        if (this.evolutionPage) {
-            this.evolutionPage.handleUnitSelect(unit);
-        }
     }
     
 
