@@ -27,12 +27,13 @@ export class DataValidator {
     }
 
     countTotalUnits() {
-        this.validationResults.totalUnits = Object.keys(this.unitsData).length;
+        this.validationResults.totalUnits = Array.isArray(this.unitsData) ? this.unitsData.length : Object.keys(this.unitsData).length;
     }
 
     analyzeRarityDistribution() {
         const rarityCount = {};
-        Object.values(this.unitsData).forEach(unit => {
+        const units = Array.isArray(this.unitsData) ? this.unitsData : Object.values(this.unitsData);
+        units.forEach(unit => {
             rarityCount[unit.rarity] = (rarityCount[unit.rarity] || 0) + 1;
         });
         this.validationResults.rarityDistribution = rarityCount;
@@ -40,7 +41,8 @@ export class DataValidator {
 
     analyzeElementDistribution() {
         const elementCount = {};
-        Object.values(this.unitsData).forEach(unit => {
+        const units = Array.isArray(this.unitsData) ? this.unitsData : Object.values(this.unitsData);
+        units.forEach(unit => {
             elementCount[unit.element] = (elementCount[unit.element] || 0) + 1;
         });
         this.validationResults.elementDistribution = elementCount;
@@ -48,7 +50,8 @@ export class DataValidator {
 
     analyzeRarityElementCombinations() {
         const combinations = {};
-        Object.values(this.unitsData).forEach(unit => {
+        const units = Array.isArray(this.unitsData) ? this.unitsData : Object.values(this.unitsData);
+        units.forEach(unit => {
             const key = `${unit.rarity} + ${unit.element}`;
             combinations[key] = (combinations[key] || 0) + 1;
         });

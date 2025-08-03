@@ -137,7 +137,7 @@ export class UnitSelector {
     
     validateDataCompleteness() {
         console.log('\n🔍 开始数据完整性验证...');
-        const validator = new DataValidator(this.unitsData);
+        const validator = new DataValidator(this.allUnits);
         const results = validator.validateData();
         
         // 生成对比表
