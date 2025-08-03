@@ -156,15 +156,27 @@ export class UnitSelector {
             return matchesSearch && matchesRarity && matchesElement;
         });
         
+        // 调试输出
+        console.log('筛选条件:', { searchTerm, rarityFilter, elementFilter });
+        console.log('筛选后剩余单元数量:', this.filteredUnits.length, this.filteredUnits);
+        
         // Update unit select dropdown
         if (this.unitSelect) {
             this.unitSelect.innerHTML = '<option value="">Select Unit...</option>';
-            this.filteredUnits.forEach(unit => {
+            if (this.filteredUnits.length === 0) {
+                // 空结果提示
                 const option = document.createElement('option');
-                option.value = unit.id;
-                option.textContent = `${unit.name} (${unit.evolution})`;
+                option.value = '';
+                option.textContent = '无可用单位';
                 this.unitSelect.appendChild(option);
-            });
+            } else {
+                this.filteredUnits.forEach(unit => {
+                    const option = document.createElement('option');
+                    option.value = unit.id;
+                    option.textContent = `${unit.name} (${unit.evolution})`;
+                    this.unitSelect.appendChild(option);
+                });
+            }
         }
     }
     
@@ -242,5 +254,4 @@ export class UnitSelector {
             this.unitSelect.removeEventListener('change', this.handleUnitSelect);
         }
     }
-} 
 } 
