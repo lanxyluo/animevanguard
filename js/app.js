@@ -5,6 +5,7 @@ import { elementIcons } from './config/constants.js';
 
 // Import pages
 import { EvolutionPage } from './pages/evolution.js';
+import { DPSPage } from './pages/dps.js';
 
 // Import utility functions
 import { showError, showNotification } from './utils/dom.js';
@@ -29,6 +30,7 @@ export class App {
         
         // Page instances
         this.evolutionPage = null;
+        this.dpsPage = null;
     }
     
     async initialize() {
@@ -41,6 +43,10 @@ export class App {
             // Initialize Evolution Page
             this.evolutionPage = new EvolutionPage(this);
             await this.evolutionPage.initialize(this.data);
+            
+            // Initialize DPS Page
+            this.dpsPage = new DPSPage(this);
+            await this.dpsPage.initialize(this.data);
             
             // Set up global event listeners
             this.setupGlobalEvents();
@@ -146,6 +152,13 @@ export class App {
         
         // Update navigation
         this.updateNavigation(pageName);
+        
+        // Call page-specific show methods
+        if (pageName === 'evolution' && this.evolutionPage) {
+            this.evolutionPage.show();
+        } else if (pageName === 'dps' && this.dpsPage) {
+            this.dpsPage.show();
+        }
         
         this.currentPage = pageName;
     }

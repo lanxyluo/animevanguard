@@ -86,7 +86,19 @@ export class DPSPage {
     
     populateUnitSelect() {
         const unitSelect = this.elements.unitSelect;
-        unitSelect.innerHTML = '<option value="">Choose a unit...</option>';
+        if (!unitSelect) {
+            console.error('Unit select element not found');
+            return;
+        }
+        
+        unitSelect.innerHTML = '<option value="">Select Unit...</option>';
+        
+        if (!this.unitsData) {
+            console.error('Units data not available');
+            return;
+        }
+        
+        console.log('Populating DPS unit select with', Object.keys(this.unitsData).length, 'units');
         
         Object.values(this.unitsData).forEach(unit => {
             const option = document.createElement('option');
@@ -108,10 +120,15 @@ export class DPSPage {
         
         // Level change
         if (this.elements.levelInput) {
-            this.elements.levelInput.addEventListener('input', debounce((e) => {
+            this.elements.levelInput.addEventListener('input', (e) => {
                 this.currentLevel = parseInt(e.target.value) || 1;
+                // Update the level display
+                const levelValue = document.getElementById('levelValue');
+                if (levelValue) {
+                    levelValue.textContent = this.currentLevel;
+                }
                 this.updateTraitOptions();
-            }, 300));
+            });
         } else {
             console.warn('Level input element not found');
         }
@@ -239,6 +256,8 @@ export class DPSPage {
         }
         
         try {
+            console.log('Calculating DPS for unit:', this.selectedUnit.name, 'at level:', this.currentLevel);
+            
             // Calculate DPS using the calculator
             const dpsResult = this.dpsCalculator.calculateDPS({
                 unit: this.selectedUnit,
@@ -260,25 +279,51 @@ export class DPSPage {
         const resultsDiv = this.elements.results;
         
         resultsDiv.innerHTML = `
-            <div class="dps-result-card">
-                <div class="result-header">
-                    <h3>DPS Results for ${this.selectedUnit.name}</h3>
-                    <span class="unit-level">Level ${this.currentLevel}</span>
-                </div>
-                
-                <div class="dps-breakdown">
-                    <div class="dps-item">
-                        <span class="label">Base DPS:</span>
-                        <span class="value">${result.baseDPS.toLocaleString()}</span>
-                    </div>
-                    
-                    <div class="dps-item total">
-                        <span class="label">Total DPS:</span>
-                        <span class="value">${result.totalDPS.toLocaleString()}</span>
-                    </div>
-                </div>
+            <div class="dps-result-item">
+                <span>Base DPS:</span>
+                <span>${result.baseDPS.toLocaleString()}</span>
+            </div>
+            <div class="dps-result-item">
+                <span>Trait Bonus DPS:</span>
+                <span>${result.traitBonusDPS ? result.traitBonusDPS.toLocaleString() : '0'}</span>
+            </div>
+            <div class="dps-result-item">
+                <span>Level Bonus DPS:</span>
+                <span>${result.levelBonusDPS ? result.levelBonusDPS.toLocaleString() : '0'}</span>
+            </div>
+            <div class="dps-result-item">
+                <span>Effective DPS:</span>
+                <span>${result.effectiveDPS ? result.effectiveDPS.toLocaleString() : '0'}</span>
+            </div>
+            <div class="dps-result-item total">
+                <span>Total DPS:</span>
+                <span>${result.totalDPS.toLocaleString()}</span>
             </div>
         `;
+        
+        // Update breakdown section
+        const breakdownDiv = document.querySelector('.dps-breakdown');
+        if (breakdownDiv) {
+            breakdownDiv.innerHTML = `
+                <h4>DPS Breakdown</h4>
+                <div class="breakdown-item">
+                    <span>Damage per Hit:</span>
+                    <span>${result.damagePerHit.toLocaleString()}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Attack Speed:</span>
+                    <span>${result.attackSpeed.toFixed(2)}s</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Hits per Second:</span>
+                    <span>${(1 / result.attackSpeed).toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Multi-Target Bonus:</span>
+                    <span>0%</span>
+                </div>
+            `;
+        }
     }
     
     show() {
@@ -302,6 +347,19 @@ export class DPSPage {
     
     onPageShow() {
         console.log('DPS page shown');
+        
+        // Ensure unit select is populated when page is shown
+        if (this.isInitialized && this.elements.unitSelect) {
+            this.populateUnitSelect();
+        }
+        
+        // Initialize level display
+        if (this.elements.levelInput) {
+            const levelValue = document.getElementById('levelValue');
+            if (levelValue) {
+                levelValue.textContent = this.currentLevel;
+            }
+        }
     }
     
     onPageHide() {
@@ -329,19 +387,45 @@ class AnimeVanguardsDPSCalculator {
     calculateDPS(params) {
         const { unit, level, trait, gameState } = params;
         
+        console.log('DPS Calculator - Unit:', unit.name, 'Level:', level);
+        console.log('Unit stats:', unit.stats);
+        
         // Base stats calculation
         const baseDamage = this.calculateBaseDamage(unit, level);
         const attackSpeed = this.calculateAttackSpeed(unit, level);
         const damagePerHit = baseDamage;
         
-        // Base DPS
-        let baseDPS = damagePerHit * attackSpeed;
+        // Base DPS (damage per hit / attack speed)
+        const baseDPS = damagePerHit / attackSpeed;
         
-        // Simple calculation for now
-        const totalDPS = baseDPS;
+        // Level bonus DPS
+        const levelBonusDPS = baseDPS * (level - 1) * 0.1;
+        
+        // Trait bonus DPS (placeholder)
+        const traitBonusDPS = 0;
+        
+        // Effective DPS
+        const effectiveDPS = baseDPS + levelBonusDPS + traitBonusDPS;
+        
+        // Total DPS
+        const totalDPS = effectiveDPS;
+        
+        console.log('DPS Calculation Results:', {
+            baseDamage,
+            attackSpeed,
+            damagePerHit,
+            baseDPS,
+            levelBonusDPS,
+            traitBonusDPS,
+            effectiveDPS,
+            totalDPS
+        });
         
         return {
             baseDPS: Math.round(baseDPS),
+            levelBonusDPS: Math.round(levelBonusDPS),
+            traitBonusDPS: Math.round(traitBonusDPS),
+            effectiveDPS: Math.round(effectiveDPS),
             totalDPS: Math.round(totalDPS),
             attackSpeed: attackSpeed,
             damagePerHit: damagePerHit
@@ -349,14 +433,14 @@ class AnimeVanguardsDPSCalculator {
     }
     
     calculateBaseDamage(unit, level) {
-        const baseDamage = unit.stats.damage || 100;
+        const baseDamage = unit.stats?.damage || 100;
         const levelMultiplier = 1 + (level - 1) * 0.1;
         return Math.round(baseDamage * levelMultiplier);
     }
     
     calculateAttackSpeed(unit, level) {
-        const baseSpeed = unit.stats.attackSpeed || 1.0;
+        const baseSpeed = unit.stats?.spa || 1.0; // Using spa (seconds per attack) from unit stats
         const levelBonus = (level - 1) * 0.02;
-        return baseSpeed + levelBonus;
+        return Math.max(0.1, baseSpeed - levelBonus); // Ensure minimum attack speed
     }
 } 
