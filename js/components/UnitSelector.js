@@ -2,6 +2,7 @@
 import { debounce } from '../utils/helpers.js';
 import { getElementColor } from '../utils/helpers.js';
 import { showError } from '../utils/dom.js';
+import { DataValidator } from '../utils/dataValidator.js';
 
 export class UnitSelector {
     constructor(containerId, options = {}) {
@@ -102,7 +103,52 @@ export class UnitSelector {
         this.filteredUnits = [...this.allUnits];
         
         console.log(`UnitSelector: Loaded ${this.allUnits.length} units`);
+        
+        // 数据统计和验证
+        this.analyzeDataDistribution();
+        this.validateDataCompleteness();
+        
         this.populateUnitSelect();
+    }
+    
+    analyzeDataDistribution() {
+        const rarityCount = {};
+        const elementCount = {};
+        const rarityElementCount = {};
+        
+        this.allUnits.forEach(unit => {
+            // 统计稀有度
+            rarityCount[unit.rarity] = (rarityCount[unit.rarity] || 0) + 1;
+            
+            // 统计元素
+            elementCount[unit.element] = (elementCount[unit.element] || 0) + 1;
+            
+            // 统计稀有度+元素组合
+            const key = `${unit.rarity} + ${unit.element}`;
+            rarityElementCount[key] = (rarityElementCount[key] || 0) + 1;
+        });
+        
+        console.log('=== 数据分布统计 ===');
+        console.log('稀有度分布:', rarityCount);
+        console.log('元素分布:', elementCount);
+        console.log('稀有度+元素组合分布:', rarityElementCount);
+        console.log('=== 统计结束 ===');
+    }
+    
+    validateDataCompleteness() {
+        console.log('\n🔍 开始数据完整性验证...');
+        const validator = new DataValidator(this.unitsData);
+        const results = validator.validateData();
+        
+        // 生成对比表
+        validator.generateComparisonTable();
+        
+        // 如果发现问题，在控制台显示警告
+        if (results.potentialIssues.length > 0) {
+            console.warn('⚠️ 发现潜在问题，请检查Wiki数据是否完整！');
+        }
+        
+        return results;
     }
     
     populateUnitSelect() {
