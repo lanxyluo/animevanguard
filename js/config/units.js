@@ -658,6 +658,49 @@ export const unitsData = {
         }
     },
 
+    'poison_scout': {
+        id: 'poison_scout',
+        name: 'Poison Scout',
+        evolution: 'Base',
+        type: 'Scout',
+        rarity: 'Vanguard',
+        tier: 'B+',
+        element: 'Poison',
+        icon: 'fas fa-eye',
+        description: 'Poison scout with stealth and reconnaissance abilities',
+        obtainMethod: 'Poison Forest Act 1',
+        dropRate: '3.5%',
+        canEvolve: true,
+        evolutionTo: 'Poison Scout (Venom)',
+        stats: {
+            damage: 1800,
+            spa: 1.4,
+            range: 300,
+            dps: 1286,
+            aoeType: 'Single Target',
+            statusEffects: ['Poison', 'Stealth'],
+            traits: ['Scout Mastery', 'Poison Resistance']
+        },
+        evolutionMaterials: {
+            goldCost: 8000,
+            specialItem: {
+                name: 'Poison Dart',
+                source: 'Poison Forest Act 3',
+                dropRate: '2-3 per completion'
+            },
+            essenceStones: {
+                'Green Essence Stone': 20,
+                'Purple Essence Stone': 10,
+                'Blue Essence Stone': 5
+            }
+        },
+        farmingGuide: {
+            priority: 'Low',
+            difficulty: 'Easy',
+            tips: ['Good for early game', 'Stealth abilities', 'Easy to obtain']
+        }
+    },
+
     // Psychic Element Units
     'psychic_mind': {
         id: 'psychic_mind',
@@ -917,6 +960,93 @@ export const unitsData = {
             priority: 'Highest',
             difficulty: 'Impossible',
             tips: ['Exclusive event only', 'Ultimate mage', 'Reality control']
+        }
+    },
+
+    // Additional Vanguard units for better filtering
+    'fire_warrior': {
+        id: 'fire_warrior',
+        name: 'Fire Warrior',
+        evolution: 'Base',
+        type: 'Warrior',
+        rarity: 'Vanguard',
+        tier: 'B+',
+        element: 'Fire',
+        icon: 'fas fa-fire',
+        description: 'Basic fire warrior with flame sword techniques',
+        obtainMethod: 'Fire Valley Act 1',
+        dropRate: '4.0%',
+        canEvolve: true,
+        evolutionTo: 'Fire Warrior (Flame)',
+        stats: {
+            damage: 2000,
+            spa: 1.3,
+            range: 200,
+            dps: 1538,
+            aoeType: 'Single Target',
+            statusEffects: ['Burn'],
+            traits: ['Fire Resistance', 'Warrior Training']
+        },
+        evolutionMaterials: {
+            goldCost: 7000,
+            specialItem: {
+                name: 'Flame Sword',
+                source: 'Fire Valley Act 2',
+                dropRate: '3-4 per completion'
+            },
+            essenceStones: {
+                'Green Essence Stone': 18,
+                'Red Essence Stone': 8,
+                'Orange Essence Stone': 5
+            }
+        },
+        farmingGuide: {
+            priority: 'Low',
+            difficulty: 'Easy',
+            tips: ['Good starter unit', 'Fire damage', 'Easy to farm']
+        }
+    },
+
+    'ice_guardian': {
+        id: 'ice_guardian',
+        name: 'Ice Guardian',
+        evolution: 'Base',
+        type: 'Guardian',
+        rarity: 'Vanguard',
+        tier: 'B+',
+        element: 'Ice',
+        icon: 'fas fa-snowflake',
+        description: 'Ice guardian with defensive and freezing abilities',
+        obtainMethod: 'Ice Peak Act 1',
+        dropRate: '3.8%',
+        canEvolve: true,
+        evolutionTo: 'Ice Guardian (Frost)',
+        stats: {
+            damage: 1800,
+            spa: 1.5,
+            range: 250,
+            dps: 1200,
+            aoeType: 'Single Target',
+            statusEffects: ['Freeze', 'Slow'],
+            traits: ['Ice Resistance', 'Guardian Training']
+        },
+        evolutionMaterials: {
+            goldCost: 7500,
+            specialItem: {
+                name: 'Ice Shield',
+                source: 'Ice Peak Act 2',
+                dropRate: '2-3 per completion'
+            },
+            essenceStones: {
+                'Green Essence Stone': 20,
+                'Blue Essence Stone': 10,
+                'White Essence Stone': 5
+            }
+        },
+        farmingGuide: {
+            priority: 'Low',
+            difficulty: 'Easy',
+            tips: ['Good defensive unit', 'Freezing abilities', 'Easy to obtain']
         }
     }
 }; 
