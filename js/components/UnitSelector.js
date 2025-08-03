@@ -158,7 +158,8 @@ export class UnitSelector {
         
         // 调试输出
         console.log('筛选条件:', { searchTerm, rarityFilter, elementFilter });
-        console.log('筛选后剩余单元数量:', this.filteredUnits.length, this.filteredUnits);
+        console.log('筛选后剩余单元数量:', this.filteredUnits.length);
+        console.log('筛选结果详情:', this.filteredUnits.map(u => `${u.name} (${u.rarity}, ${u.element})`));
         
         // Update unit select dropdown
         if (this.unitSelect) {
@@ -167,7 +168,7 @@ export class UnitSelector {
                 // 空结果提示
                 const option = document.createElement('option');
                 option.value = '';
-                option.textContent = '无可用单位';
+                option.textContent = 'No units available';
                 this.unitSelect.appendChild(option);
             } else {
                 this.filteredUnits.forEach(unit => {
