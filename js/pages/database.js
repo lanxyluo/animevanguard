@@ -17,7 +17,8 @@ export class DatabasePage {
             rarity: '',
             element: '',
             attackType: '',
-            search: ''
+            unitType: '',
+            searchText: ''
         };
         
         // UI elements
@@ -52,14 +53,19 @@ export class DatabasePage {
             return;
         }
         
+        // Create search and filter UI if it doesn't exist
+        this.createSearchAndFilterUI(dbContainer);
+        
         // Store element references from existing HTML
         this.elements = {
-            search: document.getElementById('dbSearch'),
+            searchInput: document.getElementById('dbSearchInput'),
+            searchResults: document.getElementById('dbSearchResults'),
             rarityFilter: document.getElementById('dbRarityFilter'),
             elementFilter: document.getElementById('dbElementFilter'),
             attackTypeFilter: document.getElementById('dbAttackTypeFilter'),
-            tierFilter: document.getElementById('dbTierFilter'),
-            sortBy: document.getElementById('dbSortBy'),
+            unitTypeFilter: document.getElementById('dbUnitTypeFilter'),
+            resetFiltersBtn: document.getElementById('dbResetFilters'),
+            filterSummary: document.getElementById('dbFilterSummary'),
             unitsGrid: document.getElementById('unitsGrid'),
             unitsCount: document.getElementById('unitsCount'),
             compareUnit1: document.getElementById('compareUnit1'),
@@ -78,16 +84,122 @@ export class DatabasePage {
         
         console.log('✅ Database UI elements initialized');
     }
+
+    createSearchAndFilterUI(container) {
+        // Check if search UI already exists
+        if (document.getElementById('dbSearchInput')) {
+            return;
+        }
+
+        // Create search and filter section
+        const searchFilterSection = document.createElement('div');
+        searchFilterSection.className = 'search-filter-section';
+        searchFilterSection.innerHTML = `
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="dbSearchInput" class="search-input" placeholder="Search units by name or description...">
+                    <button id="dbClearSearch" class="clear-search-btn" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="dbSearchResults" class="search-results"></div>
+            </div>
+            
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label for="dbRarityFilter">Rarity:</label>
+                    <select id="dbRarityFilter" class="filter-select">
+                        <option value="">All Rarity</option>
+                        <option value="Rare">Rare</option>
+                        <option value="Epic">Epic</option>
+                        <option value="Legendary">Legendary</option>
+                        <option value="Secret">Secret</option>
+                        <option value="Mythic">Mythic</option>
+                        <option value="Mythical">Mythical</option>
+                        <option value="Exclusive">Exclusive</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dbElementFilter">Element:</label>
+                    <select id="dbElementFilter" class="filter-select">
+                        <option value="">All Element</option>
+                        <option value="Fire">Fire</option>
+                        <option value="Water">Water</option>
+                        <option value="Nature">Nature</option>
+                        <option value="Spark">Spark</option>
+                        <option value="Holy">Holy</option>
+                        <option value="Passion">Passion</option>
+                        <option value="Blast">Blast</option>
+                        <option value="Cosmic">Cosmic</option>
+                        <option value="Unbound">Unbound</option>
+                        <option value="Unknown">Unknown</option>
+                        <option value="Life">Life</option>
+                        <option value="Earth">Earth</option>
+                        <option value="Spirit">Spirit</option>
+                        <option value="Lightning">Lightning</option>
+                        <option value="Dark">Dark</option>
+                        <option value="Physical">Physical</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dbAttackTypeFilter">Attack Type:</label>
+                    <select id="dbAttackTypeFilter" class="filter-select">
+                        <option value="">All Attack Type</option>
+                        <option value="Single Target">Single Target</option>
+                        <option value="Circle AoE">Circle AoE</option>
+                        <option value="Cone AoE">Cone AoE</option>
+                        <option value="Line AoE">Line AoE</option>
+                        <option value="Full AoE">Full AoE</option>
+                        <option value="Stadium AoE">Stadium AoE</option>
+                        <option value="Splash AoE">Splash AoE</option>
+                        <option value="Chain">Chain</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dbUnitTypeFilter">Unit Type:</label>
+                    <select id="dbUnitTypeFilter" class="filter-select">
+                        <option value="">All Type</option>
+                        <option value="DPS">DPS</option>
+                        <option value="Support">Support</option>
+                        <option value="Tank">Tank</option>
+                        <option value="Hybrid">Hybrid</option>
+                    </select>
+                </div>
+                
+                <button id="dbResetFilters" class="reset-filters-btn">
+                    <i class="fas fa-undo"></i> Reset Filters
+                </button>
+            </div>
+            
+            <div id="dbFilterSummary" class="filter-summary"></div>
+        `;
+
+        // Insert at the beginning of the container
+        container.insertBefore(searchFilterSection, container.firstChild);
+    }
     
     bindEvents() {
         // Search functionality
-        if (this.elements.search) {
-            this.elements.search.addEventListener('input', debounce((e) => {
-                this.currentFilters.search = e.target.value;
+        if (this.elements.searchInput) {
+            this.elements.searchInput.addEventListener('input', debounce((e) => {
+                this.currentFilters.searchText = e.target.value;
+                this.updateSearchUI();
                 this.applyFilters();
             }, 300));
         } else {
-            console.warn('Search element not found');
+            console.warn('Search input element not found');
+        }
+
+        // Clear search button
+        const clearSearchBtn = document.getElementById('dbClearSearch');
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', () => {
+                this.clearSearch();
+            });
         }
         
         // Filter changes
@@ -98,6 +210,42 @@ export class DatabasePage {
             });
         } else {
             console.warn('Rarity filter element not found');
+        }
+
+        if (this.elements.elementFilter) {
+            this.elements.elementFilter.addEventListener('change', (e) => {
+                this.currentFilters.element = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Element filter element not found');
+        }
+
+        if (this.elements.attackTypeFilter) {
+            this.elements.attackTypeFilter.addEventListener('change', (e) => {
+                this.currentFilters.attackType = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Attack type filter element not found');
+        }
+
+        if (this.elements.unitTypeFilter) {
+            this.elements.unitTypeFilter.addEventListener('change', (e) => {
+                this.currentFilters.unitType = e.target.value;
+                this.applyFilters();
+            });
+        } else {
+            console.warn('Unit type filter element not found');
+        }
+
+        // Reset filters button
+        if (this.elements.resetFiltersBtn) {
+            this.elements.resetFiltersBtn.addEventListener('click', () => {
+                this.resetFilters();
+            });
+        } else {
+            console.warn('Reset filters button not found');
         }
 
         // Unit comparison events
@@ -325,41 +473,52 @@ export class DatabasePage {
     }
     
     applyFilters() {
+        console.log('Applying filters:', this.currentFilters);
+        
         let filtered = Object.values(this.unitsData);
         
         // Apply search filter
-        if (this.currentFilters.search) {
-            const searchTerm = this.currentFilters.search.toLowerCase();
+        if (this.currentFilters.searchText) {
+            const searchTerm = this.currentFilters.searchText.toLowerCase();
             filtered = filtered.filter(unit => 
                 unit.name.toLowerCase().includes(searchTerm) ||
-                unit.description.toLowerCase().includes(searchTerm)
+                (unit.description && unit.description.toLowerCase().includes(searchTerm))
             );
         }
         
         // Apply rarity filter
-        if (this.currentFilters.rarity) {
+        if (this.currentFilters.rarity && this.currentFilters.rarity !== 'All Rarity') {
             filtered = filtered.filter(unit => 
                 unit.rarity === this.currentFilters.rarity
             );
         }
         
         // Apply element filter
-        if (this.currentFilters.element) {
+        if (this.currentFilters.element && this.currentFilters.element !== 'All Element') {
             filtered = filtered.filter(unit => 
                 unit.element === this.currentFilters.element
             );
         }
         
         // Apply attack type filter
-        if (this.currentFilters.attackType) {
+        if (this.currentFilters.attackType && this.currentFilters.attackType !== 'All Attack Type') {
             filtered = filtered.filter(unit => 
                 unit.attackType === this.currentFilters.attackType
             );
         }
         
+        // Apply unit type filter
+        if (this.currentFilters.unitType && this.currentFilters.unitType !== 'All Type') {
+            filtered = filtered.filter(unit => 
+                unit.unitType === this.currentFilters.unitType
+            );
+        }
+        
         this.filteredUnits = filtered;
+        console.log(`Filtered units: ${this.filteredUnits.length} out of ${Object.values(this.unitsData).length}`);
         this.renderUnits();
         this.updateStats();
+        this.updateFilterSummary();
     }
     
     renderUnits() {
@@ -371,6 +530,9 @@ export class DatabasePage {
                 <div class="no-results">
                     <i class="fas fa-search"></i>
                     <p>No units found matching your criteria</p>
+                    <button class="clear-filters-btn" onclick="this.closest('.database-page').querySelector('#dbResetFilters').click()">
+                        <i class="fas fa-undo"></i> Clear All Filters
+                    </button>
                 </div>
             `;
             return;
@@ -390,28 +552,34 @@ export class DatabasePage {
         const elementIcon = this.elementIcons[unit.element] || 'fas fa-question';
         const rarityColor = this.getRarityColor(unit.rarity);
         
+        // Highlight search term if present
+        const searchTerm = this.currentFilters.searchText;
+        const highlightedName = searchTerm ? this.highlightSearchTerm(unit.name, searchTerm) : unit.name;
+        const highlightedDescription = searchTerm && unit.description ? 
+            this.highlightSearchTerm(unit.description, searchTerm) : unit.description;
+        
         card.innerHTML = `
             <div class="unit-card-header" style="border-color: ${rarityColor}">
                 <div class="unit-icon">
                     <i class="${elementIcon}"></i>
                 </div>
                 <div class="unit-info">
-                    <h4>${unit.name}</h4>
+                    <h4>${highlightedName}</h4>
                     <span class="rarity" style="color: ${rarityColor}">${unit.rarity}</span>
                     <span class="element">${unit.element}</span>
                 </div>
             </div>
             <div class="unit-card-body">
-                <p class="description">${unit.description}</p>
+                <p class="description">${highlightedDescription}</p>
                 <div class="stats-preview">
                     <span class="stat">
-                        <i class="fas fa-sword"></i> ${unit.stats.damage}
+                        <i class="fas fa-sword"></i> ${unit.stats?.damage || 'N/A'}
                     </span>
                     <span class="stat">
-                        <i class="fas fa-bolt"></i> ${unit.stats.spa}s
+                        <i class="fas fa-bolt"></i> ${unit.stats?.spa || 'N/A'}s
                     </span>
                     <span class="stat">
-                        <i class="fas fa-chart-line"></i> ${unit.stats.dps}
+                        <i class="fas fa-chart-line"></i> ${unit.stats?.dps || 'N/A'}
                     </span>
                 </div>
             </div>
@@ -1089,6 +1257,170 @@ export class DatabasePage {
         } else {
             // Higher values are better for other stats
             return Math.abs(numValue - bestValues[field]) < 0.01;
+        }
+    }
+
+    // Search and Filter Methods
+    updateSearchUI() {
+        const searchInput = this.elements.searchInput;
+        const clearBtn = document.getElementById('dbClearSearch');
+        const searchResults = this.elements.searchResults;
+
+        if (!searchInput || !clearBtn || !searchResults) return;
+
+        const hasText = searchInput.value.trim().length > 0;
+        clearBtn.style.display = hasText ? 'block' : 'none';
+
+        if (hasText) {
+            const searchTerm = searchInput.value.toLowerCase();
+            const matchingUnits = Object.values(this.unitsData).filter(unit =>
+                unit.name.toLowerCase().includes(searchTerm) ||
+                (unit.description && unit.description.toLowerCase().includes(searchTerm))
+            );
+
+            if (matchingUnits.length > 0) {
+                searchResults.innerHTML = `
+                    <div class="search-suggestions">
+                        <div class="suggestion-header">
+                            <i class="fas fa-search"></i>
+                            <span>Found ${matchingUnits.length} matching units</span>
+                        </div>
+                        <div class="suggestion-list">
+                            ${matchingUnits.slice(0, 5).map(unit => `
+                                <div class="suggestion-item" data-unit-id="${unit.id}">
+                                    <div class="suggestion-icon">
+                                        <i class="${this.elementIcons[unit.element] || 'fas fa-question'}"></i>
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <div class="suggestion-name">${this.highlightSearchTerm(unit.name, searchTerm)}</div>
+                                        <div class="suggestion-meta">
+                                            <span class="suggestion-rarity" style="color: ${this.getRarityColor(unit.rarity)}">${unit.rarity}</span>
+                                            <span class="suggestion-element">${unit.element}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            ${matchingUnits.length > 5 ? `
+                                <div class="suggestion-more">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                    <span>And ${matchingUnits.length - 5} more...</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.innerHTML = `
+                    <div class="search-no-results">
+                        <i class="fas fa-search"></i>
+                        <span>No units found matching "${searchInput.value}"</span>
+                    </div>
+                `;
+                searchResults.style.display = 'block';
+            }
+        } else {
+            searchResults.style.display = 'none';
+        }
+    }
+
+    highlightSearchTerm(text, searchTerm) {
+        if (!searchTerm) return text;
+        
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        return text.replace(regex, '<mark style="background: rgba(162, 155, 254, 0.3); color: #fff; padding: 0.1rem 0.2rem; border-radius: 2px;">$1</mark>');
+    }
+
+    clearSearch() {
+        if (this.elements.searchInput) {
+            this.elements.searchInput.value = '';
+            this.currentFilters.searchText = '';
+            this.updateSearchUI();
+            this.applyFilters();
+        }
+    }
+
+    resetFilters() {
+        // Reset all filter values
+        this.currentFilters = {
+            rarity: '',
+            element: '',
+            attackType: '',
+            unitType: '',
+            searchText: ''
+        };
+
+        // Reset UI elements
+        if (this.elements.searchInput) {
+            this.elements.searchInput.value = '';
+        }
+        if (this.elements.rarityFilter) {
+            this.elements.rarityFilter.value = '';
+        }
+        if (this.elements.elementFilter) {
+            this.elements.elementFilter.value = '';
+        }
+        if (this.elements.attackTypeFilter) {
+            this.elements.attackTypeFilter.value = '';
+        }
+        if (this.elements.unitTypeFilter) {
+            this.elements.unitTypeFilter.value = '';
+        }
+
+        // Update search UI and apply filters
+        this.updateSearchUI();
+        this.applyFilters();
+    }
+
+    updateFilterSummary() {
+        const filterSummary = this.elements.filterSummary;
+        if (!filterSummary) return;
+
+        const activeFilters = [];
+        
+        if (this.currentFilters.rarity) {
+            activeFilters.push(`Rarity: ${this.currentFilters.rarity}`);
+        }
+        if (this.currentFilters.element) {
+            activeFilters.push(`Element: ${this.currentFilters.element}`);
+        }
+        if (this.currentFilters.attackType) {
+            activeFilters.push(`Attack Type: ${this.currentFilters.attackType}`);
+        }
+        if (this.currentFilters.unitType) {
+            activeFilters.push(`Unit Type: ${this.currentFilters.unitType}`);
+        }
+        if (this.currentFilters.searchText) {
+            activeFilters.push(`Search: "${this.currentFilters.searchText}"`);
+        }
+
+        if (activeFilters.length > 0) {
+            filterSummary.innerHTML = `
+                <div class="filter-summary-content">
+                    <div class="filter-summary-header">
+                        <i class="fas fa-filter"></i>
+                        <span>Active Filters (${activeFilters.length})</span>
+                    </div>
+                    <div class="filter-summary-tags">
+                        ${activeFilters.map(filter => `
+                            <span class="filter-tag">${filter}</span>
+                        `).join('')}
+                    </div>
+                    <div class="filter-summary-results">
+                        <i class="fas fa-search"></i>
+                        <span>Showing ${this.filteredUnits.length} of ${Object.values(this.unitsData).length} units</span>
+                    </div>
+                </div>
+            `;
+            filterSummary.style.display = 'block';
+        } else {
+            filterSummary.style.display = 'none';
+        }
+    }
+
+    updateStats() {
+        if (this.elements.unitsCount) {
+            this.elements.unitsCount.textContent = `${this.filteredUnits.length} units`;
         }
     }
 }
