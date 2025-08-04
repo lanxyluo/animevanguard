@@ -68,7 +68,7 @@ export class UnitSelector {
         // Add all element options based on Anime Vanguards Wiki
         const elements = [
             'Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 
-            'Blast', 'Cosmic', 'Unbound', 'Unknown', 'Life', 'Earth', 
+            'Blast', 'Cosmic', 'Unbound', 'Curse', 'Life', 'Earth', 
             'Spirit', 'Lightning', 'Dark', 'Physical'
         ];
         
@@ -162,7 +162,7 @@ export class UnitSelector {
         this.allUnits.forEach(unit => {
             const option = document.createElement('option');
             option.value = unit.id;
-            option.textContent = `${unit.name} (${unit.evolution})`;
+            option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element}`;
             this.unitSelect.appendChild(option);
         });
     }
@@ -221,7 +221,7 @@ export class UnitSelector {
                 this.filteredUnits.forEach(unit => {
                     const option = document.createElement('option');
                     option.value = unit.id;
-                    option.textContent = `${unit.name} (${unit.evolution})`;
+                    option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element}`;
                     this.unitSelect.appendChild(option);
                 });
             }

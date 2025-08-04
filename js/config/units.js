@@ -7,7 +7,7 @@ export const unitsData = {
         id: "koguro_unsealed",
         name: "Koguro (Unsealed)",
         rarity: "Exclusive",
-        element: "Unknown",
+        element: "Curse",
         attackType: "Full AoE",
         unitType: "DPS",
         evolution: "Unsealed",
@@ -418,7 +418,7 @@ export const unitsData = {
     "sun_shinobi_six_paths": {
         id: "sun_shinobi_six_paths",
         name: "Sun Shinobi (Six Paths)",
-        rarity: "Mythical",
+        rarity: "Mythic",
         element: "Fire",
         attackType: "Single Target",
         unitType: "DPS",
@@ -546,7 +546,7 @@ export const unitsData = {
     "dragon_slayer_lightning": {
         id: "dragon_slayer_lightning",
         name: "Dragon Slayer (Lightning Mode)",
-        rarity: "Mythical",
+        rarity: "Mythic",
         element: "Lightning",
         attackType: "Chain",
         unitType: "DPS",
@@ -584,7 +584,7 @@ export const unitCategories = {
         "Legendary": ["rin_caster", "sakura_assassin", "monkey_king_awakened"],
         "Secret": ["emiya_archer", "artoria_saber", "yehowach_almighty", "golden_experience_requiem"],
         "Mythic": ["saber_alter", "gilgamesh_caster"],
-        "Mythical": ["sun_shinobi_six_paths", "dragon_slayer_lightning"],
+        "Mythic": ["sun_shinobi_six_paths", "dragon_slayer_lightning"],
         "Exclusive": ["koguro_unsealed", "arc_true_ancestor", "soul_king_transcendent"]
     },
     byElement: {

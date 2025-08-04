@@ -72,7 +72,7 @@ export class DataValidator {
 
         // 检查元素分布是否合理
         const elementCounts = this.validationResults.elementDistribution;
-        const commonElements = ['Fire', 'Water', 'Earth', 'Wind'];
+        const commonElements = ['Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 'Blast', 'Cosmic', 'Unbound', 'Curse'];
         commonElements.forEach(element => {
             if (elementCounts[element] && elementCounts[element] < 2) {
                 issues.push(`${element}元素单元数量较少，可能遗漏了该元素的单元`);
@@ -110,7 +110,7 @@ export class DataValidator {
         }
 
         // 检查是否有缺失的元素
-        const expectedElements = ['Fire', 'Water', 'Earth', 'Wind', 'Light', 'Dark', 'Electric', 'Ice', 'Poison', 'Psychic'];
+        const expectedElements = ['Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 'Blast', 'Cosmic', 'Unbound', 'Curse', 'Life', 'Earth', 'Spirit', 'Lightning', 'Dark', 'Physical'];
         expectedElements.forEach(element => {
             if (!elementCounts[element] || elementCounts[element] < 2) {
                 recommendations.push(`建议增加${element}元素的单元，确保每个元素都有足够的单元选择`);

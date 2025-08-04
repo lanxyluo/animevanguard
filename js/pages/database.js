@@ -116,7 +116,7 @@ export class DatabasePage {
                         <option value="Legendary">Legendary</option>
                         <option value="Secret">Secret</option>
                         <option value="Mythic">Mythic</option>
-                        <option value="Mythical">Mythical</option>
+                                                           <option value="Mythic">Mythic</option>
                         <option value="Exclusive">Exclusive</option>
                     </select>
                 </div>
@@ -324,7 +324,7 @@ export class DatabasePage {
     populateComparisonSelects() {
         if (!this.unitsData) return;
 
-        const rarityOrder = ['Exclusive', 'Secret', 'Mythic', 'Mythical', 'Legendary', 'Epic', 'Rare'];
+        const rarityOrder = ['Exclusive', 'Secret', 'Mythic', 'Legendary', 'Epic', 'Rare'];
         const unitsByRarity = {};
 
         // Group units by rarity
@@ -877,7 +877,7 @@ export class DatabasePage {
             'Legendary': '#9C27B0',
             'Secret': '#FF9800',
             'Mythic': '#E91E63',
-            'Mythical': '#FF4081',
+            'Mythic': '#E91E63',
             'Exclusive': '#FF5722'
         };
         return colors[rarity] || '#666';

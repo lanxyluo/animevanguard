@@ -9,7 +9,7 @@ export const elementIcons = {
     'Blast': 'fas fa-radiation',
     'Cosmic': 'fas fa-infinity',
     'Unbound': 'fas fa-unlock',
-    'Unknown': 'fas fa-question',
+    'Curse': 'fas fa-skull',
     'Life': 'fas fa-seedling',
     'Earth': 'fas fa-mountain',
     'Spirit': 'fas fa-ghost',
@@ -19,7 +19,7 @@ export const elementIcons = {
 };
 
 // Rarity order for sorting and display
-export const RARITY_ORDER = ['Rare', 'Epic', 'Legendary', 'Secret', 'Mythic', 'Mythical', 'Exclusive'];
+export const RARITY_ORDER = ['Rare', 'Epic', 'Legendary', 'Secret', 'Mythic', 'Exclusive'];
 
 // Attack types for filtering
 export const ATTACK_TYPES = [
