@@ -67,9 +67,14 @@ export class UnitSelector {
         
         // Add all element options based on Anime Vanguards Wiki
         const elements = [
+<<<<<<< HEAD
             'Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 
             'Blast', 'Cosmic', 'Unbound', 'Unknown', 'Life', 'Earth', 
             'Spirit', 'Lightning', 'Dark', 'Physical'
+=======
+            'Fire', 'Water', 'Earth', 'Wind', 'Light', 'Dark', 'Cosmic',
+            'Giant', 'Blast', 'Nuclear', 'Electric', 'Ice', 'Poison', 'Psychic', 'Physical'
+>>>>>>> parent of b432c7f (fix 6)
         ];
         
         elements.forEach(element => {

@@ -12,8 +12,6 @@ export class DPSPage {
         // Data
         this.unitsData = null;
         this.elementIcons = null;
-        this.traitsData = null;
-        this.gameStatesData = null;
         
         // Current state
         this.selectedUnit = null;
@@ -34,11 +32,9 @@ export class DPSPage {
         
         this.unitsData = data.unitsData;
         this.elementIcons = data.elementIcons;
-        this.traitsData = data.traitsData;
-        this.gameStatesData = data.gameStatesData;
         
         // Initialize DPS Calculator
-        this.dpsCalculator = new AnimeVanguardsDPSCalculator(this.traitsData, this.gameStatesData);
+        this.dpsCalculator = new AnimeVanguardsDPSCalculator();
         
         // Initialize UI
         this.initializeUI();
@@ -85,11 +81,6 @@ export class DPSPage {
         // Populate unit select if it exists
         if (this.elements.unitSelect) {
             this.populateUnitSelect();
-        }
-        
-        // Populate game state select if it exists
-        if (this.elements.gameState) {
-            this.populateGameStateOptions();
         }
     }
     
@@ -191,24 +182,9 @@ export class DPSPage {
         if (this.elements.gameState) {
             this.elements.gameState.addEventListener('change', (e) => {
                 this.gameState = e.target.value;
-                if (this.selectedUnit) {
-                    this.calculateDPS();
-                }
             });
         } else {
             console.warn('Game state element not found');
-        }
-        
-        // Trait selection
-        if (this.elements.traitSelect) {
-            this.elements.traitSelect.addEventListener('change', (e) => {
-                this.selectedTrait = e.target.value;
-                if (this.selectedUnit) {
-                    this.calculateDPS();
-                }
-            });
-        } else {
-            console.warn('Trait select element not found');
         }
     }
     
@@ -258,46 +234,19 @@ export class DPSPage {
     
     updateTraitOptions() {
         const traitSelect = this.elements.traitSelect;
-        if (!traitSelect) return;
+        traitSelect.innerHTML = '<option value="">No trait</option>';
         
-        traitSelect.innerHTML = '';
+        if (!this.selectedUnit) return;
         
-        if (!this.traitsData) {
-            console.warn('Traits data not available');
-            return;
+        // Add unit-specific traits
+        if (this.selectedUnit.traits && this.selectedUnit.traits.length > 0) {
+            this.selectedUnit.traits.forEach(trait => {
+                const option = document.createElement('option');
+                option.value = trait.id;
+                option.textContent = trait.name;
+                traitSelect.appendChild(option);
+            });
         }
-        
-        // Add all available traits including no_trait
-        Object.entries(this.traitsData).forEach(([traitId, trait]) => {
-            const option = document.createElement('option');
-            option.value = traitId;
-            option.textContent = `${trait.name} (${trait.description})`;
-            traitSelect.appendChild(option);
-        });
-        
-        console.log('Updated trait options with', Object.keys(this.traitsData).length, 'traits');
-    }
-    
-    populateGameStateOptions() {
-        const gameStateSelect = this.elements.gameState;
-        if (!gameStateSelect) return;
-        
-        gameStateSelect.innerHTML = '';
-        
-        if (!this.gameStatesData) {
-            console.warn('Game states data not available');
-            return;
-        }
-        
-        // Add all available game states
-        Object.entries(this.gameStatesData).forEach(([stateId, state]) => {
-            const option = document.createElement('option');
-            option.value = stateId;
-            option.textContent = `${state.name} (${state.description})`;
-            gameStateSelect.appendChild(option);
-        });
-        
-        console.log('Updated game state options with', Object.keys(this.gameStatesData).length, 'states');
     }
     
     calculateDPS() {
@@ -309,16 +258,12 @@ export class DPSPage {
         try {
             console.log('Calculating DPS for unit:', this.selectedUnit.name, 'at level:', this.currentLevel);
             
-            // Get enemy count from input
-            const enemyCount = parseInt(this.elements.enemyCount?.value || 1);
-            
             // Calculate DPS using the calculator
             const dpsResult = this.dpsCalculator.calculateDPS({
                 unit: this.selectedUnit,
                 level: this.currentLevel,
                 trait: this.selectedTrait,
-                gameState: this.gameState,
-                enemies: enemyCount
+                gameState: this.gameState
             });
             
             // Display results
@@ -336,19 +281,23 @@ export class DPSPage {
         resultsDiv.innerHTML = `
             <div class="dps-result-item">
                 <span>Base DPS:</span>
-                <span>${result.base_dps.toLocaleString()}</span>
+                <span>${result.baseDPS.toLocaleString()}</span>
             </div>
             <div class="dps-result-item">
-                <span>Trait Bonus:</span>
-                <span>${result.trait_bonus}</span>
+                <span>Trait Bonus DPS:</span>
+                <span>${result.traitBonusDPS ? result.traitBonusDPS.toLocaleString() : '0'}</span>
             </div>
             <div class="dps-result-item">
-                <span>Placement Limit:</span>
-                <span>${result.placement_limit}</span>
+                <span>Level Bonus DPS:</span>
+                <span>${result.levelBonusDPS ? result.levelBonusDPS.toLocaleString() : '0'}</span>
+            </div>
+            <div class="dps-result-item">
+                <span>Effective DPS:</span>
+                <span>${result.effectiveDPS ? result.effectiveDPS.toLocaleString() : '0'}</span>
             </div>
             <div class="dps-result-item total">
                 <span>Total DPS:</span>
-                <span>${result.base_dps.toLocaleString()}</span>
+                <span>${result.totalDPS.toLocaleString()}</span>
             </div>
         `;
         
@@ -359,19 +308,19 @@ export class DPSPage {
                 <h4>DPS Breakdown</h4>
                 <div class="breakdown-item">
                     <span>Damage per Hit:</span>
-                    <span>${result.damage_per_hit.toLocaleString()}</span>
+                    <span>${result.damagePerHit.toLocaleString()}</span>
                 </div>
                 <div class="breakdown-item">
                     <span>Attack Speed:</span>
-                    <span>${result.attack_speed}s</span>
+                    <span>${result.attackSpeed.toFixed(2)}s</span>
                 </div>
                 <div class="breakdown-item">
                     <span>Hits per Second:</span>
-                    <span>${result.hits_per_second}</span>
+                    <span>${(1 / result.attackSpeed).toFixed(2)}</span>
                 </div>
                 <div class="breakdown-item">
-                    <span>Attack Range:</span>
-                    <span>${result.range}</span>
+                    <span>Multi-Target Bonus:</span>
+                    <span>0%</span>
                 </div>
             `;
         }
@@ -404,16 +353,6 @@ export class DPSPage {
             this.populateUnitSelect();
         }
         
-        // Ensure trait options are populated
-        if (this.isInitialized && this.elements.traitSelect) {
-            this.updateTraitOptions();
-        }
-        
-        // Ensure game state options are populated
-        if (this.isInitialized && this.elements.gameState) {
-            this.populateGameStateOptions();
-        }
-        
         // Initialize level display
         if (this.elements.levelInput) {
             const levelValue = document.getElementById('levelValue');
@@ -435,100 +374,73 @@ export class DPSPage {
     updateData(newData) {
         this.unitsData = newData.unitsData || this.unitsData;
         this.elementIcons = newData.elementIcons || this.elementIcons;
-        this.traitsData = newData.traitsData || this.traitsData;
-        this.gameStatesData = newData.gameStatesData || this.gameStatesData;
         
         // Re-populate unit select if already initialized
         if (this.isInitialized) {
             this.populateUnitSelect();
-            this.updateTraitOptions();
-            this.populateGameStateOptions();
         }
     }
 }
 
 // DPS Calculator Class
 class AnimeVanguardsDPSCalculator {
-    constructor(traitsData, gameStatesData) {
-        this.traitsData = traitsData;
-        this.gameStatesData = gameStatesData;
-    }
     calculateDPS(params) {
-        const { unit, level, trait, gameState, enemies = 1 } = params;
+        const { unit, level, trait, gameState } = params;
         
-        console.log('DPS Calculator - Unit:', unit.name, 'Level:', level, 'Trait:', trait, 'Game State:', gameState, 'Enemies:', enemies);
+        console.log('DPS Calculator - Unit:', unit.name, 'Level:', level);
         console.log('Unit stats:', unit.stats);
         
-        // Get trait data
-        const traitData = trait && this.traitsData ? this.traitsData[trait] : null;
-        console.log('Trait data:', traitData);
+        // Base stats calculation
+        const baseDamage = this.calculateBaseDamage(unit, level);
+        const attackSpeed = this.calculateAttackSpeed(unit, level);
+        const damagePerHit = baseDamage;
         
-        // Get game state data
-        const gameStateData = gameState && this.gameStatesData ? this.gameStatesData[gameState] : null;
-        console.log('Game state data:', gameStateData);
+        // Base DPS (damage per hit / attack speed)
+        const baseDPS = damagePerHit / attackSpeed;
         
-        // Base stats
-        let baseDamage = unit.stats?.damage || unit.base_damage || 100;
-        let baseAttackSpeed = unit.stats?.spa || unit.base_attack_speed || 1.0;
-        let baseRange = unit.stats?.range || unit.base_range || 1.0;
+        // Level bonus DPS
+        const levelBonusDPS = baseDPS * (level - 1) * 0.1;
         
-        // Level bonus (1-12)
-        let levelMultiplier = 1 + (level - 1) * (unit.level_scaling || 0.1);
+        // Trait bonus DPS (placeholder)
+        const traitBonusDPS = 0;
         
-        // Trait bonuses
-        let traitDamageMultiplier = traitData ? traitData.damage_multiplier || 1.0 : 1.0;
-        let traitSpaMultiplier = traitData ? traitData.spa_multiplier || 1.0 : 1.0;
-        let traitRangeMultiplier = traitData ? traitData.range_multiplier || 1.0 : 1.0;
+        // Effective DPS
+        const effectiveDPS = baseDPS + levelBonusDPS + traitBonusDPS;
         
-        // Calculate final values
-        let finalDamage = baseDamage * levelMultiplier * traitDamageMultiplier;
-        let finalAttackSpeed = baseAttackSpeed * traitSpaMultiplier;
-        let finalRange = baseRange * traitRangeMultiplier;
-        
-        // Critical hit calculation (for Deadeye trait)
-        if (traitData && traitData.crit_chance) {
-            let critMultiplier = 1 + (traitData.crit_chance * traitData.crit_damage);
-            finalDamage *= critMultiplier;
-        }
-        
-        // Calculate DPS
-        let dps = finalDamage / finalAttackSpeed;
-        
-        // Enemy count effect (multi-target attacks)
-        if (unit.aoe_type === "multi_target") {
-            dps *= Math.min(enemies, unit.max_targets || 6);
-        }
-        
-        // Game state effect (Nightmare mode enemies are stronger but don't affect unit DPS)
-        // Note: Game state multiplier is applied to effective DPS, not base DPS
+        // Total DPS
+        const totalDPS = effectiveDPS;
         
         console.log('DPS Calculation Results:', {
             baseDamage,
-            baseAttackSpeed,
-            baseRange,
-            levelMultiplier,
-            traitDamageMultiplier,
-            traitSpaMultiplier,
-            traitRangeMultiplier,
-            finalDamage,
-            finalAttackSpeed,
-            finalRange,
-            dps,
-            enemies,
-            unit_aoe_type: unit.aoe_type,
-            max_targets: unit.max_targets
+            attackSpeed,
+            damagePerHit,
+            baseDPS,
+            levelBonusDPS,
+            traitBonusDPS,
+            effectiveDPS,
+            totalDPS
         });
         
         return {
-            base_dps: Math.round(dps),
-            damage_per_hit: Math.round(finalDamage),
-            attack_speed: parseFloat(finalAttackSpeed.toFixed(2)),
-            hits_per_second: parseFloat((1 / finalAttackSpeed).toFixed(2)),
-            range: Math.round(finalRange),
-            trait_bonus: traitData ? traitData.name : 'No Trait',
-            placement_limit: traitData ? (traitData.placement_limit || 'No Limit') : 'No Limit'
+            baseDPS: Math.round(baseDPS),
+            levelBonusDPS: Math.round(levelBonusDPS),
+            traitBonusDPS: Math.round(traitBonusDPS),
+            effectiveDPS: Math.round(effectiveDPS),
+            totalDPS: Math.round(totalDPS),
+            attackSpeed: attackSpeed,
+            damagePerHit: damagePerHit
         };
     }
     
-
+    calculateBaseDamage(unit, level) {
+        const baseDamage = unit.stats?.damage || 100;
+        const levelMultiplier = 1 + (level - 1) * 0.1;
+        return Math.round(baseDamage * levelMultiplier);
+    }
+    
+    calculateAttackSpeed(unit, level) {
+        const baseSpeed = unit.stats?.spa || 1.0; // Using spa (seconds per attack) from unit stats
+        const levelBonus = (level - 1) * 0.02;
+        return Math.max(0.1, baseSpeed - levelBonus); // Ensure minimum attack speed
+    }
 } 
