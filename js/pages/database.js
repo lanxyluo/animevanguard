@@ -211,7 +211,7 @@ export class DatabasePage {
         } else {
             console.warn('Rarity filter element not found');
         }
-
+        
         if (this.elements.elementFilter) {
             this.elements.elementFilter.addEventListener('change', (e) => {
                 this.currentFilters.element = e.target.value;
@@ -220,7 +220,7 @@ export class DatabasePage {
         } else {
             console.warn('Element filter element not found');
         }
-
+        
         if (this.elements.attackTypeFilter) {
             this.elements.attackTypeFilter.addEventListener('change', (e) => {
                 this.currentFilters.attackType = e.target.value;
@@ -272,7 +272,6 @@ export class DatabasePage {
                 this.compareSelectedUnits();
             });
         }
-        }
         
         if (this.elements.elementFilter) {
             this.elements.elementFilter.addEventListener('change', (e) => {
@@ -292,23 +291,7 @@ export class DatabasePage {
             console.warn('Attack type filter element not found');
         }
         
-        if (this.elements.tierFilter) {
-            this.elements.tierFilter.addEventListener('change', (e) => {
-                this.currentFilters.tier = e.target.value;
-                this.applyFilters();
-            });
-        } else {
-            console.warn('Tier filter element not found');
-        }
-        
-        if (this.elements.sortBy) {
-            this.elements.sortBy.addEventListener('change', (e) => {
-                this.currentFilters.sortBy = e.target.value;
-                this.applyFilters();
-            });
-        } else {
-            console.warn('Sort by element not found');
-        }
+
         
         // View buttons
         const viewBtns = document.querySelectorAll('.view-btn');
@@ -323,14 +306,7 @@ export class DatabasePage {
             console.warn('View buttons not found');
         }
         
-        // Compare button
-        if (this.elements.compareBtn) {
-            this.elements.compareBtn.addEventListener('click', () => {
-                this.compareUnits();
-            });
-        } else {
-            console.warn('Compare button not found');
-        }
+
     }
     
     loadUnits() {
@@ -674,7 +650,7 @@ export class DatabasePage {
                             flex-shrink: 0;
                         ">
                             <i class="${elementIcon}"></i>
-                        </div>
+                </div>
                         <div class="unit-title-info">
                             <h2 style="color: #fff; margin: 0 0 0.5rem 0; font-size: 1.8rem;">${unit.name}</h2>
                             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
@@ -700,10 +676,10 @@ export class DatabasePage {
                                     font-size: 0.8rem;
                                     font-weight: 500;
                                 ">${unit.unitType || 'DPS'}</span>
-                            </div>
+                                </div>
                             <p style="color: #bbb; margin: 0; font-size: 0.9rem;">${unit.obtainment || 'Standard Banner'}</p>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                     <button onclick="this.closest('.unit-details-modal').remove()" style="
                         background: none;
                         border: none;
@@ -712,7 +688,7 @@ export class DatabasePage {
                         cursor: pointer;
                         padding: 0.5rem;
                     ">&times;</button>
-                </div>
+                        </div>
 
                 <div class="unit-details-content" style="display: grid; gap: 2rem;">
                     <!-- Detail Sections -->
@@ -739,7 +715,7 @@ export class DatabasePage {
                                             <div class="field-info">
                                                 <div style="color: #fff; font-weight: 500; margin-bottom: 0.25rem;">${field.label}</div>
                                                 <div style="color: #bbb; font-size: 0.8rem;">${field.description}</div>
-                                            </div>
+                    </div>
                                             <div class="field-value" style="
                                                 color: #fff;
                                                 font-weight: bold;
@@ -844,10 +820,10 @@ export class DatabasePage {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.remove();
-            }
-        });
-    }
-
+                }
+            });
+        }
+        
     formatDetailValue(value, key, unit) {
         if (value === 'N/A') return value;
 
@@ -892,9 +868,7 @@ export class DatabasePage {
         }
     }
     
-    updateStats() {
-        this.elements.unitsCount.textContent = `${this.filteredUnits.length} units`;
-    }
+
     
     getRarityColor(rarity) {
         const colors = {
@@ -1120,7 +1094,7 @@ export class DatabasePage {
                             ${isBest ? 'background: rgba(76, 175, 80, 0.1);' : ''}
                         ">${this.formatFieldValue(value, field, unit, isBest)}</td>`;
                     }).join('')}
-                </tr>
+                            </tr>
             `;
         });
 
@@ -1138,10 +1112,10 @@ export class DatabasePage {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.remove();
-            }
-        });
-    }
-
+                }
+            });
+        }
+        
     getFieldValue(unit, key) {
         switch (key) {
             case 'damage':
@@ -1423,4 +1397,4 @@ export class DatabasePage {
             this.elements.unitsCount.textContent = `${this.filteredUnits.length} units`;
         }
     }
-}
+} 
