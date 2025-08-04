@@ -62,13 +62,14 @@ export class UnitSelector {
     populateElementFilter() {
         if (!this.elementFilter) return;
         
-        // Clear existing options except "All Elements"
-        this.elementFilter.innerHTML = '<option value="">All Elements</option>';
+        // Clear existing options except "All Element"
+        this.elementFilter.innerHTML = '<option value="">All Element</option>';
         
-        // Add all element options
+        // Add all element options based on Anime Vanguards Wiki
         const elements = [
-            'Fire', 'Water', 'Earth', 'Wind', 'Light', 'Dark', 'Cosmic',
-            'Giant', 'Blast', 'Nuclear', 'Electric', 'Ice', 'Poison', 'Psychic', 'Physical', 'Unknown'
+            'Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 
+            'Blast', 'Cosmic', 'Unbound', 'Unknown', 'Life', 'Earth', 
+            'Spirit', 'Lightning', 'Dark', 'Physical'
         ];
         
         elements.forEach(element => {

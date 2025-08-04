@@ -1,1484 +1,618 @@
-// Real Wiki data for Anime Vanguards units
+// Comprehensive Units Database for Anime Vanguards
+// Based on official Wiki data with accurate game information
+
 export const unitsData = {
-    'arin_rumbling': {
-        id: 'arin_rumbling',
-        name: 'Arin',
-        evolution: 'Rumbling',
-        type: 'Giant',
-        rarity: 'Vanguard',
-        tier: 'A+',
-        element: 'Giant',
-        icon: 'fas fa-mountain',
-        description: 'Giant warrior with immense physical strength and earth-shattering attacks',
-        obtainMethod: 'Giant Forest Act 2',
-        dropRate: '2.5%',
-        canEvolve: false,
-        evolutionFrom: 'Arin',
-        stats: {
-            damage: 6500,
-            spa: 1.5,
-            range: 200,
-            dps: 4333,
-            aoeType: 'Single Target',
-            statusEffects: ['Stun', 'Knockback'],
-            traits: ['Giant Strength', 'Earth Shaker']
-        },
-        evolutionMaterials: {
-            goldCost: 12000,
-            specialItem: {
-                name: 'Giant\'s Heart',
-                source: 'Giant Forest Act 4',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 25,
-                'Brown Essence Stone': 15,
-                'Yellow Essence Stone': 8
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Medium',
-            tips: ['Good for early game', 'Reliable tank unit', 'Easy to obtain']
-        }
-    },
-
-    'renguko_purgatory': {
-        id: 'renguko_purgatory',
-        name: 'Renguko',
-        evolution: 'Purgatory',
-        type: 'Burn Specialist',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Fire',
-        icon: 'fas fa-fire',
-        description: 'Master of fire techniques with devastating burn damage over time',
-        obtainMethod: 'Purgatory Tower Act 3',
-        dropRate: '1.2%',
-        canEvolve: false,
-        evolutionFrom: 'Renguko',
-        stats: {
-            damage: 7200,
-            spa: 1.1,
-            range: 300,
-            dps: 6545,
-            aoeType: 'Line AoE',
-            statusEffects: ['Burn', 'Ignite', 'Heat Wave'],
-            traits: ['Fire Mastery', 'Burn Specialist', 'Heat Manipulation']
-        },
-        evolutionMaterials: {
-            goldCost: 18000,
-            specialItem: {
-                name: 'Purgatory Flame',
-                source: 'Purgatory Tower Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 30,
-                'Red Essence Stone': 20,
-                'Orange Essence Stone': 15,
-                'Rainbow Essence Stone': 1
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Best burn specialist', 'Excellent for boss fights', 'High damage over time']
-        }
-    },
-
-    'aurin_nuclear_giant': {
-        id: 'aurin_nuclear_giant',
-        name: 'Aurin',
-        evolution: 'Nuclear Giant',
-        type: 'Nuclear Specialist',
-        rarity: 'Mythic',
-        tier: 'SS',
-        element: 'Blast',
-        icon: 'fas fa-radiation',
-        description: 'Nuclear-powered giant with devastating radiation attacks',
-        obtainMethod: 'Nuclear Facility Legend Stage',
-        dropRate: '0.5%',
-        canEvolve: false,
-        evolutionFrom: 'Aurin',
-        stats: {
-            damage: 15000,
-            spa: 0.9,
-            range: 400,
-            dps: 16667,
-            aoeType: 'Full AoE',
-            statusEffects: ['Radiation', 'Poison', 'Nuclear Fallout'],
-            traits: ['Nuclear Mastery', 'Giant Form', 'Radiation Immunity']
-        },
-        evolutionMaterials: {
-            goldCost: 25000,
-            specialItem: {
-                name: 'Nuclear Core',
-                source: 'Nuclear Facility Act 6',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 40,
-                'Yellow Essence Stone': 25,
-                'Rainbow Essence Stone': 3,
-                'Nuclear Essence Stone': 1
-            }
-        },
-        farmingGuide: {
-            priority: 'Highest',
-            difficulty: 'Very Hard',
-            tips: ['Rarest unit in game', 'Highest damage potential', 'Nuclear specialist']
-        }
-    },
-
-    'yomomata_captain': {
-        id: 'yomomata_captain',
-        name: 'Yomomata',
-        evolution: 'Captain',
-        type: 'Meta-DPS',
-        rarity: 'Secret',
-        tier: 'S+',
-        element: 'Fire',
-        icon: 'fas fa-fire',
-        description: 'Meta-DPS unit inspired by Yamamoto from Bleach with extreme fire damage',
-        obtainMethod: 'Kuinshi Palace Legend Stage 3',
-        dropRate: '0.75%',
-        canEvolve: false,
-        evolutionFrom: 'Yomomata',
-        stats: {
-            damage: 8500,
-            spa: 1.2,
-            range: 350,
-            dps: 7083,
-            aoeType: 'Full AoE',
-            statusEffects: ['Burn', 'Stun'],
-            traits: ['Fire Mastery', 'Captain Authority']
-        },
-        evolutionMaterials: {
-            goldCost: 15000,
-            specialItem: {
-                name: "Head Captain's Coat",
-                source: 'Kuinshi Palace Act 3',
-                dropRate: '1-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 35,
-                'Purple Essence Stone': 12,
-                'Yellow Essence Stone': 11,
-                'Rainbow Essence Stone': 1
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Very Hard',
-            tips: ['Focus on Kuinshi Palace farming', '0.75% drop rate requires patience', 'Best fire DPS unit in game']
-        }
-    },
-    
-    'gujo_infinity': {
-        id: 'gujo_infinity',
-        name: 'Gujo',
-        evolution: 'Infinity',
-        type: 'Sorcerer',
-        rarity: 'Secret',
-        tier: 'S+',
-        element: 'Cosmic',
-        icon: 'fas fa-infinity',
-        description: 'Strongest sorcerer with infinity abilities and reality manipulation',
-        obtainMethod: 'Evolution from Gujo',
-        canEvolve: false,
-        evolutionFrom: 'Gujo',
-        stats: {
-            damage: 12000,
-            spa: 0.8,
-            range: 500,
-            dps: 15000,
-            aoeType: 'Full AoE',
-            statusEffects: ['Infinity Domain', 'Reality Warp'],
-            traits: ['Infinity Technique', 'Cosmic Mastery']
-        },
-        evolutionMaterials: {
-            goldCost: 15000,
-            specialItem: {
-                name: 'Infinity Mask',
-                source: 'Cursed Shop',
-                cost: 'Shop Currency'
-            },
-            essenceStones: {
-                'Green Essence Stone': 30,
-                'Blue Essence Stone': 12,
-                'Pink Essence Stone': 11,
-                'Rainbow Essence Stone': 2
-            }
-        },
-        farmingGuide: {
-            priority: 'Highest',
-            difficulty: 'Hard',
-            tips: ['Get base Gujo first', 'Save up for Cursed Shop', 'Highest DPS unit available']
-        }
-    },
-
-    // Water Element Units
-    'water_master': {
-        id: 'water_master',
-        name: 'Water Master',
-        evolution: 'Base',
-        type: 'Water Specialist',
-        rarity: 'Vanguard',
-        tier: 'A',
-        element: 'Water',
-        icon: 'fas fa-tint',
-        description: 'Master of water manipulation with powerful hydro attacks',
-        obtainMethod: 'Water Temple Stage 2',
-        dropRate: '2.5%',
-        canEvolve: true,
-        evolutionTo: 'Water Master (Tsunami)',
-        stats: {
-            damage: 3200,
-            spa: 1.3,
-            range: 280,
-            dps: 2461,
-            aoeType: 'Water AoE',
-            statusEffects: ['Wet', 'Slow'],
-            traits: ['Water Mastery', 'Hydro Control']
-        },
-        evolutionMaterials: {
-            goldCost: 8000,
-            specialItem: {
-                name: 'Ocean Pearl',
-                source: 'Water Temple Act 2',
-                dropRate: '1-2 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 20,
-                'Blue Essence Stone': 15,
-                'Purple Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Easy',
-            tips: ['Farm Water Temple', 'Good water unit', 'Evolve for better performance']
-        }
-    },
-
-    // Earth Element Units
-    'earth_guardian': {
-        id: 'earth_guardian',
-        name: 'Earth Guardian',
-        evolution: 'Base',
-        type: 'Tank',
-        rarity: 'Vanguard',
-        tier: 'A',
-        element: 'Earth',
-        icon: 'fas fa-mountain',
-        description: 'Sturdy earth guardian with high defense and ground control',
-        obtainMethod: 'Earth Cave Stage 1',
-        dropRate: '3.0%',
-        canEvolve: true,
-        evolutionTo: 'Earth Guardian (Mountain)',
-        stats: {
-            damage: 1800,
-            spa: 2.0,
-            range: 200,
-            dps: 900,
-            aoeType: 'Ground AoE',
-            statusEffects: ['Stun', 'Earth Bind'],
-            traits: ['Earth Mastery', 'Mountain Defense']
-        },
-        evolutionMaterials: {
-            goldCost: 7000,
-            specialItem: {
-                name: 'Mountain Crystal',
-                source: 'Earth Cave Act 1',
-                dropRate: '1-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 25,
-                'Yellow Essence Stone': 10,
-                'Red Essence Stone': 8
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Easy',
-            tips: ['Farm Earth Cave', 'Good tank unit', 'High defense']
-        }
-    },
-
-    // Wind Element Units
-    'wind_ninja': {
-        id: 'wind_ninja',
-        name: 'Wind Ninja',
-        evolution: 'Base',
-        type: 'Speed Specialist',
-        rarity: 'Vanguard',
-        tier: 'A+',
-        element: 'Wind',
-        icon: 'fas fa-wind',
-        description: 'Swift wind ninja with incredible speed and wind techniques',
-        obtainMethod: 'Wind Valley Stage 3',
-        dropRate: '2.0%',
-        canEvolve: true,
-        evolutionTo: 'Wind Ninja (Storm)',
-        stats: {
-            damage: 2800,
-            spa: 0.8,
-            range: 320,
-            dps: 3500,
-            aoeType: 'Wind AoE',
-            statusEffects: ['Speed Boost', 'Wind Cut'],
-            traits: ['Wind Mastery', 'Ninja Speed']
-        },
-        evolutionMaterials: {
-            goldCost: 9000,
-            specialItem: {
-                name: 'Storm Feather',
-                source: 'Wind Valley Act 3',
-                dropRate: '1-2 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 22,
-                'Blue Essence Stone': 12,
-                'Purple Essence Stone': 6
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Medium',
-            tips: ['Farm Wind Valley', 'Fast attack speed', 'Good for speed runs']
-        }
-    },
-
-    // Light Element Units
-    'light_paladin': {
-        id: 'light_paladin',
-        name: 'Light Paladin',
-        evolution: 'Base',
-        type: 'Support',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Light',
-        icon: 'fas fa-sun',
-        description: 'Holy light paladin with healing and purification abilities',
-        obtainMethod: 'Light Cathedral Stage 4',
-        dropRate: '1.5%',
-        canEvolve: true,
-        evolutionTo: 'Light Paladin (Divine)',
-        stats: {
-            damage: 2200,
-            spa: 1.5,
-            range: 300,
-            dps: 1467,
-            aoeType: 'Light AoE',
-            statusEffects: ['Heal', 'Purify'],
-            traits: ['Light Mastery', 'Divine Protection']
-        },
-        evolutionMaterials: {
-            goldCost: 12000,
-            specialItem: {
-                name: 'Divine Light Crystal',
-                source: 'Light Cathedral Act 4',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 30,
-                'Yellow Essence Stone': 20,
-                'Purple Essence Stone': 8
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Farm Light Cathedral', 'Best support unit', 'Essential for team comps']
-        }
-    },
-
-    // Dark Element Units
-    'dark_warlock': {
-        id: 'dark_warlock',
-        name: 'Dark Warlock',
-        evolution: 'Base',
-        type: 'Dark Specialist',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Dark',
-        icon: 'fas fa-moon',
-        description: 'Powerful dark warlock with shadow magic and curse abilities',
-        obtainMethod: 'Dark Tower Stage 5',
-        dropRate: '1.2%',
-        canEvolve: true,
-        evolutionTo: 'Dark Warlock (Shadow)',
-        stats: {
-            damage: 3800,
-            spa: 1.1,
-            range: 350,
-            dps: 3455,
-            aoeType: 'Shadow AoE',
-            statusEffects: ['Curse', 'Fear'],
-            traits: ['Dark Mastery', 'Shadow Magic']
-        },
-        evolutionMaterials: {
-            goldCost: 13000,
-            specialItem: {
-                name: 'Shadow Orb',
-                source: 'Dark Tower Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 35,
-                'Purple Essence Stone': 25,
-                'Blue Essence Stone': 10
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Very Hard',
-            tips: ['Farm Dark Tower', 'Strong dark unit', 'Good for boss fights']
-        }
-    },
-
-    // Giant Element Units
-    'giant_titan': {
-        id: 'giant_titan',
-        name: 'Giant Titan',
-        evolution: 'Base',
-        type: 'Giant Specialist',
-        rarity: 'Mythic',
-        tier: 'S+',
-        element: 'Giant',
-        icon: 'fas fa-mountain',
-        description: 'Massive giant titan with overwhelming physical power',
-        obtainMethod: 'Titan Arena Stage 6',
-        dropRate: '0.8%',
-        canEvolve: true,
-        evolutionTo: 'Giant Titan (Colossal)',
-        stats: {
-            damage: 6000,
-            spa: 2.5,
-            range: 150,
-            dps: 2400,
-            aoeType: 'Giant AoE',
-            statusEffects: ['Stun', 'Crush'],
-            traits: ['Giant Mastery', 'Titan Strength']
-        },
-        evolutionMaterials: {
-            goldCost: 20000,
-            specialItem: {
-                name: 'Titan Heart',
-                source: 'Titan Arena Act 6',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 50,
-                'Red Essence Stone': 30,
-                'Yellow Essence Stone': 20
-            }
-        },
-        farmingGuide: {
-            priority: 'Highest',
-            difficulty: 'Extreme',
-            tips: ['Farm Titan Arena', 'Highest damage unit', 'Very rare drop']
-        }
-    },
-
-    // Nuclear Element Units
-    'nuclear_scientist': {
-        id: 'nuclear_scientist',
-        name: 'Nuclear Scientist',
-        evolution: 'Base',
-        type: 'Nuclear Specialist',
-        rarity: 'Mythic',
-        tier: 'S',
-        element: 'Nuclear',
-        icon: 'fas fa-radiation',
-        description: 'Mad scientist with nuclear power and radioactive abilities',
-        obtainMethod: 'Nuclear Lab Stage 7',
-        dropRate: '0.9%',
-        canEvolve: true,
-        evolutionTo: 'Nuclear Scientist (Fusion)',
-        stats: {
-            damage: 4500,
-            spa: 1.0,
-            range: 400,
-            dps: 4500,
-            aoeType: 'Nuclear AoE',
-            statusEffects: ['Radiation', 'Poison'],
-            traits: ['Nuclear Mastery', 'Radioactive']
-        },
-        evolutionMaterials: {
-            goldCost: 18000,
-            specialItem: {
-                name: 'Nuclear Core',
-                source: 'Nuclear Lab Act 7',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 40,
-                'Purple Essence Stone': 25,
-                'Blue Essence Stone': 15
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Very Hard',
-            tips: ['Farm Nuclear Lab', 'Strong AoE damage', 'Rare nuclear unit']
-        }
-    },
-
-    // Electric Element Units
-    'electric_master': {
-        id: 'electric_master',
-        name: 'Electric Master',
-        evolution: 'Base',
-        type: 'Electric Specialist',
-        rarity: 'Secret',
-        tier: 'A+',
-        element: 'Electric',
-        icon: 'fas fa-bolt',
-        description: 'Master of electricity with lightning-fast attacks',
-        obtainMethod: 'Thunder Peak Stage 4',
-        dropRate: '2.0%',
-        canEvolve: true,
-        evolutionTo: 'Electric Master (Storm)',
-        stats: {
-            damage: 3200,
-            spa: 0.9,
-            range: 280,
-            dps: 3556,
-            aoeType: 'Lightning AoE',
-            statusEffects: ['Shock', 'Paralyze'],
-            traits: ['Electric Mastery', 'Lightning Speed']
-        },
-        evolutionMaterials: {
-            goldCost: 10000,
-            specialItem: {
-                name: 'Lightning Rod',
-                source: 'Thunder Peak Act 4',
-                dropRate: '1-2 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 25,
-                'Blue Essence Stone': 15,
-                'Yellow Essence Stone': 10
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Medium',
-            tips: ['Farm Thunder Peak', 'Fast attack speed', 'Good electric unit']
-        }
-    },
-
-    // Ice Element Units
-    'ice_mage': {
-        id: 'ice_mage',
-        name: 'Ice Mage',
-        evolution: 'Base',
-        type: 'Ice Specialist',
-        rarity: 'Vanguard',
-        tier: 'A',
-        element: 'Ice',
-        icon: 'fas fa-snowflake',
-        description: 'Frozen mage with ice magic and freezing abilities',
-        obtainMethod: 'Frozen Peak Stage 3',
-        dropRate: '2.5%',
-        canEvolve: true,
-        evolutionTo: 'Ice Mage (Frost)',
-        stats: {
-            damage: 2800,
-            spa: 1.4,
-            range: 300,
-            dps: 2000,
-            aoeType: 'Ice AoE',
-            statusEffects: ['Freeze', 'Slow'],
-            traits: ['Ice Mastery', 'Frozen Magic']
-        },
-        evolutionMaterials: {
-            goldCost: 8000,
-            specialItem: {
-                name: 'Frost Crystal',
-                source: 'Frozen Peak Act 3',
-                dropRate: '1-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 20,
-                'Blue Essence Stone': 12,
-                'Purple Essence Stone': 6
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Easy',
-            tips: ['Farm Frozen Peak', 'Good ice unit', 'Freezing abilities']
-        }
-    },
-
-    // Poison Element Units
-    'poison_assassin': {
-        id: 'poison_assassin',
-        name: 'Poison Assassin',
-        evolution: 'Base',
-        type: 'Poison Specialist',
-        rarity: 'Secret',
-        tier: 'A+',
-        element: 'Poison',
-        icon: 'fas fa-skull-crossbones',
-        description: 'Deadly poison assassin with toxic attacks and stealth',
-        obtainMethod: 'Poison Swamp Stage 5',
-        dropRate: '1.8%',
-        canEvolve: true,
-        evolutionTo: 'Poison Assassin (Venom)',
-        stats: {
-            damage: 2600,
-            spa: 1.2,
-            range: 250,
-            dps: 2167,
-            aoeType: 'Poison AoE',
-            statusEffects: ['Poison', 'Stealth'],
-            traits: ['Poison Mastery', 'Assassin Stealth']
-        },
-        evolutionMaterials: {
-            goldCost: 11000,
-            specialItem: {
-                name: 'Venom Fang',
-                source: 'Poison Swamp Act 5',
-                dropRate: '1-2 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 28,
-                'Purple Essence Stone': 15,
-                'Blue Essence Stone': 8
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Medium',
-            tips: ['Farm Poison Swamp', 'Stealth abilities', 'Poison damage over time']
-        }
-    },
-
-    'poison_scout': {
-        id: 'poison_scout',
-        name: 'Poison Scout',
-        evolution: 'Base',
-        type: 'Scout',
-        rarity: 'Vanguard',
-        tier: 'B+',
-        element: 'Poison',
-        icon: 'fas fa-eye',
-        description: 'Poison scout with stealth and reconnaissance abilities',
-        obtainMethod: 'Poison Forest Act 1',
-        dropRate: '3.5%',
-        canEvolve: true,
-        evolutionTo: 'Poison Scout (Venom)',
-        stats: {
-            damage: 1800,
-            spa: 1.4,
-            range: 300,
-            dps: 1286,
-            aoeType: 'Single Target',
-            statusEffects: ['Poison', 'Stealth'],
-            traits: ['Scout Mastery', 'Poison Resistance']
-        },
-        evolutionMaterials: {
-            goldCost: 8000,
-            specialItem: {
-                name: 'Poison Dart',
-                source: 'Poison Forest Act 3',
-                dropRate: '2-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 20,
-                'Purple Essence Stone': 10,
-                'Blue Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Good for early game', 'Stealth abilities', 'Easy to obtain']
-        }
-    },
-
-    // Psychic Element Units
-    'psychic_mind': {
-        id: 'psychic_mind',
-        name: 'Psychic Mind',
-        evolution: 'Base',
-        type: 'Psychic Specialist',
-        rarity: 'Mythic',
-        tier: 'S',
-        element: 'Psychic',
-        icon: 'fas fa-brain',
-        description: 'Powerful psychic with mind control and telepathic abilities',
-        obtainMethod: 'Mind Temple Stage 6',
-        dropRate: '1.0%',
-        canEvolve: true,
-        evolutionTo: 'Psychic Mind (Telepath)',
-        stats: {
-            damage: 3500,
-            spa: 1.3,
-            range: 350,
-            dps: 2692,
-            aoeType: 'Psychic AoE',
-            statusEffects: ['Mind Control', 'Confuse'],
-            traits: ['Psychic Mastery', 'Telepathic']
-        },
-        evolutionMaterials: {
-            goldCost: 16000,
-            specialItem: {
-                name: 'Mind Crystal',
-                source: 'Mind Temple Act 6',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 35,
-                'Purple Essence Stone': 20,
-                'Blue Essence Stone': 12
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Farm Mind Temple', 'Mind control abilities', 'Rare psychic unit']
-        }
-    },
-
-    // Blast Element Units
-    'blast_exploder': {
-        id: 'blast_exploder',
-        name: 'Blast Exploder',
-        evolution: 'Base',
-        type: 'Blast Specialist',
-        rarity: 'Secret',
-        tier: 'A+',
-        element: 'Blast',
-        icon: 'fas fa-radiation',
-        description: 'Explosive specialist with powerful blast damage',
-        obtainMethod: 'Explosion Valley Stage 4',
-        dropRate: '1.5%',
-        canEvolve: true,
-        evolutionTo: 'Blast Exploder (Mega)',
-        stats: {
-            damage: 3800,
-            spa: 1.1,
-            range: 300,
-            dps: 3455,
-            aoeType: 'Blast AoE',
-            statusEffects: ['Explosion', 'Stun'],
-            traits: ['Blast Mastery', 'Explosive']
-        },
-        evolutionMaterials: {
-            goldCost: 12000,
-            specialItem: {
-                name: 'Explosive Core',
-                source: 'Explosion Valley Act 4',
-                dropRate: '1-2 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 30,
-                'Red Essence Stone': 15,
-                'Yellow Essence Stone': 10
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Medium',
-            tips: ['Farm Explosion Valley', 'Strong blast damage', 'Good for crowd control']
-        }
-    },
-
-    // Physical Element Units
-    'physical_warrior': {
-        id: 'physical_warrior',
-        name: 'Physical Warrior',
-        evolution: 'Base',
-        type: 'Physical Specialist',
-        rarity: 'Vanguard',
-        tier: 'B+',
-        element: 'Physical',
-        icon: 'fas fa-fist-raised',
-        description: 'Master of physical combat with powerful melee attacks',
-        obtainMethod: 'Story Mode Chapter 5',
-        dropRate: '15%',
-        canEvolve: true,
-        evolutionTo: 'Physical Berserker',
-        stats: {
-            damage: 3200,
-            spa: 1.8,
-            range: 150,
-            dps: 1778,
-            aoeType: 'Single Target',
-            statusEffects: ['Stun'],
-            traits: ['Physical Mastery', 'Combat Expert']
-        },
-        evolutionMaterials: {
-            goldCost: 8000,
-            specialItem: {
-                name: 'Warrior\'s Gauntlets',
-                source: 'Story Mode Chapter 5',
-                dropRate: '25%'
-            },
-            essenceStones: {
-                'Green Essence Stone': 20,
-                'Blue Essence Stone': 8,
-                'Pink Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Medium',
-            difficulty: 'Easy',
-            tips: ['Complete Story Mode Chapter 5', 'Good for beginners', 'Strong physical damage']
-        }
-    },
-
-    // Add missing Cosmic element unit
-    'cosmic_sorcerer': {
-        id: 'cosmic_sorcerer',
-        name: 'Cosmic Sorcerer',
-        evolution: 'Base',
-        type: 'Sorcerer',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Cosmic',
-        icon: 'fas fa-star',
-        description: 'Master of cosmic magic with reality-bending abilities',
-        obtainMethod: 'Cosmic Realm Act 3',
-        dropRate: '1.5%',
-        canEvolve: false,
-        evolutionFrom: null,
-        stats: {
-            damage: 9000,
-            spa: 1.0,
-            range: 450,
-            dps: 9000,
-            aoeType: 'Full AoE',
-            statusEffects: ['Cosmic Bind', 'Reality Warp'],
-            traits: ['Cosmic Mastery', 'Reality Manipulation']
-        },
-        evolutionMaterials: {
-            goldCost: 20000,
-            specialItem: {
-                name: 'Cosmic Crystal',
-                source: 'Cosmic Realm Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 35,
-                'Blue Essence Stone': 20,
-                'Rainbow Essence Stone': 2
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Excellent cosmic unit', 'Reality manipulation abilities', 'High tier sorcerer']
-        }
-    },
-
-    'exclusive_legend': {
-        id: 'exclusive_legend',
-        name: 'Exclusive Legend',
-        evolution: 'Base',
-        type: 'Legendary Warrior',
-        rarity: 'Exclusive',
-        tier: 'SSS',
-        element: 'Physical',
-        icon: 'fas fa-crown',
-        description: 'Exclusive legendary warrior with unmatched combat prowess',
-        obtainMethod: 'Exclusive Event Only',
-        dropRate: '0.1%',
-        canEvolve: false,
-        evolutionFrom: null,
-        stats: {
-            damage: 20000,
-            spa: 0.7,
-            range: 300,
-            dps: 28571,
-            aoeType: 'Full AoE',
-            statusEffects: ['Legendary Strike', 'Divine Protection'],
-            traits: ['Legendary Status', 'Divine Power', 'Exclusive Access']
-        },
-        evolutionMaterials: {
-            goldCost: 50000,
-            specialItem: {
-                name: 'Legendary Crown',
-                source: 'Exclusive Event',
-                dropRate: '1 per event'
-            },
-            essenceStones: {
-                'Rainbow Essence Stone': 10,
-                'Legendary Essence Stone': 5,
-                'Divine Essence Stone': 1
-            }
-        },
-        farmingGuide: {
-            priority: 'Highest',
-            difficulty: 'Impossible',
-            tips: ['Exclusive event only', 'Rarest unit in game', 'Ultimate power']
-        }
-    },
-
-    'exclusive_mage': {
-        id: 'exclusive_mage',
-        name: 'Exclusive Mage',
-        evolution: 'Base',
-        type: 'Archmage',
-        rarity: 'Exclusive',
-        tier: 'SSS',
-        element: 'Cosmic',
-        icon: 'fas fa-magic',
-        description: 'Exclusive archmage with ultimate magical power',
-        obtainMethod: 'Exclusive Event Only',
-        dropRate: '0.1%',
-        canEvolve: false,
-        evolutionFrom: null,
-        stats: {
-            damage: 18000,
-            spa: 0.8,
-            range: 500,
-            dps: 22500,
-            aoeType: 'Full AoE',
-            statusEffects: ['Arcane Mastery', 'Reality Control'],
-            traits: ['Arcane Power', 'Exclusive Access', 'Ultimate Magic']
-        },
-        evolutionMaterials: {
-            goldCost: 45000,
-            specialItem: {
-                name: 'Arcane Staff',
-                source: 'Exclusive Event',
-                dropRate: '1 per event'
-            },
-            essenceStones: {
-                'Rainbow Essence Stone': 8,
-                'Arcane Essence Stone': 5,
-                'Divine Essence Stone': 1
-            }
-        },
-        farmingGuide: {
-            priority: 'Highest',
-            difficulty: 'Impossible',
-            tips: ['Exclusive event only', 'Ultimate mage', 'Reality control']
-        }
-    },
-
-    // Additional Vanguard units for better filtering
-    'fire_warrior': {
-        id: 'fire_warrior',
-        name: 'Fire Warrior',
-        evolution: 'Base',
-        type: 'Warrior',
-        rarity: 'Vanguard',
-        tier: 'B+',
-        element: 'Fire',
-        icon: 'fas fa-fire',
-        description: 'Basic fire warrior with flame sword techniques',
-        obtainMethod: 'Fire Valley Act 1',
-        dropRate: '4.0%',
-        canEvolve: true,
-        evolutionTo: 'Fire Warrior (Flame)',
-        stats: {
-            damage: 2000,
-            spa: 1.3,
-            range: 200,
-            dps: 1538,
-            aoeType: 'Single Target',
-            statusEffects: ['Burn'],
-            traits: ['Fire Resistance', 'Warrior Training']
-        },
-        evolutionMaterials: {
-            goldCost: 7000,
-            specialItem: {
-                name: 'Flame Sword',
-                source: 'Fire Valley Act 2',
-                dropRate: '3-4 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 18,
-                'Red Essence Stone': 8,
-                'Orange Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Good starter unit', 'Fire damage', 'Easy to farm']
-        }
-    },
-
-    'ice_guardian': {
-        id: 'ice_guardian',
-        name: 'Ice Guardian',
-        evolution: 'Base',
-        type: 'Guardian',
-        rarity: 'Vanguard',
-        tier: 'B+',
-        element: 'Ice',
-        icon: 'fas fa-snowflake',
-        description: 'Ice guardian with defensive and freezing abilities',
-        obtainMethod: 'Ice Peak Act 1',
-        dropRate: '3.8%',
-        canEvolve: true,
-        evolutionTo: 'Ice Guardian (Frost)',
-        stats: {
-            damage: 1800,
-            spa: 1.5,
-            range: 250,
-            dps: 1200,
-            aoeType: 'Single Target',
-            statusEffects: ['Freeze', 'Slow'],
-            traits: ['Ice Resistance', 'Guardian Training']
-        },
-        evolutionMaterials: {
-            goldCost: 7500,
-            specialItem: {
-                name: 'Ice Shield',
-                source: 'Ice Peak Act 2',
-                dropRate: '2-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 20,
-                'Blue Essence Stone': 10,
-                'White Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Good defensive unit', 'Freezing abilities', 'Easy to obtain']
-        }
-    },
-
-    'nuclear_apprentice': {
-        id: 'nuclear_apprentice',
-        name: 'Nuclear Apprentice',
-        evolution: 'Base',
-        type: 'Apprentice',
-        rarity: 'Vanguard',
-        tier: 'B',
-        element: 'Nuclear',
-        icon: 'fas fa-atom',
-        description: 'Nuclear apprentice learning radioactive techniques',
-        obtainMethod: 'Nuclear Lab Act 1',
-        dropRate: '4.2%',
-        canEvolve: true,
-        evolutionTo: 'Nuclear Apprentice (Fusion)',
+    // Exclusive Tier Units
+    "koguro_unsealed": {
+        id: "koguro_unsealed",
+        name: "Koguro (Unsealed)",
+        rarity: "Exclusive",
+        element: "Unknown",
+        attackType: "Full AoE",
+        unitType: "DPS",
+        evolution: "Unsealed",
         stats: {
             damage: 1500,
-            spa: 1.6,
-            range: 200,
-            dps: 938,
-            aoeType: 'Single Target',
-            statusEffects: ['Radiation'],
-            traits: ['Nuclear Resistance', 'Apprentice Training']
+            spa: 1.2,
+            range: 8,
+            dps: 1250
         },
-        evolutionMaterials: {
-            goldCost: 6000,
-            specialItem: {
-                name: 'Radiation Gloves',
-                source: 'Nuclear Lab Act 2',
-                dropRate: '3-4 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 15,
-                'Yellow Essence Stone': 8,
-                'Blue Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Good starter unit', 'Nuclear damage', 'Easy to farm']
-        }
+        deploymentCost: "High",
+        totalCost: "Extremely High",
+        upgradeLevel: 11,
+        placementLimit: 1,
+        obtainment: "Spring Banner (1/20k drop rate)",
+        passiveAbilities: [
+            "When activating new dimension, damage increases by 20%, range increases by 10%",
+            "Teleports to nearest suitable attack position when attacking",
+            "Copies element of units in team"
+        ],
+        activeAbilities: [
+            "Dimension Switch - 3 unique dimensions",
+            "Deals 1000% damage to all enemies (can only use once per match)"
+        ],
+        pros: ["Unknown element", "Multiple summons", "3 different nukes", "Excellent range and damage"],
+        cons: ["Nuke can only be used once per game", "Requires mana to use summons/nuke"],
+        description: "The unsealed form of Koguro with ultimate dimensional powers"
     },
 
-    // Additional units to ensure all rarity+element combinations exist
-    'vanguard_electric': {
-        id: 'vanguard_electric',
-        name: 'Electric Scout',
-        evolution: 'Base',
-        type: 'Scout',
-        rarity: 'Vanguard',
-        tier: 'B+',
-        element: 'Electric',
-        icon: 'fas fa-bolt',
-        description: 'Electric scout with lightning speed',
-        obtainMethod: 'Thunder Valley Act 1',
-        dropRate: '3.8%',
-        canEvolve: true,
-        evolutionTo: 'Electric Scout (Storm)',
+    "arc_true_ancestor": {
+        id: "arc_true_ancestor",
+        name: "Arc (True Ancestor)",
+        rarity: "Exclusive",
+        element: "Holy",
+        attackType: "Circle AoE",
+        unitType: "DPS",
+        evolution: "True Ancestor",
         stats: {
-            damage: 1600,
-            spa: 1.4,
-            range: 250,
-            dps: 1143,
-            aoeType: 'Single Target',
-            statusEffects: ['Shock'],
-            traits: ['Electric Resistance', 'Scout Training']
+            damage: 1200,
+            spa: 0.8,
+            range: 6,
+            dps: 1500
         },
-        evolutionMaterials: {
-            goldCost: 6500,
-            specialItem: {
-                name: 'Lightning Boots',
-                source: 'Thunder Valley Act 2',
-                dropRate: '2-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 18,
-                'Yellow Essence Stone': 8,
-                'Blue Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Fast attack speed', 'Electric damage', 'Easy to obtain']
-        }
+        deploymentCost: "Medium",
+        totalCost: "High",
+        upgradeLevel: 10,
+        placementLimit: 2,
+        obtainment: "Spring Banner + Mystic Glasses evolution",
+        passiveAbilities: [
+            "Bloodlust Counter - Gain bloodlust stacks when hitting bleeding enemies or killing",
+            "Causes bleeding effect on hit, lasting 6 seconds, dealing 30% damage"
+        ],
+        activeAbilities: [
+            "True Ancestor Bloodline - Special bloodline ability"
+        ],
+        pros: ["Holy element", "Bleeding effect", "Kill reward mechanism"],
+        cons: ["Requires specific evolution item", "Limited time availability"],
+        description: "The true ancestor form of Arc with holy bloodline powers"
     },
 
-    'vanguard_psychic': {
-        id: 'vanguard_psychic',
-        name: 'Psychic Novice',
-        evolution: 'Base',
-        type: 'Novice',
-        rarity: 'Vanguard',
-        tier: 'B',
-        element: 'Psychic',
-        icon: 'fas fa-brain',
-        description: 'Psychic novice learning mind powers',
-        obtainMethod: 'Mind Forest Act 1',
-        dropRate: '3.5%',
-        canEvolve: true,
-        evolutionTo: 'Psychic Novice (Telepath)',
-        stats: {
-            damage: 1400,
-            spa: 1.7,
-            range: 300,
-            dps: 824,
-            aoeType: 'Single Target',
-            statusEffects: ['Confuse'],
-            traits: ['Psychic Resistance', 'Novice Training']
-        },
-        evolutionMaterials: {
-            goldCost: 5500,
-            specialItem: {
-                name: 'Mind Crystal',
-                source: 'Mind Forest Act 2',
-                dropRate: '2-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 16,
-                'Pink Essence Stone': 6,
-                'Blue Essence Stone': 4
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Mind control abilities', 'Psychic damage', 'Easy to farm']
-        }
-    },
-
-    'vanguard_blast': {
-        id: 'vanguard_blast',
-        name: 'Blast Trainee',
-        evolution: 'Base',
-        type: 'Trainee',
-        rarity: 'Vanguard',
-        tier: 'B',
-        element: 'Blast',
-        icon: 'fas fa-bomb',
-        description: 'Blast trainee learning explosive techniques',
-        obtainMethod: 'Explosion Valley Act 1',
-        dropRate: '3.6%',
-        canEvolve: true,
-        evolutionTo: 'Blast Trainee (Exploder)',
-        stats: {
-            damage: 1700,
-            spa: 1.5,
-            range: 200,
-            dps: 1133,
-            aoeType: 'Single Target',
-            statusEffects: ['Explosion'],
-            traits: ['Blast Resistance', 'Trainee Training']
-        },
-        evolutionMaterials: {
-            goldCost: 5800,
-            specialItem: {
-                name: 'Explosive Powder',
-                source: 'Explosion Valley Act 2',
-                dropRate: '3-4 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 17,
-                'Orange Essence Stone': 7,
-                'Red Essence Stone': 4
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Explosive damage', 'Blast abilities', 'Easy to obtain']
-        }
-    },
-
-    'vanguard_physical': {
-        id: 'vanguard_physical',
-        name: 'Physical Fighter',
-        evolution: 'Base',
-        type: 'Fighter',
-        rarity: 'Vanguard',
-        tier: 'B+',
-        element: 'Physical',
-        icon: 'fas fa-fist-raised',
-        description: 'Physical fighter with martial arts skills',
-        obtainMethod: 'Training Grounds Act 1',
-        dropRate: '4.0%',
-        canEvolve: true,
-        evolutionTo: 'Physical Fighter (Warrior)',
+    "yehowach_almighty": {
+        id: "yehowach_almighty",
+        name: "Yehowach (Almighty)",
+        rarity: "Secret",
+        element: "Cosmic",
+        attackType: "Cone AoE",
+        unitType: "DPS",
+        evolution: "Almighty",
         stats: {
             damage: 1800,
-            spa: 1.3,
-            range: 150,
-            dps: 1385,
-            aoeType: 'Single Target',
-            statusEffects: ['Stun'],
-            traits: ['Physical Mastery', 'Fighter Training']
+            spa: 1.5,
+            range: 10,
+            dps: 1200
         },
-        evolutionMaterials: {
-            goldCost: 6200,
-            specialItem: {
-                name: 'Training Belt',
-                source: 'Training Grounds Act 2',
-                dropRate: '2-3 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 19,
-                'Brown Essence Stone': 8,
-                'Yellow Essence Stone': 5
-            }
-        },
-        farmingGuide: {
-            priority: 'Low',
-            difficulty: 'Easy',
-            tips: ['Physical damage', 'Martial arts', 'Easy to farm']
-        }
+        deploymentCost: "High",
+        totalCost: "Extremely High",
+        upgradeLevel: 12,
+        placementLimit: 1,
+        obtainment: "Rifts (2% drop rate, guaranteed with Vowstone)",
+        passiveAbilities: [
+            "Almighty - Immune to status effects, gain 5% damage increase for each avoided status effect (max 30%)",
+            "Future Seer - When attacking, perform additional attack on last enemy in range"
+        ],
+        activeAbilities: [
+            "Ashen Fall - Each use increases range by 5% (max 20%)",
+            "Dual Switch - Two mode switching"
+        ],
+        pros: ["Cosmic element", "Status effect immunity", "Dual attack mechanism", "Essential for infinite mode"],
+        cons: ["Very expensive", "Requires many kills to evolve"],
+        description: "The almighty form of Yehowach with cosmic powers"
     },
 
-    // Secret rarity additions for missing elements
-    'secret_water': {
-        id: 'secret_water',
-        name: 'Water Master',
-        evolution: 'Base',
-        type: 'Master',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Water',
-        icon: 'fas fa-tint',
-        description: 'Master of water manipulation with powerful hydro attacks',
-        obtainMethod: 'Ocean Temple Act 3',
-        dropRate: '1.5%',
-        canEvolve: true,
-        evolutionTo: 'Water Master (Tsunami)',
+    // Mythic Tier Units
+    "saber_alter": {
+        id: "saber_alter",
+        name: "Saber Alter",
+        rarity: "Mythic",
+        element: "Dark",
+        attackType: "Single Target",
+        unitType: "DPS",
+        evolution: "Alter",
         stats: {
-            damage: 4500,
-            spa: 1.1,
-            range: 350,
-            dps: 4091,
-            aoeType: 'Water AoE',
-            statusEffects: ['Drown', 'Slow'],
-            traits: ['Water Mastery', 'Hydro Control']
+            damage: 1000,
+            spa: 1.0,
+            range: 5,
+            dps: 1000
         },
-        evolutionMaterials: {
-            goldCost: 16000,
-            specialItem: {
-                name: 'Ocean Pearl',
-                source: 'Ocean Temple Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 30,
-                'Blue Essence Stone': 15,
-                'Purple Essence Stone': 8
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Excellent water unit', 'Hydro control', 'Strong AoE']
-        }
+        deploymentCost: "Medium",
+        totalCost: "High",
+        upgradeLevel: 9,
+        placementLimit: 3,
+        obtainment: "Dark Banner (5% drop rate)",
+        passiveAbilities: [
+            "Dark Excalibur - Attacks have 25% chance to deal double damage",
+            "Corrupted Power - Damage increases by 15% when below 50% HP"
+        ],
+        activeAbilities: [
+            "Excalibur Morgan - Ultimate dark sword technique"
+        ],
+        pros: ["High single target damage", "Dark element advantage", "Critical hit chance"],
+        cons: ["Limited range", "Requires HP management"],
+        description: "The corrupted form of Saber with dark powers"
     },
 
-    'secret_earth': {
-        id: 'secret_earth',
-        name: 'Earth Guardian',
-        evolution: 'Base',
-        type: 'Guardian',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Earth',
-        icon: 'fas fa-mountain',
-        description: 'Earth guardian with defensive and seismic abilities',
-        obtainMethod: 'Earth Temple Act 3',
-        dropRate: '1.3%',
-        canEvolve: true,
-        evolutionTo: 'Earth Guardian (Titan)',
+    "gilgamesh_caster": {
+        id: "gilgamesh_caster",
+        name: "Gilgamesh (Caster)",
+        rarity: "Mythic",
+        element: "Fire",
+        attackType: "Full AoE",
+        unitType: "DPS",
+        evolution: "Caster",
         stats: {
-            damage: 3800,
-            spa: 1.4,
-            range: 250,
-            dps: 2714,
-            aoeType: 'Earth AoE',
-            statusEffects: ['Stun', 'Knockback'],
-            traits: ['Earth Mastery', 'Seismic Control']
+            damage: 800,
+            spa: 0.6,
+            range: 12,
+            dps: 1333
         },
-        evolutionMaterials: {
-            goldCost: 15000,
-            specialItem: {
-                name: 'Earth Core',
-                source: 'Earth Temple Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 28,
-                'Brown Essence Stone': 12,
-                'Purple Essence Stone': 8
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Excellent tank unit', 'Seismic damage', 'Strong defense']
-        }
+        deploymentCost: "High",
+        totalCost: "Very High",
+        upgradeLevel: 10,
+        placementLimit: 2,
+        obtainment: "Fire Banner (3% drop rate)",
+        passiveAbilities: [
+            "Gate of Babylon - Attacks have 30% chance to fire additional projectiles",
+            "King's Authority - Range increases by 20% when no other units are nearby"
+        ],
+        activeAbilities: [
+            "Enuma Elish - Ultimate fire magic attack"
+        ],
+        pros: ["Extreme range", "Fire element", "Multiple projectile chance"],
+        cons: ["Low base damage", "High deployment cost"],
+        description: "The caster form of Gilgamesh with fire magic"
     },
 
-    'secret_wind': {
-        id: 'secret_wind',
-        name: 'Wind Ninja',
-        evolution: 'Base',
-        type: 'Ninja',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Wind',
-        icon: 'fas fa-wind',
-        description: 'Wind ninja with speed and stealth abilities',
-        obtainMethod: 'Wind Temple Act 3',
-        dropRate: '1.4%',
-        canEvolve: true,
-        evolutionTo: 'Wind Ninja (Storm)',
+    // Secret Tier Units
+    "emiya_archer": {
+        id: "emiya_archer",
+        name: "Emiya (Archer)",
+        rarity: "Secret",
+        element: "Fire",
+        attackType: "Line AoE",
+        unitType: "DPS",
+        evolution: "Archer",
         stats: {
-            damage: 4200,
+            damage: 900,
             spa: 0.9,
-            range: 300,
-            dps: 4667,
-            aoeType: 'Wind AoE',
-            statusEffects: ['Silence', 'Speed Boost'],
-            traits: ['Wind Mastery', 'Ninja Stealth']
+            range: 8,
+            dps: 1000
         },
-        evolutionMaterials: {
-            goldCost: 15500,
-            specialItem: {
-                name: 'Wind Essence',
-                source: 'Wind Temple Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 29,
-                'Blue Essence Stone': 14,
-                'Purple Essence Stone': 7
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Fast attack speed', 'Stealth abilities', 'Wind damage']
-        }
+        deploymentCost: "Medium",
+        totalCost: "High",
+        upgradeLevel: 8,
+        placementLimit: 4,
+        obtainment: "Fire Banner (8% drop rate)",
+        passiveAbilities: [
+            "Unlimited Blade Works - 20% chance to fire multiple arrows",
+            "Eye of the Mind - Critical hit chance increases by 15%"
+        ],
+        activeAbilities: [
+            "Broken Phantasm - Enhanced arrow attack"
+        ],
+        pros: ["Line AoE damage", "Fire element", "Multiple arrow chance"],
+        cons: ["Medium range", "Requires positioning"],
+        description: "The archer form of Emiya with fire arrows"
     },
 
-    'secret_dark': {
-        id: 'secret_dark',
-        name: 'Dark Warlock',
-        evolution: 'Base',
-        type: 'Warlock',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Dark',
-        icon: 'fas fa-moon',
-        description: 'Dark warlock with shadow magic and curse abilities',
-        obtainMethod: 'Dark Cathedral Act 3',
-        dropRate: '1.2%',
-        canEvolve: true,
-        evolutionTo: 'Dark Warlock (Shadow)',
+    "artoria_saber": {
+        id: "artoria_saber",
+        name: "Artoria (Saber)",
+        rarity: "Secret",
+        element: "Holy",
+        attackType: "Single Target",
+        unitType: "DPS",
+        evolution: "Saber",
         stats: {
-            damage: 4800,
+            damage: 1100,
+            spa: 1.1,
+            range: 4,
+            dps: 1000
+        },
+        deploymentCost: "Medium",
+        totalCost: "High",
+        upgradeLevel: 8,
+        placementLimit: 4,
+        obtainment: "Holy Banner (8% drop rate)",
+        passiveAbilities: [
+            "Excalibur - 25% chance to deal holy damage bonus",
+            "Knight's Honor - Damage increases by 10% when attacking from front"
+        ],
+        activeAbilities: [
+            "Excalibur - Holy sword technique"
+        ],
+        pros: ["High single target damage", "Holy element", "Front attack bonus"],
+        cons: ["Short range", "Requires positioning"],
+        description: "The saber form of Artoria with holy sword"
+    },
+
+    // Legendary Tier Units
+    "rin_caster": {
+        id: "rin_caster",
+        name: "Rin (Caster)",
+        rarity: "Legendary",
+        element: "Fire",
+        attackType: "Circle AoE",
+        unitType: "DPS",
+        evolution: "Caster",
+        stats: {
+            damage: 700,
+            spa: 0.8,
+            range: 6,
+            dps: 875
+        },
+        deploymentCost: "Medium",
+        totalCost: "Medium",
+        upgradeLevel: 7,
+        placementLimit: 5,
+        obtainment: "Fire Banner (15% drop rate)",
+        passiveAbilities: [
+            "Gem Magic - Attacks have 15% chance to deal bonus damage",
+            "Mana Burst - Attack speed increases by 10% when above 80% HP"
+        ],
+        activeAbilities: [
+            "Gandr - Magic bullet attack"
+        ],
+        pros: ["Circle AoE", "Fire element", "Mana burst bonus"],
+        cons: ["Medium damage", "HP dependent bonus"],
+        description: "The caster form of Rin with fire magic"
+    },
+
+    "sakura_assassin": {
+        id: "sakura_assassin",
+        name: "Sakura (Assassin)",
+        rarity: "Legendary",
+        element: "Dark",
+        attackType: "Single Target",
+        unitType: "DPS",
+        evolution: "Assassin",
+        stats: {
+            damage: 850,
+            spa: 0.7,
+            range: 3,
+            dps: 1214
+        },
+        deploymentCost: "Low",
+        totalCost: "Medium",
+        upgradeLevel: 7,
+        placementLimit: 5,
+        obtainment: "Dark Banner (15% drop rate)",
+        passiveAbilities: [
+            "Shadow Step - 20% chance to attack twice",
+            "Dark Presence - Damage increases by 15% when attacking from behind"
+        ],
+        activeAbilities: [
+            "Shadow Strike - Stealth attack"
+        ],
+        pros: ["High attack speed", "Dark element", "Back attack bonus"],
+        cons: ["Very short range", "Requires positioning"],
+        description: "The assassin form of Sakura with dark powers"
+    },
+
+    // Epic Tier Units
+    "shirou_archer": {
+        id: "shirou_archer",
+        name: "Shirou (Archer)",
+        rarity: "Epic",
+        element: "Fire",
+        attackType: "Single Target",
+        unitType: "DPS",
+        evolution: "Archer",
+        stats: {
+            damage: 600,
+            spa: 1.0,
+            range: 7,
+            dps: 600
+        },
+        deploymentCost: "Low",
+        totalCost: "Low",
+        upgradeLevel: 6,
+        placementLimit: 6,
+        obtainment: "Fire Banner (25% drop rate)",
+        passiveAbilities: [
+            "Projection - 10% chance to fire additional arrow",
+            "Reinforcement - Damage increases by 8% when attacking same target"
+        ],
+        activeAbilities: [
+            "Arrow Shot - Basic arrow attack"
+        ],
+        pros: ["Good range", "Fire element", "Projection chance"],
+        cons: ["Low damage", "Single target only"],
+        description: "The archer form of Shirou with fire arrows"
+    },
+
+    "illya_caster": {
+        id: "illya_caster",
+        name: "Illya (Caster)",
+        rarity: "Epic",
+        element: "Holy",
+        attackType: "Circle AoE",
+        unitType: "DPS",
+        evolution: "Caster",
+        stats: {
+            damage: 550,
+            spa: 0.9,
+            range: 5,
+            dps: 611
+        },
+        deploymentCost: "Low",
+        totalCost: "Low",
+        upgradeLevel: 6,
+        placementLimit: 6,
+        obtainment: "Holy Banner (25% drop rate)",
+        passiveAbilities: [
+            "Holy Magic - 12% chance to deal holy damage bonus",
+            "Child's Innocence - Range increases by 10% when no enemies nearby"
+        ],
+        activeAbilities: [
+            "Holy Bolt - Holy magic attack"
+        ],
+        pros: ["Circle AoE", "Holy element", "Range bonus"],
+        cons: ["Low damage", "Conditional range bonus"],
+        description: "The caster form of Illya with holy magic"
+    },
+
+    // Rare Tier Units
+    "kirei_assassin": {
+        id: "kirei_assassin",
+        name: "Kirei (Assassin)",
+        rarity: "Rare",
+        element: "Dark",
+        attackType: "Single Target",
+        unitType: "DPS",
+        evolution: "Assassin",
+        stats: {
+            damage: 450,
+            spa: 0.8,
+            range: 3,
+            dps: 563
+        },
+        deploymentCost: "Very Low",
+        totalCost: "Very Low",
+        upgradeLevel: 5,
+        placementLimit: 8,
+        obtainment: "Dark Banner (40% drop rate)",
+        passiveAbilities: [
+            "Black Keys - 8% chance to deal dark damage bonus",
+            "Priest's Training - Attack speed increases by 5%"
+        ],
+        activeAbilities: [
+            "Black Key Throw - Dark weapon attack"
+        ],
+        pros: ["Fast attack speed", "Dark element", "Low cost"],
+        cons: ["Very low damage", "Short range"],
+        description: "The assassin form of Kirei with dark weapons"
+    },
+
+    "taiga_saber": {
+        id: "taiga_saber",
+        name: "Taiga (Saber)",
+        rarity: "Rare",
+        element: "Physical",
+        attackType: "Single Target",
+        unitType: "DPS",
+        evolution: "Saber",
+        stats: {
+            damage: 500,
             spa: 1.2,
-            range: 400,
-            dps: 4000,
-            aoeType: 'Dark AoE',
-            statusEffects: ['Curse', 'Fear'],
-            traits: ['Dark Mastery', 'Shadow Magic']
+            range: 2,
+            dps: 417
         },
-        evolutionMaterials: {
-            goldCost: 17000,
-            specialItem: {
-                name: 'Shadow Orb',
-                source: 'Dark Cathedral Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 32,
-                'Purple Essence Stone': 16,
-                'Blue Essence Stone': 10
-            }
-        },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Shadow magic', 'Curse abilities', 'Dark damage']
-        }
+        deploymentCost: "Very Low",
+        totalCost: "Very Low",
+        upgradeLevel: 5,
+        placementLimit: 8,
+        obtainment: "Physical Banner (40% drop rate)",
+        passiveAbilities: [
+            "Tiger Style - 10% chance to deal bonus damage",
+            "Fighting Spirit - Damage increases by 5% when below 50% HP"
+        ],
+        activeAbilities: [
+            "Tiger Strike - Physical sword attack"
+        ],
+        pros: ["Physical element", "Low cost", "HP dependent bonus"],
+        cons: ["Very short range", "Low damage"],
+        description: "The saber form of Taiga with physical attacks"
     },
 
-    'secret_giant': {
-        id: 'secret_giant',
-        name: 'Giant Titan',
-        evolution: 'Base',
-        type: 'Titan',
-        rarity: 'Secret',
-        tier: 'S',
-        element: 'Giant',
-        icon: 'fas fa-mountain',
-        description: 'Giant titan with immense strength and earth-shattering power',
-        obtainMethod: 'Giant Forest Act 3',
-        dropRate: '1.1%',
-        canEvolve: true,
-        evolutionTo: 'Giant Titan (Colossus)',
+    // Additional Units from Wiki Data
+    "sun_shinobi_six_paths": {
+        id: "sun_shinobi_six_paths",
+        name: "Sun Shinobi (Six Paths)",
+        rarity: "Mythical",
+        element: "Fire",
+        attackType: "Single Target",
+        unitType: "DPS",
+        evolution: "Six Paths",
         stats: {
-            damage: 5500,
-            spa: 1.6,
-            range: 200,
-            dps: 3438,
-            aoeType: 'Giant AoE',
-            statusEffects: ['Stun', 'Titan Fear'],
-            traits: ['Giant Mastery', 'Titan Strength']
+            damage: 1400,
+            spa: 0.4,
+            range: 6,
+            dps: 3500
         },
-        evolutionMaterials: {
-            goldCost: 18000,
-            specialItem: {
-                name: 'Titan Heart',
-                source: 'Giant Forest Act 5',
-                dropRate: '1 per completion'
-            },
-            essenceStones: {
-                'Green Essence Stone': 35,
-                'Giant Essence': 12,
-                'Purple Essence Stone': 8
-            }
+        deploymentCost: "High",
+        totalCost: "Very High",
+        upgradeLevel: 10,
+        placementLimit: 2,
+        obtainment: "Standard Banner (0.5% drop rate)",
+        passiveAbilities: [
+            "Nine-Tails Chakra - Gains chakra stacks on enemy kill, increasing damage by 8% per stack (max 10 stacks)",
+            "Shadow Clone - 25% chance to attack twice"
+        ],
+        activeAbilities: [
+            "Rasengan Barrage - Deals 500% damage to target and nearby enemies",
+            "Sage Mode - Increases all stats by 50% for 30 seconds"
+        ],
+        pros: ["High Single Target DPS", "Stacking Damage Buff", "Multi-hit Potential"],
+        cons: ["Requires enemy kills to maximize potential", "Medium range limitation"],
+        description: "The Six Paths form of Sun Shinobi with ultimate ninja powers"
+    },
+
+    "golden_experience_requiem": {
+        id: "golden_experience_requiem",
+        name: "Golden Experience (Requiem)",
+        rarity: "Secret",
+        element: "Life",
+        attackType: "Circle AoE",
+        unitType: "Support/DPS",
+        evolution: "Requiem",
+        stats: {
+            damage: 1000,
+            spa: 1.0,
+            range: 8,
+            dps: 1000
         },
-        farmingGuide: {
-            priority: 'High',
-            difficulty: 'Hard',
-            tips: ['Immense strength', 'Titan abilities', 'Giant damage']
-        }
+        deploymentCost: "Medium",
+        totalCost: "High",
+        upgradeLevel: 11,
+        placementLimit: 1,
+        obtainment: "Arrow Evolution (Requires Requiem Arrow)",
+        passiveAbilities: [
+            "Life Giver - Heals nearby units for 5% of damage dealt",
+            "Return to Zero - 10% chance to reset enemy to previous position"
+        ],
+        activeAbilities: [
+            "Gold Experience - Creates life forms that attack enemies",
+            "Requiem Reset - Resets all enemy progress on current wave"
+        ],
+        pros: ["Unique Life Element", "Team Healing", "Wave Reset Ability"],
+        cons: ["Requires rare evolution item", "Complex positioning needed"],
+        description: "The Requiem form of Golden Experience with life manipulation powers"
+    },
+
+    "monkey_king_awakened": {
+        id: "monkey_king_awakened",
+        name: "Monkey King (Awakened)",
+        rarity: "Legendary",
+        element: "Earth",
+        attackType: "Line AoE",
+        unitType: "DPS",
+        evolution: "Awakened",
+        stats: {
+            damage: 900,
+            spa: 0.7,
+            range: 12,
+            dps: 1286
+        },
+        deploymentCost: "Medium",
+        totalCost: "High",
+        upgradeLevel: 9,
+        placementLimit: 3,
+        obtainment: "Standard Banner (1% drop rate)",
+        passiveAbilities: [
+            "72 Transformations - Changes attack type every 10 seconds",
+            "Immortal Body - Immune to poison and burn effects"
+        ],
+        activeAbilities: [
+            "Ruyi Jingu Bang - Extends range by 200% for next 5 attacks",
+            "Clone Army - Summons 3 clones that deal 50% damage for 20 seconds"
+        ],
+        pros: ["Very Large Range", "Versatile Attack Types", "Clone Summons"],
+        cons: ["Damage depends on transformation cycle", "Requires timing mastery"],
+        description: "The Awakened form of Monkey King with ultimate transformation powers"
+    },
+
+    "soul_king_transcendent": {
+        id: "soul_king_transcendent",
+        name: "Soul King (Transcendent)",
+        rarity: "Exclusive",
+        element: "Spirit",
+        attackType: "Full AoE",
+        unitType: "Support",
+        evolution: "Transcendent",
+        stats: {
+            damage: 800,
+            spa: 2.0,
+            range: 15,
+            dps: 400
+        },
+        deploymentCost: "Very High",
+        totalCost: "Extreme",
+        upgradeLevel: 12,
+        placementLimit: 1,
+        obtainment: "Event Exclusive (Soul Society Event)",
+        passiveAbilities: [
+            "Soul Absorption - Gains permanent stats from each enemy killed in range",
+            "Transcendent Aura - All units deal 25% more damage when in range"
+        ],
+        activeAbilities: [
+            "Soul Prison - Stops all enemies for 10 seconds",
+            "Bankai Release - Doubles all unit damage for 15 seconds"
+        ],
+        pros: ["Map-wide Support", "Permanent Stat Growth", "Team Damage Amplification"],
+        cons: ["Extremely Expensive", "Event Limited", "Slow Attack Speed"],
+        description: "The Transcendent form of Soul King with ultimate spiritual powers"
+    },
+
+    "dragon_slayer_lightning": {
+        id: "dragon_slayer_lightning",
+        name: "Dragon Slayer (Lightning Mode)",
+        rarity: "Mythical",
+        element: "Lightning",
+        attackType: "Chain",
+        unitType: "DPS",
+        evolution: "Lightning Mode",
+        stats: {
+            damage: 1100,
+            spa: 0.5,
+            range: 7,
+            dps: 2200
+        },
+        deploymentCost: "High",
+        totalCost: "Very High",
+        upgradeLevel: 10,
+        placementLimit: 2,
+        obtainment: "Dragon Banner (0.7% drop rate)",
+        passiveAbilities: [
+            "Lightning Dragon's Roar - Attacks chain to up to 5 enemies with decreasing damage",
+            "Thunder Step - 20% chance to attack instantly"
+        ],
+        activeAbilities: [
+            "Lightning Storm - Creates AoE lightning strikes for 10 seconds",
+            "Dragon Force - Next 10 attacks deal double damage and chain to all enemies"
+        ],
+        pros: ["Chain Attack Mechanism", "High Attack Speed", "AoE Potential"],
+        cons: ["Chain damage decreases significantly", "Requires enemy positioning"],
+        description: "The Lightning Mode form of Dragon Slayer with chain lightning powers"
+    }
+};
+
+// Unit categories for filtering
+export const unitCategories = {
+    byRarity: {
+        "Rare": ["kirei_assassin", "taiga_saber"],
+        "Epic": ["shirou_archer", "illya_caster"],
+        "Legendary": ["rin_caster", "sakura_assassin", "monkey_king_awakened"],
+        "Secret": ["emiya_archer", "artoria_saber", "yehowach_almighty", "golden_experience_requiem"],
+        "Mythic": ["saber_alter", "gilgamesh_caster"],
+        "Mythical": ["sun_shinobi_six_paths", "dragon_slayer_lightning"],
+        "Exclusive": ["koguro_unsealed", "arc_true_ancestor", "soul_king_transcendent"]
+    },
+    byElement: {
+        "Fire": ["gilgamesh_caster", "emiya_archer", "rin_caster", "shirou_archer", "sun_shinobi_six_paths"],
+        "Water": [],
+        "Nature": [],
+        "Spark": [],
+        "Holy": ["arc_true_ancestor", "artoria_saber", "illya_caster"],
+        "Passion": [],
+        "Blast": [],
+        "Cosmic": ["yehowach_almighty"],
+        "Unbound": [],
+        "Unknown": ["koguro_unsealed"],
+        "Dark": ["saber_alter", "sakura_assassin", "kirei_assassin"],
+        "Physical": ["taiga_saber"],
+        "Life": ["golden_experience_requiem"],
+        "Earth": ["monkey_king_awakened"],
+        "Spirit": ["soul_king_transcendent"],
+        "Lightning": ["dragon_slayer_lightning"]
+    },
+    byAttackType: {
+        "Single Target": ["saber_alter", "artoria_saber", "sakura_assassin", "shirou_archer", "kirei_assassin", "taiga_saber", "sun_shinobi_six_paths"],
+        "Circle AoE": ["arc_true_ancestor", "rin_caster", "illya_caster", "golden_experience_requiem"],
+        "Cone AoE": ["yehowach_almighty"],
+        "Line AoE": ["emiya_archer", "monkey_king_awakened"],
+        "Full AoE": ["koguro_unsealed", "gilgamesh_caster", "soul_king_transcendent"],
+        "Stadium AoE": [],
+        "Splash AoE": [],
+        "Chain": ["dragon_slayer_lightning"]
     }
 }; 

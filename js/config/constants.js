@@ -2,23 +2,36 @@
 export const elementIcons = {
     'Fire': 'fas fa-fire',
     'Water': 'fas fa-tint',
-    'Earth': 'fas fa-mountain',
-    'Wind': 'fas fa-wind',
-    'Light': 'fas fa-sun',
-    'Dark': 'fas fa-moon',
-    'Cosmic': 'fas fa-infinity',
-    'Giant': 'fas fa-mountain',
+    'Nature': 'fas fa-leaf',
+    'Spark': 'fas fa-bolt',
+    'Holy': 'fas fa-cross',
+    'Passion': 'fas fa-heart',
     'Blast': 'fas fa-radiation',
-    'Nuclear': 'fas fa-radiation',
-    'Electric': 'fas fa-bolt',
-    'Ice': 'fas fa-snowflake',
-    'Poison': 'fas fa-skull-crossbones',
-    'Psychic': 'fas fa-brain',
+    'Cosmic': 'fas fa-infinity',
+    'Unbound': 'fas fa-unlock',
+    'Unknown': 'fas fa-question',
+    'Life': 'fas fa-seedling',
+    'Earth': 'fas fa-mountain',
+    'Spirit': 'fas fa-ghost',
+    'Lightning': 'fas fa-bolt',
+    'Dark': 'fas fa-moon',
     'Physical': 'fas fa-fist-raised'
 };
 
 // Rarity order for sorting and display
-export const RARITY_ORDER = ['Vanguard', 'Secret', 'Mythic', 'Exclusive'];
+export const RARITY_ORDER = ['Rare', 'Epic', 'Legendary', 'Secret', 'Mythic', 'Mythical', 'Exclusive'];
+
+// Attack types for filtering
+export const ATTACK_TYPES = [
+    'Single Target',
+    'Circle AoE',
+    'Cone AoE',
+    'Line AoE',
+    'Full AoE',
+    'Stadium AoE',
+    'Splash AoE',
+    'Chain'
+];
 
 // Game constants
 export const GAME_CONSTANTS = {

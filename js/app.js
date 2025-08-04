@@ -8,6 +8,7 @@ import { gameStatesData } from './config/gameStates.js';
 // Import pages
 import { EvolutionPage } from './pages/evolution.js';
 import { DPSPage } from './pages/dps.js';
+import { DatabasePage } from './pages/database.js';
 
 // Import utility functions
 import { showError, showNotification } from './utils/dom.js';
@@ -35,6 +36,7 @@ export class App {
         // Page instances
         this.evolutionPage = null;
         this.dpsPage = null;
+        this.databasePage = null;
     }
     
     async initialize() {
@@ -51,6 +53,10 @@ export class App {
             // Initialize DPS Page
             this.dpsPage = new DPSPage(this);
             await this.dpsPage.initialize(this.data);
+            
+            // Initialize Database Page
+            this.databasePage = new DatabasePage(this);
+            await this.databasePage.initialize(this.data);
             
             // Set up global event listeners
             this.setupGlobalEvents();
@@ -162,6 +168,8 @@ export class App {
             this.evolutionPage.show();
         } else if (pageName === 'dps' && this.dpsPage) {
             this.dpsPage.show();
+        } else if (pageName === 'database' && this.databasePage) {
+            this.databasePage.show();
         }
         
         this.currentPage = pageName;

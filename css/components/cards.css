@@ -1,215 +1,225 @@
 /* Card Component Styles */
 
-.card {
-    background: var(--card-bg);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(10px);
-    transition: var(--transition);
-}
-
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
-
-.card h2 {
-    color: var(--text-color);
-    margin-bottom: var(--spacing-lg);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-}
-
-.card h2 i {
-    color: var(--primary-color);
-}
-
-/* Unit Preview Card */
-.unit-info {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    margin: var(--spacing-lg) 0;
-    padding: var(--spacing-lg);
+/* Unit Comparison Styles */
+.comparison-section {
+    margin-top: 1rem;
+    padding: 1rem;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.unit-avatar {
-    width: 60px;
-    height: 60px;
-    background: var(--primary-color);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-}
-
-.unit-avatar i {
-    color: white;
-}
-
-.unit-details h3 {
-    margin-bottom: var(--spacing-xs);
-    color: var(--text-color);
-}
-
-.unit-details p {
-    margin-bottom: var(--spacing-xs);
-    color: var(--text-muted);
-}
-
-.unit-details strong {
-    color: var(--primary-color);
-}
-
-/* Materials List */
-.materials-list {
-    margin-top: var(--spacing-lg);
-}
-
-.material-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--border-radius-sm);
-    margin-bottom: var(--spacing-sm);
-    transition: var(--transition);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.material-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-}
-
-.material-item:last-child {
-    margin-bottom: 0;
-}
-
-.material-info {
-    flex: 1;
-}
-
-.material-info strong {
-    color: var(--text-color);
-    font-weight: 600;
-}
-
-.material-info p {
-    margin-bottom: 0;
-    font-size: 0.9rem;
-}
-
-.material-quantity {
-    font-weight: bold;
-    color: var(--primary-color);
+.comparison-section h4 {
+    margin: 0 0 1rem 0;
+    color: #a29bfe;
     font-size: 1.1rem;
 }
 
-/* Unit Card Grid */
-.unit-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
+.comparison-selectors {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
-.unit-card {
-    background: var(--card-bg);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
-    border: 1px solid var(--card-border);
-    transition: var(--transition);
-    cursor: pointer;
+.unit-selector-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.unit-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border-color: var(--primary-color);
+.unit-selector-group label {
+    font-size: 0.9rem;
+    color: #ddd;
+    font-weight: 500;
 }
 
-.unit-card-header {
+.comparison-select {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.comparison-select:hover {
+    border-color: #a29bfe;
+}
+
+.comparison-select:focus {
+    outline: none;
+    border-color: #a29bfe;
+    box-shadow: 0 0 0 2px rgba(162, 155, 254, 0.2);
+}
+
+.comparison-select option {
+    background: #2c3e50;
+    color: #fff;
+    padding: 0.5rem;
+}
+
+.comparison-select optgroup {
+    background: #34495e;
+    color: #a29bfe;
+    font-weight: bold;
+    padding: 0.5rem;
+}
+
+.comparison-select optgroup option {
+    background: #2c3e50;
+    color: #fff;
+    padding-left: 1rem;
+}
+
+.unit-preview {
+    min-height: 80px;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    gap: 0.75rem;
+    transition: all 0.3s ease;
 }
 
-.unit-card-avatar {
+.unit-preview:empty {
+    display: none;
+}
+
+.unit-preview.has-content {
+    border-color: rgba(162, 155, 254, 0.3);
+}
+
+.unit-avatar {
     width: 50px;
     height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
     flex-shrink: 0;
 }
 
-.unit-card-title {
+.unit-info {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
-.unit-card-title h3 {
-    margin-bottom: var(--spacing-xs);
-    color: var(--text-color);
+.unit-name {
+    font-weight: bold;
+    color: #fff;
+    font-size: 0.95rem;
 }
 
-.unit-card-title p {
-    margin-bottom: 0;
-    font-size: 0.9rem;
+.unit-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
 }
 
-.unit-card-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-md);
+.rarity-badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.rarity-badge.rare { background: #4CAF50; color: white; }
+.rarity-badge.epic { background: #2196F3; color: white; }
+.rarity-badge.legendary { background: #9C27B0; color: white; }
+.rarity-badge.secret { background: #FF9800; color: white; }
+.rarity-badge.mythic { background: #E91E63; color: white; }
+.rarity-badge.mythical { background: #FF4081; color: white; }
+.rarity-badge.exclusive { background: #FF5722; color: white; }
+
+.element-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a29bfe;
+}
+
+.unit-stats {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: #bbb;
 }
 
 .stat-item {
-    text-align: center;
-    padding: var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--border-radius-sm);
-}
-
-.stat-value {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
 }
 
 .stat-label {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: var(--spacing-xs);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: #888;
 }
 
-/* Card responsive */
+.stat-value {
+    font-weight: bold;
+    color: #fff;
+}
+
+.compare-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.compare-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.compare-btn:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive Design for Comparison */
 @media (max-width: 768px) {
-    .unit-info {
+    .comparison-selectors {
+        gap: 0.75rem;
+    }
+    
+    .unit-preview {
         flex-direction: column;
         text-align: center;
-        gap: var(--spacing-md);
+        gap: 0.5rem;
     }
     
-    .unit-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .unit-card-stats {
-        grid-template-columns: 1fr;
+    .unit-stats {
+        justify-content: center;
     }
 } 
