@@ -1,5 +1,7 @@
 import { showError, showNotification } from '../utils/dom.js';
 import { debounce } from '../utils/helpers.js';
+import { traitsData, traitsUtils } from '../config/traits.js';
+import { gameStatesData, gameStatesUtils } from '../config/gameStates.js';
 
 export class DPSPage {
     constructor(app) {
@@ -82,6 +84,36 @@ export class DPSPage {
         if (this.elements.unitSelect) {
             this.populateUnitSelect();
         }
+        
+        // Initialize traits and game states
+        this.initializeTraitsAndGameStates();
+    }
+    
+    initializeTraitsAndGameStates() {
+        // Initialize traits dropdown
+        this.updateTraitOptions();
+        
+        // Initialize game states dropdown
+        this.updateGameStateOptions();
+        
+        console.log('✅ Traits and Game States initialized');
+    }
+    
+    updateGameStateOptions() {
+        const gameStateSelect = this.elements.gameState;
+        if (!gameStateSelect) return;
+        
+        // Clear existing options
+        gameStateSelect.innerHTML = '<option value="">Select Game State...</option>';
+        
+        // Add all available game states from configuration
+        gameStatesData.forEach(state => {
+            const option = document.createElement('option');
+            option.value = state.value;
+            option.textContent = state.label;
+            option.title = state.description; // Tooltip
+            gameStateSelect.appendChild(option);
+        });
     }
     
     populateUnitSelect() {
@@ -186,6 +218,15 @@ export class DPSPage {
         } else {
             console.warn('Game state element not found');
         }
+        
+        // Trait selection
+        if (this.elements.traitSelect) {
+            this.elements.traitSelect.addEventListener('change', (e) => {
+                this.selectedTrait = traitsUtils.getTraitByValue(e.target.value);
+            });
+        } else {
+            console.warn('Trait select element not found');
+        }
     }
     
     handleUnitChange(unitId) {
@@ -234,19 +275,19 @@ export class DPSPage {
     
     updateTraitOptions() {
         const traitSelect = this.elements.traitSelect;
-        traitSelect.innerHTML = '<option value="">No trait</option>';
+        if (!traitSelect) return;
         
-        if (!this.selectedUnit) return;
+        // Clear existing options
+        traitSelect.innerHTML = '<option value="">Select Trait...</option>';
         
-        // Add unit-specific traits
-        if (this.selectedUnit.traits && this.selectedUnit.traits.length > 0) {
-            this.selectedUnit.traits.forEach(trait => {
-                const option = document.createElement('option');
-                option.value = trait.id;
-                option.textContent = trait.name;
-                traitSelect.appendChild(option);
-            });
-        }
+        // Add all available traits from configuration
+        traitsData.forEach(trait => {
+            const option = document.createElement('option');
+            option.value = trait.value;
+            option.textContent = trait.label;
+            option.title = trait.description; // Tooltip
+            traitSelect.appendChild(option);
+        });
     }
     
     calculateDPS() {
@@ -258,12 +299,16 @@ export class DPSPage {
         try {
             console.log('Calculating DPS for unit:', this.selectedUnit.name, 'at level:', this.currentLevel);
             
+            // Get current trait and game state
+            const selectedTrait = this.selectedTrait || traitsUtils.getTraitByValue('none');
+            const selectedGameState = gameStatesUtils.getGameStateByValue(this.gameState || 'normal');
+            
             // Calculate DPS using the calculator
             const dpsResult = this.dpsCalculator.calculateDPS({
                 unit: this.selectedUnit,
                 level: this.currentLevel,
-                trait: this.selectedTrait,
-                gameState: this.gameState
+                trait: selectedTrait,
+                gameState: selectedGameState
             });
             
             // Display results
@@ -319,8 +364,12 @@ export class DPSPage {
                     <span>${(1 / result.attackSpeed).toFixed(2)}</span>
                 </div>
                 <div class="breakdown-item">
-                    <span>Multi-Target Bonus:</span>
-                    <span>0%</span>
+                    <span>Trait Multiplier:</span>
+                    <span>${result.traitMultiplier ? (result.traitMultiplier * 100).toFixed(0) + '%' : '100%'}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Game State Multiplier:</span>
+                    <span>${result.gameStateMultiplier ? (result.gameStateMultiplier * 100).toFixed(0) + '%' : '100%'}</span>
                 </div>
             `;
         }
@@ -389,6 +438,8 @@ class AnimeVanguardsDPSCalculator {
         
         console.log('DPS Calculator - Unit:', unit.name, 'Level:', level);
         console.log('Unit stats:', unit.stats);
+        console.log('Trait:', trait);
+        console.log('Game State:', gameState);
         
         // Base stats calculation
         const baseDamage = this.calculateBaseDamage(unit, level);
@@ -401,14 +452,18 @@ class AnimeVanguardsDPSCalculator {
         // Level bonus DPS
         const levelBonusDPS = baseDPS * (level - 1) * 0.1;
         
-        // Trait bonus DPS (placeholder)
-        const traitBonusDPS = 0;
+        // Trait bonus DPS
+        const traitMultiplier = trait ? trait.damageMultiplier : 1.0;
+        const traitBonusDPS = baseDPS * (traitMultiplier - 1);
         
-        // Effective DPS
+        // Game state multiplier
+        const gameStateMultiplier = gameState ? gameState.damageMultiplier : 1.0;
+        
+        // Effective DPS (with trait bonus)
         const effectiveDPS = baseDPS + levelBonusDPS + traitBonusDPS;
         
-        // Total DPS
-        const totalDPS = effectiveDPS;
+        // Total DPS (with game state multiplier)
+        const totalDPS = effectiveDPS * gameStateMultiplier;
         
         console.log('DPS Calculation Results:', {
             baseDamage,
@@ -417,6 +472,8 @@ class AnimeVanguardsDPSCalculator {
             baseDPS,
             levelBonusDPS,
             traitBonusDPS,
+            traitMultiplier,
+            gameStateMultiplier,
             effectiveDPS,
             totalDPS
         });
@@ -428,7 +485,9 @@ class AnimeVanguardsDPSCalculator {
             effectiveDPS: Math.round(effectiveDPS),
             totalDPS: Math.round(totalDPS),
             attackSpeed: attackSpeed,
-            damagePerHit: damagePerHit
+            damagePerHit: damagePerHit,
+            traitMultiplier: traitMultiplier,
+            gameStateMultiplier: gameStateMultiplier
         };
     }
     
