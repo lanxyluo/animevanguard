@@ -2,31 +2,47 @@
 
 /**
  * Validate unit data structure
- * @param {object} unitsData - Units data object to validate
+ * @param {object|array} unitsData - Units data object or array to validate
  * @returns {object} - Validation result with errors array
  */
 export function validateUnitData(unitsData) {
     const errors = [];
     const warnings = [];
     
-    if (!unitsData || typeof unitsData !== 'object') {
-        errors.push('Units data is not a valid object');
+    if (!unitsData) {
+        errors.push('Units data is not provided');
         return { errors, warnings, isValid: false };
     }
     
-    const requiredFields = ['id', 'name', 'evolution', 'type', 'rarity', 'element'];
+    // Handle both object and array formats
+    let unitsArray = [];
+    if (Array.isArray(unitsData)) {
+        unitsArray = unitsData;
+    } else if (typeof unitsData === 'object') {
+        unitsArray = Object.values(unitsData);
+    } else {
+        errors.push('Units data is not a valid object or array');
+        return { errors, warnings, isValid: false };
+    }
     
-    Object.entries(unitsData).forEach(([unitId, unit]) => {
+    if (unitsArray.length === 0) {
+        errors.push('Units data is empty');
+        return { errors, warnings, isValid: false };
+    }
+    
+    const requiredFields = ['id', 'name', 'rarity', 'element'];
+    
+    unitsArray.forEach((unit, index) => {
         if (!unit || typeof unit !== 'object') {
-            errors.push(`Unit ${unitId}: Invalid unit data structure`);
+            errors.push(`Unit at index ${index}: Invalid unit data structure`);
             return;
         }
         
         requiredFields.forEach(field => {
             if (!unit.hasOwnProperty(field)) {
-                errors.push(`Unit ${unitId}: Missing required field '${field}'`);
+                errors.push(`Unit ${unit.name || index}: Missing required field '${field}'`);
             } else if (unit[field] === null || unit[field] === undefined || unit[field] === '') {
-                errors.push(`Unit ${unitId}: Required field '${field}' is empty`);
+                errors.push(`Unit ${unit.name || index}: Required field '${field}' is empty`);
             }
         });
         
@@ -35,7 +51,7 @@ export function validateUnitData(unitsData) {
             statFields.forEach(stat => {
                 if (unit.stats.hasOwnProperty(stat)) {
                     if (typeof unit.stats[stat] !== 'number' || unit.stats[stat] < 0) {
-                        warnings.push(`Unit ${unitId}: Invalid stat value for '${stat}'`);
+                        warnings.push(`Unit ${unit.name || index}: Invalid stat value for '${stat}'`);
                     }
                 }
             });
