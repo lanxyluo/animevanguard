@@ -216,15 +216,15 @@ export class UnitSelector {
         }
         console.log('🔍 === 筛选逻辑结束 ===\n');
         
+        // 更新单位计数显示
+        this.updateUnitCount();
+        
         // Update unit select dropdown
         if (this.unitSelect) {
             this.unitSelect.innerHTML = '<option value="">Select Unit...</option>';
             if (this.filteredUnits.length === 0) {
-                // 空结果提示
-                const option = document.createElement('option');
-                option.value = '';
-                option.textContent = 'No units available';
-                this.unitSelect.appendChild(option);
+                // 优化空状态处理
+                this.handleEmptyState(rarityFilter, elementFilter, searchTerm);
             } else {
                 this.filteredUnits.forEach(unit => {
                     const option = document.createElement('option');
@@ -234,6 +234,123 @@ export class UnitSelector {
                 });
             }
         }
+    }
+    
+    // 更新单位计数显示
+    updateUnitCount() {
+        // 查找或创建计数显示元素
+        let countDisplay = document.getElementById('unitCountDisplay');
+        if (!countDisplay) {
+            // 在筛选区域附近创建计数显示
+            const filterSection = document.querySelector('.filter-section');
+            if (filterSection) {
+                countDisplay = document.createElement('div');
+                countDisplay.id = 'unitCountDisplay';
+                countDisplay.className = 'unit-count-display';
+                filterSection.appendChild(countDisplay);
+            }
+        }
+        
+        if (countDisplay) {
+            const totalUnits = this.allUnits.length;
+            const filteredCount = this.filteredUnits.length;
+            
+            if (filteredCount === 0) {
+                countDisplay.innerHTML = `
+                    <div class="count-info">
+                        <span class="count-text">No units found</span>
+                        <span class="count-detail">(${totalUnits} total units available)</span>
+                    </div>
+                `;
+            } else {
+                countDisplay.innerHTML = `
+                    <div class="count-info">
+                        <span class="count-text">Found ${filteredCount} unit${filteredCount > 1 ? 's' : ''} matching your criteria</span>
+                        <span class="count-detail">(${totalUnits} total units available)</span>
+                    </div>
+                `;
+            }
+        }
+    }
+    
+    // 处理空状态
+    handleEmptyState(rarityFilter, elementFilter, searchTerm) {
+        // 创建友好的空状态提示
+        const option = document.createElement('option');
+        option.value = '';
+        
+        // 根据筛选条件提供不同的提示信息
+        if (searchTerm) {
+            option.textContent = `No units found matching "${searchTerm}"`;
+        } else if (rarityFilter && elementFilter) {
+            option.textContent = `No ${rarityFilter} ${elementFilter} units available`;
+        } else if (rarityFilter) {
+            option.textContent = `No ${rarityFilter} units available`;
+        } else if (elementFilter) {
+            option.textContent = `No ${elementFilter} units available`;
+        } else {
+            option.textContent = 'No units available';
+        }
+        
+        this.unitSelect.appendChild(option);
+        
+        // 添加视觉提示
+        this.showEmptyStateMessage(rarityFilter, elementFilter, searchTerm);
+    }
+    
+    // 显示空状态消息
+    showEmptyStateMessage(rarityFilter, elementFilter, searchTerm) {
+        // 查找或创建空状态消息容器
+        let emptyStateContainer = document.getElementById('emptyStateMessage');
+        if (!emptyStateContainer) {
+            emptyStateContainer = document.createElement('div');
+            emptyStateContainer.id = 'emptyStateMessage';
+            emptyStateContainer.className = 'empty-state-message';
+            
+            // 插入到单位选择器附近
+            const unitSelectorContainer = document.getElementById(this.containerId);
+            if (unitSelectorContainer) {
+                unitSelectorContainer.appendChild(emptyStateContainer);
+            }
+        }
+        
+        // 根据筛选条件生成不同的提示信息
+        let message = '';
+        let icon = 'fas fa-search';
+        
+        if (searchTerm) {
+            message = `No units found matching "${searchTerm}". Try adjusting your search terms.`;
+            icon = 'fas fa-search';
+        } else if (rarityFilter && elementFilter) {
+            message = `No ${rarityFilter} ${elementFilter} units are available for evolution. This combination may not exist in the current data.`;
+            icon = 'fas fa-info-circle';
+        } else if (rarityFilter) {
+            message = `No ${rarityFilter} units are available for evolution. Try selecting a different rarity.`;
+            icon = 'fas fa-star';
+        } else if (elementFilter) {
+            message = `No ${elementFilter} units are available for evolution. Try selecting a different element.`;
+            icon = 'fas fa-fire';
+        } else {
+            message = 'No units are currently available. This might be a data loading issue.';
+            icon = 'fas fa-exclamation-triangle';
+        }
+        
+        emptyStateContainer.innerHTML = `
+            <div class="empty-state-content">
+                <i class="${icon}"></i>
+                <p>${message}</p>
+                <button class="clear-filters-btn" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i> Clear Filters
+                </button>
+            </div>
+        `;
+        
+        // 3秒后自动隐藏消息
+        setTimeout(() => {
+            if (emptyStateContainer.parentNode) {
+                emptyStateContainer.remove();
+            }
+        }, 5000);
     }
     
     // 新的筛选逻辑函数

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Data Validation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .validation-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .pass { color: #28a745; }
+        .fail { color: #dc3545; }
+        .warning { color: #ffc107; }
+        .unit-list { background: #f8f9fa; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .unit-item { margin: 5px 0; padding: 5px; background: white; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Evolution Data Validation Report</h1>
+        
+        <div id="validationResults"></div>
+    </div>
+
+    <script type="module">
+        import { EVOLUTION_UNITS, evolutionUtils } from './js/config/evolutionUnits.js';
+        import { RARITIES, ELEMENTS, dataUtils } from './js/config/constants.js';
+
+        const resultsDiv = document.getElementById('validationResults');
+
+        function addSection(title, content, status = 'info') {
+            const section = document.createElement('div');
+            section.className = `validation-section ${status}`;
+            section.innerHTML = `<h2>${title}</h2>${content}`;
+            resultsDiv.appendChild(section);
+        }
+
+        function addUnitList(title, units) {
+            let content = `<h3>${title}</h3><div class="unit-list">`;
+            units.forEach(unit => {
+                content += `<div class="unit-item">
+                    <strong>${unit.name}</strong> (${unit.rarity}, ${unit.element}) → ${unit.evolutionName}
+                </div>`;
+            });
+            content += '</div>';
+            return content;
+        }
+
+        // 1. 基本数据完整性检查
+        console.log('🔍 开始数据完整性验证...');
+        
+        const totalUnits = EVOLUTION_UNITS.length;
+        const validUnits = EVOLUTION_UNITS.filter(unit => 
+            unit.id && unit.name && unit.rarity && unit.element && 
+            typeof unit.canEvolve === 'boolean' && unit.evolutionName && unit.obtainMethod
+        );
+
+        addSection(
+            '📊 基本数据完整性',
+            `<p><strong>总单位数:</strong> ${totalUnits}</p>
+             <p><strong>有效单位数:</strong> ${validUnits.length}</p>
+             <p><strong>数据完整性:</strong> <span class="${validUnits.length === totalUnits ? 'pass' : 'fail'}">${validUnits.length === totalUnits ? '✅ 通过' : '❌ 失败'}</span></p>`,
+            validUnits.length === totalUnits ? 'pass' : 'fail'
+        );
+
+        // 2. 稀有度分布检查
+        const rarityDistribution = {};
+        EVOLUTION_UNITS.forEach(unit => {
+            rarityDistribution[unit.rarity] = (rarityDistribution[unit.rarity] || 0) + 1;
+        });
+
+        const canEvolveRarities = ['Vanguard', 'Secret', 'Exclusive', 'Mythic'];
+        const hasAllRarities = canEvolveRarities.every(rarity => rarityDistribution[rarity] > 0);
+
+        let rarityContent = '<h3>稀有度分布:</h3>';
+        canEvolveRarities.forEach(rarity => {
+            const count = rarityDistribution[rarity] || 0;
+            const units = EVOLUTION_UNITS.filter(unit => unit.rarity === rarity);
+            rarityContent += `<p><strong>${rarity}:</strong> ${count} 个单位</p>`;
+            if (count > 0) {
+                rarityContent += addUnitList(`${rarity} 单位列表`, units);
+            }
+        });
+
+        addSection(
+            '🎯 稀有度分布检查',
+            rarityContent,
+            hasAllRarities ? 'pass' : 'fail'
+        );
+
+        // 3. 元素分布检查
+        const elementDistribution = {};
+        EVOLUTION_UNITS.forEach(unit => {
+            elementDistribution[unit.element] = (elementDistribution[unit.element] || 0) + 1;
+        });
+
+        let elementContent = '<h3>元素分布:</h3>';
+        Object.keys(elementDistribution).forEach(element => {
+            const count = elementDistribution[element];
+            const units = EVOLUTION_UNITS.filter(unit => unit.element === element);
+            elementContent += `<p><strong>${element}:</strong> ${count} 个单位</p>`;
+            if (count > 0) {
+                elementContent += addUnitList(`${element} 单位列表`, units);
+            }
+        });
+
+        addSection(
+            '⚡ 元素分布检查',
+            elementContent,
+            'info'
+        );
+
+        // 4. 特殊验证：Vanguard + Unknown 组合
+        const songJinwuUnit = EVOLUTION_UNITS.find(unit => 
+            unit.id === 'song_jinwu_igros' && 
+            unit.rarity === 'Vanguard' && 
+            unit.element === 'Unknown'
+        );
+
+        const songJinwuContent = songJinwuUnit ? 
+            `<p class="pass">✅ 找到 Song Jinwu and Igros (Vanguard + Unknown)</p>
+             <div class="unit-item">
+                 <strong>${songJinwuUnit.name}</strong> (${songJinwuUnit.rarity}, ${songJinwuUnit.element}) → ${songJinwuUnit.evolutionName}
+             </div>` :
+            `<p class="fail">❌ 未找到 Song Jinwu and Igros (Vanguard + Unknown)</p>`;
+
+        addSection(
+            '🎯 特殊验证：Vanguard + Unknown 组合',
+            songJinwuContent,
+            songJinwuUnit ? 'pass' : 'fail'
+        );
+
+        // 5. 可进化性检查
+        const canEvolveUnits = EVOLUTION_UNITS.filter(unit => unit.canEvolve === true);
+        const cannotEvolveUnits = EVOLUTION_UNITS.filter(unit => unit.canEvolve !== true);
+
+        addSection(
+            '🔄 可进化性检查',
+            `<p><strong>可进化单位:</strong> ${canEvolveUnits.length}</p>
+             <p><strong>不可进化单位:</strong> ${cannotEvolveUnits.length}</p>
+             <p><strong>可进化性:</strong> <span class="${canEvolveUnits.length === totalUnits ? 'pass' : 'warning'}">${canEvolveUnits.length === totalUnits ? '✅ 全部可进化' : '⚠️ 部分单位不可进化'}</span></p>`,
+            canEvolveUnits.length === totalUnits ? 'pass' : 'warning'
+        );
+
+        // 6. 数据字段完整性
+        const requiredFields = ['id', 'name', 'rarity', 'element', 'canEvolve', 'evolutionName', 'obtainMethod'];
+        const missingFields = [];
+
+        EVOLUTION_UNITS.forEach(unit => {
+            requiredFields.forEach(field => {
+                if (!unit.hasOwnProperty(field) || unit[field] === null || unit[field] === undefined || unit[field] === '') {
+                    missingFields.push(`${unit.name || unit.id}: 缺少 ${field}`);
+                }
+            });
+        });
+
+        addSection(
+            '📋 数据字段完整性',
+            missingFields.length === 0 ? 
+                '<p class="pass">✅ 所有必需字段都已完整</p>' :
+                `<p class="fail">❌ 发现缺失字段:</p><ul>${missingFields.map(field => `<li>${field}</li>`).join('')}</ul>`,
+            missingFields.length === 0 ? 'pass' : 'fail'
+        );
+
+        // 7. 最终总结
+        const allTestsPassed = validUnits.length === totalUnits && 
+                              hasAllRarities && 
+                              songJinwuUnit && 
+                              canEvolveUnits.length === totalUnits && 
+                              missingFields.length === 0;
+
+        addSection(
+            '📈 验证总结',
+            `<h3>验证结果: <span class="${allTestsPassed ? 'pass' : 'fail'}">${allTestsPassed ? '✅ 全部通过' : '❌ 存在问题'}</span></h3>
+             <ul>
+                 <li>数据完整性: ${validUnits.length === totalUnits ? '✅' : '❌'}</li>
+                 <li>稀有度覆盖: ${hasAllRarities ? '✅' : '❌'}</li>
+                 <li>Vanguard+Unknown组合: ${songJinwuUnit ? '✅' : '❌'}</li>
+                 <li>可进化性: ${canEvolveUnits.length === totalUnits ? '✅' : '⚠️'}</li>
+                 <li>字段完整性: ${missingFields.length === 0 ? '✅' : '❌'}</li>
+             </ul>`,
+            allTestsPassed ? 'pass' : 'fail'
+        );
+
+        console.log('✅ 数据验证完成！');
+    </script>
+</body>
+</html> 
