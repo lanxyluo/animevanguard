@@ -93,9 +93,105 @@ export class CostSummary {
             return;
         }
         
-        const costBreakdown = this.calculateCostBreakdown(materialsData);
-        const totalCost = this.calculateTotalCost(materialsData);
+        // Try to get detailed cost summary data
+        import('../config/costSummary.js').then(module => {
+            const costSummaryData = module.COST_SUMMARY_DATA[this.currentUnit.id];
+            if (costSummaryData) {
+                this.renderDetailedCostBreakdown(costSummaryData);
+            } else {
+                // Fallback to basic calculation
+                const costBreakdown = this.calculateCostBreakdown(materialsData);
+                const totalCost = this.calculateTotalCost(materialsData);
+                this.renderBasicCostBreakdown(costBreakdown, totalCost);
+            }
+        }).catch(error => {
+            console.warn('Could not load cost summary data:', error);
+            // Fallback to basic calculation
+            const costBreakdown = this.calculateCostBreakdown(materialsData);
+            const totalCost = this.calculateTotalCost(materialsData);
+            this.renderBasicCostBreakdown(costBreakdown, totalCost);
+        });
+    }
+    
+    renderDetailedCostBreakdown(costData) {
+        let summaryHTML = '';
         
+        if (this.options.showBreakdown) {
+            summaryHTML += `
+                <div class="cost-breakdown">
+                    <h3>Cost Breakdown</h3>
+                    <div class="cost-items">
+            `;
+            
+            // Gold cost
+            if (costData.totalGold > 0) {
+                summaryHTML += `
+                    <div class="cost-item">
+                        <span class="cost-label">Gold</span>
+                        <span class="cost-value">${formatNumber(costData.totalGold)}</span>
+                    </div>
+                `;
+            }
+            
+            // Material costs
+            if (costData.materialCosts) {
+                costData.materialCosts.forEach(material => {
+                    summaryHTML += `
+                        <div class="cost-item">
+                            <span class="cost-label">${material.material}</span>
+                            <span class="cost-value">${material.estimatedCost}</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            summaryHTML += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        if (this.options.showTotal) {
+            summaryHTML += `
+                <div class="total-cost">
+                    <h3>Total Estimated Cost</h3>
+                    <div class="total-amount">${costData.totalEstimatedCost}</div>
+                </div>
+            `;
+        }
+        
+        // Additional cost information
+        summaryHTML += `
+            <div class="cost-details">
+                <div class="cost-detail-item">
+                    <span class="detail-label">Time Investment:</span>
+                    <span class="detail-value">${costData.timeInvestment}</span>
+                </div>
+                <div class="cost-detail-item">
+                    <span class="detail-label">Difficulty:</span>
+                    <span class="detail-value difficulty-${costData.difficulty.toLowerCase()}">${costData.difficulty}</span>
+                </div>
+                <div class="cost-detail-item">
+                    <span class="detail-label">Worth Investment:</span>
+                    <span class="detail-value ${costData.worthIt ? 'worth-it' : 'not-worth-it'}">${costData.worthIt ? 'Yes' : 'No'}</span>
+                </div>
+            </div>
+        `;
+        
+        // Investment notes
+        if (costData.notes) {
+            summaryHTML += `
+                <div class="investment-notes">
+                    <h4>Investment Notes</h4>
+                    <p>${costData.notes}</p>
+                </div>
+            `;
+        }
+        
+        this.costSummaryElement.innerHTML = summaryHTML;
+    }
+    
+    renderBasicCostBreakdown(costBreakdown, totalCost) {
         let summaryHTML = '';
         
         if (this.options.showBreakdown) {

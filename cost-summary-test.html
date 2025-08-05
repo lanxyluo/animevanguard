@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Summary Test</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/pages/evolution.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #0f0f23;
+            color: #ffffff;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border: 1px solid #333; 
+            border-radius: 5px; 
+        }
+        .test-title {
+            color: #6c5ce7;
+            margin-bottom: 15px;
+        }
+        .cost-display {
+            background: #2a2a3e;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #444;
+        }
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 5px;
+            border: 1px solid #444;
+        }
+        .cost-label {
+            font-weight: bold;
+            color: #6c5ce7;
+        }
+        .cost-value {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .test-button {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #5a4fd8;
+        }
+        .log-section {
+            background: #2a2a3e;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .log-info { color: #6c5ce7; }
+        .log-success { color: #28a745; }
+        .log-error { color: #dc3545; }
+        .investment-notes {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 5px;
+            border: 1px solid #ffc107;
+        }
+        .investment-notes h4 {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        .investment-notes p {
+            margin: 0;
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Cost Summary Test</h1>
+        
+        <div class="test-section">
+            <h2 class="test-title">💰 成本汇总测试</h2>
+            <p>测试成本汇总数据的加载和显示</p>
+            
+            <div class="test-section">
+                <h3>🎮 测试操作</h3>
+                <button class="test-button" onclick="testCostData()">测试成本数据</button>
+                <button class="test-button" onclick="testSpecificUnit()">测试特定单位</button>
+                <button class="test-button" onclick="testAllUnits()">测试所有单位</button>
+                <button class="test-button" onclick="clearTestLog()">清除日志</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">📝 调试日志</h2>
+            <div id="testLog" class="log-section">
+                <div class="log-entry log-info">等待测试开始...</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">💰 成本显示</h2>
+            <div id="costDisplay" class="cost-display">
+                <p>选择单位查看成本信息...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { EVOLUTION_UNITS } from './js/config/evolutionUnits.js';
+        import { COST_SUMMARY_DATA, costSummaryUtils } from './js/config/costSummary.js';
+
+        let testLog = [];
+
+        // 添加日志
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = {
+                timestamp,
+                message,
+                type
+            };
+            testLog.push(logEntry);
+            
+            const logDiv = document.getElementById('testLog');
+            const logElement = document.createElement('div');
+            logElement.className = `log-entry log-${type}`;
+            logElement.innerHTML = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logElement);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // 显示成本信息
+        function displayCost(unitId) {
+            const costData = COST_SUMMARY_DATA[unitId];
+            const unit = EVOLUTION_UNITS.find(u => u.id === unitId);
+            
+            if (!costData) {
+                addLog(`❌ 未找到单位 ${unitId} 的成本数据`, 'error');
+                return;
+            }
+            
+            if (!unit) {
+                addLog(`❌ 未找到单位 ${unitId}`, 'error');
+                return;
+            }
+            
+            addLog(`💰 显示单位 ${unit.name} 的成本信息`, 'success');
+            
+            const displayDiv = document.getElementById('costDisplay');
+            let costHTML = `
+                <h3>${unit.name} - 成本汇总</h3>
+                <p><strong>稀有度:</strong> ${unit.rarity} • <strong>元素:</strong> ${unit.element}</p>
+                <p><strong>进化名称:</strong> ${unit.evolutionName}</p>
+                <hr>
+            `;
+            
+            // 金币成本
+            if (costData.totalGold) {
+                costHTML += `
+                    <div class="cost-item">
+                        <div class="cost-label">Gold</div>
+                        <div class="cost-value">${costData.totalGold.toLocaleString()}</div>
+                    </div>
+                `;
+            }
+            
+            // 材料成本
+            if (costData.materialCosts) {
+                costHTML += '<h4>Material Costs:</h4>';
+                costData.materialCosts.forEach(material => {
+                    costHTML += `
+                        <div class="cost-item">
+                            <div class="cost-label">${material.material}</div>
+                            <div class="cost-value">${material.estimatedCost}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // 总成本
+            if (costData.totalEstimatedCost) {
+                costHTML += `
+                    <div class="cost-item" style="background: rgba(40, 167, 69, 0.2);">
+                        <div class="cost-label">Total Estimated Cost</div>
+                        <div class="cost-value">${costData.totalEstimatedCost}</div>
+                    </div>
+                `;
+            }
+            
+            // 时间投资
+            if (costData.timeInvestment) {
+                costHTML += `
+                    <div class="cost-item">
+                        <div class="cost-label">Time Investment</div>
+                        <div class="cost-value">${costData.timeInvestment}</div>
+                    </div>
+                `;
+            }
+            
+            // 难度
+            if (costData.difficulty) {
+                costHTML += `
+                    <div class="cost-item">
+                        <div class="cost-label">Difficulty</div>
+                        <div class="cost-value difficulty-${costData.difficulty.toLowerCase()}">${costData.difficulty}</div>
+                    </div>
+                `;
+            }
+            
+            // 是否值得投资
+            if (costData.worthIt !== undefined) {
+                costHTML += `
+                    <div class="cost-item">
+                        <div class="cost-label">Worth Investment</div>
+                        <div class="cost-value ${costData.worthIt ? 'worth-it' : 'not-worth-it'}">${costData.worthIt ? 'Yes' : 'No'}</div>
+                    </div>
+                `;
+            }
+            
+            // 投资说明
+            if (costData.notes) {
+                costHTML += `
+                    <div class="investment-notes">
+                        <h4>Investment Notes</h4>
+                        <p>${costData.notes}</p>
+                    </div>
+                `;
+            }
+            
+            displayDiv.innerHTML = costHTML;
+        }
+
+        // 测试成本数据
+        window.testCostData = function() {
+            addLog('🔍 开始测试成本数据...', 'info');
+            
+            // 验证成本数据
+            const validation = costSummaryUtils.validateCostSummaryData();
+            if (validation) {
+                addLog('✅ 成本数据验证通过', 'success');
+            } else {
+                addLog('❌ 成本数据验证失败', 'error');
+            }
+            
+            // 显示数据统计
+            const costCount = Object.keys(COST_SUMMARY_DATA).length;
+            const unitCount = EVOLUTION_UNITS.length;
+            
+            addLog(`📊 成本数据统计: ${costCount} 个单位有成本数据`, 'info');
+            addLog(`📊 单位数据统计: ${unitCount} 个总单位`, 'info');
+            
+            if (costCount === unitCount) {
+                addLog('✅ 所有单位都有成本数据', 'success');
+            } else {
+                addLog(`⚠️ 有 ${unitCount - costCount} 个单位缺少成本数据`, 'error');
+            }
+        };
+
+        // 测试特定单位
+        window.testSpecificUnit = function() {
+            addLog('🎯 测试特定单位成本...', 'info');
+            
+            // 测试第一个有成本数据的单位
+            const firstUnitWithCost = Object.keys(COST_SUMMARY_DATA)[0];
+            if (firstUnitWithCost) {
+                displayCost(firstUnitWithCost);
+                addLog(`✅ 显示单位 ${firstUnitWithCost} 的成本`, 'success');
+            } else {
+                addLog('❌ 没有找到成本数据', 'error');
+            }
+        };
+
+        // 测试所有单位
+        window.testAllUnits = function() {
+            addLog('🔄 测试所有单位成本...', 'info');
+            
+            let successCount = 0;
+            let errorCount = 0;
+            
+            EVOLUTION_UNITS.forEach(unit => {
+                const costData = COST_SUMMARY_DATA[unit.id];
+                if (costData) {
+                    successCount++;
+                    addLog(`✅ ${unit.name}: 有成本数据`, 'success');
+                } else {
+                    errorCount++;
+                    addLog(`❌ ${unit.name}: 缺少成本数据`, 'error');
+                }
+            });
+            
+            addLog(`📊 测试完成: ${successCount} 成功, ${errorCount} 失败`, 
+                errorCount === 0 ? 'success' : 'error');
+        };
+
+        // 清除测试日志
+        window.clearTestLog = function() {
+            document.getElementById('testLog').innerHTML = '<div class="log-entry log-info">日志已清除</div>';
+            testLog = [];
+        };
+
+        // 页面加载时初始化
+        window.addEventListener('load', function() {
+            addLog('🚀 成本汇总测试页面已加载', 'info');
+            addLog(`📊 加载了 ${EVOLUTION_UNITS.length} 个进化单位`, 'info');
+            addLog(`💰 加载了 ${Object.keys(COST_SUMMARY_DATA).length} 个成本数据`, 'info');
+        });
+    </script>
+</body>
+</html> 
