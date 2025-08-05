@@ -4,6 +4,8 @@ import { CostSummary } from '../components/CostSummary.js';
 import { FarmingGuide } from '../components/FarmingGuide.js';
 import { showError } from '../utils/dom.js';
 import { validateUnitData, validateMaterialsConfig, validateElementIcons } from '../utils/validation.js';
+import { EVOLUTION_UNITS, evolutionUtils } from '../config/evolutionUnits.js';
+import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
 
 export class EvolutionPage {
     constructor(app) {
@@ -28,30 +30,30 @@ export class EvolutionPage {
     async initialize(data) {
         console.log('🚀 Initializing Evolution Page...');
         
-        this.unitsData = data.unitsData;
+        this.unitsData = EVOLUTION_UNITS;
         this.materialsConfig = data.materialsConfig;
         this.elementIcons = data.elementIcons;
         
-        // Validate data
-        const unitValidation = validateUnitData(this.unitsData);
-        const materialValidation = validateMaterialsConfig(this.materialsConfig);
-        const iconValidation = validateElementIcons(this.elementIcons);
+        // Validate evolution data
+        const evolutionValidation = evolutionUtils.validateEvolutionUnits();
+        const rarityValidation = dataUtils.validateRarities();
+        const elementValidation = dataUtils.validateElements();
         
-        if (!unitValidation.isValid) {
-            console.error('❌ Unit data validation failed:', unitValidation.errors);
-            showError('Unit data validation failed', 'error');
+        if (!evolutionValidation) {
+            console.error('❌ Evolution units validation failed');
+            showError('Evolution units validation failed', 'error');
             return false;
         }
         
-        if (!materialValidation.isValid) {
-            console.error('❌ Materials validation failed:', materialValidation.errors);
-            showError('Materials validation failed', 'error');
+        if (!rarityValidation) {
+            console.error('❌ Rarities validation failed');
+            showError('Rarities validation failed', 'error');
             return false;
         }
         
-        if (!iconValidation.isValid) {
-            console.error('❌ Element icons validation failed:', iconValidation.errors);
-            showError('Element icons validation failed', 'error');
+        if (!elementValidation) {
+            console.error('❌ Elements validation failed');
+            showError('Elements validation failed', 'error');
             return false;
         }
         

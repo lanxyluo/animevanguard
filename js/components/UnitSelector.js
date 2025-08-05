@@ -3,6 +3,8 @@ import { debounce } from '../utils/helpers.js';
 import { getElementColor } from '../utils/helpers.js';
 import { showError } from '../utils/dom.js';
 import { DataValidator } from '../utils/dataValidator.js';
+import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
+import { EVOLUTION_UNITS, evolutionUtils } from '../config/evolutionUnits.js';
 
 export class UnitSelector {
     constructor(containerId, options = {}) {
@@ -65,17 +67,11 @@ export class UnitSelector {
         // Clear existing options except "All Element"
         this.elementFilter.innerHTML = '<option value="">All Element</option>';
         
-        // Add all element options based on Anime Vanguards Wiki
-        const elements = [
-            'Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 
-            'Blast', 'Cosmic', 'Unbound', 'Curse', 'Life', 'Earth', 
-            'Spirit', 'Lightning', 'Dark', 'Physical'
-        ];
-        
-        elements.forEach(element => {
+        // Add all element options from the new data structure
+        ELEMENTS.forEach(element => {
             const option = document.createElement('option');
-            option.value = element;
-            option.textContent = element;
+            option.value = element.value;
+            option.textContent = element.label;
             this.elementFilter.appendChild(option);
         });
     }
@@ -99,11 +95,12 @@ export class UnitSelector {
     }
     
     setUnits(unitsData, elementIcons) {
-        this.allUnits = Object.values(unitsData);
+        // Use evolution units data for evolution calculator
+        this.allUnits = EVOLUTION_UNITS;
         this.elementIcons = elementIcons;
         this.filteredUnits = [...this.allUnits];
         
-        console.log(`UnitSelector: Loaded ${this.allUnits.length} units`);
+        console.log(`UnitSelector: Loaded ${this.allUnits.length} evolution units`);
         
         // 数据统计和验证
         this.analyzeDataDistribution();
@@ -162,7 +159,7 @@ export class UnitSelector {
         this.allUnits.forEach(unit => {
             const option = document.createElement('option');
             option.value = unit.id;
-            option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element}`;
+            option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element} → ${unit.evolutionName}`;
             this.unitSelect.appendChild(option);
         });
     }
@@ -192,21 +189,32 @@ export class UnitSelector {
         const rarityFilter = this.rarityFilter ? this.rarityFilter.value : '';
         const elementFilter = this.elementFilter ? this.elementFilter.value : '';
         
-        this.filteredUnits = this.allUnits.filter(unit => {
-            const matchesSearch = !searchTerm || 
-                unit.name.toLowerCase().includes(searchTerm) ||
-                unit.description.toLowerCase().includes(searchTerm);
-            
-            const matchesRarity = !rarityFilter || unit.rarity === rarityFilter;
-            const matchesElement = !elementFilter || unit.element === elementFilter;
-            
-            return matchesSearch && matchesRarity && matchesElement;
+        // 显示筛选前的单位数量
+        console.log('🔍 === 筛选逻辑开始 ===');
+        console.log(`📊 筛选前单位总数: ${this.allUnits.length}`);
+        console.log('🎯 当前筛选条件:', { 
+            searchTerm: searchTerm || '无', 
+            rarityFilter: rarityFilter || 'All Rarity', 
+            elementFilter: elementFilter || 'All Element' 
         });
         
-        // 调试输出
-        console.log('筛选条件:', { searchTerm, rarityFilter, elementFilter });
-        console.log('筛选后剩余单元数量:', this.filteredUnits.length);
-        console.log('筛选结果详情:', this.filteredUnits.map(u => `${u.name} (${u.rarity}, ${u.element})`));
+        // 使用新的筛选逻辑
+        this.filteredUnits = this.filterEvolutionUnits(this.allUnits, rarityFilter, elementFilter, searchTerm);
+        
+        // 显示筛选后的单位数量
+        console.log(`📊 筛选后单位数量: ${this.filteredUnits.length}`);
+        console.log(`📈 筛选效率: ${((this.filteredUnits.length / this.allUnits.length) * 100).toFixed(1)}%`);
+        
+        // 显示筛选结果详情
+        if (this.filteredUnits.length > 0) {
+            console.log('✅ 筛选结果详情:');
+            this.filteredUnits.forEach((unit, index) => {
+                console.log(`  ${index + 1}. ${unit.name} (${unit.rarity}, ${unit.element}) → ${unit.evolutionName}`);
+            });
+        } else {
+            console.log('❌ 没有找到匹配的单位');
+        }
+        console.log('🔍 === 筛选逻辑结束 ===\n');
         
         // Update unit select dropdown
         if (this.unitSelect) {
@@ -221,11 +229,57 @@ export class UnitSelector {
                 this.filteredUnits.forEach(unit => {
                     const option = document.createElement('option');
                     option.value = unit.id;
-                    option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element}`;
+                    option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element} → ${unit.evolutionName}`;
                     this.unitSelect.appendChild(option);
                 });
             }
         }
+    }
+    
+    // 新的筛选逻辑函数
+    filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
+        return units.filter(unit => {
+            // 1. 只显示可进化的稀有度
+            const canEvolveRarities = ['Vanguard', 'Secret', 'Exclusive', 'Mythic'];
+            if (!canEvolveRarities.includes(unit.rarity)) {
+                console.log(`❌ 过滤掉 ${unit.name}: 稀有度 ${unit.rarity} 不可进化`);
+                return false;
+            }
+            
+            // 2. 确保单位可以进化
+            if (unit.canEvolve !== true) {
+                console.log(`❌ 过滤掉 ${unit.name}: canEvolve = ${unit.canEvolve}`);
+                return false;
+            }
+            
+            // 3. 稀有度匹配
+            if (selectedRarity && selectedRarity !== 'All Rarity' && unit.rarity !== selectedRarity) {
+                console.log(`❌ 过滤掉 ${unit.name}: 稀有度不匹配 (${unit.rarity} !== ${selectedRarity})`);
+                return false;
+            }
+            
+            // 4. 元素匹配
+            if (selectedElement && selectedElement !== 'All Element' && unit.element !== selectedElement) {
+                console.log(`❌ 过滤掉 ${unit.name}: 元素不匹配 (${unit.element} !== ${selectedElement})`);
+                return false;
+            }
+            
+            // 5. 搜索词匹配
+            if (searchTerm) {
+                const searchLower = searchTerm.toLowerCase();
+                const nameMatch = unit.name.toLowerCase().includes(searchLower);
+                const evolutionMatch = unit.evolutionName.toLowerCase().includes(searchLower);
+                
+                if (!nameMatch && !evolutionMatch) {
+                    console.log(`❌ 过滤掉 ${unit.name}: 搜索词不匹配 "${searchTerm}"`);
+                    return false;
+                }
+            }
+            
+            // 6. 通过所有筛选条件
+            console.log(`✅ 保留 ${unit.name}: 通过所有筛选条件`);
+            return true;
+        });
     }
     
     selectUnit(unit) {
@@ -254,12 +308,13 @@ export class UnitSelector {
         unitCard.className = 'unit-card selected';
         unitCard.innerHTML = `
             <div class="unit-header">
-                <i class="${unit.icon}" style="color: ${getElementColor(unit.element)}"></i>
-                <h3>${unit.name} (${unit.evolution})</h3>
+                <i class="${this.elementIcons[unit.element] || 'fas fa-question-circle'}" style="color: ${getElementColor(unit.element)}"></i>
+                <h3>${unit.name}</h3>
             </div>
             <div class="unit-details">
-                <p class="unit-meta">${unit.rarity} • ${unit.element} • ${unit.type}</p>
-                <p class="unit-description">${unit.description}</p>
+                <p class="unit-meta">${unit.rarity} • ${unit.element} • ${unit.canEvolve ? 'Can Evolve' : 'Cannot Evolve'}</p>
+                <p class="unit-evolution">→ ${unit.evolutionName}</p>
+                <p class="unit-obtain">Obtain: ${unit.obtainMethod}</p>
             </div>
         `;
         

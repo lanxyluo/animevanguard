@@ -1,25 +1,58 @@
 // Enhanced element icons mapping for all game elements
 export const elementIcons = {
+    'Unknown': 'fas fa-question-circle',
+    'Cosmic': 'fas fa-infinity',
+    'Holy': 'fas fa-cross',
     'Fire': 'fas fa-fire',
     'Water': 'fas fa-tint',
     'Nature': 'fas fa-leaf',
-    'Spark': 'fas fa-bolt',
-    'Holy': 'fas fa-cross',
-    'Passion': 'fas fa-heart',
-    'Blast': 'fas fa-radiation',
-    'Cosmic': 'fas fa-infinity',
-    'Unbound': 'fas fa-unlock',
-    'Curse': 'fas fa-skull',
     'Life': 'fas fa-seedling',
-    'Earth': 'fas fa-mountain',
     'Spirit': 'fas fa-ghost',
+    'Spark': 'fas fa-bolt',
+    'Passion': 'fas fa-heart',
+    'Blood': 'fas fa-tint',
+    'Shadow': 'fas fa-moon',
+    'Curse': 'fas fa-skull',
+    'Earth': 'fas fa-mountain',
     'Lightning': 'fas fa-bolt',
     'Dark': 'fas fa-moon',
     'Physical': 'fas fa-fist-raised'
 };
 
-// Rarity order for sorting and display
-export const RARITY_ORDER = ['Rare', 'Epic', 'Legendary', 'Secret', 'Mythic', 'Exclusive'];
+// Complete rarity data with evolution capability
+export const RARITIES = [
+    { value: "Vanguard", label: "Vanguard", canEvolve: true },
+    { value: "Secret", label: "Secret", canEvolve: true },
+    { value: "Exclusive", label: "Exclusive", canEvolve: true },
+    { value: "Mythic", label: "Mythic", canEvolve: true },
+    { value: "Legendary", label: "Legendary", canEvolve: false },
+    { value: "Epic", label: "Epic", canEvolve: false },
+    { value: "Rare", label: "Rare", canEvolve: false }
+];
+
+// Complete element data
+export const ELEMENTS = [
+    { value: "Unknown", label: "Unknown" },
+    { value: "Cosmic", label: "Cosmic" },
+    { value: "Holy", label: "Holy" },
+    { value: "Fire", label: "Fire" },
+    { value: "Water", label: "Water" },
+    { value: "Nature", label: "Nature" },
+    { value: "Life", label: "Life" },
+    { value: "Spirit", label: "Spirit" },
+    { value: "Spark", label: "Spark" },
+    { value: "Passion", label: "Passion" },
+    { value: "Blood", label: "Blood" },
+    { value: "Shadow", label: "Shadow" },
+    { value: "Curse", label: "Curse" },
+    { value: "Earth", label: "Earth" },
+    { value: "Lightning", label: "Lightning" },
+    { value: "Dark", label: "Dark" },
+    { value: "Physical", label: "Physical" }
+];
+
+// Rarity order for sorting and display (updated with Vanguard)
+export const RARITY_ORDER = ['Rare', 'Epic', 'Legendary', 'Mythic', 'Exclusive', 'Secret', 'Vanguard'];
 
 // Attack types for filtering
 export const ATTACK_TYPES = [
@@ -46,4 +79,50 @@ export const UI_CONSTANTS = {
     ANIMATION_DURATION: 300,
     DEBOUNCE_DELAY: 300,
     NOTIFICATION_DURATION: 3000
+};
+
+// Utility functions for data validation
+export const dataUtils = {
+    // Get rarity by value
+    getRarityByValue(value) {
+        return RARITIES.find(rarity => rarity.value === value) || RARITIES[0];
+    },
+
+    // Get element by value
+    getElementByValue(value) {
+        return ELEMENTS.find(element => element.value === value) || ELEMENTS[0];
+    },
+
+    // Get all rarity labels for dropdown
+    getRarityLabels() {
+        return RARITIES.map(rarity => ({
+            value: rarity.value,
+            label: rarity.label
+        }));
+    },
+
+    // Get all element labels for dropdown
+    getElementLabels() {
+        return ELEMENTS.map(element => ({
+            value: element.value,
+            label: element.label
+        }));
+    },
+
+    // Validate rarity data
+    validateRarities() {
+        return RARITIES.every(rarity => 
+            typeof rarity.value === 'string' && 
+            typeof rarity.label === 'string' &&
+            typeof rarity.canEvolve === 'boolean'
+        );
+    },
+
+    // Validate element data
+    validateElements() {
+        return ELEMENTS.every(element => 
+            typeof element.value === 'string' && 
+            typeof element.label === 'string'
+        );
+    }
 }; 
