@@ -114,12 +114,15 @@ export class CostSummary {
     }
     
     renderDetailedCostBreakdown(costData) {
-        let summaryHTML = '';
+        let summaryHTML = `
+            <div class="cost-summary-container">
+                <h3><i class="fas fa-calculator"></i> Evolution Cost Analysis</h3>
+        `;
         
         if (this.options.showBreakdown) {
             summaryHTML += `
                 <div class="cost-breakdown">
-                    <h3>Cost Breakdown</h3>
+                    <h4><i class="fas fa-list"></i> Cost Breakdown</h4>
                     <div class="cost-items">
             `;
             
@@ -127,7 +130,10 @@ export class CostSummary {
             if (costData.totalGold > 0) {
                 summaryHTML += `
                     <div class="cost-item">
-                        <span class="cost-label">Gold</span>
+                        <div class="cost-item-header">
+                            <i class="fas fa-coins"></i>
+                            <span class="cost-label">Gold Cost</span>
+                        </div>
                         <span class="cost-value">${formatNumber(costData.totalGold)}</span>
                     </div>
                 `;
@@ -135,11 +141,17 @@ export class CostSummary {
             
             // Material costs
             if (costData.materialCosts) {
-                costData.materialCosts.forEach(material => {
+                costData.materialCosts.forEach((material, index) => {
                     summaryHTML += `
-                        <div class="cost-item">
-                            <span class="cost-label">${material.material}</span>
-                            <span class="cost-value">${material.estimatedCost}</span>
+                        <div class="cost-item" key="${index}">
+                            <div class="cost-item-header">
+                                <i class="fas fa-gem"></i>
+                                <span class="cost-label">${material.material}</span>
+                            </div>
+                            <div class="cost-item-details">
+                                <span class="cost-value">${material.estimatedCost}</span>
+                                <span class="cost-difficulty difficulty-${material.difficulty.toLowerCase()}">${material.difficulty}</span>
+                            </div>
                         </div>
                     `;
                 });
@@ -154,7 +166,7 @@ export class CostSummary {
         if (this.options.showTotal) {
             summaryHTML += `
                 <div class="total-cost">
-                    <h3>Total Estimated Cost</h3>
+                    <h4><i class="fas fa-total"></i> Total Estimated Cost</h4>
                     <div class="total-amount">${costData.totalEstimatedCost}</div>
                 </div>
             `;
@@ -164,16 +176,28 @@ export class CostSummary {
         summaryHTML += `
             <div class="cost-details">
                 <div class="cost-detail-item">
-                    <span class="detail-label">Time Investment:</span>
+                    <div class="detail-header">
+                        <i class="fas fa-clock"></i>
+                        <span class="detail-label">Time Investment:</span>
+                    </div>
                     <span class="detail-value">${costData.timeInvestment}</span>
                 </div>
                 <div class="cost-detail-item">
-                    <span class="detail-label">Difficulty:</span>
+                    <div class="detail-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span class="detail-label">Difficulty:</span>
+                    </div>
                     <span class="detail-value difficulty-${costData.difficulty.toLowerCase()}">${costData.difficulty}</span>
                 </div>
                 <div class="cost-detail-item">
-                    <span class="detail-label">Worth Investment:</span>
-                    <span class="detail-value ${costData.worthIt ? 'worth-it' : 'not-worth-it'}">${costData.worthIt ? 'Yes' : 'No'}</span>
+                    <div class="detail-header">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span class="detail-label">Worth Investment:</span>
+                    </div>
+                    <span class="detail-value ${costData.worthIt ? 'worth-it' : 'not-worth-it'}">
+                        <i class="fas fa-${costData.worthIt ? 'check-circle' : 'times-circle'}"></i>
+                        ${costData.worthIt ? 'Yes' : 'No'}
+                    </span>
                 </div>
             </div>
         `;
@@ -182,11 +206,13 @@ export class CostSummary {
         if (costData.notes) {
             summaryHTML += `
                 <div class="investment-notes">
-                    <h4>Investment Notes</h4>
+                    <h4><i class="fas fa-lightbulb"></i> Investment Notes</h4>
                     <p>${costData.notes}</p>
                 </div>
             `;
         }
+        
+        summaryHTML += `</div>`;
         
         this.costSummaryElement.innerHTML = summaryHTML;
     }

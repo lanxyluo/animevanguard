@@ -79,29 +79,56 @@ export class FarmingGuide {
     
     renderDetailedFarmingGuide(guideData) {
         let guideHTML = `
-            <h3>Farming Guide for ${this.currentUnit.name}</h3>
-            <p><strong>Rarity:</strong> ${this.currentUnit.rarity} • <strong>Element:</strong> ${this.currentUnit.element}</p>
-            <p><strong>Priority:</strong> <span class="priority-${guideData.priority.toLowerCase()}">${guideData.priority}</span></p>
-            <hr>
+            <div class="farming-guide-container">
+                <h3><i class="fas fa-map-marked-alt"></i> Farming Guide for ${this.currentUnit.name}</h3>
+                <div class="unit-info">
+                    <span class="unit-rarity"><i class="fas fa-star"></i> ${this.currentUnit.rarity}</span>
+                    <span class="unit-element"><i class="fas fa-fire"></i> ${this.currentUnit.element}</span>
+                    <span class="priority-badge priority-${guideData.priority.toLowerCase()}">
+                        <i class="fas fa-flag"></i> Priority: ${guideData.priority}
+                    </span>
+                </div>
         `;
         
         // Farming Steps
         if (guideData.farmingSteps && guideData.farmingSteps.length > 0) {
             guideHTML += `
                 <div class="farming-steps">
-                    <h4>Farming Steps:</h4>
+                    <h4><i class="fas fa-list-ol"></i> Farming Steps:</h4>
                     <ol>
             `;
             
-            guideData.farmingSteps.forEach(step => {
+            guideData.farmingSteps.forEach((step, index) => {
                 guideHTML += `
-                    <li>
-                        <strong>${step.task}</strong><br>
-                        <span class="step-method">${step.method}</span>
-                        ${step.alternativeMethod ? `<br><span class="step-alternative">Alternative: ${step.alternativeMethod}</span>` : ''}
-                        ${step.location ? `<br><span class="step-location">Location: ${step.location}</span>` : ''}
-                        ${step.timeEstimate ? `<br><span class="step-time">Time: ${step.timeEstimate}</span>` : ''}
-                        ${step.notes ? `<br><span class="step-notes">Notes: ${step.notes}</span>` : ''}
+                    <li key="${index}">
+                        <div class="step-header">
+                            <strong><i class="fas fa-step-forward"></i> ${step.task}</strong>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-method">
+                                <i class="fas fa-route"></i> ${step.method}
+                            </div>
+                            ${step.alternativeMethod ? `
+                                <div class="step-alternative">
+                                    <i class="fas fa-exchange-alt"></i> Alternative: ${step.alternativeMethod}
+                                </div>
+                            ` : ''}
+                            ${step.location ? `
+                                <div class="step-location">
+                                    <i class="fas fa-map-marker-alt"></i> Location: ${step.location}
+                                </div>
+                            ` : ''}
+                            ${step.timeEstimate ? `
+                                <div class="step-time">
+                                    <i class="fas fa-clock"></i> Time: ${step.timeEstimate}
+                                </div>
+                            ` : ''}
+                            ${step.notes ? `
+                                <div class="step-notes">
+                                    <i class="fas fa-info-circle"></i> Notes: ${step.notes}
+                                </div>
+                            ` : ''}
+                        </div>
                     </li>
                 `;
             });
@@ -116,18 +143,29 @@ export class FarmingGuide {
         if (guideData.materialFarming && guideData.materialFarming.length > 0) {
             guideHTML += `
                 <div class="material-farming">
-                    <h4>Material Farming:</h4>
+                    <h4><i class="fas fa-gem"></i> Material Farming:</h4>
                     <div class="material-list">
             `;
             
-            guideData.materialFarming.forEach(material => {
+            guideData.materialFarming.forEach((material, index) => {
                 guideHTML += `
-                    <div class="material-item">
-                        <div class="material-name">${material.material}</div>
+                    <div class="material-item" key="${index}">
+                        <div class="material-header">
+                            <div class="material-name">
+                                <i class="fas fa-cube"></i> ${material.material}
+                            </div>
+                        </div>
                         <div class="material-method">
-                            <strong>Best Method:</strong> ${material.bestMethod}<br>
-                            <strong>Alternative:</strong> ${material.alternativeMethod}<br>
-                            <strong>Efficiency:</strong> <span class="efficiency-${material.efficiency.toLowerCase()}">${material.efficiency}</span>
+                            <div class="method-item">
+                                <i class="fas fa-trophy"></i> <strong>Best Method:</strong> ${material.bestMethod}
+                            </div>
+                            <div class="method-item">
+                                <i class="fas fa-arrow-right"></i> <strong>Alternative:</strong> ${material.alternativeMethod}
+                            </div>
+                            <div class="method-item">
+                                <i class="fas fa-chart-line"></i> <strong>Efficiency:</strong> 
+                                <span class="efficiency-${material.efficiency.toLowerCase()}">${material.efficiency}</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -143,13 +181,19 @@ export class FarmingGuide {
         if (guideData.tips && guideData.tips.length > 0) {
             guideHTML += `
                 <div class="farming-tips">
-                    <h4>Tips:</h4>
+                    <h4><i class="fas fa-lightbulb"></i> Tips:</h4>
                     <ul>
-                        ${guideData.tips.map(tip => `<li>${tip}</li>`).join('')}
+                        ${guideData.tips.map((tip, index) => `
+                            <li key="${index}">
+                                <i class="fas fa-check-circle"></i> ${tip}
+                            </li>
+                        `).join('')}
                     </ul>
                 </div>
             `;
         }
+        
+        guideHTML += `</div>`;
         
         this.farmingGuideElement.innerHTML = guideHTML;
     }

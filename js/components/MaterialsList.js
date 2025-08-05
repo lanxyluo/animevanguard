@@ -94,46 +94,66 @@ export class MaterialsList {
             return;
         }
         
-        let materialsHTML = '';
+        let materialsHTML = `
+            <div class="evolution-materials">
+                <h3>Evolution Materials Required</h3>
+        `;
         
-        // Gold cost
+        // Gold cost section
         if (materialsData.goldCost) {
             materialsHTML += `
-                <div class="material-item">
-                    <div class="material-info">
-                        <strong>Gold</strong>
-                        <p>Basic currency for evolution</p>
+                <div class="gold-cost-section">
+                    <div class="gold-cost">
+                        <i class="fas fa-coins"></i>
+                        <strong>Gold Cost: ${formatNumber(materialsData.goldCost)}</strong>
                     </div>
-                    <div class="material-quantity">${formatNumber(materialsData.goldCost)}</div>
                 </div>
             `;
         }
         
         // Materials list
-        materialsData.materials.forEach(material => {
+        materialsHTML += `
+            <div class="materials-list">
+                <h4>Required Materials:</h4>
+        `;
+        
+        materialsData.materials.forEach((material, index) => {
             materialsHTML += `
-                <div class="material-item">
-                    <div class="material-info">
-                        <strong>${material.name}</strong>
-                        <p>${material.description}</p>
-                        <small>Type: ${material.type} • Rarity: ${material.rarity}</small>
+                <div class="material-item" key="${index}">
+                    <div class="material-header">
+                        <span class="material-name">${material.name}</span>
+                        <span class="material-quantity">x${material.quantity}</span>
                     </div>
-                    <div class="material-quantity">${material.quantity}</div>
+                    <div class="material-type">${material.type || 'Material'}</div>
+                    <div class="material-description">${material.description || 'Required for evolution'}</div>
+                    <div class="material-obtain">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Obtain: ${material.obtainMethod || 'Various sources'}
+                    </div>
                 </div>
             `;
         });
         
-        // Special requirements
+        materialsHTML += `</div>`;
+        
+        // Special requirements section
         if (materialsData.specialRequirements && materialsData.specialRequirements.length > 0) {
             materialsHTML += `
                 <div class="special-requirements">
-                    <h4>Special Requirements:</h4>
+                    <h4><i class="fas fa-exclamation-triangle"></i> Special Requirements:</h4>
                     <ul>
-                        ${materialsData.specialRequirements.map(req => `<li>${req}</li>`).join('')}
+                        ${materialsData.specialRequirements.map((req, index) => `
+                            <li key="${index}">
+                                <i class="fas fa-check-circle"></i>
+                                ${req}
+                            </li>
+                        `).join('')}
                     </ul>
                 </div>
             `;
         }
+        
+        materialsHTML += `</div>`;
         
         this.materialsListElement.innerHTML = materialsHTML;
     }
