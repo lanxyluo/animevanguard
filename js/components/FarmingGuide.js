@@ -41,8 +41,16 @@ export class FarmingGuide {
     }
     
     updateGuide(unit) {
+        console.log('🌾 === FarmingGuide 接收单位更新 ===');
+        console.log('📊 当前农场状态:', this.currentUnit);
+        console.log('🆕 新接收的单位:', unit);
+        
         this.currentUnit = unit;
+        console.log('✅ 农场状态已更新:', this.currentUnit);
+        
+        console.log('🎨 开始渲染农场指南...');
         this.render();
+        console.log('🌾 === FarmingGuide 单位更新完成 ===\n');
     }
     
     render() {

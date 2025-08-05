@@ -46,8 +46,16 @@ export class CostSummary {
     }
     
     updateCost(unit) {
+        console.log('💰 === CostSummary 接收单位更新 ===');
+        console.log('📊 当前成本状态:', this.currentUnit);
+        console.log('🆕 新接收的单位:', unit);
+        
         this.currentUnit = unit;
+        console.log('✅ 成本状态已更新:', this.currentUnit);
+        
+        console.log('🎨 开始渲染成本摘要...');
         this.render();
+        console.log('💰 === CostSummary 单位更新完成 ===\n');
     }
     
     render() {

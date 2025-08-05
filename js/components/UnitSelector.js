@@ -174,15 +174,25 @@ export class UnitSelector {
     }
     
     handleUnitSelect(e) {
+        console.log('🎯 === 单位选择事件触发 ===');
+        console.log('📝 事件对象:', e);
+        console.log('🎛️ 选择的值:', e.target.value);
+        
         const unitId = e.target.value;
         if (unitId) {
+            console.log('🔍 查找单位 ID:', unitId);
             const unit = this.allUnits.find(u => u.id === unitId);
             if (unit) {
+                console.log('✅ 找到单位:', unit);
                 this.selectUnit(unit);
+            } else {
+                console.error('❌ 未找到单位 ID:', unitId);
             }
         } else {
+            console.log('🗑️ 清除选择');
             this.clearSelection();
         }
+        console.log('🎯 === 单位选择事件结束 ===\n');
     }
     
     filterAndDisplayUnits(searchTerm = '') {
@@ -400,12 +410,23 @@ export class UnitSelector {
     }
     
     selectUnit(unit) {
+        console.log('🎯 === 选择单位 ===');
+        console.log('📊 当前单位状态:', this.currentUnit);
+        console.log('🆕 新选择的单位:', unit);
+        
         this.currentUnit = unit;
+        console.log('✅ 单位状态已更新:', this.currentUnit);
+        
         this.updateUnitCard(unit);
+        console.log('🎨 单位卡片已更新');
         
         if (this.options.onUnitSelect) {
+            console.log('📞 调用回调函数 onUnitSelect');
             this.options.onUnitSelect(unit);
+        } else {
+            console.warn('⚠️ 未设置 onUnitSelect 回调函数');
         }
+        console.log('🎯 === 选择单位完成 ===\n');
     }
     
     clearSelection() {

@@ -103,13 +103,38 @@ export class EvolutionPage {
     }
     
     handleUnitSelect(unit) {
-        console.log('Unit selected:', unit.name);
+        console.log('📄 === EvolutionPage 接收单位选择 ===');
+        console.log('📊 当前页面状态:', this.selectedUnit);
+        console.log('🆕 新选择的单位:', unit);
+        
         this.selectedUnit = unit;
+        console.log('✅ 页面状态已更新:', this.selectedUnit);
         
         // Update all components with the selected unit
-        this.materialsList.updateMaterials(unit);
-        this.costSummary.updateCost(unit);
-        this.farmingGuide.updateGuide(unit);
+        console.log('🔄 更新所有组件...');
+        
+        if (this.materialsList) {
+            console.log('📋 更新 MaterialsList 组件');
+            this.materialsList.updateMaterials(unit);
+        } else {
+            console.error('❌ MaterialsList 组件未初始化');
+        }
+        
+        if (this.costSummary) {
+            console.log('💰 更新 CostSummary 组件');
+            this.costSummary.updateCost(unit);
+        } else {
+            console.error('❌ CostSummary 组件未初始化');
+        }
+        
+        if (this.farmingGuide) {
+            console.log('🌾 更新 FarmingGuide 组件');
+            this.farmingGuide.updateGuide(unit);
+        } else {
+            console.error('❌ FarmingGuide 组件未初始化');
+        }
+        
+        console.log('📄 === EvolutionPage 单位选择处理完成 ===\n');
     }
     
     show() {

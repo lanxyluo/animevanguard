@@ -47,8 +47,16 @@ export class MaterialsList {
     }
     
     updateMaterials(unit) {
+        console.log('📋 === MaterialsList 接收单位更新 ===');
+        console.log('📊 当前材料状态:', this.currentUnit);
+        console.log('🆕 新接收的单位:', unit);
+        
         this.currentUnit = unit;
+        console.log('✅ 材料状态已更新:', this.currentUnit);
+        
+        console.log('🎨 开始渲染材料列表...');
         this.render();
+        console.log('📋 === MaterialsList 单位更新完成 ===\n');
     }
     
     render() {
