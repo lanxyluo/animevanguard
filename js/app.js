@@ -78,6 +78,7 @@ export class App {
             evolution: document.getElementById('evolutionPage'),
             dps: document.getElementById('dpsPage'),
             database: document.getElementById('databasePage'),
+            codes: document.getElementById('codesPage'),
             about: document.getElementById('aboutPage')
         };
         
@@ -166,6 +167,8 @@ export class App {
             this.dpsPage.show();
         } else if (pageName === 'database' && this.databasePage) {
             this.databasePage.show();
+        } else if (pageName === 'codes') {
+            this.updateCodesPage();
         }
         
         this.currentPage = pageName;
@@ -178,5 +181,15 @@ export class App {
                 tab.classList.add('active');
             }
         });
+    }
+
+    updateCodesPage() {
+        // Update the last updated date
+        const lastUpdatedElement = document.getElementById('lastUpdatedDate');
+        if (lastUpdatedElement) {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            lastUpdatedElement.textContent = now.toLocaleDateString('en-US', options);
+        }
     }
 } 

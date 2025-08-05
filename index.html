@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Vanguards Calculator - Evolution Materials & DPS Calculator</title>
+    <title>Anime Vanguards Wiki | Evolution Guide, Unit Stats & Codes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -113,7 +113,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Evolution Calculator Page */
+        /* Evolution Guide Page */
         .evolution-page {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -333,7 +333,7 @@
             opacity: 0.5;
         }
 
-        /* DPS Calculator Styles */
+        /* Unit Stats Styles */
         .dps-page {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -624,6 +624,186 @@
             margin-bottom: 1rem;
             opacity: 0.5;
         }
+
+        /* Codes Page Styles */
+        .codes-page {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .last-updated {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #a29bfe;
+            margin-top: 0.5rem;
+        }
+
+        .codes-content {
+            padding: 1rem;
+        }
+
+        .codes-section {
+            margin-bottom: 2rem;
+        }
+
+        .codes-section h4 {
+            color: #6c5ce7;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .code-item {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .code-item.active {
+            border-color: #2ecc71;
+        }
+
+        .code-item.expired {
+            border-color: #e74c3c;
+            opacity: 0.7;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .code-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #6c5ce7;
+            background: rgba(108, 92, 231, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .code-status {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .code-status.active {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .code-status.expired {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .code-rewards {
+            margin-bottom: 1rem;
+        }
+
+        .code-rewards p {
+            margin: 0.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .code-usage p {
+            font-size: 0.85rem;
+            color: #a29bfe;
+            margin: 0;
+        }
+
+        .redemption-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .step-number {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .step-content h5 {
+            margin: 0 0 0.5rem 0;
+            color: #6c5ce7;
+        }
+
+        .step-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #a29bfe;
+        }
+
+        .updates-info {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .updates-info p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive for Codes */
+        @media (max-width: 768px) {
+            .codes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .redemption-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -631,18 +811,21 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <h1><i class="fas fa-calculator"></i> Anime Vanguards Calculator</h1>
-                <p>Evolution Materials & DPS Calculator</p>
+                <h1><i class="fas fa-wiki"></i> Anime Vanguards Wiki</h1>
+                <p>Evolution Guide, Unit Stats & Codes</p>
             </div>
             <nav class="nav-tabs">
                 <a href="#evolution" class="nav-tab active" data-page="evolution">
-                    <i class="fas fa-arrow-up"></i> Evolution Calculator
+                    <i class="fas fa-arrow-up"></i> Evolution Guide
                 </a>
                 <a href="#dps" class="nav-tab" data-page="dps">
-                    <i class="fas fa-crosshairs"></i> DPS Calculator
+                    <i class="fas fa-crosshairs"></i> Unit Stats
                 </a>
                 <a href="#database" class="nav-tab" data-page="database">
                     <i class="fas fa-database"></i> Unit Database
+                </a>
+                <a href="#codes" class="nav-tab" data-page="codes">
+                    <i class="fas fa-gift"></i> Codes
                 </a>
                 <a href="#about" class="nav-tab" data-page="about">
                     <i class="fas fa-info-circle"></i> About
@@ -653,7 +836,7 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Evolution Calculator Page -->
+        <!-- Evolution Guide Page -->
         <div id="evolutionPage" class="page-container active">
             <div class="evolution-page">
                 <!-- Left Column -->
@@ -712,7 +895,7 @@
                             <div id="unitPlaceholder" class="unit-placeholder">
                                 <i class="fas fa-user"></i>
                                 <p>Please Select Unit</p>
-                                <p>Select a unit to view evolution material requirements</p>
+                                <p>Select a unit to view complete evolution guide and requirements</p>
                             </div>
                         </div>
                     </div>
@@ -784,7 +967,7 @@
             </div>
         </div>
 
-        <!-- DPS Calculator Page -->
+        <!-- Unit Stats Page -->
         <div id="dpsPage" class="page-container">
             <div class="dps-page">
                 <!-- Left Column -->
@@ -835,18 +1018,18 @@
                         <div id="dpsUnitPlaceholder" class="unit-placeholder">
                             <i class="fas fa-user"></i>
                             <p>Please Select Unit</p>
-                            <p>Select a unit to calculate DPS</p>
+                            <p>Select a unit to view detailed stats and power rankings</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Middle Column -->
                 <div class="dps-middle">
-                    <!-- DPS Parameters -->
+                    <!-- Unit Stats Parameters -->
                     <div class="card">
                         <div class="card-header">
                             <i class="fas fa-cog"></i>
-                            <h3>DPS Parameters</h3>
+                            <h3>Stats Parameters</h3>
                         </div>
                         <div class="parameter-group">
                             <label for="unitLevel">Unit Level (1-12):</label>
@@ -877,7 +1060,7 @@
                             </select>
                         </div>
                         <button id="calculateDPS" class="calculate-btn">
-                            <i class="fas fa-calculator"></i> Calculate DPS
+                            <i class="fas fa-chart-line"></i> View Stats
                         </button>
                     </div>
                 </div>
@@ -1084,20 +1267,151 @@
             </div>
         </div>
 
+        <!-- Codes Page -->
+        <div id="codesPage" class="page-container">
+            <div class="codes-page">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-gift"></i>
+                        <h3>Anime Vanguards Codes - Latest Working Codes 2025</h3>
+                        <div class="last-updated">
+                            <i class="fas fa-clock"></i>
+                            <span>Last Updated: <span id="lastUpdatedDate">January 2025</span></span>
+                        </div>
+                    </div>
+                    <div class="codes-content">
+                        <!-- Active Codes Section -->
+                        <div class="codes-section">
+                            <h4><i class="fas fa-check-circle"></i> Active Codes (Working)</h4>
+                            <div class="codes-grid">
+                                <div class="code-item active">
+                                    <div class="code-header">
+                                        <span class="code-text">RELEASE</span>
+                                        <span class="code-status active">Active</span>
+                                    </div>
+                                    <div class="code-rewards">
+                                        <p><i class="fas fa-gem"></i> 500 Gems</p>
+                                        <p><i class="fas fa-coins"></i> 10,000 Gold</p>
+                                    </div>
+                                    <div class="code-usage">
+                                        <p><strong>How to use:</strong> Enter in the game's code redemption menu</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="code-item active">
+                                    <div class="code-header">
+                                        <span class="code-text">THANKYOU</span>
+                                        <span class="code-status active">Active</span>
+                                    </div>
+                                    <div class="code-rewards">
+                                        <p><i class="fas fa-gem"></i> 300 Gems</p>
+                                        <p><i class="fas fa-coins"></i> 5,000 Gold</p>
+                                    </div>
+                                    <div class="code-usage">
+                                        <p><strong>How to use:</strong> Enter in the game's code redemption menu</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="code-item active">
+                                    <div class="code-header">
+                                        <span class="code-text">WELCOME</span>
+                                        <span class="code-status active">Active</span>
+                                    </div>
+                                    <div class="code-rewards">
+                                        <p><i class="fas fa-gem"></i> 200 Gems</p>
+                                        <p><i class="fas fa-coins"></i> 3,000 Gold</p>
+                                    </div>
+                                    <div class="code-usage">
+                                        <p><strong>How to use:</strong> Enter in the game's code redemption menu</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expired Codes Section -->
+                        <div class="codes-section">
+                            <h4><i class="fas fa-times-circle"></i> Expired Codes (Historical Reference)</h4>
+                            <div class="codes-grid">
+                                <div class="code-item expired">
+                                    <div class="code-header">
+                                        <span class="code-text">BETA</span>
+                                        <span class="code-status expired">Expired</span>
+                                    </div>
+                                    <div class="code-rewards">
+                                        <p><i class="fas fa-gem"></i> 1000 Gems</p>
+                                        <p><i class="fas fa-coins"></i> 50,000 Gold</p>
+                                    </div>
+                                    <div class="code-usage">
+                                        <p><strong>Status:</strong> Beta testing reward code (no longer valid)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- How to Redeem Codes Section -->
+                        <div class="codes-section">
+                            <h4><i class="fas fa-question-circle"></i> How to Redeem Codes</h4>
+                            <div class="redemption-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <h5>Open the Game</h5>
+                                        <p>Launch Anime Vanguards on Roblox</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <h5>Find Code Menu</h5>
+                                        <p>Look for the "Codes" or "Redeem" button in the main menu</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <h5>Enter Code</h5>
+                                        <p>Type the code exactly as shown (case-sensitive)</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-content">
+                                        <h5>Claim Rewards</h5>
+                                        <p>Click "Redeem" and collect your rewards</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code Updates Section -->
+                        <div class="codes-section">
+                            <h4><i class="fas fa-info-circle"></i> Code Updates</h4>
+                            <div class="updates-info">
+                                <p><i class="fas fa-sync-alt"></i> <strong>Update Frequency:</strong> New codes are added regularly during events and updates</p>
+                                <p><i class="fas fa-bell"></i> <strong>Notification:</strong> Follow our updates to get the latest codes as soon as they're released</p>
+                                <p><i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Codes are case-sensitive and may expire without notice</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- About Page -->
         <div id="aboutPage" class="page-container">
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-info-circle"></i>
-                    <h3>About Anime Vanguards Calculator</h3>
+                    <h3>About Anime Vanguards Wiki</h3>
                 </div>
                 <div style="padding: 1rem;">
-                    <p>This calculator helps you plan your unit evolutions and calculate DPS for Anime Vanguards.</p>
+                    <p>Your complete guide to Anime Vanguards - the ultimate resource for evolution guides, unit stats, and working codes.</p>
                     <p>Features include:</p>
                     <ul style="margin: 1rem 0; padding-left: 2rem;">
-                        <li>Evolution material requirements and costs</li>
-                        <li>DPS calculations with various parameters</li>
+                        <li>Complete evolution guides with material requirements and costs</li>
+                        <li>Detailed unit stats and power rankings</li>
                         <li>Complete unit database with search and filters</li>
+                        <li>Latest working codes and redemption guides</li>
                         <li>Farming guides and recommendations</li>
                     </ul>
                 </div>
