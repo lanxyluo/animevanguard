@@ -61,73 +61,121 @@ export class FarmingGuide {
             return;
         }
         
-        if (!this.currentUnit.farmingGuide) {
-            this.farmingGuideElement.innerHTML = '<p>No farming guide available for this unit</p>';
-            return;
-        }
+        // Try to get detailed farming guide data
+        import('../config/farmingGuide.js').then(module => {
+            const farmingGuideData = module.FARMING_GUIDE_DATA[this.currentUnit.id];
+            if (farmingGuideData) {
+                this.renderDetailedFarmingGuide(farmingGuideData);
+            } else {
+                // Fallback to basic guide
+                this.renderBasicFarmingGuide();
+            }
+        }).catch(error => {
+            console.warn('Could not load farming guide data:', error);
+            // Fallback to basic guide
+            this.renderBasicFarmingGuide();
+        });
+    }
+    
+    renderDetailedFarmingGuide(guideData) {
+        let guideHTML = `
+            <h3>Farming Guide for ${this.currentUnit.name}</h3>
+            <p><strong>Rarity:</strong> ${this.currentUnit.rarity} • <strong>Element:</strong> ${this.currentUnit.element}</p>
+            <p><strong>Priority:</strong> <span class="priority-${guideData.priority.toLowerCase()}">${guideData.priority}</span></p>
+            <hr>
+        `;
         
-        const { priority, difficulty, tips } = this.currentUnit.farmingGuide;
-        const obtainMethod = this.currentUnit.obtainMethod;
-        const dropRate = this.currentUnit.dropRate;
-        
-        let guideHTML = '';
-        
-        // Priority and difficulty
-        if (this.options.showPriority || this.options.showDifficulty) {
+        // Farming Steps
+        if (guideData.farmingSteps && guideData.farmingSteps.length > 0) {
             guideHTML += `
-                <div class="guide-header">
-                    ${this.options.showPriority ? `
-                        <div class="guide-stat">
-                            <span class="guide-label">Priority:</span>
-                            <span class="guide-value priority-${priority?.toLowerCase() || 'medium'}">${priority || 'Medium'}</span>
-                        </div>
-                    ` : ''}
-                    ${this.options.showDifficulty ? `
-                        <div class="guide-stat">
-                            <span class="guide-label">Difficulty:</span>
-                            <span class="guide-value difficulty-${difficulty?.toLowerCase() || 'medium'}">${difficulty || 'Medium'}</span>
-                        </div>
-                    ` : ''}
+                <div class="farming-steps">
+                    <h4>Farming Steps:</h4>
+                    <ol>
+            `;
+            
+            guideData.farmingSteps.forEach(step => {
+                guideHTML += `
+                    <li>
+                        <strong>${step.task}</strong><br>
+                        <span class="step-method">${step.method}</span>
+                        ${step.alternativeMethod ? `<br><span class="step-alternative">Alternative: ${step.alternativeMethod}</span>` : ''}
+                        ${step.location ? `<br><span class="step-location">Location: ${step.location}</span>` : ''}
+                        ${step.timeEstimate ? `<br><span class="step-time">Time: ${step.timeEstimate}</span>` : ''}
+                        ${step.notes ? `<br><span class="step-notes">Notes: ${step.notes}</span>` : ''}
+                    </li>
+                `;
+            });
+            
+            guideHTML += `
+                    </ol>
                 </div>
             `;
         }
         
-        // Obtain method
-        if (this.options.showObtainMethods && obtainMethod) {
+        // Material Farming
+        if (guideData.materialFarming && guideData.materialFarming.length > 0) {
             guideHTML += `
-                <div class="obtain-method">
-                    <h3><i class="fas fa-info-circle"></i> How to Obtain</h3>
-                    <p><strong>Method:</strong> ${obtainMethod}</p>
-                    ${dropRate ? `<p><strong>Drop Rate:</strong> ${dropRate}</p>` : ''}
+                <div class="material-farming">
+                    <h4>Material Farming:</h4>
+                    <div class="material-list">
+            `;
+            
+            guideData.materialFarming.forEach(material => {
+                guideHTML += `
+                    <div class="material-item">
+                        <div class="material-name">${material.material}</div>
+                        <div class="material-method">
+                            <strong>Best Method:</strong> ${material.bestMethod}<br>
+                            <strong>Alternative:</strong> ${material.alternativeMethod}<br>
+                            <strong>Efficiency:</strong> <span class="efficiency-${material.efficiency.toLowerCase()}">${material.efficiency}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            guideHTML += `
+                    </div>
                 </div>
             `;
         }
         
-        // Farming tips
-        if (this.options.showTips && tips && tips.length > 0) {
+        // Tips
+        if (guideData.tips && guideData.tips.length > 0) {
             guideHTML += `
                 <div class="farming-tips">
-                    <h3><i class="fas fa-lightbulb"></i> Farming Tips</h3>
-                    <ul class="tips-list">
-                        ${tips.map(tip => `<li>${tip}</li>`).join('')}
+                    <h4>Tips:</h4>
+                    <ul>
+                        ${guideData.tips.map(tip => `<li>${tip}</li>`).join('')}
                     </ul>
                 </div>
             `;
         }
         
-        // Evolution status
-        if (this.currentUnit.canEvolve !== undefined) {
-            const evolutionStatus = this.getEvolutionStatus();
-            guideHTML += `
-                <div class="evolution-status">
-                    <h3><i class="fas fa-arrow-up"></i> Evolution Status</h3>
-                    <div class="status-info">
-                        <p><strong>Can Evolve:</strong> ${this.currentUnit.canEvolve ? 'Yes' : 'No'}</p>
-                        ${evolutionStatus}
-                    </div>
-                </div>
-            `;
-        }
+        this.farmingGuideElement.innerHTML = guideHTML;
+    }
+    
+    renderBasicFarmingGuide() {
+        let guideHTML = `
+            <h3>Farming Guide for ${this.currentUnit.name}</h3>
+            <p><strong>Rarity:</strong> ${this.currentUnit.rarity} • <strong>Element:</strong> ${this.currentUnit.element}</p>
+            <hr>
+            <div class="farming-steps">
+                <h4>Farming Steps:</h4>
+                <ol>
+                    <li>Collect required materials</li>
+                    <li>Complete evolution quest</li>
+                    <li>Evolve unit</li>
+                </ol>
+            </div>
+            <div class="farming-tips">
+                <h4>Tips:</h4>
+                <ul>
+                    <li>Focus on daily challenges for materials</li>
+                    <li>Use element-specific teams for better drops</li>
+                    <li>Complete weekly challenges for bonus rewards</li>
+                </ul>
+            </div>
+        `;
         
         this.farmingGuideElement.innerHTML = guideHTML;
     }

@@ -551,4 +551,115 @@ input[type="range"]::-moz-range-thumb {
     color: #ffc107;
     opacity: 0.9;
     line-height: 1.5;
+}
+
+/* Farming guide styles */
+.farming-steps {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(108, 92, 231, 0.05);
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
+.farming-steps ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.farming-steps li {
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(108, 92, 231, 0.1);
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
+.step-method {
+    color: #6c5ce7;
+    font-weight: bold;
+}
+
+.step-alternative {
+    color: #ffc107;
+    font-style: italic;
+}
+
+.step-location {
+    color: #28a745;
+}
+
+.step-time {
+    color: #fd7e14;
+}
+
+.step-notes {
+    color: #dc3545;
+    font-style: italic;
+}
+
+.material-farming {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(40, 167, 69, 0.05);
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
+.material-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.material-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(40, 167, 69, 0.1);
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
+.material-name {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.material-method {
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.efficiency-high {
+    color: #28a745;
+}
+
+.efficiency-medium {
+    color: #ffc107;
+}
+
+.efficiency-low {
+    color: #dc3545;
+}
+
+.priority-extreme {
+    color: #6f42c1;
+    font-weight: bold;
+}
+
+.priority-high {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.priority-medium {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.priority-low {
+    color: #28a745;
+    font-weight: bold;
 } 
