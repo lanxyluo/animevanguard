@@ -66,13 +66,35 @@ export class CostSummary {
             return;
         }
         
-        if (!this.currentUnit.evolutionMaterials) {
+        // Try to get materials data
+        let materialsData = this.currentUnit.evolutionMaterials;
+        if (!materialsData) {
+            // Try to load from materials data file
+            import('../config/evolutionMaterials.js').then(module => {
+                materialsData = module.EVOLUTION_MATERIALS_DATA[this.currentUnit.id];
+                if (materialsData) {
+                    this.renderCostBreakdown(materialsData);
+                } else {
+                    this.costSummaryElement.innerHTML = '<p>No evolution materials available</p>';
+                }
+            }).catch(error => {
+                console.warn('Could not load materials data:', error);
+                this.costSummaryElement.innerHTML = '<p>No evolution materials available</p>';
+            });
+            return;
+        }
+        
+        this.renderCostBreakdown(materialsData);
+    }
+    
+    renderCostBreakdown(materialsData) {
+        if (!materialsData) {
             this.costSummaryElement.innerHTML = '<p>No evolution materials available</p>';
             return;
         }
         
-        const costBreakdown = this.calculateCostBreakdown();
-        const totalCost = this.calculateTotalCost();
+        const costBreakdown = this.calculateCostBreakdown(materialsData);
+        const totalCost = this.calculateTotalCost(materialsData);
         
         let summaryHTML = '';
         
@@ -93,22 +115,12 @@ export class CostSummary {
                 `;
             }
             
-            // Special item cost
-            if (costBreakdown.specialItemCost > 0) {
+            // Materials cost
+            if (costBreakdown.materialsCost > 0) {
                 summaryHTML += `
                     <div class="cost-item">
-                        <span class="cost-label">Special Item</span>
-                        <span class="cost-value">${formatNumber(costBreakdown.specialItemCost)}</span>
-                    </div>
-                `;
-            }
-            
-            // Essence stones cost
-            if (costBreakdown.essenceStonesCost > 0) {
-                summaryHTML += `
-                    <div class="cost-item">
-                        <span class="cost-label">Essence Stones</span>
-                        <span class="cost-value">${formatNumber(costBreakdown.essenceStonesCost)}</span>
+                        <span class="cost-label">Materials</span>
+                        <span class="cost-value">${formatNumber(costBreakdown.materialsCost)}</span>
                     </div>
                 `;
             }
@@ -131,45 +143,51 @@ export class CostSummary {
         this.costSummaryElement.innerHTML = summaryHTML;
     }
     
-    calculateCostBreakdown() {
-        if (!this.currentUnit || !this.currentUnit.evolutionMaterials) {
-            return { goldCost: 0, specialItemCost: 0, essenceStonesCost: 0 };
+    calculateCostBreakdown(materialsData) {
+        if (!materialsData) {
+            return { goldCost: 0, materialsCost: 0 };
         }
         
-        const { goldCost, specialItem, essenceStones } = this.currentUnit.evolutionMaterials;
+        let goldCost = materialsData.goldCost || 0;
+        let materialsCost = 0;
         
-        let goldCostValue = goldCost || 0;
-        let specialItemCost = 0;
-        let essenceStonesCost = 0;
-        
-        // Calculate special item cost
-        if (specialItem) {
-            const material = this.materialsConfig[specialItem.name];
-            if (material && material.cost) {
-                specialItemCost = material.cost;
-            }
-        }
-        
-        // Calculate essence stones cost
-        if (essenceStones) {
-            Object.entries(essenceStones).forEach(([name, quantity]) => {
-                const material = this.materialsConfig[name];
-                if (material && material.cost) {
-                    essenceStonesCost += material.cost * quantity;
+        // Calculate materials cost (simplified for now)
+        if (materialsData.materials) {
+            materialsData.materials.forEach(material => {
+                // Estimate cost based on rarity
+                let materialCost = 0;
+                switch (material.rarity) {
+                    case 'Common':
+                        materialCost = 100;
+                        break;
+                    case 'Uncommon':
+                        materialCost = 500;
+                        break;
+                    case 'Rare':
+                        materialCost = 2000;
+                        break;
+                    case 'Epic':
+                        materialCost = 5000;
+                        break;
+                    case 'Legendary':
+                        materialCost = 15000;
+                        break;
+                    default:
+                        materialCost = 1000;
                 }
+                materialsCost += materialCost * material.quantity;
             });
         }
         
         return {
-            goldCost: goldCostValue,
-            specialItemCost: specialItemCost,
-            essenceStonesCost: essenceStonesCost
+            goldCost: goldCost,
+            materialsCost: materialsCost
         };
     }
     
-    calculateTotalCost() {
-        const breakdown = this.calculateCostBreakdown();
-        return breakdown.goldCost + breakdown.specialItemCost + breakdown.essenceStonesCost;
+    calculateTotalCost(materialsData) {
+        const breakdown = this.calculateCostBreakdown(materialsData);
+        return breakdown.goldCost + breakdown.materialsCost;
     }
     
     getCostBreakdown() {

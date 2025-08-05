@@ -67,59 +67,72 @@ export class MaterialsList {
             return;
         }
         
-        if (!this.currentUnit.evolutionMaterials) {
+        // Try to get materials data
+        let materialsData = this.currentUnit.evolutionMaterials;
+        if (!materialsData) {
+            // Try to load from materials data file
+            import('../config/evolutionMaterials.js').then(module => {
+                materialsData = module.EVOLUTION_MATERIALS_DATA[this.currentUnit.id];
+                if (materialsData) {
+                    this.renderMaterials(materialsData);
+                } else {
+                    this.materialsListElement.innerHTML = '<p>No evolution materials available</p>';
+                }
+            }).catch(error => {
+                console.warn('Could not load materials data:', error);
+                this.materialsListElement.innerHTML = '<p>No evolution materials available</p>';
+            });
+            return;
+        }
+        
+        this.renderMaterials(materialsData);
+    }
+    
+    renderMaterials(materialsData) {
+        if (!materialsData || !materialsData.materials) {
             this.materialsListElement.innerHTML = '<p>No evolution materials available</p>';
             return;
         }
         
-        const { goldCost, specialItem, essenceStones } = this.currentUnit.evolutionMaterials;
         let materialsHTML = '';
         
         // Gold cost
-        if (goldCost) {
+        if (materialsData.goldCost) {
             materialsHTML += `
                 <div class="material-item">
                     <div class="material-info">
                         <strong>Gold</strong>
                         <p>Basic currency for evolution</p>
                     </div>
-                    <div class="material-quantity">${formatNumber(goldCost)}</div>
+                    <div class="material-quantity">${formatNumber(materialsData.goldCost)}</div>
                 </div>
             `;
         }
         
-        // Special item
-        if (specialItem) {
-            const material = this.materialsConfig[specialItem.name];
-            if (material) {
-                materialsHTML += `
-                    <div class="material-item">
-                        <div class="material-info">
-                            <strong>${specialItem.name}</strong>
-                            <p>${material.description}</p>
-                        </div>
-                        <div class="material-rarity">${material.rarity}</div>
+        // Materials list
+        materialsData.materials.forEach(material => {
+            materialsHTML += `
+                <div class="material-item">
+                    <div class="material-info">
+                        <strong>${material.name}</strong>
+                        <p>${material.description}</p>
+                        <small>Type: ${material.type} • Rarity: ${material.rarity}</small>
                     </div>
-                `;
-            }
-        }
+                    <div class="material-quantity">${material.quantity}</div>
+                </div>
+            `;
+        });
         
-        // Essence stones
-        if (essenceStones) {
-            Object.entries(essenceStones).forEach(([name, quantity]) => {
-                const material = this.materialsConfig[name];
-                if (material) {
-                    materialsHTML += `
-                        <div class="material-item">
-                            <div class="material-info">
-                                <strong>${name}</strong>
-                                <p>${material.description}</p>
-                            </div>
-                            <div class="material-quantity">${quantity}</div>
-                        </div>
-                    `;
-                }
-            });
+        // Special requirements
+        if (materialsData.specialRequirements && materialsData.specialRequirements.length > 0) {
+            materialsHTML += `
+                <div class="special-requirements">
+                    <h4>Special Requirements:</h4>
+                    <ul>
+                        ${materialsData.specialRequirements.map(req => `<li>${req}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
         }
         
         this.materialsListElement.innerHTML = materialsHTML;

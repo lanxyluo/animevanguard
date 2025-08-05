@@ -230,6 +230,24 @@ export const evolutionUtils = {
         return EVOLUTION_UNITS.filter(unit => unit.element === element);
     },
     
+    // Get unit with materials data
+    getEvolutionUnitWithMaterials(id) {
+        const unit = this.getEvolutionUnitById(id);
+        if (!unit) return null;
+        
+        // Import materials data dynamically to avoid circular dependency
+        import('./evolutionMaterials.js').then(module => {
+            const materialsData = module.EVOLUTION_MATERIALS_DATA[id];
+            if (materialsData) {
+                unit.evolutionMaterials = materialsData;
+            }
+        }).catch(error => {
+            console.warn('Could not load materials data:', error);
+        });
+        
+        return unit;
+    },
+    
     validateEvolutionUnits() {
         return EVOLUTION_UNITS.every(unit => 
             unit.id && unit.name && unit.rarity && unit.element && 
