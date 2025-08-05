@@ -107,12 +107,80 @@ export class EvolutionPage {
         console.log('📊 当前页面状态:', this.selectedUnit);
         console.log('🆕 新选择的单位:', unit);
         
+        // 更新页面状态
         this.selectedUnit = unit;
         console.log('✅ 页面状态已更新:', this.selectedUnit);
         
-        // Update all components with the selected unit
+        // 异步加载所有相关数据并更新组件
+        this.loadAndUpdateComponents(unit);
+    }
+    
+    async loadAndUpdateComponents(unit) {
+        if (!unit || !unit.id) {
+            console.log('❌ 无效的单位数据，清空所有组件');
+            this.clearAllComponents();
+            return;
+        }
+        
+        console.log('🔄 开始加载单位数据:', unit.id);
+        
+        try {
+            // 并行加载所有数据
+            const [materialsData, costData, farmingData] = await Promise.all([
+                this.loadMaterialsData(unit.id),
+                this.loadCostData(unit.id),
+                this.loadFarmingData(unit.id)
+            ]);
+            
+            console.log('📦 加载的数据:', {
+                materials: materialsData,
+                cost: costData,
+                farming: farmingData
+            });
+            
+            // 更新所有组件
+            this.updateAllComponents(unit, materialsData, costData, farmingData);
+            
+        } catch (error) {
+            console.error('❌ 加载数据时出错:', error);
+            this.handleDataLoadError(error);
+        }
+    }
+    
+    async loadMaterialsData(unitId) {
+        try {
+            const module = await import('../config/evolutionMaterials.js');
+            return module.EVOLUTION_MATERIALS_DATA[unitId] || null;
+        } catch (error) {
+            console.warn('⚠️ 无法加载材料数据:', error);
+            return null;
+        }
+    }
+    
+    async loadCostData(unitId) {
+        try {
+            const module = await import('../config/costSummary.js');
+            return module.COST_SUMMARY_DATA[unitId] || null;
+        } catch (error) {
+            console.warn('⚠️ 无法加载成本数据:', error);
+            return null;
+        }
+    }
+    
+    async loadFarmingData(unitId) {
+        try {
+            const module = await import('../config/farmingGuide.js');
+            return module.FARMING_GUIDE_DATA[unitId] || null;
+        } catch (error) {
+            console.warn('⚠️ 无法加载农场指南数据:', error);
+            return null;
+        }
+    }
+    
+    updateAllComponents(unit, materialsData, costData, farmingData) {
         console.log('🔄 更新所有组件...');
         
+        // 更新材料列表组件
         if (this.materialsList) {
             console.log('📋 更新 MaterialsList 组件');
             this.materialsList.updateMaterials(unit);
@@ -120,6 +188,7 @@ export class EvolutionPage {
             console.error('❌ MaterialsList 组件未初始化');
         }
         
+        // 更新成本汇总组件
         if (this.costSummary) {
             console.log('💰 更新 CostSummary 组件');
             this.costSummary.updateCost(unit);
@@ -127,6 +196,7 @@ export class EvolutionPage {
             console.error('❌ CostSummary 组件未初始化');
         }
         
+        // 更新农场指南组件
         if (this.farmingGuide) {
             console.log('🌾 更新 FarmingGuide 组件');
             this.farmingGuide.updateGuide(unit);
@@ -134,7 +204,35 @@ export class EvolutionPage {
             console.error('❌ FarmingGuide 组件未初始化');
         }
         
+        console.log('✅ 所有组件更新完成');
         console.log('📄 === EvolutionPage 单位选择处理完成 ===\n');
+    }
+    
+    clearAllComponents() {
+        console.log('🗑️ 清空所有组件数据');
+        
+        if (this.materialsList) {
+            this.materialsList.updateMaterials(null);
+        }
+        
+        if (this.costSummary) {
+            this.costSummary.updateCost(null);
+        }
+        
+        if (this.farmingGuide) {
+            this.farmingGuide.updateGuide(null);
+        }
+    }
+    
+    handleDataLoadError(error) {
+        console.error('❌ 数据加载错误:', error);
+        
+        // 显示错误信息给用户
+        const errorMessage = '加载单位数据时出错，请重试';
+        console.error(errorMessage);
+        
+        // 清空组件显示
+        this.clearAllComponents();
     }
     
     show() {

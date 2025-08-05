@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Binding Test</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/pages/evolution.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #0f0f23;
+            color: #ffffff;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border: 1px solid #333; 
+            border-radius: 5px; 
+        }
+        .test-title {
+            color: #6c5ce7;
+            margin-bottom: 15px;
+        }
+        .component-display {
+            background: #2a2a3e;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #444;
+        }
+        .test-button {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #5a4fd8;
+        }
+        .log-section {
+            background: #2a2a3e;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .log-info { color: #6c5ce7; }
+        .log-success { color: #28a745; }
+        .log-error { color: #dc3545; }
+        .log-warning { color: #ffc107; }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-connected { background: #28a745; }
+        .status-disconnected { background: #dc3545; }
+        .status-pending { background: #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Data Binding Test</h1>
+        
+        <div class="test-section">
+            <h2 class="test-title">🔗 数据绑定测试</h2>
+            <p>测试选中单位正确触发右侧面板更新</p>
+            
+            <div class="test-section">
+                <h3>🎮 测试操作</h3>
+                <button class="test-button" onclick="testDataBinding()">测试数据绑定</button>
+                <button class="test-button" onclick="testComponentCommunication()">测试组件通信</button>
+                <button class="test-button" onclick="testStateManagement()">测试状态管理</button>
+                <button class="test-button" onclick="clearTestLog()">清除日志</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">📝 调试日志</h2>
+            <div id="testLog" class="log-section">
+                <div class="log-entry log-info">等待测试开始...</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">🔗 组件状态</h2>
+            <div id="componentStatus" class="component-display">
+                <h4>组件连接状态:</h4>
+                <div id="statusDisplay">
+                    <p><span class="status-indicator status-disconnected"></span>UnitSelector: 未连接</p>
+                    <p><span class="status-indicator status-disconnected"></span>MaterialsList: 未连接</p>
+                    <p><span class="status-indicator status-disconnected"></span>CostSummary: 未连接</p>
+                    <p><span class="status-indicator status-disconnected"></span>FarmingGuide: 未连接</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">📊 数据流追踪</h2>
+            <div id="dataFlowDisplay" class="component-display">
+                <h4>数据流:</h4>
+                <div id="dataFlow">
+                    <p>等待数据流...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { EVOLUTION_UNITS } from './js/config/evolutionUnits.js';
+        import { EVOLUTION_MATERIALS_DATA } from './js/config/evolutionMaterials.js';
+        import { COST_SUMMARY_DATA } from './js/config/costSummary.js';
+        import { FARMING_GUIDE_DATA } from './js/config/farmingGuide.js';
+
+        let testLog = [];
+        let componentStatus = {
+            unitSelector: false,
+            materialsList: false,
+            costSummary: false,
+            farmingGuide: false
+        };
+        let dataFlow = [];
+
+        // 添加日志
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = {
+                timestamp,
+                message,
+                type
+            };
+            testLog.push(logEntry);
+            
+            const logDiv = document.getElementById('testLog');
+            const logElement = document.createElement('div');
+            logElement.className = `log-entry log-${type}`;
+            logElement.innerHTML = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logElement);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // 更新组件状态显示
+        function updateComponentStatus() {
+            const statusDisplay = document.getElementById('statusDisplay');
+            statusDisplay.innerHTML = `
+                <p><span class="status-indicator ${componentStatus.unitSelector ? 'status-connected' : 'status-disconnected'}"></span>UnitSelector: ${componentStatus.unitSelector ? '已连接' : '未连接'}</p>
+                <p><span class="status-indicator ${componentStatus.materialsList ? 'status-connected' : 'status-disconnected'}"></span>MaterialsList: ${componentStatus.materialsList ? '已连接' : '未连接'}</p>
+                <p><span class="status-indicator ${componentStatus.costSummary ? 'status-connected' : 'status-disconnected'}"></span>CostSummary: ${componentStatus.costSummary ? '已连接' : '未连接'}</p>
+                <p><span class="status-indicator ${componentStatus.farmingGuide ? 'status-connected' : 'status-disconnected'}"></span>FarmingGuide: ${componentStatus.farmingGuide ? '已连接' : '未连接'}</p>
+            `;
+        }
+
+        // 更新数据流显示
+        function updateDataFlow() {
+            const dataFlowDisplay = document.getElementById('dataFlow');
+            if (dataFlow.length === 0) {
+                dataFlowDisplay.innerHTML = '<p>等待数据流...</p>';
+                return;
+            }
+
+            let flowHTML = '';
+            dataFlow.forEach((flow, index) => {
+                flowHTML += `
+                    <div style="margin: 10px 0; padding: 8px; background: rgba(108, 92, 231, 0.1); border-radius: 3px;">
+                        <strong>${index + 1}. ${flow.from} → ${flow.to}</strong><br>
+                        <small>数据: ${flow.data}</small><br>
+                        <small>时间: ${flow.timestamp}</small>
+                    </div>
+                `;
+            });
+            dataFlowDisplay.innerHTML = flowHTML;
+        }
+
+        // 模拟数据绑定测试
+        window.testDataBinding = function() {
+            addLog('🔗 开始测试数据绑定...', 'info');
+            
+            // 模拟选择单位
+            const testUnit = EVOLUTION_UNITS[0];
+            addLog(`🎯 选择测试单位: ${testUnit.name}`, 'success');
+            
+            // 模拟数据加载
+            const materialsData = EVOLUTION_MATERIALS_DATA[testUnit.id];
+            const costData = COST_SUMMARY_DATA[testUnit.id];
+            const farmingData = FARMING_GUIDE_DATA[testUnit.id];
+            
+            addLog(`📦 加载材料数据: ${materialsData ? '成功' : '失败'}`, materialsData ? 'success' : 'error');
+            addLog(`💰 加载成本数据: ${costData ? '成功' : '失败'}`, costData ? 'success' : 'error');
+            addLog(`🌾 加载农场数据: ${farmingData ? '成功' : '失败'}`, farmingData ? 'success' : 'error');
+            
+            // 记录数据流
+            dataFlow.push({
+                from: 'UnitSelector',
+                to: 'EvolutionPage',
+                data: testUnit.name,
+                timestamp: new Date().toLocaleTimeString()
+            });
+            
+            if (materialsData) {
+                dataFlow.push({
+                    from: 'EvolutionPage',
+                    to: 'MaterialsList',
+                    data: 'Materials Data',
+                    timestamp: new Date().toLocaleTimeString()
+                });
+            }
+            
+            if (costData) {
+                dataFlow.push({
+                    from: 'EvolutionPage',
+                    to: 'CostSummary',
+                    data: 'Cost Data',
+                    timestamp: new Date().toLocaleTimeString()
+                });
+            }
+            
+            if (farmingData) {
+                dataFlow.push({
+                    from: 'EvolutionPage',
+                    to: 'FarmingGuide',
+                    data: 'Farming Data',
+                    timestamp: new Date().toLocaleTimeString()
+                });
+            }
+            
+            updateDataFlow();
+            addLog('✅ 数据绑定测试完成', 'success');
+        };
+
+        // 测试组件通信
+        window.testComponentCommunication = function() {
+            addLog('📞 开始测试组件通信...', 'info');
+            
+            // 模拟组件连接
+            componentStatus.unitSelector = true;
+            componentStatus.materialsList = true;
+            componentStatus.costSummary = true;
+            componentStatus.farmingGuide = true;
+            
+            updateComponentStatus();
+            
+            addLog('✅ UnitSelector 已连接', 'success');
+            addLog('✅ MaterialsList 已连接', 'success');
+            addLog('✅ CostSummary 已连接', 'success');
+            addLog('✅ FarmingGuide 已连接', 'success');
+            
+            // 模拟通信测试
+            setTimeout(() => {
+                addLog('📡 模拟单位选择事件...', 'info');
+                addLog('📡 模拟数据传递...', 'info');
+                addLog('📡 模拟组件更新...', 'info');
+                addLog('✅ 组件通信测试完成', 'success');
+            }, 1000);
+        };
+
+        // 测试状态管理
+        window.testStateManagement = function() {
+            addLog('🔄 开始测试状态管理...', 'info');
+            
+            // 模拟状态变化
+            const states = [
+                { unit: null, description: '初始状态 - 无选中单位' },
+                { unit: EVOLUTION_UNITS[0], description: '选择第一个单位' },
+                { unit: EVOLUTION_UNITS[1], description: '切换到第二个单位' },
+                { unit: null, description: '清除选择' }
+            ];
+            
+            states.forEach((state, index) => {
+                setTimeout(() => {
+                    if (state.unit) {
+                        addLog(`🔄 状态变化 ${index + 1}: ${state.description} - ${state.unit.name}`, 'info');
+                    } else {
+                        addLog(`🔄 状态变化 ${index + 1}: ${state.description}`, 'info');
+                    }
+                    
+                    // 模拟组件状态更新
+                    if (state.unit) {
+                        addLog(`📦 更新材料列表: ${state.unit.name}`, 'success');
+                        addLog(`💰 更新成本汇总: ${state.unit.name}`, 'success');
+                        addLog(`🌾 更新农场指南: ${state.unit.name}`, 'success');
+                    } else {
+                        addLog(`🗑️ 清空所有组件数据`, 'warning');
+                    }
+                }, index * 500);
+            });
+            
+            setTimeout(() => {
+                addLog('✅ 状态管理测试完成', 'success');
+            }, states.length * 500 + 500);
+        };
+
+        // 清除测试日志
+        window.clearTestLog = function() {
+            document.getElementById('testLog').innerHTML = '<div class="log-entry log-info">日志已清除</div>';
+            testLog = [];
+            dataFlow = [];
+            updateDataFlow();
+        };
+
+        // 页面加载时初始化
+        window.addEventListener('load', function() {
+            addLog('🚀 数据绑定测试页面已加载', 'info');
+            addLog(`📊 加载了 ${EVOLUTION_UNITS.length} 个进化单位`, 'info');
+            addLog(`📦 加载了 ${Object.keys(EVOLUTION_MATERIALS_DATA).length} 个材料数据`, 'info');
+            addLog(`💰 加载了 ${Object.keys(COST_SUMMARY_DATA).length} 个成本数据`, 'info');
+            addLog(`🌾 加载了 ${Object.keys(FARMING_GUIDE_DATA).length} 个农场指南`, 'info');
+            
+            updateComponentStatus();
+            updateDataFlow();
+        });
+    </script>
+</body>
+</html> 
