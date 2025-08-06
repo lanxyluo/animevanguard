@@ -1763,7 +1763,7 @@
                                 <div class="filter-group">
                                     <label for="rewardTypeFilter">Reward Type:</label>
                                     <select id="rewardTypeFilter" class="filter-select">
-                                        <option value="all">All Rewards</option>
+                                        <option value="all" selected>All Rewards</option>
                                         <option value="gems">Gems</option>
                                         <option value="gold">Gold</option>
                                         <option value="rerolls">Rerolls</option>
@@ -1773,7 +1773,7 @@
                                 <div class="filter-group">
                                     <label for="levelFilter">Level Requirement:</label>
                                     <select id="levelFilter" class="filter-select">
-                                        <option value="all">All Levels</option>
+                                        <option value="all" selected>All Levels</option>
                                         <option value="none">No Requirement</option>
                                         <option value="level5">Level 5+</option>
                                         <option value="level10">Level 10+</option>
@@ -1784,7 +1784,7 @@
                                 <div class="filter-group">
                                     <label for="expiryFilter">Expiry Status:</label>
                                     <select id="expiryFilter" class="filter-select">
-                                        <option value="all">All Status</option>
+                                        <option value="all" selected>All Status</option>
                                         <option value="active">Active Only</option>
                                         <option value="expired">Expired Only</option>
                                         <option value="permanent">Permanent</option>
@@ -1819,7 +1819,7 @@
                             <div class="codes-grid">
                                 <div class="code-item active" 
                                      data-code="Freedom"
-                                     data-rewards="mixed"
+                                     data-rewards="10 Rerolls, 1500 Gems, 5000 Gold"
                                      data-requirement="level10"
                                      data-expiry="limited"
                                      data-type="limited"
@@ -1867,7 +1867,7 @@
                                 
                                 <div class="code-item active" 
                                      data-code="TheWorld"
-                                     data-rewards="mixed"
+                                     data-rewards="20 Rerolls, 20 Stat Chips"
                                      data-requirement="level30"
                                      data-expiry="limited"
                                      data-type="limited"
@@ -1909,7 +1909,7 @@
                                 
                                 <div class="code-item active" 
                                      data-code="Sasageyo"
-                                     data-rewards="gems"
+                                     data-rewards="5 Phoenix Shards, 1000 Gems"
                                      data-requirement="none"
                                      data-expiry="limited"
                                      data-type="limited"
@@ -1951,7 +1951,7 @@
                                 
                                 <div class="code-item active" 
                                      data-code="1MILLION"
-                                     data-rewards="mixed"
+                                     data-rewards="10 Trait Rerolls, 1 Corruption Crystal, 10000 Coins, 10 Stat Chips"
                                      data-requirement="none"
                                      data-expiry="limited"
                                      data-type="milestone"
@@ -2010,7 +2010,7 @@
                             <div class="codes-grid">
                                 <div class="code-item expired" 
                                      data-code="BETA"
-                                     data-rewards="gems,gold"
+                                     data-rewards="1000 Gems, 50000 Gold"
                                      data-requirement="level50"
                                      data-expiry="expired"
                                      data-type="beta"
@@ -2315,9 +2315,36 @@
 
                 // Filter by reward type
                 if (rewardType && rewardType !== 'all') {
-                    // Check if the code has the specific reward type
-                    const hasRewardType = rewards.includes(rewardType);
-                    console.log(`Code ${codeText}: rewards=${rewards}, looking for=${rewardType}, hasRewardType=${hasRewardType}`);
+                    const rewardsLower = rewards.toLowerCase();
+                    let hasRewardType = false;
+                    
+                    switch(rewardType) {
+                        case 'gems':
+                            hasRewardType = rewardsLower.includes('gem');
+                            break;
+                        case 'gold':
+                            hasRewardType = rewardsLower.includes('gold') || rewardsLower.includes('coin');
+                            break;
+                        case 'rerolls':
+                            hasRewardType = rewardsLower.includes('reroll');
+                            break;
+                        case 'mixed':
+                            // Count how many different reward types are present
+                            const hasGems = rewardsLower.includes('gem');
+                            const hasRerolls = rewardsLower.includes('reroll');
+                            const hasGold = rewardsLower.includes('gold') || rewardsLower.includes('coin');
+                            const hasShards = rewardsLower.includes('shard');
+                            const hasChips = rewardsLower.includes('chip');
+                            
+                            // If has 2 or more different types, it's mixed
+                            const typeCount = [hasGems, hasRerolls, hasGold, hasShards, hasChips].filter(Boolean).length;
+                            hasRewardType = typeCount >= 2;
+                            break;
+                        default:
+                            hasRewardType = true;
+                    }
+                    
+                    console.log(`Code ${codeText}: rewards="${rewards}" looking for="${rewardType}" matches=${hasRewardType}`);
                     if (!hasRewardType) {
                         show = false;
                     }
@@ -2325,32 +2352,62 @@
 
                 // Filter by level requirement
                 if (level && level !== 'all') {
-                    if (level === 'none') {
-                        if (requirement !== 'none') {
-                            show = false;
-                        }
-                    } else if (level === 'level5') {
-                        // Level 5+ should show codes with level5, level10, level30, level50
-                        if (!['level5', 'level10', 'level30', 'level50'].includes(requirement)) {
-                            show = false;
-                        }
-                    } else if (requirement !== level) {
+                    const reqLower = requirement.toLowerCase();
+                    let levelMatches = false;
+                    
+                    switch(level) {
+                        case 'none':
+                            levelMatches = reqLower === 'none';
+                            break;
+                        case 'level5':
+                            // Level 5+ should include: None, Level 10, Level 30, etc.
+                            levelMatches = true; // All levels satisfy level5+ requirement
+                            break;
+                        case 'level10':
+                            // Level 10+ should include: Level 10, Level 30, but not None
+                            levelMatches = reqLower.includes('10') || reqLower.includes('20') || reqLower.includes('30') || reqLower.includes('40') || reqLower.includes('50');
+                            break;
+                        case 'level30':
+                            // Level 30+ should only include Level 30+
+                            levelMatches = reqLower.includes('30') || reqLower.includes('40') || reqLower.includes('50');
+                            break;
+                        case 'level50':
+                            // Level 50+ should only include Level 50+
+                            levelMatches = reqLower.includes('50');
+                            break;
+                        default:
+                            levelMatches = true;
+                    }
+                    
+                    console.log(`Code ${codeText}: requirement="${requirement}" filter="${level}" matches=${levelMatches}`);
+                    if (!levelMatches) {
                         show = false;
                     }
-                    console.log(`Code ${codeText}: requirement=${requirement}, filter level=${level}, show=${show}`);
                 }
 
                 // Filter by expiry status
                 if (expiry && expiry !== 'all') {
-                    if (expiry === 'active') {
-                        if (!item.classList.contains('active')) {
-                            show = false;
-                        }
-                    } else if (expiry === 'expired') {
-                        if (!item.classList.contains('expired')) {
-                            show = false;
-                        }
-                    } else if (expiryStatus !== expiry) {
+                    let expiryMatches = false;
+                    
+                    switch(expiry) {
+                        case 'active':
+                            expiryMatches = item.classList.contains('active');
+                            break;
+                        case 'expired':
+                            expiryMatches = item.classList.contains('expired');
+                            break;
+                        case 'permanent':
+                            expiryMatches = expiryStatus === 'permanent';
+                            break;
+                        case 'limited':
+                            expiryMatches = expiryStatus === 'limited';
+                            break;
+                        default:
+                            expiryMatches = true;
+                    }
+                    
+                    console.log(`Code ${codeText}: status="${expiryStatus}" filter="${expiry}" matches=${expiryMatches}`);
+                    if (!expiryMatches) {
                         show = false;
                     }
                 }
@@ -2367,7 +2424,7 @@
 
             // Update filter summary
             updateFilterSummary(visibleCount, codeItems.length);
-            console.log('Visible codes:', visibleCount);
+            console.log('Final filtered count:', visibleCount);
         }
 
         function updateFilterSummary(visible, total) {
