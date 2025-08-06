@@ -57,8 +57,8 @@ export class App {
             // Set up global event listeners
             this.setupGlobalEvents();
             
-            // Show default page (evolution)
-            this.showPage('evolution');
+            // Show homepage by default (no specific page)
+            this.showHomepage();
             
             this.isInitialized = true;
             console.log('✅ App initialized successfully!');
@@ -145,6 +145,44 @@ export class App {
                 this.showPage(pageName);
             });
         });
+        
+        // Logo click to go to homepage
+        const logo = document.querySelector('.logo');
+        if (logo) {
+            logo.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showHomepage();
+            });
+            logo.style.cursor = 'pointer';
+        }
+    }
+    
+    showHomepage() {
+        // Hide all pages
+        Object.values(this.pageContainers).forEach(container => {
+            if (container) {
+                container.style.display = 'none';
+            }
+        });
+        
+        // Show homepage intro
+        if (this.homepageIntro) {
+            this.homepageIntro.style.display = 'block';
+        }
+        
+        // Hide all page introductions on homepage
+        const pageIntros = document.querySelectorAll('.page-introduction');
+        pageIntros.forEach(intro => {
+            intro.style.display = 'none';
+        });
+        
+        // Update navigation - no active tab
+        this.updateNavigation(null);
+        
+        // Update SEO for homepage
+        this.updatePageSEO('home');
+        
+        this.currentPage = 'home';
     }
     
     showPage(pageName) {
@@ -160,13 +198,9 @@ export class App {
             this.pageContainers[pageName].style.display = 'block';
         }
         
-        // Show/hide homepage intro and page introductions based on current page
+        // Hide homepage intro on all specific pages
         if (this.homepageIntro) {
-            if (pageName === 'evolution') {
-                this.homepageIntro.style.display = 'block';
-            } else {
-                this.homepageIntro.style.display = 'none';
-            }
+            this.homepageIntro.style.display = 'none';
         }
 
         // Handle page introductions
@@ -202,7 +236,7 @@ export class App {
     updateNavigation(activePage) {
         this.navTabs.forEach(tab => {
             tab.classList.remove('active');
-            if (tab.getAttribute('data-page') === activePage) {
+            if (activePage && tab.getAttribute('data-page') === activePage) {
                 tab.classList.add('active');
             }
         });
@@ -223,6 +257,11 @@ export class App {
 
     updatePageSEO(pageName) {
         const seoData = {
+            home: {
+                title: "Anime Vanguards Wiki - Evolution Guide, Unit Stats & Codes | Roblox",
+                description: "Complete Anime Vanguards wiki with evolution guides, unit stats, database, and free codes. Your ultimate resource for Anime Vanguards gameplay optimization.",
+                keywords: "anime vanguards wiki, evolution guide, unit stats, unit database, free codes, roblox anime vanguards"
+            },
             evolution: {
                 title: "Anime Vanguards Evolution Guide - Unit Evolution Calculator & Materials | Roblox",
                 description: "Complete Anime Vanguards evolution guide with materials calculator, farming guides, and cost analysis. Find evolution requirements for all units including Vanguard, Secret, and Mythic rarities.",
