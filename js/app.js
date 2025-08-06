@@ -82,6 +82,9 @@ export class App {
             about: document.getElementById('aboutPage')
         };
         
+        // Get homepage intro section
+        this.homepageIntro = document.querySelector('.homepage-intro');
+        
         // Get navigation tabs
         this.navTabs = document.querySelectorAll('.nav-tab');
         
@@ -157,8 +160,20 @@ export class App {
             this.pageContainers[pageName].style.display = 'block';
         }
         
+        // Show/hide homepage intro based on current page
+        if (this.homepageIntro) {
+            if (pageName === 'evolution') {
+                this.homepageIntro.style.display = 'block';
+            } else {
+                this.homepageIntro.style.display = 'none';
+            }
+        }
+        
         // Update navigation
         this.updateNavigation(pageName);
+        
+        // Update SEO for the current page
+        this.updatePageSEO(pageName);
         
         // Call page-specific show methods
         if (pageName === 'evolution' && this.evolutionPage) {
@@ -194,6 +209,79 @@ export class App {
 
         // Update stats counts
         this.updateCodesStats();
+    }
+
+    updatePageSEO(pageName) {
+        const seoData = {
+            evolution: {
+                title: "Anime Vanguards Evolution Guide - Unit Evolution Calculator & Materials | Roblox",
+                description: "Complete Anime Vanguards evolution guide with materials calculator, farming guides, and cost analysis. Find evolution requirements for all units including Vanguard, Secret, and Mythic rarities.",
+                keywords: "anime vanguards evolution, evolution materials, evolution calculator, unit evolution guide, farming guide, evolution cost"
+            },
+            dps: {
+                title: "Anime Vanguards Unit Stats Calculator - DPS Calculator & Tier List | Roblox",
+                description: "Anime Vanguards unit stats calculator and DPS calculator. Compare unit performance, calculate damage output, and optimize your team composition with our comprehensive tier list.",
+                keywords: "anime vanguards dps calculator, unit stats, damage calculator, tier list, unit comparison, team optimization"
+            },
+            database: {
+                title: "Anime Vanguards Unit Database - Complete Unit List & Stats | Roblox",
+                description: "Complete Anime Vanguards unit database with stats, abilities, and detailed information. Search and filter units by rarity, element, and obtain method.",
+                keywords: "anime vanguards unit database, unit list, unit stats, unit abilities, unit search, unit filter"
+            },
+            codes: {
+                title: "Anime Vanguards Codes - Free Gems, Gold & Rewards | Roblox",
+                description: "Latest Anime Vanguards codes for free gems, gold, rerolls, and exclusive rewards. Updated daily with working codes and redemption instructions.",
+                keywords: "anime vanguards codes, free gems, free gold, free rerolls, working codes, redemption codes"
+            }
+        };
+
+        const data = seoData[pageName] || seoData.evolution;
+        
+        // Update title
+        document.title = data.title;
+        
+        // Update meta description
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.setAttribute('content', data.description);
+        }
+        
+        // Update meta keywords
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+            metaKeywords.setAttribute('content', data.keywords);
+        }
+        
+        // Update Open Graph tags
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) {
+            ogTitle.setAttribute('content', data.title);
+        }
+        
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription) {
+            ogDescription.setAttribute('content', data.description);
+        }
+        
+        // Update Twitter tags
+        const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+        if (twitterTitle) {
+            twitterTitle.setAttribute('content', data.title);
+        }
+        
+        const twitterDescription = document.querySelector('meta[property="twitter:description"]');
+        if (twitterDescription) {
+            twitterDescription.setAttribute('content', data.description);
+        }
+        
+        // Update canonical URL
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+            const baseUrl = 'https://www.animevanguardswiki.com/';
+            canonical.setAttribute('href', baseUrl + (pageName === 'evolution' ? '' : pageName));
+        }
+        
+        console.log(`🔧 Updated SEO for page: ${pageName}`);
     }
 
     updateCodesStats() {
