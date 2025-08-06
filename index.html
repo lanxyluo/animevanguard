@@ -1125,185 +1125,879 @@
 
         /* Database Page Styles */
         .database-page {
-            display: grid;
-            grid-template-columns: 300px 1fr 350px;
-            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        .database-left, .database-middle, .database-right {
-            display: flex;
-            flex-direction: column;
+        /* Database Tools Container */
+        .database-tools-container {
+            margin-bottom: 3rem;
+        }
+
+        /* Database Header */
+        .database-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .database-header .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .database-header .page-subtitle {
+            font-size: 1.1rem;
+            color: #a29bfe;
+            opacity: 0.8;
+        }
+
+        /* Recommendation Section */
+        .recommendation-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
-        .units-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .unit-card {
+        .recommend-card {
             background: rgba(108, 92, 231, 0.1);
             border: 1px solid rgba(162, 155, 254, 0.3);
-            border-radius: 12px;
-            padding: 1rem;
-            cursor: pointer;
+            border-radius: 16px;
+            padding: 1.5rem;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
 
-        .unit-card:hover {
+        .recommend-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(108, 92, 231, 0.2);
-            border-color: rgba(162, 155, 254, 0.5);
         }
 
-        .unit-card-header {
+        .recommend-card.beginner {
+            border-color: rgba(46, 204, 113, 0.5);
+        }
+
+        .recommend-card.dps {
+            border-color: rgba(231, 76, 60, 0.5);
+        }
+
+        .recommend-card.latest {
+            border-color: rgba(52, 152, 219, 0.5);
+        }
+
+        .recommend-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
         }
 
-        .unit-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .unit-info h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .unit-rarity {
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            margin-bottom: 0.25rem;
-        }
-
-        .unit-element {
-            font-size: 0.8rem;
+        .recommend-header i {
+            font-size: 1.2rem;
             color: #a29bfe;
         }
 
-        .unit-card-body p {
-            font-size: 0.85rem;
-            color: #a29bfe;
-            margin-bottom: 1rem;
-            line-height: 1.4;
+        .recommend-header h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
         }
 
-        .stats-preview {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .recommend-card p {
+            color: #a29bfe;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .recommend-units {
+            display: flex;
+            flex-wrap: wrap;
             gap: 0.5rem;
         }
 
-        .stat {
-            text-align: center;
-            padding: 0.5rem;
+        .unit-tag {
+            background: rgba(162, 155, 254, 0.2);
+            color: #a29bfe;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Search and Filter Section */
+        .search-filter-section {
+            background: rgba(108, 92, 231, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a29bfe;
+            z-index: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            font-size: 0.8rem;
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
         }
 
-        .stat i {
+        .search-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        }
+
+        .clear-search-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
             color: #a29bfe;
-            margin-right: 0.25rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
         }
 
-        .view-section {
+        .clear-search-btn:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #ffffff;
+        }
+
+        .filter-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #a29bfe;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+
+        .quick-filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .quick-filter-tag {
+            background: rgba(162, 155, 254, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            color: #a29bfe;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-filter-tag:hover {
+            background: rgba(162, 155, 254, 0.2);
+            color: #ffffff;
+        }
+
+        .quick-filter-tag.active {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #ffffff;
+            border-color: #6c5ce7;
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            min-height: 2rem;
+        }
+
+        /* Recommendation Section */
+        .recommendation-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .recommend-card {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .recommend-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.2);
+        }
+
+        .recommend-card.beginner {
+            border-color: rgba(46, 204, 113, 0.5);
+        }
+
+        .recommend-card.dps {
+            border-color: rgba(231, 76, 60, 0.5);
+        }
+
+        .recommend-card.latest {
+            border-color: rgba(52, 152, 219, 0.5);
+        }
+
+        .recommend-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .recommend-header i {
+            font-size: 1.2rem;
+            color: #a29bfe;
+        }
+
+        .recommend-header h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .recommend-card p {
+            color: #a29bfe;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .recommend-units {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .unit-tag {
+            background: rgba(162, 155, 254, 0.2);
+            color: #a29bfe;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Search and Filter Section */
+        .search-filter-section {
+            background: rgba(108, 92, 231, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a29bfe;
+            z-index: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        }
+
+        .clear-search-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #a29bfe;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+        }
+
+        .clear-search-btn:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #ffffff;
+        }
+
+        .filter-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #a29bfe;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+
+        .quick-filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .quick-filter-tag {
+            background: rgba(162, 155, 254, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            color: #a29bfe;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-filter-tag:hover {
+            background: rgba(162, 155, 254, 0.2);
+            color: #ffffff;
+        }
+
+        .quick-filter-tag.active {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #ffffff;
+            border-color: #6c5ce7;
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            min-height: 2rem;
+        }
+
+        /* Results Control Bar */
+        .results-control-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(162, 155, 254, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .results-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .results-count {
+            color: #a29bfe;
+            font-size: 0.9rem;
+        }
+
+        .view-toggle {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 1rem;
         }
 
         .view-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(162, 155, 254, 0.3);
             color: #a29bfe;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
             transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #ffffff;
         }
 
         .view-btn.active {
             background: linear-gradient(45deg, #6c5ce7, #a29bfe);
-            color: white;
+            color: #ffffff;
         }
 
-        .comparison-section {
+        .results-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .compare-button {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .compare-button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .compare-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* Units Grid Section */
+        .units-grid-section {
+            margin-bottom: 2rem;
+        }
+
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Enhanced Unit Card */
+        .unit-card {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.2);
+            border-color: rgba(162, 155, 254, 0.5);
+        }
+
+        .unit-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .unit-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .favorite-btn, .compare-checkbox {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            color: #a29bfe;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn:hover, .compare-checkbox:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #ffffff;
+        }
+
+        .favorite-btn.active {
+            color: #e74c3c;
+        }
+
+        .compare-checkbox.checked {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #ffffff;
+        }
+
+        .unit-card-body {
+            text-align: center;
+        }
+
+        .unit-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: #ffffff;
+        }
+
+        .unit-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .unit-evolution {
+            color: #a29bfe;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .element-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(162, 155, 254, 0.2);
+            color: #a29bfe;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-display {
+            margin: 1rem 0;
+        }
+
+        .stat-bar {
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #a29bfe;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-bar-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #a29bfe;
+            margin-bottom: 0.25rem;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .tag.green {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .tag.orange {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+        }
+
+        .tag.blue {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .unit-card-footer {
             margin-top: 1rem;
             padding-top: 1rem;
             border-top: 1px solid rgba(162, 155, 254, 0.2);
         }
 
-        .comparison-section h4 {
-            margin-bottom: 1rem;
-            color: #a29bfe;
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
         }
 
-        .compare-btn {
+        .btn-primary {
             background: linear-gradient(45deg, #6c5ce7, #a29bfe);
             color: white;
             border: none;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            width: 100%;
-            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
         }
 
-        /* Responsive */
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            color: #a29bfe;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-ghost:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #ffffff;
+        }
+
+        /* Pagination Section */
+        .pagination-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-top: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .items-per-page-select {
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pagination-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            color: #a29bfe;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #ffffff;
+        }
+
+        .pagination-btn.active {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #ffffff;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
         @media (max-width: 1200px) {
-            .evolution-page, .dps-page {
-                grid-template-columns: 1fr;
+            .recommendation-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
             
-            .database-page {
-                grid-template-columns: 1fr;
+            .filter-row {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .units-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-tabs {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .main-content {
+            .database-tools-container {
                 padding: 0 1rem;
             }
             
-            .filter-section {
+            .recommendation-grid {
                 grid-template-columns: 1fr;
             }
             
-            .units-grid {
+            .filter-row {
                 grid-template-columns: 1fr;
+            }
+            
+            .results-control-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .results-info {
+                justify-content: space-between;
+            }
+            
+            .results-controls {
+                justify-content: space-between;
+            }
+            
+            .units-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .pagination-section {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
 
@@ -2588,30 +3282,237 @@
                 </ol>
             </nav>
 
-            <!-- Unit Database Introduction -->
-            <section class="page-introduction database-intro">
-                <div class="intro-container">
+            <!-- Unit Database Tools - Moved to top for immediate access -->
+            <div class="database-tools-container">
+                <!-- Page Header -->
+                <div class="database-header">
                     <h1 class="page-title">Anime Vanguards Unit Database</h1>
                     <p class="page-subtitle">All Characters & Stats | 2025</p>
+                </div>
+
+                <!-- Recommendation Section -->
+                <section class="recommendation-section">
+                    <h3 class="section-title">为你推荐</h3>
+                    <div class="recommendation-grid">
+                        <div class="recommend-card beginner">
+                            <div class="recommend-header">
+                                <i class="fas fa-star"></i>
+                                <h4>新手推荐</h4>
+                            </div>
+                            <p>适合初学者的强力单位</p>
+                            <div class="recommend-units">
+                                <span class="unit-tag">Koguro</span>
+                                <span class="unit-tag">Arc</span>
+                                <span class="unit-tag">Yehowach</span>
+                            </div>
+                        </div>
+                        
+                        <div class="recommend-card dps">
+                            <div class="recommend-header">
+                                <i class="fas fa-bolt"></i>
+                                <h4>高DPS输出</h4>
+                            </div>
+                            <p>最强输出单位排行</p>
+                            <div class="recommend-units">
+                                <span class="unit-tag">Saber Alter</span>
+                                <span class="unit-tag">Gilgamesh</span>
+                                <span class="unit-tag">Emiya</span>
+                            </div>
+                        </div>
+                        
+                        <div class="recommend-card latest">
+                            <div class="recommend-header">
+                                <i class="fas fa-clock"></i>
+                                <h4>最新单位</h4>
+                            </div>
+                            <p>最近更新的角色</p>
+                            <div class="recommend-units">
+                                <span class="unit-tag">Artoria</span>
+                                <span class="unit-tag">Rin</span>
+                                <span class="unit-tag">Shirou</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Search and Filter Section -->
+                <section class="search-filter-section">
+                    <!-- Main Search Bar -->
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="dbSearchInput" class="search-input" placeholder="搜索单位名称、描述...">
+                            <button id="dbClearSearch" class="clear-search-btn" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
                     
-                    <div class="intro-content">
-                        <h2>Complete Unit Information and Statistics</h2>
-                        <p>Our comprehensive unit database contains detailed information about every character in Anime Vanguards. Search by rarity, element, attack type, or unit type to find the perfect units for your team. Each unit entry includes complete stats, abilities, evolution potential, and strategic recommendations.</p>
-                        
-                        <div class="database-features">
-                            <h3>Database Features</h3>
-                            <ul>
-                                <li><strong>Advanced Search:</strong> Filter units by rarity, element, attack type, and unit role</li>
-                                <li><strong>Detailed Stats:</strong> Complete unit statistics including damage, health, and special abilities</li>
-                                <li><strong>Unit Comparison:</strong> Side-by-side comparison of multiple units</li>
-                                <li><strong>Strategic Insights:</strong> Team building recommendations and synergy analysis</li>
-                            </ul>
+                    <!-- Filter Controls -->
+                    <div class="filter-controls">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="dbRarityFilter">稀有度:</label>
+                                <select id="dbRarityFilter" class="filter-select">
+                                    <option value="">全部稀有度</option>
+                                    <option value="Rare">Rare</option>
+                                    <option value="Epic">Epic</option>
+                                    <option value="Legendary">Legendary</option>
+                                    <option value="Secret">Secret</option>
+                                    <option value="Mythic">Mythic</option>
+                                    <option value="Mythical">Mythical</option>
+                                    <option value="Exclusive">Exclusive</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="dbElementFilter">元素:</label>
+                                <select id="dbElementFilter" class="filter-select">
+                                    <option value="">全部元素</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Nature">Nature</option>
+                                    <option value="Spark">Spark</option>
+                                    <option value="Holy">Holy</option>
+                                    <option value="Passion">Passion</option>
+                                    <option value="Blast">Blast</option>
+                                    <option value="Cosmic">Cosmic</option>
+                                    <option value="Unbound">Unbound</option>
+                                    <option value="Unknown">Unknown</option>
+                                    <option value="Life">Life</option>
+                                    <option value="Earth">Earth</option>
+                                    <option value="Spirit">Spirit</option>
+                                    <option value="Lightning">Lightning</option>
+                                    <option value="Dark">Dark</option>
+                                    <option value="Physical">Physical</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="dbAttackTypeFilter">攻击类型:</label>
+                                <select id="dbAttackTypeFilter" class="filter-select">
+                                    <option value="">全部攻击类型</option>
+                                    <option value="Single Target">Single Target</option>
+                                    <option value="Circle AoE">Circle AoE</option>
+                                    <option value="Cone AoE">Cone AoE</option>
+                                    <option value="Line AoE">Line AoE</option>
+                                    <option value="Full AoE">Full AoE</option>
+                                    <option value="Stadium AoE">Stadium AoE</option>
+                                    <option value="Splash AoE">Splash AoE</option>
+                                    <option value="Chain">Chain</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="dbUnitTypeFilter">单位类型:</label>
+                                <select id="dbUnitTypeFilter" class="filter-select">
+                                    <option value="">全部类型</option>
+                                    <option value="DPS">DPS</option>
+                                    <option value="Support">Support</option>
+                                    <option value="Tank">Tank</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
+                            </div>
                         </div>
                         
-                        <div class="database-tips">
-                            <h3>Database Usage Tips</h3>
-                            <p>Use the rarity filter to focus on higher-tier units for better performance. Check element synergies when building teams. Compare units using our <a href="#dps" class="internal-link">DPS Calculator</a> for detailed performance analysis. Visit our <a href="#evolution" class="internal-link">Evolution Guide</a> to see upgrade potential.</p>
+                        <!-- Quick Filter Tags -->
+                        <div class="quick-filter-tags">
+                            <button class="quick-filter-tag" data-filter="popular">
+                                <i class="fas fa-fire"></i> 热门
+                            </button>
+                            <button class="quick-filter-tag" data-filter="highDPS">
+                                <i class="fas fa-bolt"></i> 高DPS
+                            </button>
+                            <button class="quick-filter-tag" data-filter="latest">
+                                <i class="fas fa-star"></i> 最新
+                            </button>
+                            <button class="quick-filter-tag" data-filter="beginner">
+                                <i class="fas fa-bullseye"></i> 新手友好
+                            </button>
                         </div>
+                        
+                        <!-- Active Filters Display -->
+                        <div id="activeFilters" class="active-filters">
+                            <!-- Active filters will be displayed here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Results Control Bar -->
+                <section class="results-control-bar">
+                    <div class="results-info">
+                        <span id="resultsCount" class="results-count">共找到 18 个单位</span>
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <button class="view-btn" data-view="table">
+                                <i class="fas fa-table"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="results-controls">
+                        <select id="sortSelect" class="sort-select">
+                            <option value="name">按名称排序</option>
+                            <option value="rarity">按稀有度排序</option>
+                            <option value="dps">按DPS排序</option>
+                            <option value="latest">按更新时间排序</option>
+                        </select>
+                        
+                        <button id="compareButton" class="compare-button" disabled>
+                            比较选中 (<span id="selectedCount">0</span>)
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Units Grid -->
+                <section class="units-grid-section">
+                    <div id="unitsGrid" class="units-grid">
+                        <!-- Unit cards will be dynamically generated here -->
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination-section">
+                        <div class="pagination-controls">
+                            <span>每页显示:</span>
+                            <select id="itemsPerPage" class="items-per-page-select">
+                                <option value="8">8个单位</option>
+                                <option value="12" selected>12个单位</option>
+                                <option value="16">16个单位</option>
+                                <option value="24">24个单位</option>
+                            </select>
+                        </div>
+                        
+                        <div id="pagination" class="pagination">
+                            <!-- Pagination will be generated here -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Unit Database Introduction - Moved below the tool -->
+            <section class="page-introduction database-intro">
+                <div class="intro-container">
+                    <h2>Complete Unit Information and Statistics</h2>
+                    <p>Our comprehensive unit database contains detailed information about every character in Anime Vanguards. Search by rarity, element, attack type, or unit type to find the perfect units for your team. Each unit entry includes complete stats, abilities, evolution potential, and strategic recommendations.</p>
+                    
+                    <div class="database-features">
+                        <h3>Database Features</h3>
+                        <ul>
+                            <li><strong>Advanced Search:</strong> Filter units by rarity, element, attack type, and unit role</li>
+                            <li><strong>Detailed Stats:</strong> Complete unit statistics including damage, health, and special abilities</li>
+                            <li><strong>Unit Comparison:</strong> Side-by-side comparison of multiple units</li>
+                            <li><strong>Strategic Insights:</strong> Team building recommendations and synergy analysis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="database-tips">
+                        <h3>Database Usage Tips</h3>
+                        <p>Use the rarity filter to focus on higher-tier units for better performance. Check element synergies when building teams. Compare units using our <a href="#dps" class="internal-link">DPS Calculator</a> for detailed performance analysis. Visit our <a href="#evolution" class="internal-link">Evolution Guide</a> to see upgrade potential.</p>
                     </div>
                 </div>
             </section>

@@ -18,8 +18,17 @@ export class DatabasePage {
             element: '',
             attackType: '',
             unitType: '',
-            searchText: ''
+            searchText: '',
+            quickFilter: ''
         };
+        
+        // Pagination state
+        this.currentPage = 1;
+        this.itemsPerPage = 12;
+        this.totalPages = 1;
+        
+        // View state
+        this.currentView = 'grid';
         
         // UI elements
         this.elements = {};
@@ -53,9 +62,6 @@ export class DatabasePage {
             return;
         }
         
-        // Create search and filter UI if it doesn't exist
-        this.createSearchAndFilterUI(dbContainer);
-        
         // Store element references from existing HTML
         this.elements = {
             searchInput: document.getElementById('dbSearchInput'),
@@ -64,15 +70,17 @@ export class DatabasePage {
             elementFilter: document.getElementById('dbElementFilter'),
             attackTypeFilter: document.getElementById('dbAttackTypeFilter'),
             unitTypeFilter: document.getElementById('dbUnitTypeFilter'),
-            resetFiltersBtn: document.getElementById('dbResetFilters'),
-            filterSummary: document.getElementById('dbFilterSummary'),
+            clearSearchBtn: document.getElementById('dbClearSearch'),
+            activeFilters: document.getElementById('activeFilters'),
+            resultsCount: document.getElementById('resultsCount'),
             unitsGrid: document.getElementById('unitsGrid'),
-            unitsCount: document.getElementById('unitsCount'),
-            compareUnit1: document.getElementById('compareUnit1'),
-            compareUnit2: document.getElementById('compareUnit2'),
-            compareUnit3: document.getElementById('compareUnit3'),
-            compareBtn: document.getElementById('compareUnits'),
-            unitDetails: document.getElementById('unitDetails')
+            sortSelect: document.getElementById('sortSelect'),
+            compareButton: document.getElementById('compareButton'),
+            selectedCount: document.getElementById('selectedCount'),
+            itemsPerPage: document.getElementById('itemsPerPage'),
+            pagination: document.getElementById('pagination'),
+            viewToggle: document.querySelectorAll('.view-btn'),
+            quickFilterTags: document.querySelectorAll('.quick-filter-tag')
         };
         
         // Verify all required elements exist
@@ -84,103 +92,6 @@ export class DatabasePage {
         
         console.log('✅ Database UI elements initialized');
     }
-
-    createSearchAndFilterUI(container) {
-        // Check if search UI already exists
-        if (document.getElementById('dbSearchInput')) {
-            return;
-        }
-
-        // Create search and filter section
-        const searchFilterSection = document.createElement('div');
-        searchFilterSection.className = 'search-filter-section';
-        searchFilterSection.innerHTML = `
-            <div class="search-container">
-                <div class="search-input-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="dbSearchInput" class="search-input" placeholder="Search units by name or description...">
-                    <button id="dbClearSearch" class="clear-search-btn" style="display: none;">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div id="dbSearchResults" class="search-results"></div>
-            </div>
-            
-            <div class="filters-container">
-                <div class="filter-group">
-                    <label for="dbRarityFilter">Rarity:</label>
-                    <select id="dbRarityFilter" class="filter-select">
-                        <option value="">All Rarity</option>
-                        <option value="Rare">Rare</option>
-                        <option value="Epic">Epic</option>
-                        <option value="Legendary">Legendary</option>
-                        <option value="Secret">Secret</option>
-                        <option value="Mythic">Mythic</option>
-                                                           <option value="Mythic">Mythic</option>
-                        <option value="Exclusive">Exclusive</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="dbElementFilter">Element:</label>
-                    <select id="dbElementFilter" class="filter-select">
-                        <option value="">All Element</option>
-                        <option value="Fire">Fire</option>
-                        <option value="Water">Water</option>
-                        <option value="Nature">Nature</option>
-                        <option value="Spark">Spark</option>
-                        <option value="Holy">Holy</option>
-                        <option value="Passion">Passion</option>
-                        <option value="Blast">Blast</option>
-                        <option value="Cosmic">Cosmic</option>
-                        <option value="Unbound">Unbound</option>
-                        <option value="Unknown">Unknown</option>
-                        <option value="Life">Life</option>
-                        <option value="Earth">Earth</option>
-                        <option value="Spirit">Spirit</option>
-                        <option value="Lightning">Lightning</option>
-                        <option value="Dark">Dark</option>
-                        <option value="Physical">Physical</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="dbAttackTypeFilter">Attack Type:</label>
-                    <select id="dbAttackTypeFilter" class="filter-select">
-                        <option value="">All Attack Type</option>
-                        <option value="Single Target">Single Target</option>
-                        <option value="Circle AoE">Circle AoE</option>
-                        <option value="Cone AoE">Cone AoE</option>
-                        <option value="Line AoE">Line AoE</option>
-                        <option value="Full AoE">Full AoE</option>
-                        <option value="Stadium AoE">Stadium AoE</option>
-                        <option value="Splash AoE">Splash AoE</option>
-                        <option value="Chain">Chain</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="dbUnitTypeFilter">Unit Type:</label>
-                    <select id="dbUnitTypeFilter" class="filter-select">
-                        <option value="">All Type</option>
-                        <option value="DPS">DPS</option>
-                        <option value="Support">Support</option>
-                        <option value="Tank">Tank</option>
-                        <option value="Hybrid">Hybrid</option>
-                    </select>
-                </div>
-                
-                <button id="dbResetFilters" class="reset-filters-btn">
-                    <i class="fas fa-undo"></i> Reset Filters
-                </button>
-            </div>
-            
-            <div id="dbFilterSummary" class="filter-summary"></div>
-        `;
-
-        // Insert at the beginning of the container
-        container.insertBefore(searchFilterSection, container.firstChild);
-    }
     
     bindEvents() {
         // Search functionality
@@ -190,14 +101,11 @@ export class DatabasePage {
                 this.updateSearchUI();
                 this.applyFilters();
             }, 300));
-        } else {
-            console.warn('Search input element not found');
         }
 
         // Clear search button
-        const clearSearchBtn = document.getElementById('dbClearSearch');
-        if (clearSearchBtn) {
-            clearSearchBtn.addEventListener('click', () => {
+        if (this.elements.clearSearchBtn) {
+            this.elements.clearSearchBtn.addEventListener('click', () => {
                 this.clearSearch();
             });
         }
@@ -208,8 +116,6 @@ export class DatabasePage {
                 this.currentFilters.rarity = e.target.value;
                 this.applyFilters();
             });
-        } else {
-            console.warn('Rarity filter element not found');
         }
         
         if (this.elements.elementFilter) {
@@ -217,8 +123,6 @@ export class DatabasePage {
                 this.currentFilters.element = e.target.value;
                 this.applyFilters();
             });
-        } else {
-            console.warn('Element filter element not found');
         }
         
         if (this.elements.attackTypeFilter) {
@@ -226,8 +130,6 @@ export class DatabasePage {
                 this.currentFilters.attackType = e.target.value;
                 this.applyFilters();
             });
-        } else {
-            console.warn('Attack type filter element not found');
         }
 
         if (this.elements.unitTypeFilter) {
@@ -235,78 +137,51 @@ export class DatabasePage {
                 this.currentFilters.unitType = e.target.value;
                 this.applyFilters();
             });
-        } else {
-            console.warn('Unit type filter element not found');
         }
 
-        // Reset filters button
-        if (this.elements.resetFiltersBtn) {
-            this.elements.resetFiltersBtn.addEventListener('click', () => {
-                this.resetFilters();
-            });
-        } else {
-            console.warn('Reset filters button not found');
-        }
-
-        // Unit comparison events
-        if (this.elements.compareUnit1) {
-            this.elements.compareUnit1.addEventListener('change', (e) => {
-                this.handleUnitSelection(1, e.target.value);
+        // Quick filter tags
+        if (this.elements.quickFilterTags) {
+            this.elements.quickFilterTags.forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    const filter = e.currentTarget.dataset.filter;
+                    this.applyQuickFilter(filter);
+                });
             });
         }
 
-        if (this.elements.compareUnit2) {
-            this.elements.compareUnit2.addEventListener('change', (e) => {
-                this.handleUnitSelection(2, e.target.value);
-            });
-        }
-
-        if (this.elements.compareUnit3) {
-            this.elements.compareUnit3.addEventListener('change', (e) => {
-                this.handleUnitSelection(3, e.target.value);
-            });
-        }
-
-        if (this.elements.compareBtn) {
-            this.elements.compareBtn.addEventListener('click', () => {
-                this.compareSelectedUnits();
-            });
-        }
-        
-        if (this.elements.elementFilter) {
-            this.elements.elementFilter.addEventListener('change', (e) => {
-                this.currentFilters.element = e.target.value;
-                this.applyFilters();
-            });
-        } else {
-            console.warn('Element filter element not found');
-        }
-        
-        if (this.elements.attackTypeFilter) {
-            this.elements.attackTypeFilter.addEventListener('change', (e) => {
-                this.currentFilters.attackType = e.target.value;
-                this.applyFilters();
-            });
-        } else {
-            console.warn('Attack type filter element not found');
-        }
-        
-
-        
-        // View buttons
-        const viewBtns = document.querySelectorAll('.view-btn');
-        if (viewBtns.length > 0) {
-            viewBtns.forEach(btn => {
+        // View toggle
+        if (this.elements.viewToggle) {
+            this.elements.viewToggle.forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const view = e.target.closest('.view-btn').dataset.view;
+                    const view = e.currentTarget.dataset.view;
                     this.changeView(view);
                 });
             });
-        } else {
-            console.warn('View buttons not found');
         }
-        
 
+        // Sort select
+        if (this.elements.sortSelect) {
+            this.elements.sortSelect.addEventListener('change', (e) => {
+                this.sortUnits(e.target.value);
+            });
+        }
+
+        // Compare button
+        if (this.elements.compareButton) {
+            this.elements.compareButton.addEventListener('click', () => {
+                this.compareSelectedUnits();
+            });
+        }
+
+        // Items per page
+        if (this.elements.itemsPerPage) {
+            this.elements.itemsPerPage.addEventListener('change', (e) => {
+                this.itemsPerPage = parseInt(e.target.value);
+                this.currentPage = 1;
+                this.renderUnits();
+                this.updatePagination();
+            });
+        }
     }
     
     loadUnits() {
@@ -316,136 +191,82 @@ export class DatabasePage {
         }
         
         this.filteredUnits = Object.values(this.unitsData);
+        this.sortUnits('name');
         this.renderUnits();
         this.updateStats();
-        this.populateComparisonSelects();
+        this.updatePagination();
     }
 
-    populateComparisonSelects() {
-        if (!this.unitsData) return;
-
-        const rarityOrder = ['Exclusive', 'Secret', 'Mythic', 'Legendary', 'Epic', 'Rare'];
-        const unitsByRarity = {};
-
-        // Group units by rarity
-        Object.values(this.unitsData).forEach(unit => {
-            if (!unitsByRarity[unit.rarity]) {
-                unitsByRarity[unit.rarity] = [];
-            }
-            unitsByRarity[unit.rarity].push(unit);
+    applyQuickFilter(filter) {
+        // Remove active class from all quick filter tags
+        this.elements.quickFilterTags.forEach(tag => {
+            tag.classList.remove('active');
         });
 
-        // Sort units within each rarity by name
-        Object.keys(unitsByRarity).forEach(rarity => {
-            unitsByRarity[rarity].sort((a, b) => a.name.localeCompare(b.name));
-        });
-
-        const selectOptions = ['<option value="">Select Unit</option>'];
-
-        // Create options grouped by rarity
-        rarityOrder.forEach(rarity => {
-            if (unitsByRarity[rarity] && unitsByRarity[rarity].length > 0) {
-                selectOptions.push(`<optgroup label="${rarity}">`);
-                unitsByRarity[rarity].forEach(unit => {
-                    const optionText = `${unit.name} (${unit.rarity}) - ${unit.element}`;
-                    selectOptions.push(`<option value="${unit.id}">${optionText}</option>`);
-                });
-                selectOptions.push('</optgroup>');
-            }
-        });
-
-        const optionsHTML = selectOptions.join('');
-
-        // Populate all comparison selects
-        [this.elements.compareUnit1, this.elements.compareUnit2, this.elements.compareUnit3].forEach(select => {
-            if (select) {
-                select.innerHTML = optionsHTML;
-            }
-        });
-    }
-
-    handleUnitSelection(slotNumber, unitId) {
-        if (!unitId) {
-            this.clearUnitPreview(slotNumber);
-            return;
+        // Add active class to clicked tag
+        const clickedTag = document.querySelector(`[data-filter="${filter}"]`);
+        if (clickedTag) {
+            clickedTag.classList.add('active');
         }
 
-        const unit = this.unitsData[unitId];
-        if (!unit) {
-            console.warn(`Unit with ID ${unitId} not found`);
-            return;
-        }
-
-        this.showUnitPreview(slotNumber, unit);
-    }
-
-    showUnitPreview(slotNumber, unit) {
-        const previewElement = document.getElementById(`unit${slotNumber}Preview`);
-        if (!previewElement) return;
-
-        const rarityClass = unit.rarity.toLowerCase();
-        const elementIcon = this.elementIcons[unit.element] || 'fas fa-question';
-
-        previewElement.innerHTML = `
-            <div class="unit-avatar">
-                <i class="${elementIcon}"></i>
-            </div>
-            <div class="unit-info">
-                <div class="unit-name">${unit.name}</div>
-                <div class="unit-meta">
-                    <span class="rarity-badge ${rarityClass}">${unit.rarity}</span>
-                    <div class="element-icon">
-                        <i class="${elementIcon}"></i>
-                    </div>
-                    <span>${unit.element}</span>
-                </div>
-                <div class="unit-stats">
-                    <div class="stat-item">
-                        <div class="stat-label">Damage</div>
-                        <div class="stat-value">${unit.stats?.damage || 'N/A'}</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">SPA</div>
-                        <div class="stat-value">${unit.stats?.spa || 'N/A'}</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">Range</div>
-                        <div class="stat-value">${unit.stats?.range || 'N/A'}</div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        previewElement.classList.add('has-content');
-    }
-
-    clearUnitPreview(slotNumber) {
-        const previewElement = document.getElementById(`unit${slotNumber}Preview`);
-        if (previewElement) {
-            previewElement.innerHTML = '';
-            previewElement.classList.remove('has-content');
-        }
-    }
-
-    compareSelectedUnits() {
-        const selectedUnits = [];
+        // Apply quick filter logic
+        this.currentFilters.quickFilter = filter;
         
-        [1, 2, 3].forEach(slotNumber => {
-            const select = this.elements[`compareUnit${slotNumber}`];
-            if (select && select.value) {
-                const unit = this.unitsData[select.value];
-                if (unit) {
-                    selectedUnits.push(unit);
-                }
-            }
-        });
-
-        if (selectedUnits.length < 2) {
-            showNotification('Please select at least 2 units to compare', 'warning');
-            return;
+        switch (filter) {
+            case 'popular':
+                this.filterByPopular();
+                break;
+            case 'highDPS':
+                this.filterByHighDPS();
+                break;
+            case 'latest':
+                this.filterByLatest();
+                break;
+            case 'beginner':
+                this.filterByBeginner();
+                break;
+            default:
+                this.currentFilters.quickFilter = '';
+                this.applyFilters();
+                return;
         }
+    }
 
-        this.showComparison(selectedUnits);
+    filterByPopular() {
+        // Filter by popular units (Secret, Mythic, Legendary)
+        this.filteredUnits = Object.values(this.unitsData).filter(unit => 
+            ['Secret', 'Mythic', 'Legendary'].includes(unit.rarity)
+        );
+        this.renderUnits();
+        this.updateStats();
+    }
+
+    filterByHighDPS() {
+        // Filter by high DPS units
+        this.filteredUnits = Object.values(this.unitsData).filter(unit => {
+            const dps = unit.stats?.dps;
+            return dps && dps > 1000; // Adjust threshold as needed
+        });
+        this.renderUnits();
+        this.updateStats();
+    }
+
+    filterByLatest() {
+        // Filter by latest units (could be based on a date field)
+        this.filteredUnits = Object.values(this.unitsData).filter(unit => 
+            unit.rarity === 'Secret' || unit.rarity === 'Mythic'
+        );
+        this.renderUnits();
+        this.updateStats();
+    }
+
+    filterByBeginner() {
+        // Filter by beginner-friendly units (Rare, Epic)
+        this.filteredUnits = Object.values(this.unitsData).filter(unit => 
+            ['Rare', 'Epic'].includes(unit.rarity)
+        );
+        this.renderUnits();
+        this.updateStats();
     }
     
     applyFilters() {
@@ -463,42 +284,74 @@ export class DatabasePage {
         }
         
         // Apply rarity filter
-        if (this.currentFilters.rarity && this.currentFilters.rarity !== 'All Rarity') {
+        if (this.currentFilters.rarity) {
             filtered = filtered.filter(unit => 
                 unit.rarity === this.currentFilters.rarity
             );
         }
         
         // Apply element filter
-        if (this.currentFilters.element && this.currentFilters.element !== 'All Element') {
+        if (this.currentFilters.element) {
             filtered = filtered.filter(unit => 
                 unit.element === this.currentFilters.element
             );
         }
         
         // Apply attack type filter
-        if (this.currentFilters.attackType && this.currentFilters.attackType !== 'All Attack Type') {
+        if (this.currentFilters.attackType) {
             filtered = filtered.filter(unit => 
                 unit.attackType === this.currentFilters.attackType
             );
         }
         
         // Apply unit type filter
-        if (this.currentFilters.unitType && this.currentFilters.unitType !== 'All Type') {
+        if (this.currentFilters.unitType) {
             filtered = filtered.filter(unit => 
                 unit.unitType === this.currentFilters.unitType
             );
         }
         
         this.filteredUnits = filtered;
+        this.currentPage = 1; // Reset to first page
         console.log(`Filtered units: ${this.filteredUnits.length} out of ${Object.values(this.unitsData).length}`);
         this.renderUnits();
         this.updateStats();
-        this.updateFilterSummary();
+        this.updateActiveFilters();
+        this.updatePagination();
+    }
+
+    sortUnits(sortBy) {
+        switch (sortBy) {
+            case 'name':
+                this.filteredUnits.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case 'rarity':
+                const rarityOrder = ['Exclusive', 'Secret', 'Mythic', 'Legendary', 'Epic', 'Rare'];
+                this.filteredUnits.sort((a, b) => {
+                    const aIndex = rarityOrder.indexOf(a.rarity);
+                    const bIndex = rarityOrder.indexOf(b.rarity);
+                    return aIndex - bIndex;
+                });
+                break;
+            case 'dps':
+                this.filteredUnits.sort((a, b) => {
+                    const aDPS = a.stats?.dps || 0;
+                    const bDPS = b.stats?.dps || 0;
+                    return bDPS - aDPS;
+                });
+                break;
+            case 'latest':
+                // Sort by rarity (newer units tend to be higher rarity)
+                this.sortUnits('rarity');
+                break;
+        }
+        this.renderUnits();
     }
     
     renderUnits() {
         const grid = this.elements.unitsGrid;
+        if (!grid) return;
+        
         grid.innerHTML = '';
         
         if (this.filteredUnits.length === 0) {
@@ -506,15 +359,20 @@ export class DatabasePage {
                 <div class="no-results">
                     <i class="fas fa-search"></i>
                     <p>No units found matching your criteria</p>
-                    <button class="clear-filters-btn" onclick="this.closest('.database-page').querySelector('#dbResetFilters').click()">
-                        <i class="fas fa-undo"></i> Clear All Filters
-                    </button>
+                                         <button class="clear-filters-btn" onclick="databasePage.resetFilters()">
+                         <i class="fas fa-undo"></i> Clear All Filters
+                     </button>
                 </div>
             `;
             return;
         }
         
-        this.filteredUnits.forEach(unit => {
+        // Calculate pagination
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        const unitsToShow = this.filteredUnits.slice(startIndex, endIndex);
+        
+        unitsToShow.forEach(unit => {
             const unitCard = this.createUnitCard(unit);
             grid.appendChild(unitCard);
         });
@@ -527,48 +385,409 @@ export class DatabasePage {
         
         const elementIcon = this.elementIcons[unit.element] || 'fas fa-question';
         const rarityColor = this.getRarityColor(unit.rarity);
+        const isSelected = this.selectedUnits.includes(unit.id);
         
         // Highlight search term if present
         const searchTerm = this.currentFilters.searchText;
         const highlightedName = searchTerm ? this.highlightSearchTerm(unit.name, searchTerm) : unit.name;
-        const highlightedDescription = searchTerm && unit.description ? 
-            this.highlightSearchTerm(unit.description, searchTerm) : unit.description;
         
         card.innerHTML = `
-            <div class="unit-card-header" style="border-color: ${rarityColor}">
-                <div class="unit-icon">
-                    <i class="${elementIcon}"></i>
+            <div class="unit-card-header">
+                <div class="rarity-badge" style="background: ${rarityColor}">
+                    ${unit.rarity}
                 </div>
-                <div class="unit-info">
-                    <h4>${highlightedName}</h4>
-                    <span class="rarity" style="color: ${rarityColor}">${unit.rarity}</span>
-                    <span class="element">${unit.element}</span>
+                <div class="unit-card-actions">
+                                         <button class="favorite-btn ${this.isFavorite(unit.id) ? 'active' : ''}" 
+                             onclick="event.stopPropagation(); databasePage.toggleFavorite('${unit.id}')">
+                         <i class="fas fa-heart"></i>
+                     </button>
+                     <button class="compare-checkbox ${isSelected ? 'checked' : ''}" 
+                             onclick="event.stopPropagation(); databasePage.toggleUnitSelection('${unit.id}')">
+                         <i class="fas fa-plus"></i>
+                     </button>
                 </div>
             </div>
+            
             <div class="unit-card-body">
-                <p class="description">${highlightedDescription}</p>
-                <div class="stats-preview">
-                    <span class="stat">
-                        <i class="fas fa-sword"></i> ${unit.stats?.damage || 'N/A'}
-                    </span>
-                    <span class="stat">
-                        <i class="fas fa-bolt"></i> ${unit.stats?.spa || 'N/A'}s
-                    </span>
-                    <span class="stat">
-                        <i class="fas fa-chart-line"></i> ${unit.stats?.dps || 'N/A'}
-                    </span>
+                <div class="unit-avatar">
+                    <i class="${elementIcon}"></i>
+                </div>
+                <h3 class="unit-name">${highlightedName}</h3>
+                <p class="unit-evolution">${unit.evolution || 'Base Form'}</p>
+                <div class="element-badge">${unit.element}</div>
+                
+                <div class="stats-display">
+                    <div class="stat-bar">
+                        <div class="stat-bar-label">
+                            <span>DPS</span>
+                            <span>${unit.stats?.dps || 'N/A'}</span>
+                        </div>
+                        <div class="stat-bar-progress">
+                            <div class="stat-bar-fill" style="width: ${this.getDPSPercentage(unit)}%"></div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span>攻击速度</span>
+                        <span>${unit.stats?.spa || 'N/A'}s</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>攻击范围</span>
+                        <span>${unit.stats?.range || 'N/A'}</span>
+                    </div>
+                </div>
+                
+                <div class="tag-container">
+                    ${unit.isNew ? '<span class="tag green">🆕 新单位</span>' : ''}
+                    ${this.isPopular(unit) ? '<span class="tag orange">🔥 热门</span>' : ''}
+                    ${this.isRecommended(unit) ? '<span class="tag blue">⭐ 推荐</span>' : ''}
+                </div>
+            </div>
+            
+            <div class="unit-card-footer">
+                <div class="card-actions">
+                                         <button class="btn-primary" onclick="event.stopPropagation(); databasePage.showUnitDetails(databasePage.unitsData['${unit.id}'])">
+                         详细信息
+                     </button>
+                     <button class="btn-ghost" onclick="event.stopPropagation(); databasePage.toggleUnitSelection('${unit.id}')">
+                         添加比较
+                     </button>
                 </div>
             </div>
         `;
         
-        // Add event listener
+        // Add event listener for card click
         card.addEventListener('click', () => {
             this.showUnitDetails(unit);
         });
         
         return card;
     }
-    
+
+    getDPSPercentage(unit) {
+        const dps = unit.stats?.dps;
+        if (!dps || dps === 'N/A') return 0;
+        
+        // Calculate percentage based on max DPS (adjust as needed)
+        const maxDPS = 2000;
+        return Math.min((dps / maxDPS) * 100, 100);
+    }
+
+    isFavorite(unitId) {
+        const favorites = JSON.parse(localStorage.getItem('unitFavorites') || '[]');
+        return favorites.includes(unitId);
+    }
+
+    isPopular(unit) {
+        return ['Secret', 'Mythic', 'Legendary'].includes(unit.rarity);
+    }
+
+    isRecommended(unit) {
+        return unit.rarity === 'Secret' || unit.rarity === 'Mythic';
+    }
+
+    toggleFavorite(unitId) {
+        const favorites = JSON.parse(localStorage.getItem('unitFavorites') || '[]');
+        const index = favorites.indexOf(unitId);
+        
+        if (index > -1) {
+            favorites.splice(index, 1);
+        } else {
+            favorites.push(unitId);
+        }
+        
+        localStorage.setItem('unitFavorites', JSON.stringify(favorites));
+        this.renderUnits(); // Re-render to update favorite buttons
+    }
+
+    toggleUnitSelection(unitId) {
+        const index = this.selectedUnits.indexOf(unitId);
+        
+        if (index > -1) {
+            this.selectedUnits.splice(index, 1);
+        } else {
+            if (this.selectedUnits.length < 3) {
+                this.selectedUnits.push(unitId);
+            } else {
+                showNotification('最多只能选择3个单位进行比较', 'warning');
+                return;
+            }
+        }
+        
+        this.updateCompareButton();
+        this.renderUnits(); // Re-render to update selection buttons
+    }
+
+    updateCompareButton() {
+        if (this.elements.compareButton) {
+            this.elements.compareButton.disabled = this.selectedUnits.length === 0;
+        }
+        if (this.elements.selectedCount) {
+            this.elements.selectedCount.textContent = this.selectedUnits.length;
+        }
+    }
+
+    changeView(view) {
+        this.currentView = view;
+        
+        // Update view buttons
+        this.elements.viewToggle.forEach(btn => {
+            if (btn.dataset.view === view) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        // Update grid class
+        if (this.elements.unitsGrid) {
+            this.elements.unitsGrid.className = `units-grid view-${view}`;
+        }
+        
+        console.log(`Changed view to: ${view}`);
+    }
+
+    updateStats() {
+        if (this.elements.resultsCount) {
+            this.elements.resultsCount.textContent = `共找到 ${this.filteredUnits.length} 个单位`;
+        }
+    }
+
+    updateActiveFilters() {
+        if (!this.elements.activeFilters) return;
+
+        const activeFilters = [];
+        
+        if (this.currentFilters.rarity) {
+            activeFilters.push(`稀有度: ${this.currentFilters.rarity}`);
+        }
+        if (this.currentFilters.element) {
+            activeFilters.push(`元素: ${this.currentFilters.element}`);
+        }
+        if (this.currentFilters.attackType) {
+            activeFilters.push(`攻击类型: ${this.currentFilters.attackType}`);
+        }
+        if (this.currentFilters.unitType) {
+            activeFilters.push(`单位类型: ${this.currentFilters.unitType}`);
+        }
+        if (this.currentFilters.searchText) {
+            activeFilters.push(`搜索: "${this.currentFilters.searchText}"`);
+        }
+        if (this.currentFilters.quickFilter) {
+            const filterLabels = {
+                'popular': '热门',
+                'highDPS': '高DPS',
+                'latest': '最新',
+                'beginner': '新手友好'
+            };
+            activeFilters.push(filterLabels[this.currentFilters.quickFilter] || this.currentFilters.quickFilter);
+        }
+
+        if (activeFilters.length > 0) {
+            this.elements.activeFilters.innerHTML = `
+                <div class="active-filter-tags">
+                    ${activeFilters.map(filter => `
+                        <span class="active-filter-tag">
+                            ${filter}
+                            <button onclick="databasePage.removeFilter('${filter}')" class="remove-filter-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </span>
+                    `).join('')}
+                </div>
+            `;
+        } else {
+            this.elements.activeFilters.innerHTML = '';
+        }
+    }
+
+    updatePagination() {
+        if (!this.elements.pagination) return;
+
+        this.totalPages = Math.ceil(this.filteredUnits.length / this.itemsPerPage);
+        
+        if (this.totalPages <= 1) {
+            this.elements.pagination.innerHTML = '';
+            return;
+        }
+
+        let paginationHTML = '';
+        
+                 // Previous button
+         paginationHTML += `
+             <button class="pagination-btn ${this.currentPage === 1 ? 'disabled' : ''}" 
+                     onclick="databasePage.goToPage(${this.currentPage - 1})" 
+                     ${this.currentPage === 1 ? 'disabled' : ''}>
+                 <i class="fas fa-chevron-left"></i>
+             </button>
+         `;
+
+        // Page numbers
+        const startPage = Math.max(1, this.currentPage - 2);
+        const endPage = Math.min(this.totalPages, this.currentPage + 2);
+
+                 if (startPage > 1) {
+             paginationHTML += `<button class="pagination-btn" onclick="databasePage.goToPage(1)">1</button>`;
+             if (startPage > 2) {
+                 paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+             }
+         }
+
+                 for (let i = startPage; i <= endPage; i++) {
+             paginationHTML += `
+                 <button class="pagination-btn ${i === this.currentPage ? 'active' : ''}" 
+                         onclick="databasePage.goToPage(${i})">
+                     ${i}
+                 </button>
+             `;
+         }
+
+                 if (endPage < this.totalPages) {
+             if (endPage < this.totalPages - 1) {
+                 paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+             }
+             paginationHTML += `<button class="pagination-btn" onclick="databasePage.goToPage(${this.totalPages})">${this.totalPages}</button>`;
+         }
+
+                 // Next button
+         paginationHTML += `
+             <button class="pagination-btn ${this.currentPage === this.totalPages ? 'disabled' : ''}" 
+                     onclick="databasePage.goToPage(${this.currentPage + 1})" 
+                     ${this.currentPage === this.totalPages ? 'disabled' : ''}>
+                 <i class="fas fa-chevron-right"></i>
+             </button>
+         `;
+
+        this.elements.pagination.innerHTML = paginationHTML;
+    }
+
+    goToPage(page) {
+        if (page < 1 || page > this.totalPages) return;
+        
+        this.currentPage = page;
+        this.renderUnits();
+        this.updatePagination();
+        
+        // Scroll to top of units grid
+        if (this.elements.unitsGrid) {
+            this.elements.unitsGrid.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    clearSearch() {
+        if (this.elements.searchInput) {
+            this.elements.searchInput.value = '';
+            this.currentFilters.searchText = '';
+            this.updateSearchUI();
+            this.applyFilters();
+        }
+    }
+
+    resetFilters() {
+        // Reset all filter values
+        this.currentFilters = {
+            rarity: '',
+            element: '',
+            attackType: '',
+            unitType: '',
+            searchText: '',
+            quickFilter: ''
+        };
+
+        // Reset UI elements
+        if (this.elements.searchInput) {
+            this.elements.searchInput.value = '';
+        }
+        if (this.elements.rarityFilter) {
+            this.elements.rarityFilter.value = '';
+        }
+        if (this.elements.elementFilter) {
+            this.elements.elementFilter.value = '';
+        }
+        if (this.elements.attackTypeFilter) {
+            this.elements.attackTypeFilter.value = '';
+        }
+        if (this.elements.unitTypeFilter) {
+            this.elements.unitTypeFilter.value = '';
+        }
+
+        // Remove active class from quick filter tags
+        this.elements.quickFilterTags.forEach(tag => {
+            tag.classList.remove('active');
+        });
+
+        // Update search UI and apply filters
+        this.updateSearchUI();
+        this.applyFilters();
+    }
+
+         updateSearchUI() {
+         const searchInput = this.elements.searchInput;
+         const clearBtn = this.elements.clearSearchBtn;
+
+         if (!searchInput || !clearBtn) return;
+
+         const hasText = searchInput.value.trim().length > 0;
+         clearBtn.style.display = hasText ? 'block' : 'none';
+     }
+
+     removeFilter(filterText) {
+         // Parse filter text to determine which filter to remove
+         if (filterText.includes('稀有度:')) {
+             this.currentFilters.rarity = '';
+             if (this.elements.rarityFilter) {
+                 this.elements.rarityFilter.value = '';
+             }
+         } else if (filterText.includes('元素:')) {
+             this.currentFilters.element = '';
+             if (this.elements.elementFilter) {
+                 this.elements.elementFilter.value = '';
+             }
+         } else if (filterText.includes('攻击类型:')) {
+             this.currentFilters.attackType = '';
+             if (this.elements.attackTypeFilter) {
+                 this.elements.attackTypeFilter.value = '';
+             }
+         } else if (filterText.includes('单位类型:')) {
+             this.currentFilters.unitType = '';
+             if (this.elements.unitTypeFilter) {
+                 this.elements.unitTypeFilter.value = '';
+             }
+         } else if (filterText.includes('搜索:')) {
+             this.currentFilters.searchText = '';
+             if (this.elements.searchInput) {
+                 this.elements.searchInput.value = '';
+             }
+         } else if (filterText.includes('热门') || filterText.includes('高DPS') || filterText.includes('最新') || filterText.includes('新手友好')) {
+             this.currentFilters.quickFilter = '';
+             // Remove active class from quick filter tags
+             this.elements.quickFilterTags.forEach(tag => {
+                 tag.classList.remove('active');
+             });
+         }
+
+         this.applyFilters();
+     }
+
+    highlightSearchTerm(text, searchTerm) {
+        if (!searchTerm) return text;
+        
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        return text.replace(regex, '<mark style="background: rgba(162, 155, 254, 0.3); color: #fff; padding: 0.1rem 0.2rem; border-radius: 2px;">$1</mark>');
+    }
+
+    getRarityColor(rarity) {
+        const colors = {
+            'Rare': '#4CAF50',
+            'Epic': '#2196F3',
+            'Legendary': '#9C27B0',
+            'Secret': '#FF9800',
+            'Mythic': '#E91E63',
+            'Mythical': '#E91E63',
+            'Exclusive': '#FF5722'
+        };
+        return colors[rarity] || '#666';
+    }
+
     showUnitDetails(unit) {
         // Define detail sections
         const detailSections = [
@@ -877,7 +1096,7 @@ export class DatabasePage {
             'Legendary': '#9C27B0',
             'Secret': '#FF9800',
             'Mythic': '#E91E63',
-            'Mythic': '#E91E63',
+            'Mythical': '#E91E63',
             'Exclusive': '#FF5722'
         };
         return colors[rarity] || '#666';
@@ -925,28 +1144,19 @@ export class DatabasePage {
         }
     }
     
-    changeView(view) {
-        // Update view buttons
-        const viewBtns = document.querySelectorAll('.view-btn');
-        viewBtns.forEach(btn => {
-            if (btn.dataset.view === view) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-        
-        // Update grid class
-        if (this.elements.unitsGrid) {
-            this.elements.unitsGrid.className = `units-grid view-${view}`;
-        }
-        
-        console.log(`Changed view to: ${view}`);
-    }
-    
-    compareUnits() {
-        this.compareSelectedUnits();
-    }
+         compareUnits() {
+         this.compareSelectedUnits();
+     }
+
+     compareSelectedUnits() {
+         if (this.selectedUnits.length < 2) {
+             showNotification('请至少选择2个单位进行比较', 'warning');
+             return;
+         }
+
+         const selectedUnitsData = this.selectedUnits.map(id => this.unitsData[id]).filter(unit => unit);
+         this.showComparison(selectedUnitsData);
+     }
     
     showComparison(units) {
         // Define comparison fields
@@ -1321,7 +1531,8 @@ export class DatabasePage {
             element: '',
             attackType: '',
             unitType: '',
-            searchText: ''
+            searchText: '',
+            quickFilter: ''
         };
 
         // Reset UI elements
@@ -1340,6 +1551,11 @@ export class DatabasePage {
         if (this.elements.unitTypeFilter) {
             this.elements.unitTypeFilter.value = '';
         }
+
+        // Remove active class from quick filter tags
+        this.elements.quickFilterTags.forEach(tag => {
+            tag.classList.remove('active');
+        });
 
         // Update search UI and apply filters
         this.updateSearchUI();
