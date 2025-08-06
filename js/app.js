@@ -54,6 +54,9 @@ export class App {
             this.databasePage = new DatabasePage(this);
             await this.databasePage.initialize(this.data);
             
+            // Expose databasePage to global scope for onclick handlers
+            window.databasePage = this.databasePage;
+            
             // Set up global event listeners
             this.setupGlobalEvents();
             
