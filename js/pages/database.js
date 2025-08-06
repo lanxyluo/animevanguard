@@ -427,29 +427,29 @@ export class DatabasePage {
                         </div>
                     </div>
                     <div class="stat-item">
-                        <span>攻击速度</span>
+                        <span>Attack Speed</span>
                         <span>${unit.stats?.spa || 'N/A'}s</span>
                     </div>
                     <div class="stat-item">
-                        <span>攻击范围</span>
+                        <span>Attack Range</span>
                         <span>${unit.stats?.range || 'N/A'}</span>
                     </div>
                 </div>
                 
-                <div class="tag-container">
-                    ${unit.isNew ? '<span class="tag green">🆕 新单位</span>' : ''}
-                    ${this.isPopular(unit) ? '<span class="tag orange">🔥 热门</span>' : ''}
-                    ${this.isRecommended(unit) ? '<span class="tag blue">⭐ 推荐</span>' : ''}
-                </div>
+                                 <div class="tag-container">
+                     ${unit.isNew ? '<span class="tag green">🆕 New Unit</span>' : ''}
+                     ${this.isPopular(unit) ? '<span class="tag orange">🔥 Popular</span>' : ''}
+                     ${this.isRecommended(unit) ? '<span class="tag blue">⭐ Recommended</span>' : ''}
+                 </div>
             </div>
             
             <div class="unit-card-footer">
                 <div class="card-actions">
                                          <button class="btn-primary" onclick="event.stopPropagation(); databasePage.showUnitDetails(databasePage.unitsData['${unit.id}'])">
-                         详细信息
+                         View Details
                      </button>
                      <button class="btn-ghost" onclick="event.stopPropagation(); databasePage.toggleUnitSelection('${unit.id}')">
-                         添加比较
+                         Add to Compare
                      </button>
                 </div>
             </div>
@@ -548,7 +548,7 @@ export class DatabasePage {
 
     updateStats() {
         if (this.elements.resultsCount) {
-            this.elements.resultsCount.textContent = `共找到 ${this.filteredUnits.length} 个单位`;
+            this.elements.resultsCount.textContent = `Found ${this.filteredUnits.length} units`;
         }
     }
 
@@ -557,28 +557,28 @@ export class DatabasePage {
 
         const activeFilters = [];
         
-        if (this.currentFilters.rarity) {
-            activeFilters.push(`稀有度: ${this.currentFilters.rarity}`);
-        }
-        if (this.currentFilters.element) {
-            activeFilters.push(`元素: ${this.currentFilters.element}`);
-        }
-        if (this.currentFilters.attackType) {
-            activeFilters.push(`攻击类型: ${this.currentFilters.attackType}`);
-        }
-        if (this.currentFilters.unitType) {
-            activeFilters.push(`单位类型: ${this.currentFilters.unitType}`);
-        }
-        if (this.currentFilters.searchText) {
-            activeFilters.push(`搜索: "${this.currentFilters.searchText}"`);
-        }
+                 if (this.currentFilters.rarity) {
+             activeFilters.push(`Rarity: ${this.currentFilters.rarity}`);
+         }
+         if (this.currentFilters.element) {
+             activeFilters.push(`Element: ${this.currentFilters.element}`);
+         }
+         if (this.currentFilters.attackType) {
+             activeFilters.push(`Attack Type: ${this.currentFilters.attackType}`);
+         }
+         if (this.currentFilters.unitType) {
+             activeFilters.push(`Unit Type: ${this.currentFilters.unitType}`);
+         }
+         if (this.currentFilters.searchText) {
+             activeFilters.push(`Search: "${this.currentFilters.searchText}"`);
+         }
         if (this.currentFilters.quickFilter) {
-            const filterLabels = {
-                'popular': '热门',
-                'highDPS': '高DPS',
-                'latest': '最新',
-                'beginner': '新手友好'
-            };
+                         const filterLabels = {
+                 'popular': 'Popular',
+                 'highDPS': 'High DPS',
+                 'latest': 'Latest',
+                 'beginner': 'Beginner Friendly'
+             };
             activeFilters.push(filterLabels[this.currentFilters.quickFilter] || this.currentFilters.quickFilter);
         }
 
@@ -732,32 +732,32 @@ export class DatabasePage {
 
      removeFilter(filterText) {
          // Parse filter text to determine which filter to remove
-         if (filterText.includes('稀有度:')) {
+         if (filterText.includes('Rarity:')) {
              this.currentFilters.rarity = '';
              if (this.elements.rarityFilter) {
                  this.elements.rarityFilter.value = '';
              }
-         } else if (filterText.includes('元素:')) {
+         } else if (filterText.includes('Element:')) {
              this.currentFilters.element = '';
              if (this.elements.elementFilter) {
                  this.elements.elementFilter.value = '';
              }
-         } else if (filterText.includes('攻击类型:')) {
+         } else if (filterText.includes('Attack Type:')) {
              this.currentFilters.attackType = '';
              if (this.elements.attackTypeFilter) {
                  this.elements.attackTypeFilter.value = '';
              }
-         } else if (filterText.includes('单位类型:')) {
+         } else if (filterText.includes('Unit Type:')) {
              this.currentFilters.unitType = '';
              if (this.elements.unitTypeFilter) {
                  this.elements.unitTypeFilter.value = '';
              }
-         } else if (filterText.includes('搜索:')) {
+         } else if (filterText.includes('Search:')) {
              this.currentFilters.searchText = '';
              if (this.elements.searchInput) {
                  this.elements.searchInput.value = '';
              }
-         } else if (filterText.includes('热门') || filterText.includes('高DPS') || filterText.includes('最新') || filterText.includes('新手友好')) {
+         } else if (filterText.includes('Popular') || filterText.includes('High DPS') || filterText.includes('Latest') || filterText.includes('Beginner Friendly')) {
              this.currentFilters.quickFilter = '';
              // Remove active class from quick filter tags
              this.elements.quickFilterTags.forEach(tag => {

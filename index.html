@@ -607,6 +607,62 @@
 
         .codes-intro {
             background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(241, 196, 15, 0.1) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+        }
+
+        .codes-intro h2 {
+            color: #a29bfe;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .codes-intro p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .codes-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .codes-features h3 {
+            color: #a29bfe;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .codes-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .codes-features li {
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .codes-features li:before {
+            content: "•";
+            color: #a29bfe;
+            position: absolute;
+            left: 0;
+        }
+
+        .codes-tips h3 {
+            color: #a29bfe;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .codes-tips p {
+            color: #e0e0e0;
+            line-height: 1.6;
         }
 
         /* Breadcrumb Navigation Styles */
@@ -3292,14 +3348,14 @@
 
                 <!-- Recommendation Section -->
                 <section class="recommendation-section">
-                    <h3 class="section-title">为你推荐</h3>
+                    <h3 class="section-title">Recommended for You</h3>
                     <div class="recommendation-grid">
                         <div class="recommend-card beginner">
                             <div class="recommend-header">
                                 <i class="fas fa-star"></i>
-                                <h4>新手推荐</h4>
+                                <h4>Beginner Friendly</h4>
                             </div>
-                            <p>适合初学者的强力单位</p>
+                            <p>Powerful units suitable for beginners</p>
                             <div class="recommend-units">
                                 <span class="unit-tag">Koguro</span>
                                 <span class="unit-tag">Arc</span>
@@ -3310,9 +3366,9 @@
                         <div class="recommend-card dps">
                             <div class="recommend-header">
                                 <i class="fas fa-bolt"></i>
-                                <h4>高DPS输出</h4>
+                                <h4>High DPS Output</h4>
                             </div>
-                            <p>最强输出单位排行</p>
+                            <p>Top damage dealing units ranking</p>
                             <div class="recommend-units">
                                 <span class="unit-tag">Saber Alter</span>
                                 <span class="unit-tag">Gilgamesh</span>
@@ -3323,9 +3379,9 @@
                         <div class="recommend-card latest">
                             <div class="recommend-header">
                                 <i class="fas fa-clock"></i>
-                                <h4>最新单位</h4>
+                                <h4>Latest Units</h4>
                             </div>
-                            <p>最近更新的角色</p>
+                            <p>Recently updated characters</p>
                             <div class="recommend-units">
                                 <span class="unit-tag">Artoria</span>
                                 <span class="unit-tag">Rin</span>
@@ -3341,7 +3397,7 @@
                     <div class="search-container">
                         <div class="search-input-wrapper">
                             <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="dbSearchInput" class="search-input" placeholder="搜索单位名称、描述...">
+                            <input type="text" id="dbSearchInput" class="search-input" placeholder="Search units by name, description...">
                             <button id="dbClearSearch" class="clear-search-btn" style="display: none;">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -3352,9 +3408,9 @@
                     <div class="filter-controls">
                         <div class="filter-row">
                             <div class="filter-group">
-                                <label for="dbRarityFilter">稀有度:</label>
+                                <label for="dbRarityFilter">Rarity:</label>
                                 <select id="dbRarityFilter" class="filter-select">
-                                    <option value="">全部稀有度</option>
+                                    <option value="">All Rarity</option>
                                     <option value="Rare">Rare</option>
                                     <option value="Epic">Epic</option>
                                     <option value="Legendary">Legendary</option>
@@ -3366,9 +3422,9 @@
                             </div>
                             
                             <div class="filter-group">
-                                <label for="dbElementFilter">元素:</label>
+                                <label for="dbElementFilter">Element:</label>
                                 <select id="dbElementFilter" class="filter-select">
-                                    <option value="">全部元素</option>
+                                    <option value="">All Elements</option>
                                     <option value="Fire">Fire</option>
                                     <option value="Water">Water</option>
                                     <option value="Nature">Nature</option>
@@ -3389,9 +3445,9 @@
                             </div>
                             
                             <div class="filter-group">
-                                <label for="dbAttackTypeFilter">攻击类型:</label>
+                                <label for="dbAttackTypeFilter">Attack Type:</label>
                                 <select id="dbAttackTypeFilter" class="filter-select">
-                                    <option value="">全部攻击类型</option>
+                                    <option value="">All Attack Types</option>
                                     <option value="Single Target">Single Target</option>
                                     <option value="Circle AoE">Circle AoE</option>
                                     <option value="Cone AoE">Cone AoE</option>
@@ -3404,9 +3460,9 @@
                             </div>
                             
                             <div class="filter-group">
-                                <label for="dbUnitTypeFilter">单位类型:</label>
+                                <label for="dbUnitTypeFilter">Unit Type:</label>
                                 <select id="dbUnitTypeFilter" class="filter-select">
-                                    <option value="">全部类型</option>
+                                    <option value="">All Types</option>
                                     <option value="DPS">DPS</option>
                                     <option value="Support">Support</option>
                                     <option value="Tank">Tank</option>
@@ -3418,16 +3474,16 @@
                         <!-- Quick Filter Tags -->
                         <div class="quick-filter-tags">
                             <button class="quick-filter-tag" data-filter="popular">
-                                <i class="fas fa-fire"></i> 热门
+                                <i class="fas fa-fire"></i> Popular
                             </button>
                             <button class="quick-filter-tag" data-filter="highDPS">
-                                <i class="fas fa-bolt"></i> 高DPS
+                                <i class="fas fa-bolt"></i> High DPS
                             </button>
                             <button class="quick-filter-tag" data-filter="latest">
-                                <i class="fas fa-star"></i> 最新
+                                <i class="fas fa-star"></i> Latest
                             </button>
                             <button class="quick-filter-tag" data-filter="beginner">
-                                <i class="fas fa-bullseye"></i> 新手友好
+                                <i class="fas fa-bullseye"></i> Beginner Friendly
                             </button>
                         </div>
                         
@@ -3441,7 +3497,7 @@
                 <!-- Results Control Bar -->
                 <section class="results-control-bar">
                     <div class="results-info">
-                        <span id="resultsCount" class="results-count">共找到 18 个单位</span>
+                        <span id="resultsCount" class="results-count">Found 18 units</span>
                         <div class="view-toggle">
                             <button class="view-btn active" data-view="grid">
                                 <i class="fas fa-th"></i>
@@ -3457,14 +3513,14 @@
                     
                     <div class="results-controls">
                         <select id="sortSelect" class="sort-select">
-                            <option value="name">按名称排序</option>
-                            <option value="rarity">按稀有度排序</option>
-                            <option value="dps">按DPS排序</option>
-                            <option value="latest">按更新时间排序</option>
+                            <option value="name">Sort by Name</option>
+                            <option value="rarity">Sort by Rarity</option>
+                            <option value="dps">Sort by DPS</option>
+                            <option value="latest">Sort by Update Time</option>
                         </select>
                         
                         <button id="compareButton" class="compare-button" disabled>
-                            比较选中 (<span id="selectedCount">0</span>)
+                            Compare Selected (<span id="selectedCount">0</span>)
                         </button>
                     </div>
                 </section>
@@ -3478,12 +3534,12 @@
                     <!-- Pagination -->
                     <div class="pagination-section">
                         <div class="pagination-controls">
-                            <span>每页显示:</span>
+                            <span>Items per page:</span>
                             <select id="itemsPerPage" class="items-per-page-select">
-                                <option value="8">8个单位</option>
-                                <option value="12" selected>12个单位</option>
-                                <option value="16">16个单位</option>
-                                <option value="24">24个单位</option>
+                                <option value="8">8 units</option>
+                                <option value="12" selected>12 units</option>
+                                <option value="16">16 units</option>
+                                <option value="24">24 units</option>
                             </select>
                         </div>
                         
@@ -3721,34 +3777,6 @@
                     </li>
                 </ol>
             </nav>
-
-            <!-- Codes Introduction -->
-            <section class="page-introduction codes-intro">
-                <div class="intro-container">
-                    <h1 class="page-title">Anime Vanguards Codes</h1>
-                    <p class="page-subtitle">Latest Working Codes 2025</p>
-                    
-                    <div class="intro-content">
-                        <h2>How to Use Anime Vanguards Codes</h2>
-                        <p>Anime Vanguards codes provide free rewards including gems, gold, rerolls, and exclusive items. These codes are regularly updated by the game developers and can be redeemed in-game for immediate rewards. Our code database is updated daily with the latest working codes and detailed redemption instructions.</p>
-                        
-                        <div class="codes-features">
-                            <h3>Code Features</h3>
-                            <ul>
-                                <li><strong>Daily Updates:</strong> Latest working codes updated regularly</li>
-                                <li><strong>Reward Categories:</strong> Gems, gold, rerolls, stat chips, and exclusive items</li>
-                                <li><strong>Easy Copy:</strong> One-click copy functionality for quick redemption</li>
-                                <li><strong>Expiry Tracking:</strong> Monitor code expiration dates and requirements</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="codes-tips">
-                            <h3>Code Redemption Tips</h3>
-                            <p>Redeem codes as soon as possible as they may expire. Check level requirements before attempting to redeem. Use our <a href="#evolution" class="internal-link">Evolution Guide</a> to plan how to spend your rewards. Visit our <a href="#database" class="internal-link">Unit Database</a> to research units before using rerolls.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <div class="codes-page">
                 <div class="card">
@@ -4135,6 +4163,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Codes Introduction - Moved below the tool -->
+            <section class="page-introduction codes-intro">
+                <div class="intro-container">
+                    <h2>How to Use Anime Vanguards Codes</h2>
+                    <p>Anime Vanguards codes provide free rewards including gems, gold, rerolls, and exclusive items. These codes are regularly updated by the game developers and can be redeemed in-game for immediate rewards. Our code database is updated daily with the latest working codes and detailed redemption instructions.</p>
+                    
+                    <div class="codes-features">
+                        <h3>Code Features</h3>
+                        <ul>
+                            <li><strong>Daily Updates:</strong> Latest working codes updated regularly</li>
+                            <li><strong>Reward Categories:</strong> Gems, gold, rerolls, stat chips, and exclusive items</li>
+                            <li><strong>Easy Copy:</strong> One-click copy functionality for quick redemption</li>
+                            <li><strong>Expiry Tracking:</strong> Monitor code expiration dates and requirements</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="codes-tips">
+                        <h3>Code Redemption Tips</h3>
+                        <p>Redeem codes as soon as possible as they may expire. Check level requirements before attempting to redeem. Use our <a href="#evolution" class="internal-link">Evolution Guide</a> to plan how to spend your rewards. Visit our <a href="#database" class="internal-link">Unit Database</a> to research units before using rerolls.</p>
+                    </div>
+                </div>
+            </section>
 
             <!-- Related Tools Section -->
             <section class="related-tools">
