@@ -603,6 +603,158 @@
             background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(241, 196, 15, 0.1) 100%);
         }
 
+        /* Breadcrumb Navigation Styles */
+        .breadcrumb-nav {
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-item:not(:last-child)::after {
+            content: "/";
+            color: #a29bfe;
+            margin: 0 0.5rem;
+            opacity: 0.6;
+        }
+
+        .breadcrumb-link {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #a29bfe;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: #ffffff;
+        }
+
+        .breadcrumb-link i {
+            font-size: 0.8rem;
+        }
+
+        .breadcrumb-current {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* Related Tools Section Styles */
+        .related-tools {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            background: rgba(108, 92, 231, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .related-tools-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .related-tools-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-tools-subtitle {
+            font-size: 1rem;
+            color: #a29bfe;
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .related-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-tool-card {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .related-tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .tool-icon i {
+            font-size: 1.25rem;
+            color: #ffffff;
+        }
+
+        .tool-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+        }
+
+        .tool-content p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #a29bfe;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .tool-link:hover {
+            color: #ffffff;
+        }
+
+        .tool-link i {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-link:hover i {
+            transform: translateX(3px);
+        }
+
         /* Responsive Design for Homepage */
         @media (max-width: 768px) {
             .main-title {
@@ -1950,6 +2102,21 @@
 
         <!-- Evolution Guide Page -->
         <div id="evolutionPage" class="page-container active">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="#evolution" class="breadcrumb-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-current">Evolution Guide</span>
+                    </li>
+                </ol>
+            </nav>
+
             <!-- Evolution Guide Introduction -->
             <section class="page-introduction evolution-intro">
                 <div class="intro-container">
@@ -2105,10 +2272,68 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Related Tools Section -->
+            <section class="related-tools">
+                <div class="related-tools-container">
+                    <h2 class="related-tools-title">Related Tools</h2>
+                    <p class="related-tools-subtitle">Explore other useful tools for Anime Vanguards players</p>
+                    
+                    <div class="related-tools-grid">
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Unit Stats Calculator</h3>
+                                <p>Calculate DPS and compare unit performance to optimize your team composition.</p>
+                                <a href="#dps" class="tool-link">View Unit Stats <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Unit Database</h3>
+                                <p>Browse complete unit information, stats, and abilities for all characters.</p>
+                                <a href="#database" class="tool-link">Browse Database <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Free Codes</h3>
+                                <p>Get free gems, gold, and rewards with our latest working codes.</p>
+                                <a href="#codes" class="tool-link">Get Codes <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Unit Stats Page -->
         <div id="dpsPage" class="page-container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="#evolution" class="breadcrumb-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-current">Unit Stats</span>
+                    </li>
+                </ol>
+            </nav>
+
             <!-- Unit Stats Introduction -->
             <section class="page-introduction dps-intro">
                 <div class="intro-container">
@@ -2285,10 +2510,68 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Related Tools Section -->
+            <section class="related-tools">
+                <div class="related-tools-container">
+                    <h2 class="related-tools-title">Related Tools</h2>
+                    <p class="related-tools-subtitle">Explore other useful tools for Anime Vanguards players</p>
+                    
+                    <div class="related-tools-grid">
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Evolution Guide</h3>
+                                <p>Plan your unit evolution with detailed material requirements and cost analysis.</p>
+                                <a href="#evolution" class="tool-link">View Evolution Guide <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Unit Database</h3>
+                                <p>Browse complete unit information, stats, and abilities for all characters.</p>
+                                <a href="#database" class="tool-link">Browse Database <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Free Codes</h3>
+                                <p>Get free gems, gold, and rewards with our latest working codes.</p>
+                                <a href="#codes" class="tool-link">Get Codes <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Unit Database Page -->
         <div id="databasePage" class="page-content database-page" style="display: none;">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="#evolution" class="breadcrumb-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-current">Unit Database</span>
+                    </li>
+                </ol>
+            </nav>
+
             <!-- Unit Database Introduction -->
             <section class="page-introduction database-intro">
                 <div class="intro-container">
@@ -2460,10 +2743,68 @@
                     <p>Select a unit to view detailed information</p>
                 </div>
             </div>
+
+            <!-- Related Tools Section -->
+            <section class="related-tools">
+                <div class="related-tools-container">
+                    <h2 class="related-tools-title">Related Tools</h2>
+                    <p class="related-tools-subtitle">Explore other useful tools for Anime Vanguards players</p>
+                    
+                    <div class="related-tools-grid">
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Evolution Guide</h3>
+                                <p>Plan your unit evolution with detailed material requirements and cost analysis.</p>
+                                <a href="#evolution" class="tool-link">View Evolution Guide <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Unit Stats Calculator</h3>
+                                <p>Calculate DPS and compare unit performance to optimize your team composition.</p>
+                                <a href="#dps" class="tool-link">View Unit Stats <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Free Codes</h3>
+                                <p>Get free gems, gold, and rewards with our latest working codes.</p>
+                                <a href="#codes" class="tool-link">Get Codes <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Codes Page -->
         <div id="codesPage" class="page-container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="#evolution" class="breadcrumb-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-current">Codes</span>
+                    </li>
+                </ol>
+            </nav>
+
             <!-- Codes Introduction -->
             <section class="page-introduction codes-intro">
                 <div class="intro-container">
@@ -2877,6 +3218,49 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Related Tools Section -->
+            <section class="related-tools">
+                <div class="related-tools-container">
+                    <h2 class="related-tools-title">Related Tools</h2>
+                    <p class="related-tools-subtitle">Explore other useful tools for Anime Vanguards players</p>
+                    
+                    <div class="related-tools-grid">
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Evolution Guide</h3>
+                                <p>Plan your unit evolution with detailed material requirements and cost analysis.</p>
+                                <a href="#evolution" class="tool-link">View Evolution Guide <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Unit Stats Calculator</h3>
+                                <p>Calculate DPS and compare unit performance to optimize your team composition.</p>
+                                <a href="#dps" class="tool-link">View Unit Stats <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="related-tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="tool-content">
+                                <h3>Unit Database</h3>
+                                <p>Browse complete unit information, stats, and abilities for all characters.</p>
+                                <a href="#database" class="tool-link">Browse Database <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- About Page -->
