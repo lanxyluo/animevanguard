@@ -191,5 +191,24 @@ export class App {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             lastUpdatedElement.textContent = now.toLocaleDateString('en-US', options);
         }
+
+        // Update stats counts
+        this.updateCodesStats();
+    }
+
+    updateCodesStats() {
+        // Count active codes
+        const activeCodes = document.querySelectorAll('.code-item.active');
+        const activeCountElement = document.getElementById('activeCodesCount');
+        if (activeCountElement) {
+            activeCountElement.textContent = activeCodes.length;
+        }
+
+        // Count expired codes
+        const expiredCodes = document.querySelectorAll('.code-item.expired');
+        const expiredCountElement = document.getElementById('expiredCodesCount');
+        if (expiredCountElement) {
+            expiredCountElement.textContent = expiredCodes.length;
+        }
     }
 } 

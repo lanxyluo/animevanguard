@@ -631,13 +631,259 @@
             margin: 0 auto;
         }
 
-        .last-updated {
+        /* Header Section */
+        .codes-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .codes-title-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .codes-title-section i {
+            font-size: 2.5rem;
+            color: #6c5ce7;
+            margin-top: 0.5rem;
+        }
+
+        .codes-title-content h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+            color: #ffffff;
+        }
+
+        .codes-subtitle {
+            margin: 0;
+            color: #a29bfe;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Stats Dashboard */
+        .codes-stats-dashboard {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            min-width: 140px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-icon.active {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .stat-icon.expired {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .stat-icon.updated {
+            background: #f39c12;
+            color: white;
+        }
+
+        .stat-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #a29bfe;
+        }
+
+        .stat-date {
+            font-size: 0.9rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* Filter Section */
+        .codes-filter-section {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #a29bfe;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        }
+
+        .search-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-group {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a29bfe;
+            z-index: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        }
+
+        .clear-search-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #a29bfe;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-search-btn:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #ffffff;
+        }
+
+        .copy-all-btn {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
+        }
+
+        .copy-all-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .filter-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .filter-summary span {
             color: #a29bfe;
-            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .clear-filters-btn {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .clear-filters-btn:hover {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ffffff;
         }
 
         .codes-content {
@@ -667,8 +913,15 @@
             background: rgba(108, 92, 231, 0.1);
             border: 1px solid rgba(162, 155, 254, 0.3);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 1.5rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.2);
         }
 
         .code-item.active {
@@ -683,20 +936,33 @@
         .code-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
             border-bottom: 1px solid rgba(162, 155, 254, 0.2);
+        }
+
+        .code-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .code-text {
             font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #6c5ce7;
             background: rgba(108, 92, 231, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            letter-spacing: 1px;
+        }
+
+        .code-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .code-status {
@@ -716,15 +982,111 @@
             color: white;
         }
 
-        .code-rewards {
-            margin-bottom: 1rem;
+        .requirement-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            background: #f39c12;
+            color: white;
         }
 
-        .code-rewards p {
-            margin: 0.25rem 0;
+        .new-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            background: #e74c3c;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* Copy Button */
+        .copy-code-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .copy-code-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .copy-code-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-code-btn.copied {
+            background: #2ecc71;
+        }
+
+        .copy-code-btn.disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .copy-code-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Rewards Section */
+        .code-rewards {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .reward-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(162, 155, 254, 0.1);
+        }
+
+        .reward-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .reward-icon.gem {
+            color: #e74c3c;
+        }
+
+        .reward-icon.gold {
+            color: #f39c12;
+        }
+
+        .reward-amount {
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .reward-type {
+            color: #a29bfe;
             font-size: 0.9rem;
         }
 
@@ -732,6 +1094,20 @@
             font-size: 0.85rem;
             color: #a29bfe;
             margin: 0;
+        }
+
+        .code-expiry {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.8rem;
+            color: #a29bfe;
+            opacity: 0.8;
+        }
+
+        .code-expiry i {
+            color: #f39c12;
         }
 
         .redemption-steps {
@@ -791,6 +1167,43 @@
 
         /* Mobile Responsive for Codes */
         @media (max-width: 768px) {
+            .codes-header-main {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .codes-stats-dashboard {
+                justify-content: center;
+            }
+
+            .stat-item {
+                min-width: 120px;
+            }
+
+            .filter-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .search-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-group {
+                min-width: auto;
+            }
+
+            .copy-all-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-summary {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
             .codes-grid {
                 grid-template-columns: 1fr;
             }
@@ -801,6 +1214,22 @@
 
             .step {
                 flex-direction: column;
+                text-align: center;
+            }
+
+            .code-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .copy-code-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .code-text {
+                font-size: 1.2rem;
                 text-align: center;
             }
         }
@@ -1272,57 +1701,229 @@
             <div class="codes-page">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-gift"></i>
-                        <h3>Anime Vanguards Codes - Latest Working Codes 2025</h3>
-                        <div class="last-updated">
-                            <i class="fas fa-clock"></i>
-                            <span>Last Updated: <span id="lastUpdatedDate">January 2025</span></span>
+                        <div class="codes-header-main">
+                            <div class="codes-title-section">
+                                <i class="fas fa-gift"></i>
+                                <div class="codes-title-content">
+                                    <h3>Anime Vanguards Codes - Latest Working Codes 2025</h3>
+                                    <p class="codes-subtitle">Get free Gems, Gold, Rerolls, and exclusive rewards</p>
+                                </div>
+                            </div>
+                            <div class="codes-stats-dashboard">
+                                <div class="stat-item">
+                                    <div class="stat-icon active">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="activeCodesCount">3</span>
+                                        <span class="stat-label">Active Codes</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon expired">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="expiredCodesCount">1</span>
+                                        <span class="stat-label">Expired Codes</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon updated">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-label">Last Updated</span>
+                                        <span class="stat-date" id="lastUpdatedDate">January 2025</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="codes-content">
+                        <!-- Filter Section -->
+                        <div class="codes-filter-section">
+                            <div class="filter-controls">
+                                <div class="filter-group">
+                                    <label for="rewardTypeFilter">Reward Type:</label>
+                                    <select id="rewardTypeFilter" class="filter-select">
+                                        <option value="">All Rewards</option>
+                                        <option value="gems">Gems</option>
+                                        <option value="gold">Gold</option>
+                                        <option value="rerolls">Rerolls</option>
+                                        <option value="items">Items</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="levelFilter">Level Requirement:</label>
+                                    <select id="levelFilter" class="filter-select">
+                                        <option value="">All Levels</option>
+                                        <option value="none">No Requirement</option>
+                                        <option value="level5">Level 5+</option>
+                                        <option value="level10">Level 10+</option>
+                                        <option value="level30">Level 30+</option>
+                                        <option value="level50">Level 50+</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="expiryFilter">Expiry Status:</label>
+                                    <select id="expiryFilter" class="filter-select">
+                                        <option value="">All Status</option>
+                                        <option value="permanent">Permanent</option>
+                                        <option value="limited">Limited Time</option>
+                                        <option value="expiring">Expiring Soon</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="search-controls">
+                                <div class="search-group">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" id="codeSearchInput" class="search-input" placeholder="Search codes...">
+                                    <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <button id="copyAllActiveBtn" class="copy-all-btn">
+                                    <i class="fas fa-copy"></i>
+                                    Copy All Active
+                                </button>
+                            </div>
+                            <div class="filter-summary">
+                                <span id="filterResultsCount">Showing all codes</span>
+                                <button id="clearFiltersBtn" class="clear-filters-btn">
+                                    <i class="fas fa-undo"></i> Clear Filters
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Active Codes Section -->
                         <div class="codes-section">
                             <h4><i class="fas fa-check-circle"></i> Active Codes (Working)</h4>
                             <div class="codes-grid">
-                                <div class="code-item active">
+                                <div class="code-item active" 
+                                     data-code="RELEASE"
+                                     data-rewards="gems,gold"
+                                     data-requirement="level10"
+                                     data-expiry="permanent"
+                                     data-type="milestone"
+                                     data-added="2025-01-15"
+                                     data-rarity="rare">
                                     <div class="code-header">
-                                        <span class="code-text">RELEASE</span>
-                                        <span class="code-status active">Active</span>
+                                        <div class="code-info">
+                                            <span class="code-text">RELEASE</span>
+                                            <div class="code-badges">
+                                                <span class="code-status active">Active</span>
+                                                <span class="requirement-badge">Level 10+</span>
+                                                <span class="new-badge">New</span>
+                                            </div>
+                                        </div>
+                                        <button class="copy-code-btn" onclick="copyCode('RELEASE')">
+                                            <i class="fas fa-copy"></i>
+                                            <span class="copy-text">Copy</span>
+                                        </button>
                                     </div>
                                     <div class="code-rewards">
-                                        <p><i class="fas fa-gem"></i> 500 Gems</p>
-                                        <p><i class="fas fa-coins"></i> 10,000 Gold</p>
+                                        <div class="reward-item">
+                                            <i class="fas fa-gem reward-icon gem"></i>
+                                            <span class="reward-amount">500</span>
+                                            <span class="reward-type">Gems</span>
+                                        </div>
+                                        <div class="reward-item">
+                                            <i class="fas fa-coins reward-icon gold"></i>
+                                            <span class="reward-amount">10,000</span>
+                                            <span class="reward-type">Gold</span>
+                                        </div>
                                     </div>
                                     <div class="code-usage">
                                         <p><strong>How to use:</strong> Enter in the game's code redemption menu</p>
+                                    </div>
+                                    <div class="code-expiry">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Permanent - No expiry date</span>
                                     </div>
                                 </div>
                                 
-                                <div class="code-item active">
+                                <div class="code-item active" 
+                                     data-code="THANKYOU"
+                                     data-rewards="gems,gold"
+                                     data-requirement="level5"
+                                     data-expiry="permanent"
+                                     data-type="event"
+                                     data-added="2025-01-10"
+                                     data-rarity="common">
                                     <div class="code-header">
-                                        <span class="code-text">THANKYOU</span>
-                                        <span class="code-status active">Active</span>
+                                        <div class="code-info">
+                                            <span class="code-text">THANKYOU</span>
+                                            <div class="code-badges">
+                                                <span class="code-status active">Active</span>
+                                                <span class="requirement-badge">Level 5+</span>
+                                            </div>
+                                        </div>
+                                        <button class="copy-code-btn" onclick="copyCode('THANKYOU')">
+                                            <i class="fas fa-copy"></i>
+                                            <span class="copy-text">Copy</span>
+                                        </button>
                                     </div>
                                     <div class="code-rewards">
-                                        <p><i class="fas fa-gem"></i> 300 Gems</p>
-                                        <p><i class="fas fa-coins"></i> 5,000 Gold</p>
+                                        <div class="reward-item">
+                                            <i class="fas fa-gem reward-icon gem"></i>
+                                            <span class="reward-amount">300</span>
+                                            <span class="reward-type">Gems</span>
+                                        </div>
+                                        <div class="reward-item">
+                                            <i class="fas fa-coins reward-icon gold"></i>
+                                            <span class="reward-amount">5,000</span>
+                                            <span class="reward-type">Gold</span>
+                                        </div>
                                     </div>
                                     <div class="code-usage">
                                         <p><strong>How to use:</strong> Enter in the game's code redemption menu</p>
+                                    </div>
+                                    <div class="code-expiry">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Permanent - No expiry date</span>
                                     </div>
                                 </div>
                                 
-                                <div class="code-item active">
+                                <div class="code-item active" 
+                                     data-code="WELCOME"
+                                     data-rewards="gems,gold"
+                                     data-requirement="none"
+                                     data-expiry="permanent"
+                                     data-type="welcome"
+                                     data-added="2025-01-05"
+                                     data-rarity="common">
                                     <div class="code-header">
-                                        <span class="code-text">WELCOME</span>
-                                        <span class="code-status active">Active</span>
+                                        <div class="code-info">
+                                            <span class="code-text">WELCOME</span>
+                                            <div class="code-badges">
+                                                <span class="code-status active">Active</span>
+                                                <span class="requirement-badge">No Requirement</span>
+                                            </div>
+                                        </div>
+                                        <button class="copy-code-btn" onclick="copyCode('WELCOME')">
+                                            <i class="fas fa-copy"></i>
+                                            <span class="copy-text">Copy</span>
+                                        </button>
                                     </div>
                                     <div class="code-rewards">
-                                        <p><i class="fas fa-gem"></i> 200 Gems</p>
-                                        <p><i class="fas fa-coins"></i> 3,000 Gold</p>
+                                        <div class="reward-item">
+                                            <i class="fas fa-gem reward-icon gem"></i>
+                                            <span class="reward-amount">200</span>
+                                            <span class="reward-type">Gems</span>
+                                        </div>
+                                        <div class="reward-item">
+                                            <i class="fas fa-coins reward-icon gold"></i>
+                                            <span class="reward-amount">3,000</span>
+                                            <span class="reward-type">Gold</span>
+                                        </div>
                                     </div>
                                     <div class="code-usage">
                                         <p><strong>How to use:</strong> Enter in the game's code redemption menu</p>
+                                    </div>
+                                    <div class="code-expiry">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Permanent - No expiry date</span>
                                     </div>
                                 </div>
                             </div>
@@ -1332,17 +1933,45 @@
                         <div class="codes-section">
                             <h4><i class="fas fa-times-circle"></i> Expired Codes (Historical Reference)</h4>
                             <div class="codes-grid">
-                                <div class="code-item expired">
+                                <div class="code-item expired" 
+                                     data-code="BETA"
+                                     data-rewards="gems,gold"
+                                     data-requirement="level50"
+                                     data-expiry="expired"
+                                     data-type="beta"
+                                     data-added="2024-11-01"
+                                     data-rarity="legendary">
                                     <div class="code-header">
-                                        <span class="code-text">BETA</span>
-                                        <span class="code-status expired">Expired</span>
+                                        <div class="code-info">
+                                            <span class="code-text">BETA</span>
+                                            <div class="code-badges">
+                                                <span class="code-status expired">Expired</span>
+                                                <span class="requirement-badge">Level 50+</span>
+                                            </div>
+                                        </div>
+                                        <button class="copy-code-btn disabled" onclick="copyCode('BETA')" disabled>
+                                            <i class="fas fa-times"></i>
+                                            <span class="copy-text">Expired</span>
+                                        </button>
                                     </div>
                                     <div class="code-rewards">
-                                        <p><i class="fas fa-gem"></i> 1000 Gems</p>
-                                        <p><i class="fas fa-coins"></i> 50,000 Gold</p>
+                                        <div class="reward-item">
+                                            <i class="fas fa-gem reward-icon gem"></i>
+                                            <span class="reward-amount">1000</span>
+                                            <span class="reward-type">Gems</span>
+                                        </div>
+                                        <div class="reward-item">
+                                            <i class="fas fa-coins reward-icon gold"></i>
+                                            <span class="reward-amount">50,000</span>
+                                            <span class="reward-type">Gold</span>
+                                        </div>
                                     </div>
                                     <div class="code-usage">
                                         <p><strong>Status:</strong> Beta testing reward code (no longer valid)</p>
+                                    </div>
+                                    <div class="code-expiry">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Expired on December 2024</span>
                                     </div>
                                 </div>
                             </div>
@@ -1421,5 +2050,273 @@
 
     <!-- Scripts -->
     <script type="module" src="js/main.js"></script>
+    
+    <!-- Codes Page JavaScript -->
+    <script>
+        // Copy code functionality
+        function copyCode(code) {
+            // Check if code is expired
+            const codeElement = document.querySelector(`[data-code="${code}"]`);
+            if (codeElement && codeElement.classList.contains('expired')) {
+                return; // Don't copy expired codes
+            }
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(code).then(() => {
+                // Find the button for this code
+                const button = document.querySelector(`[data-code="${code}"] .copy-code-btn`);
+                if (button) {
+                    const originalText = button.querySelector('.copy-text').textContent;
+                    const originalIcon = button.querySelector('i').className;
+                    
+                    // Update button to show "Copied!"
+                    button.classList.add('copied');
+                    button.querySelector('.copy-text').textContent = 'Copied!';
+                    button.querySelector('i').className = 'fas fa-check';
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.querySelector('.copy-text').textContent = originalText;
+                        button.querySelector('i').className = originalIcon;
+                    }, 2000);
+                }
+                
+                // Show notification
+                showCopyNotification(code);
+            }).catch(err => {
+                console.error('Failed to copy code:', err);
+                showCopyError();
+            });
+        }
+
+        // Show copy notification
+        function showCopyNotification(code) {
+            const notification = document.createElement('div');
+            notification.className = 'copy-notification';
+            notification.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>Code "${code}" copied to clipboard!</span>
+            `;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #2ecc71;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                z-index: 10000;
+                box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Show copy error
+        function showCopyError() {
+            const notification = document.createElement('div');
+            notification.className = 'copy-notification error';
+            notification.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Failed to copy code. Please try again.</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #e74c3c;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                z-index: 10000;
+                box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Filter functionality
+        function initializeFilters() {
+            const rewardFilter = document.getElementById('rewardTypeFilter');
+            const levelFilter = document.getElementById('levelFilter');
+            const expiryFilter = document.getElementById('expiryFilter');
+            const searchInput = document.getElementById('codeSearchInput');
+            const clearSearchBtn = document.getElementById('clearSearchBtn');
+            const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+            const copyAllBtn = document.getElementById('copyAllActiveBtn');
+
+            // Add event listeners
+            [rewardFilter, levelFilter, expiryFilter].forEach(filter => {
+                filter.addEventListener('change', filterCodes);
+            });
+
+            searchInput.addEventListener('input', filterCodes);
+            clearSearchBtn.addEventListener('click', clearSearch);
+            clearFiltersBtn.addEventListener('click', clearAllFilters);
+            copyAllBtn.addEventListener('click', copyAllActiveCodes);
+
+            // Initialize
+            filterCodes();
+        }
+
+        function filterCodes() {
+            const rewardType = document.getElementById('rewardTypeFilter').value;
+            const level = document.getElementById('levelFilter').value;
+            const expiry = document.getElementById('expiryFilter').value;
+            const searchTerm = document.getElementById('codeSearchInput').value.toLowerCase();
+
+            const codeItems = document.querySelectorAll('.code-item');
+            let visibleCount = 0;
+
+            codeItems.forEach(item => {
+                const rewards = item.dataset.rewards || '';
+                const requirement = item.dataset.requirement || '';
+                const expiryStatus = item.dataset.expiry || '';
+                const codeText = item.dataset.code || '';
+
+                let show = true;
+
+                // Filter by reward type
+                if (rewardType && !rewards.includes(rewardType)) {
+                    show = false;
+                }
+
+                // Filter by level requirement
+                if (level && requirement !== level) {
+                    show = false;
+                }
+
+                // Filter by expiry status
+                if (expiry && expiryStatus !== expiry) {
+                    show = false;
+                }
+
+                // Filter by search term
+                if (searchTerm && !codeText.toLowerCase().includes(searchTerm)) {
+                    show = false;
+                }
+
+                // Show/hide item
+                item.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+
+            // Update filter summary
+            updateFilterSummary(visibleCount, codeItems.length);
+        }
+
+        function updateFilterSummary(visible, total) {
+            const summaryElement = document.getElementById('filterResultsCount');
+            if (summaryElement) {
+                summaryElement.textContent = `Showing ${visible} of ${total} codes`;
+            }
+        }
+
+        function clearSearch() {
+            document.getElementById('codeSearchInput').value = '';
+            filterCodes();
+        }
+
+        function clearAllFilters() {
+            document.getElementById('rewardTypeFilter').value = '';
+            document.getElementById('levelFilter').value = '';
+            document.getElementById('expiryFilter').value = '';
+            document.getElementById('codeSearchInput').value = '';
+            filterCodes();
+        }
+
+        function copyAllActiveCodes() {
+            const activeCodes = Array.from(document.querySelectorAll('.code-item.active'))
+                .filter(item => item.style.display !== 'none')
+                .map(item => item.dataset.code);
+
+            if (activeCodes.length === 0) {
+                showCopyError('No active codes to copy');
+                return;
+            }
+
+            const codesText = activeCodes.join('\n');
+            navigator.clipboard.writeText(codesText).then(() => {
+                showCopyNotification(`Copied ${activeCodes.length} codes to clipboard!`);
+                
+                // Visual feedback on copy all button
+                const copyAllBtn = document.getElementById('copyAllActiveBtn');
+                const originalText = copyAllBtn.innerHTML;
+                copyAllBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                copyAllBtn.style.background = 'linear-gradient(45deg, #2ecc71, #27ae60)';
+                
+                setTimeout(() => {
+                    copyAllBtn.innerHTML = originalText;
+                    copyAllBtn.style.background = 'linear-gradient(45deg, #2ecc71, #27ae60)';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy codes:', err);
+                showCopyError('Failed to copy codes');
+            });
+        }
+
+        // Initialize filters when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFilters();
+        });
+    </script>
 </body>
 </html> 
