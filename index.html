@@ -2315,7 +2315,10 @@
 
                 // Filter by reward type
                 if (rewardType && rewardType !== 'all') {
-                    if (!rewards.includes(rewardType)) {
+                    // Check if the code has the specific reward type
+                    const hasRewardType = rewards.includes(rewardType);
+                    console.log(`Code ${codeText}: rewards=${rewards}, looking for=${rewardType}, hasRewardType=${hasRewardType}`);
+                    if (!hasRewardType) {
                         show = false;
                     }
                 }
@@ -2326,9 +2329,15 @@
                         if (requirement !== 'none') {
                             show = false;
                         }
+                    } else if (level === 'level5') {
+                        // Level 5+ should show codes with level5, level10, level30, level50
+                        if (!['level5', 'level10', 'level30', 'level50'].includes(requirement)) {
+                            show = false;
+                        }
                     } else if (requirement !== level) {
                         show = false;
                     }
+                    console.log(`Code ${codeText}: requirement=${requirement}, filter level=${level}, show=${show}`);
                 }
 
                 // Filter by expiry status
