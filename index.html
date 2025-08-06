@@ -512,6 +512,12 @@
             border: 1px solid rgba(162, 155, 254, 0.2);
         }
 
+        /* Unit Stats specific introduction styles */
+        .dps-intro {
+            background: rgba(108, 92, 231, 0.03);
+            border: 1px solid rgba(162, 155, 254, 0.1);
+        }
+
         .page-title {
             font-size: 2.5rem;
             font-weight: 700;
@@ -1039,6 +1045,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .dps-left, .dps-middle, .dps-right {
@@ -2342,34 +2349,7 @@
                 </ol>
             </nav>
 
-            <!-- Unit Stats Introduction -->
-            <section class="page-introduction dps-intro">
-                <div class="intro-container">
-                    <h1 class="page-title">Anime Vanguards Unit Stats</h1>
-                    <p class="page-subtitle">Complete Unit Database & Statistics</p>
-                    
-                    <div class="intro-content">
-                        <h2>Understanding Unit Stats and Performance</h2>
-                        <p>Unit stats in Anime Vanguards determine your team's effectiveness in battle. Our comprehensive database provides detailed unit statistics, performance metrics, and strategic insights to help you make informed decisions about unit investments and team composition.</p>
-                        
-                        <div class="dps-features">
-                            <h3>Unit Stats Features</h3>
-                            <ul>
-                                <li><strong>Detailed Statistics:</strong> Complete unit stats including damage, health, and special abilities</li>
-                                <li><strong>Performance Analysis:</strong> Compare units side-by-side to find the best options</li>
-                                <li><strong>Team Optimization:</strong> Analyze team synergies and composition effectiveness</li>
-                                <li><strong>Rarity Information:</strong> Detailed rarity classifications and obtain methods</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="dps-tips">
-                            <h3>Stats Optimization Tips</h3>
-                            <p>Consider unit synergies when building teams - some units perform better together. Use our <a href="#evolution" class="internal-link">Evolution Guide</a> to see how evolution affects unit stats. Check the <a href="#database" class="internal-link">Unit Database</a> for complete unit information and rarity details.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <!-- Unit Stats Tools - Moved to top for immediate access -->
             <div class="dps-page">
                 <!-- Left Column -->
                 <div class="dps-left">
@@ -2518,6 +2498,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Unit Stats Introduction - Moved below the tool -->
+            <section class="page-introduction dps-intro">
+                <div class="intro-container">
+                    <h1 class="page-title">Anime Vanguards Unit Stats</h1>
+                    <p class="page-subtitle">Complete Unit Database & Statistics</p>
+                    
+                    <div class="intro-content">
+                        <h2>Understanding Unit Stats and Performance</h2>
+                        <p>Unit stats in Anime Vanguards determine your team's effectiveness in battle. Our comprehensive database provides detailed unit statistics, performance metrics, and strategic insights to help you make informed decisions about unit investments and team composition.</p>
+                        
+                        <div class="dps-features">
+                            <h3>Unit Stats Features</h3>
+                            <ul>
+                                <li><strong>Detailed Statistics:</strong> Complete unit stats including damage, health, and special abilities</li>
+                                <li><strong>Performance Analysis:</strong> Compare units side-by-side to find the best options</li>
+                                <li><strong>Team Optimization:</strong> Analyze team synergies and composition effectiveness</li>
+                                <li><strong>Rarity Information:</strong> Detailed rarity classifications and obtain methods</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="dps-tips">
+                            <h3>Stats Optimization Tips</h3>
+                            <p>Consider unit synergies when building teams - some units perform better together. Use our <a href="#evolution" class="internal-link">Evolution Guide</a> to see how evolution affects unit stats. Check the <a href="#database" class="internal-link">Unit Database</a> for complete unit information and rarity details.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Related Tools Section -->
             <section class="related-tools">
