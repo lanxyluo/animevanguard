@@ -80,7 +80,12 @@ export class DatabasePage {
             itemsPerPage: document.getElementById('itemsPerPage'),
             pagination: document.getElementById('pagination'),
             viewToggle: document.querySelectorAll('.view-btn'),
-            quickFilterTags: document.querySelectorAll('.quick-filter-tag')
+            quickFilterTags: document.querySelectorAll('.quick-filter-tag'),
+            // Unit Comparison elements
+            compareUnit1: document.getElementById('compareUnit1'),
+            compareUnit2: document.getElementById('compareUnit2'),
+            compareUnit3: document.getElementById('compareUnit3'),
+            compareUnitsBtn: document.getElementById('compareUnits')
         };
         
         // Verify all required elements exist
@@ -182,6 +187,13 @@ export class DatabasePage {
                 this.updatePagination();
             });
         }
+
+        // Unit Comparison functionality
+        if (this.elements.compareUnitsBtn) {
+            this.elements.compareUnitsBtn.addEventListener('click', () => {
+                this.compareUnits();
+            });
+        }
     }
     
     loadUnits() {
@@ -195,6 +207,7 @@ export class DatabasePage {
         this.renderUnits();
         this.updateStats();
         this.updatePagination();
+        this.populateComparisonSelects();
     }
 
     applyQuickFilter(filter) {
@@ -267,6 +280,26 @@ export class DatabasePage {
         );
         this.renderUnits();
         this.updateStats();
+    }
+
+    populateComparisonSelects() {
+        if (!this.unitsData) return;
+        
+        const units = Object.values(this.unitsData);
+        const options = units.map(unit => 
+            `<option value="${unit.id}">${unit.name} (${unit.rarity})</option>`
+        ).join('');
+        
+        // Populate all three comparison selects
+        if (this.elements.compareUnit1) {
+            this.elements.compareUnit1.innerHTML = '<option value="">Select Unit</option>' + options;
+        }
+        if (this.elements.compareUnit2) {
+            this.elements.compareUnit2.innerHTML = '<option value="">Select Unit</option>' + options;
+        }
+        if (this.elements.compareUnit3) {
+            this.elements.compareUnit3.innerHTML = '<option value="">Select Unit</option>' + options;
+        }
     }
     
     applyFilters() {
@@ -1144,19 +1177,45 @@ export class DatabasePage {
         }
     }
     
-         compareUnits() {
-         this.compareSelectedUnits();
-     }
+             compareUnits() {
+        const unit1Id = this.elements.compareUnit1?.value;
+        const unit2Id = this.elements.compareUnit2?.value;
+        const unit3Id = this.elements.compareUnit3?.value;
+        
+        const unitsToCompare = [];
+        
+        if (unit1Id && this.unitsData[unit1Id]) {
+            unitsToCompare.push(this.unitsData[unit1Id]);
+        }
+        if (unit2Id && this.unitsData[unit2Id]) {
+            unitsToCompare.push(this.unitsData[unit2Id]);
+        }
+        if (unit3Id && this.unitsData[unit3Id]) {
+            unitsToCompare.push(this.unitsData[unit3Id]);
+        }
+        
+        if (unitsToCompare.length === 0) {
+            showError('Please select at least one unit to compare');
+            return;
+        }
+        
+        if (unitsToCompare.length === 1) {
+            showError('Please select at least two units to compare');
+            return;
+        }
+        
+        this.showComparison(unitsToCompare);
+    }
 
-     compareSelectedUnits() {
-         if (this.selectedUnits.length < 2) {
-             showNotification('请至少选择2个单位进行比较', 'warning');
-             return;
-         }
+         compareSelectedUnits() {
+        if (this.selectedUnits.length < 2) {
+            showNotification('Please select at least 2 units to compare', 'warning');
+            return;
+        }
 
-         const selectedUnitsData = this.selectedUnits.map(id => this.unitsData[id]).filter(unit => unit);
-         this.showComparison(selectedUnitsData);
-     }
+        const selectedUnitsData = this.selectedUnits.map(id => this.unitsData[id]).filter(unit => unit);
+        this.showComparison(selectedUnitsData);
+    }
     
     showComparison(units) {
         // Define comparison fields
