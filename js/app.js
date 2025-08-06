@@ -160,7 +160,7 @@ export class App {
             this.pageContainers[pageName].style.display = 'block';
         }
         
-        // Show/hide homepage intro based on current page
+        // Show/hide homepage intro and page introductions based on current page
         if (this.homepageIntro) {
             if (pageName === 'evolution') {
                 this.homepageIntro.style.display = 'block';
@@ -168,6 +168,16 @@ export class App {
                 this.homepageIntro.style.display = 'none';
             }
         }
+
+        // Handle page introductions
+        const pageIntros = document.querySelectorAll('.page-introduction');
+        pageIntros.forEach(intro => {
+            if (intro.parentElement.id === pageName + 'Page') {
+                intro.style.display = 'block';
+            } else {
+                intro.style.display = 'none';
+            }
+        });
         
         // Update navigation
         this.updateNavigation(pageName);
