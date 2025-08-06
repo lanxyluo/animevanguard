@@ -1079,6 +1079,22 @@
             color: #f39c12;
         }
 
+        .reward-icon.reroll {
+            color: #9b59b6;
+        }
+
+        .reward-icon.chip {
+            color: #3498db;
+        }
+
+        .reward-icon.shard {
+            color: #e67e22;
+        }
+
+        .reward-icon.crystal {
+            color: #e74c3c;
+        }
+
         .reward-amount {
             font-weight: bold;
             color: #ffffff;
@@ -1747,17 +1763,17 @@
                                 <div class="filter-group">
                                     <label for="rewardTypeFilter">Reward Type:</label>
                                     <select id="rewardTypeFilter" class="filter-select">
-                                        <option value="">All Rewards</option>
+                                        <option value="all">All Rewards</option>
                                         <option value="gems">Gems</option>
                                         <option value="gold">Gold</option>
                                         <option value="rerolls">Rerolls</option>
-                                        <option value="items">Items</option>
+                                        <option value="mixed">Mixed Rewards</option>
                                     </select>
                                 </div>
                                 <div class="filter-group">
                                     <label for="levelFilter">Level Requirement:</label>
                                     <select id="levelFilter" class="filter-select">
-                                        <option value="">All Levels</option>
+                                        <option value="all">All Levels</option>
                                         <option value="none">No Requirement</option>
                                         <option value="level5">Level 5+</option>
                                         <option value="level10">Level 10+</option>
@@ -1768,10 +1784,11 @@
                                 <div class="filter-group">
                                     <label for="expiryFilter">Expiry Status:</label>
                                     <select id="expiryFilter" class="filter-select">
-                                        <option value="">All Status</option>
+                                        <option value="all">All Status</option>
+                                        <option value="active">Active Only</option>
+                                        <option value="expired">Expired Only</option>
                                         <option value="permanent">Permanent</option>
                                         <option value="limited">Limited Time</option>
-                                        <option value="expiring">Expiring Soon</option>
                                     </select>
                                 </div>
                             </div>
@@ -1801,36 +1818,41 @@
                             <h4><i class="fas fa-check-circle"></i> Active Codes (Working)</h4>
                             <div class="codes-grid">
                                 <div class="code-item active" 
-                                     data-code="RELEASE"
-                                     data-rewards="gems,gold"
+                                     data-code="Freedom"
+                                     data-rewards="mixed"
                                      data-requirement="level10"
-                                     data-expiry="permanent"
-                                     data-type="milestone"
+                                     data-expiry="limited"
+                                     data-type="limited"
                                      data-added="2025-01-15"
                                      data-rarity="rare">
                                     <div class="code-header">
                                         <div class="code-info">
-                                            <span class="code-text">RELEASE</span>
+                                            <span class="code-text">Freedom</span>
                                             <div class="code-badges">
                                                 <span class="code-status active">Active</span>
                                                 <span class="requirement-badge">Level 10+</span>
                                                 <span class="new-badge">New</span>
                                             </div>
                                         </div>
-                                        <button class="copy-code-btn" onclick="copyCode('RELEASE')">
+                                        <button class="copy-code-btn" onclick="copyCode('Freedom')">
                                             <i class="fas fa-copy"></i>
                                             <span class="copy-text">Copy</span>
                                         </button>
                                     </div>
                                     <div class="code-rewards">
                                         <div class="reward-item">
+                                            <i class="fas fa-redo reward-icon reroll"></i>
+                                            <span class="reward-amount">10</span>
+                                            <span class="reward-type">Rerolls</span>
+                                        </div>
+                                        <div class="reward-item">
                                             <i class="fas fa-gem reward-icon gem"></i>
-                                            <span class="reward-amount">500</span>
+                                            <span class="reward-amount">1500</span>
                                             <span class="reward-type">Gems</span>
                                         </div>
                                         <div class="reward-item">
                                             <i class="fas fa-coins reward-icon gold"></i>
-                                            <span class="reward-amount">10,000</span>
+                                            <span class="reward-amount">5000</span>
                                             <span class="reward-type">Gold</span>
                                         </div>
                                     </div>
@@ -1839,41 +1861,41 @@
                                     </div>
                                     <div class="code-expiry">
                                         <i class="fas fa-clock"></i>
-                                        <span>Permanent - No expiry date</span>
+                                        <span>August 10, 2025</span>
                                     </div>
                                 </div>
                                 
                                 <div class="code-item active" 
-                                     data-code="THANKYOU"
-                                     data-rewards="gems,gold"
-                                     data-requirement="level5"
-                                     data-expiry="permanent"
-                                     data-type="event"
+                                     data-code="TheWorld"
+                                     data-rewards="mixed"
+                                     data-requirement="level30"
+                                     data-expiry="limited"
+                                     data-type="limited"
                                      data-added="2025-01-10"
                                      data-rarity="common">
                                     <div class="code-header">
                                         <div class="code-info">
-                                            <span class="code-text">THANKYOU</span>
+                                            <span class="code-text">TheWorld</span>
                                             <div class="code-badges">
                                                 <span class="code-status active">Active</span>
-                                                <span class="requirement-badge">Level 5+</span>
+                                                <span class="requirement-badge">Level 30+</span>
                                             </div>
                                         </div>
-                                        <button class="copy-code-btn" onclick="copyCode('THANKYOU')">
+                                        <button class="copy-code-btn" onclick="copyCode('TheWorld')">
                                             <i class="fas fa-copy"></i>
                                             <span class="copy-text">Copy</span>
                                         </button>
                                     </div>
                                     <div class="code-rewards">
                                         <div class="reward-item">
-                                            <i class="fas fa-gem reward-icon gem"></i>
-                                            <span class="reward-amount">300</span>
-                                            <span class="reward-type">Gems</span>
+                                            <i class="fas fa-redo reward-icon reroll"></i>
+                                            <span class="reward-amount">20</span>
+                                            <span class="reward-type">Rerolls</span>
                                         </div>
                                         <div class="reward-item">
-                                            <i class="fas fa-coins reward-icon gold"></i>
-                                            <span class="reward-amount">5,000</span>
-                                            <span class="reward-type">Gold</span>
+                                            <i class="fas fa-microchip reward-icon chip"></i>
+                                            <span class="reward-amount">20</span>
+                                            <span class="reward-type">Stat Chips</span>
                                         </div>
                                     </div>
                                     <div class="code-usage">
@@ -1886,36 +1908,36 @@
                                 </div>
                                 
                                 <div class="code-item active" 
-                                     data-code="WELCOME"
-                                     data-rewards="gems,gold"
+                                     data-code="Sasageyo"
+                                     data-rewards="gems"
                                      data-requirement="none"
-                                     data-expiry="permanent"
-                                     data-type="welcome"
+                                     data-expiry="limited"
+                                     data-type="limited"
                                      data-added="2025-01-05"
                                      data-rarity="common">
                                     <div class="code-header">
                                         <div class="code-info">
-                                            <span class="code-text">WELCOME</span>
+                                            <span class="code-text">Sasageyo</span>
                                             <div class="code-badges">
                                                 <span class="code-status active">Active</span>
                                                 <span class="requirement-badge">No Requirement</span>
                                             </div>
                                         </div>
-                                        <button class="copy-code-btn" onclick="copyCode('WELCOME')">
+                                        <button class="copy-code-btn" onclick="copyCode('Sasageyo')">
                                             <i class="fas fa-copy"></i>
                                             <span class="copy-text">Copy</span>
                                         </button>
                                     </div>
                                     <div class="code-rewards">
                                         <div class="reward-item">
-                                            <i class="fas fa-gem reward-icon gem"></i>
-                                            <span class="reward-amount">200</span>
-                                            <span class="reward-type">Gems</span>
+                                            <i class="fas fa-fire reward-icon shard"></i>
+                                            <span class="reward-amount">5</span>
+                                            <span class="reward-type">Phoenix Shards</span>
                                         </div>
                                         <div class="reward-item">
-                                            <i class="fas fa-coins reward-icon gold"></i>
-                                            <span class="reward-amount">3,000</span>
-                                            <span class="reward-type">Gold</span>
+                                            <i class="fas fa-gem reward-icon gem"></i>
+                                            <span class="reward-amount">1000</span>
+                                            <span class="reward-type">Gems</span>
                                         </div>
                                     </div>
                                     <div class="code-usage">
@@ -1923,7 +1945,60 @@
                                     </div>
                                     <div class="code-expiry">
                                         <i class="fas fa-clock"></i>
-                                        <span>Permanent - No expiry date</span>
+                                        <span>August 10, 2025</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="code-item active" 
+                                     data-code="1MILLION"
+                                     data-rewards="mixed"
+                                     data-requirement="none"
+                                     data-expiry="limited"
+                                     data-type="milestone"
+                                     data-added="2025-01-20"
+                                     data-rarity="legendary">
+                                    <div class="code-header">
+                                        <div class="code-info">
+                                            <span class="code-text">1MILLION</span>
+                                            <div class="code-badges">
+                                                <span class="code-status active">Active</span>
+                                                <span class="requirement-badge">No Requirement</span>
+                                                <span class="new-badge">New</span>
+                                            </div>
+                                        </div>
+                                        <button class="copy-code-btn" onclick="copyCode('1MILLION')">
+                                            <i class="fas fa-copy"></i>
+                                            <span class="copy-text">Copy</span>
+                                        </button>
+                                    </div>
+                                    <div class="code-rewards">
+                                        <div class="reward-item">
+                                            <i class="fas fa-redo reward-icon reroll"></i>
+                                            <span class="reward-amount">10</span>
+                                            <span class="reward-type">Trait Rerolls</span>
+                                        </div>
+                                        <div class="reward-item">
+                                            <i class="fas fa-gem reward-icon crystal"></i>
+                                            <span class="reward-amount">1</span>
+                                            <span class="reward-type">Corruption Crystal</span>
+                                        </div>
+                                        <div class="reward-item">
+                                            <i class="fas fa-coins reward-icon gold"></i>
+                                            <span class="reward-amount">10,000</span>
+                                            <span class="reward-type">Coins</span>
+                                        </div>
+                                        <div class="reward-item">
+                                            <i class="fas fa-microchip reward-icon chip"></i>
+                                            <span class="reward-amount">10</span>
+                                            <span class="reward-type">Stat Chips</span>
+                                        </div>
+                                    </div>
+                                    <div class="code-usage">
+                                        <p><strong>How to use:</strong> Enter in the game's code redemption menu</p>
+                                    </div>
+                                    <div class="code-expiry">
+                                        <i class="fas fa-clock"></i>
+                                        <span>August 2025</span>
                                     </div>
                                 </div>
                             </div>
@@ -2226,6 +2301,10 @@
             const codeItems = document.querySelectorAll('.code-item');
             let visibleCount = 0;
 
+            // Debug information
+            console.log('Total codes:', codeItems.length);
+            console.log('Current filters:', { rewardType, level, expiry, searchTerm });
+
             codeItems.forEach(item => {
                 const rewards = item.dataset.rewards || '';
                 const requirement = item.dataset.requirement || '';
@@ -2235,18 +2314,36 @@
                 let show = true;
 
                 // Filter by reward type
-                if (rewardType && !rewards.includes(rewardType)) {
-                    show = false;
+                if (rewardType && rewardType !== 'all') {
+                    if (!rewards.includes(rewardType)) {
+                        show = false;
+                    }
                 }
 
                 // Filter by level requirement
-                if (level && requirement !== level) {
-                    show = false;
+                if (level && level !== 'all') {
+                    if (level === 'none') {
+                        if (requirement !== 'none') {
+                            show = false;
+                        }
+                    } else if (requirement !== level) {
+                        show = false;
+                    }
                 }
 
                 // Filter by expiry status
-                if (expiry && expiryStatus !== expiry) {
-                    show = false;
+                if (expiry && expiry !== 'all') {
+                    if (expiry === 'active') {
+                        if (!item.classList.contains('active')) {
+                            show = false;
+                        }
+                    } else if (expiry === 'expired') {
+                        if (!item.classList.contains('expired')) {
+                            show = false;
+                        }
+                    } else if (expiryStatus !== expiry) {
+                        show = false;
+                    }
                 }
 
                 // Filter by search term
@@ -2261,6 +2358,7 @@
 
             // Update filter summary
             updateFilterSummary(visibleCount, codeItems.length);
+            console.log('Visible codes:', visibleCount);
         }
 
         function updateFilterSummary(visible, total) {
@@ -2276,9 +2374,9 @@
         }
 
         function clearAllFilters() {
-            document.getElementById('rewardTypeFilter').value = '';
-            document.getElementById('levelFilter').value = '';
-            document.getElementById('expiryFilter').value = '';
+            document.getElementById('rewardTypeFilter').value = 'all';
+            document.getElementById('levelFilter').value = 'all';
+            document.getElementById('expiryFilter').value = 'all';
             document.getElementById('codeSearchInput').value = '';
             filterCodes();
         }

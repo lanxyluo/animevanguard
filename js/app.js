@@ -210,5 +210,9 @@ export class App {
         if (expiredCountElement) {
             expiredCountElement.textContent = expiredCodes.length;
         }
+
+        // Debug information
+        console.log('Active codes count:', activeCodes.length);
+        console.log('Expired codes count:', expiredCodes.length);
     }
 } 
