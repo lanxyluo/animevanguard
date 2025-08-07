@@ -32,6 +32,11 @@ export class DatabasePage {
         
         // UI elements
         this.elements = {};
+        
+        // Selected units display
+        this.selectedUnitsDisplay = null;
+        this.selectedUnitsList = null;
+        this.clearAllSelectedBtn = null;
     }
     
     async initialize(data) {
@@ -85,7 +90,11 @@ export class DatabasePage {
             compareUnit1: document.getElementById('compareUnit1'),
             compareUnit2: document.getElementById('compareUnit2'),
             compareUnit3: document.getElementById('compareUnit3'),
-            compareUnitsBtn: document.getElementById('compareUnits')
+            compareUnitsBtn: document.getElementById('compareUnits'),
+            // Selected units display elements
+            selectedUnitsDisplay: document.getElementById('selectedUnitsDisplay'),
+            selectedUnitsList: document.getElementById('selectedUnitsDisplay')?.querySelector('.selected-units-list'),
+            clearAllSelectedBtn: document.getElementById('clearAllSelected')
         };
         
         // Verify all required elements exist
@@ -178,6 +187,13 @@ export class DatabasePage {
             });
         }
 
+        // Clear all selected button
+        if (this.elements.clearAllSelectedBtn) {
+            this.elements.clearAllSelectedBtn.addEventListener('click', () => {
+                this.clearAllSelected();
+            });
+        }
+
         // Items per page
         if (this.elements.itemsPerPage) {
             this.elements.itemsPerPage.addEventListener('change', (e) => {
@@ -208,6 +224,7 @@ export class DatabasePage {
         this.updateStats();
         this.updatePagination();
         this.populateComparisonSelects();
+        this.updateSelectedUnitsDisplay();
     }
 
     applyQuickFilter(filter) {
@@ -414,6 +431,9 @@ export class DatabasePage {
     createUnitCard(unit) {
         const card = document.createElement('div');
         card.className = 'unit-card';
+        if (this.selectedUnits.includes(unit.id)) {
+            card.classList.add('selected');
+        }
         card.dataset.unitId = unit.id;
         
         const elementIcon = this.elementIcons[unit.element] || 'fas fa-question';
@@ -541,13 +561,60 @@ export class DatabasePage {
             if (this.selectedUnits.length < 3) {
                 this.selectedUnits.push(unitId);
             } else {
-                showNotification('最多只能选择3个单位进行比较', 'warning');
+                showNotification('You can only select up to 3 units for comparison', 'warning');
                 return;
             }
         }
         
         this.updateCompareButton();
+        this.updateSelectedUnitsDisplay();
         this.renderUnits(); // Re-render to update selection buttons
+    }
+
+    removeSelectedUnit(unitId) {
+        const index = this.selectedUnits.indexOf(unitId);
+        if (index > -1) {
+            this.selectedUnits.splice(index, 1);
+            this.updateCompareButton();
+            this.updateSelectedUnitsDisplay();
+            this.renderUnits();
+        }
+    }
+
+    clearAllSelected() {
+        this.selectedUnits = [];
+        this.updateCompareButton();
+        this.updateSelectedUnitsDisplay();
+        this.renderUnits();
+        showNotification('All selected units cleared', 'info');
+    }
+
+    updateSelectedUnitsDisplay() {
+        if (!this.elements.selectedUnitsDisplay || !this.elements.selectedUnitsList) return;
+
+        if (this.selectedUnits.length === 0) {
+            this.elements.selectedUnitsDisplay.style.display = 'none';
+            return;
+        }
+
+        this.elements.selectedUnitsDisplay.style.display = 'flex';
+        
+        const selectedUnitsHTML = this.selectedUnits.map(unitId => {
+            const unit = this.unitsData[unitId];
+            if (!unit) return '';
+            
+            return `
+                <div class="selected-unit-tag">
+                    <span class="selected-unit-name">${unit.name}</span>
+                    <span class="selected-unit-rarity">${unit.rarity}</span>
+                    <button class="remove-selected-unit" onclick="databasePage.removeSelectedUnit('${unitId}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+        }).join('');
+
+        this.elements.selectedUnitsList.innerHTML = selectedUnitsHTML;
     }
 
     updateCompareButton() {

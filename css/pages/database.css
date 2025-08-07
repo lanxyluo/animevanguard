@@ -713,4 +713,126 @@
     .units-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
+}
+
+/* Selected Units Display Styles */
+.selected-units-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-right: 1rem;
+    padding: 0.5rem;
+    background: rgba(162, 155, 254, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(162, 155, 254, 0.3);
+}
+
+.selected-units-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.selected-unit-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(162, 155, 254, 0.2);
+    border: 1px solid rgba(162, 155, 254, 0.4);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.selected-unit-tag:hover {
+    background: rgba(162, 155, 254, 0.3);
+    border-color: rgba(162, 155, 254, 0.6);
+}
+
+.selected-unit-name {
+    font-weight: 500;
+}
+
+.selected-unit-rarity {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.remove-selected-unit {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    padding: 0.1rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    font-size: 0.7rem;
+}
+
+.remove-selected-unit:hover {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff5252;
+}
+
+.clear-selected-btn {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    color: #ff6b6b;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.clear-selected-btn:hover {
+    background: rgba(255, 107, 107, 0.3);
+    border-color: rgba(255, 107, 107, 0.6);
+    color: #ff5252;
+}
+
+/* Enhanced Unit Card Selection State */
+.unit-card.selected {
+    border: 2px solid #a29bfe;
+    box-shadow: 0 0 0 4px rgba(162, 155, 254, 0.2);
+}
+
+.compare-checkbox.checked {
+    background: #a29bfe !important;
+    color: #fff !important;
+}
+
+.compare-checkbox.checked i {
+    transform: rotate(45deg);
+}
+
+/* Results Control Bar Enhancement */
+.results-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .selected-units-display {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+    
+    .selected-units-list {
+        justify-content: center;
+    }
+    
+    .results-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
 } 

@@ -3558,6 +3558,16 @@
                             <option value="latest">Sort by Update Time</option>
                         </select>
                         
+                        <!-- Selected Units Display -->
+                        <div id="selectedUnitsDisplay" class="selected-units-display" style="display: none;">
+                            <div class="selected-units-list">
+                                <!-- Selected units will be displayed here -->
+                            </div>
+                            <button id="clearAllSelected" class="clear-selected-btn">
+                                <i class="fas fa-trash"></i> Clear All
+                            </button>
+                        </div>
+                        
                         <button id="compareButton" class="compare-button" disabled>
                             Compare Selected (<span id="selectedCount">0</span>)
                         </button>
