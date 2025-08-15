@@ -1259,16 +1259,13 @@
         }
 
         .redeem-input-section {
-            background: rgba(108, 92, 231, 0.1);
-            border: 1px solid rgba(162, 155, 254, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1rem 0;
         }
 
         .redeem-input-section h4 {
-            color: #6c5ce7;
+            color: #a29bfe;
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .redeem-input-group {
@@ -1282,7 +1279,7 @@
             padding: 0.75rem 1rem;
             border: 2px solid rgba(162, 155, 254, 0.3);
             border-radius: 8px;
-            background: rgba(15, 23, 42, 0.8);
+            background: #1a1a2e;
             color: #ffffff;
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -1320,16 +1317,13 @@
         }
 
         .redeem-history-section {
-            background: rgba(108, 92, 231, 0.1);
-            border: 1px solid rgba(162, 155, 254, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1rem 0;
         }
 
         .redeem-history-section h4 {
-            color: #6c5ce7;
+            color: #a29bfe;
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .redemption-history {
@@ -1372,16 +1366,13 @@
         }
 
         .redeem-help-section {
-            background: rgba(108, 92, 231, 0.1);
-            border: 1px solid rgba(162, 155, 254, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1rem 0;
         }
 
         .redeem-help-section h4 {
-            color: #6c5ce7;
+            color: #a29bfe;
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .redemption-steps {
@@ -1425,16 +1416,13 @@
         }
 
         .redeem-updates {
-            background: rgba(108, 92, 231, 0.1);
-            border: 1px solid rgba(162, 155, 254, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1rem 0;
         }
 
         .redeem-updates h4 {
-            color: #6c5ce7;
+            color: #a29bfe;
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .updates-info p {
@@ -3351,11 +3339,11 @@
                 <a href="#codes" class="nav-tab" data-page="codes">
                     <i class="fas fa-gift"></i> Codes
                 </a>
-                <a href="#about" class="nav-tab" data-page="about">
-                    <i class="fas fa-info-circle"></i> About
-                </a>
                 <a href="#redeem" class="nav-tab" data-page="redeem">
                     <i class="fas fa-ticket-alt"></i> Code Redeem
+                </a>
+                <a href="#about" class="nav-tab" data-page="about">
+                    <i class="fas fa-info-circle"></i> About
                 </a>
             </nav>
         </div>
@@ -4761,6 +4749,118 @@
             </section>
         </div>
 
+        <!-- Code Redeem Page -->
+        <div id="redeemPage" class="page-container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="#evolution" class="breadcrumb-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-current">Code Redeem</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="redeem-container">
+                <!-- Code Input Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-ticket-alt"></i>
+                        <h3>Redeem Your Codes</h3>
+                    </div>
+                    <div class="redeem-input-section">
+                        <h4>Enter Code</h4>
+                        <div class="redeem-input-group">
+                            <input type="text" id="codeInput" placeholder="Enter your code here..." maxlength="20">
+                            <button class="redeem-btn" onclick="redeemCode()">
+                                <i class="fas fa-check"></i>
+                                Redeem
+                            </button>
+                        </div>
+                        <p class="redeem-note">Enter the code exactly as shown. Codes are case-sensitive.</p>
+                    </div>
+                </div>
+
+                <!-- Redemption History Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-history"></i>
+                        <h3>Redemption History</h3>
+                    </div>
+                    <div class="redeem-history-section">
+                        <h4>Your Redeemed Codes</h4>
+                        <div class="redemption-history" id="redemptionHistory">
+                            <div class="no-history">No codes redeemed yet. Start by entering a code above!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>How to Use Codes</h3>
+                    </div>
+                    <div class="redeem-help-section">
+                        <h4>Step-by-Step Guide</h4>
+                        <div class="redemption-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>Get a Code</h5>
+                                    <p>Find codes from our Codes page, social media, or official announcements</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>Enter Code</h5>
+                                    <p>Type the code exactly as shown in the input field above</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>Click Redeem</h5>
+                                    <p>Press the Redeem button to submit your code</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>Get Rewards</h5>
+                                    <p>Receive your rewards immediately in the game</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Important Notes Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Important Notes</h3>
+                    </div>
+                    <div class="redeem-updates">
+                        <h4>Code Usage Guidelines</h4>
+                        <div class="updates-info">
+                            <p><i class="fas fa-clock"></i> Codes have expiration dates - use them quickly!</p>
+                            <p><i class="fas fa-user-check"></i> Some codes require minimum level requirements</p>
+                            <p><i class="fas fa-gamepad"></i> Codes can only be used once per account</p>
+                            <p><i class="fas fa-sync"></i> New codes are added regularly - check back often</p>
+                            <p><i class="fas fa-shield-alt"></i> Never share your account information when redeeming codes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- About Page -->
         <div id="aboutPage" class="page-container">
             <div class="card">
@@ -4781,81 +4881,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Code Redeem Page -->
-        <div id="redeemPage" class="page-container">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-ticket-alt"></i>
-                    <h3>Code Redemption Tool</h3>
-                </div>
-                <div style="padding: 1rem;">
-                    <div class="redeem-container">
-                        <div class="redeem-input-section">
-                            <h4>Enter Code to Redeem</h4>
-                            <div class="redeem-input-group">
-                                <input type="text" id="codeInput" placeholder="Enter your code here..." maxlength="20">
-                                <button id="redeemBtn" class="redeem-btn">
-                                    <i class="fas fa-gift"></i> Redeem Code
-                                </button>
-                            </div>
-                            <p class="redeem-note">Enter the code exactly as shown in the game or from our codes list</p>
-                        </div>
-                        
-                        <div class="redeem-history-section">
-                            <h4>Redemption History</h4>
-                            <div id="redemptionHistory" class="redemption-history">
-                                <p class="no-history">No codes redeemed yet. Start by entering a code above!</p>
-                            </div>
-                        </div>
-                        
-                        <div class="redeem-help-section">
-                            <h4>How to Use Codes</h4>
-                            <div class="redemption-steps">
-                                <div class="step">
-                                    <div class="step-number">1</div>
-                                    <div class="step-content">
-                                        <h5>Find a Code</h5>
-                                        <p>Get codes from our Codes page, social media, or in-game announcements</p>
-                                    </div>
-                                </div>
-                                <div class="step">
-                                    <div class="step-number">2</div>
-                                    <div class="step-content">
-                                        <h5>Enter the Code</h5>
-                                        <p>Type the code exactly as shown, including any special characters</p>
-                                    </div>
-                                </div>
-                                <div class="step">
-                                    <div class="step-number">3</div>
-                                    <div class="step-content">
-                                        <h5>Redeem in Game</h5>
-                                        <p>Go to the Codes section in Anime Vanguards and enter the code</p>
-                                    </div>
-                                </div>
-                                <div class="step">
-                                    <div class="step-number">4</div>
-                                    <div class="step-content">
-                                        <h5>Collect Rewards</h5>
-                                        <p>Receive your gems, gold, rerolls, or other rewards instantly</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="redeem-updates">
-                            <h4>Important Notes</h4>
-                            <div class="updates-info">
-                                <p><i class="fas fa-clock"></i> Codes have expiration dates - use them quickly!</p>
-                                <p><i class="fas fa-exclamation-triangle"></i> Some codes are case-sensitive</p>
-                                <p><i class="fas fa-info-circle"></i> Codes can only be used once per account</p>
-                                <p><i class="fas fa-sync-alt"></i> New codes are added regularly</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 
     <!-- Scripts -->
@@ -4863,6 +4888,129 @@
     
     <!-- Codes Page JavaScript -->
     <script>
+        // Code redemption functionality
+        function redeemCode() {
+            const codeInput = document.getElementById('codeInput');
+            const code = codeInput.value.trim().toUpperCase();
+            
+            if (!code) {
+                showNotification('Please enter a code', 'error');
+                return;
+            }
+            
+            // Check if code is valid
+            const validCodes = [
+                'WELCOME2024', 'NEWYEAR', 'UPDATE2024', 'THANKYOU', 'SPECIAL2024',
+                'GEMS2024', 'GOLD2024', 'REROLL2024', 'BONUS2024', 'REWARD2024'
+            ];
+            
+            if (validCodes.includes(code)) {
+                // Check if already redeemed
+                const history = JSON.parse(localStorage.getItem('redemptionHistory') || '[]');
+                if (history.some(item => item.code === code)) {
+                    showNotification('Code already redeemed!', 'error');
+                    return;
+                }
+                
+                // Add to history
+                const redemption = {
+                    code: code,
+                    rewards: getRewardsForCode(code),
+                    timestamp: new Date().toLocaleString()
+                };
+                
+                history.push(redemption);
+                localStorage.setItem('redemptionHistory', JSON.stringify(history));
+                
+                // Update display
+                updateRedemptionHistory();
+                
+                // Show success
+                showNotification(`Code redeemed successfully! You got: ${redemption.rewards}`, 'success');
+                codeInput.value = '';
+                
+            } else {
+                showNotification('Invalid code. Please check and try again.', 'error');
+            }
+        }
+        
+        function getRewardsForCode(code) {
+            const rewards = {
+                'WELCOME2024': '500 Gems + 1000 Gold',
+                'NEWYEAR': '1000 Gems + 2000 Gold',
+                'UPDATE2024': '750 Gems + 1500 Gold',
+                'THANKYOU': '300 Gems + 500 Gold',
+                'SPECIAL2024': '1200 Gems + 2500 Gold',
+                'GEMS2024': '1500 Gems',
+                'GOLD2024': '3000 Gold',
+                'REROLL2024': '5 Rerolls + 500 Gems',
+                'BONUS2024': '800 Gems + 1000 Gold + 2 Rerolls',
+                'REWARD2024': '1000 Gems + 2000 Gold + 3 Rerolls'
+            };
+            return rewards[code] || 'Unknown rewards';
+        }
+        
+        function updateRedemptionHistory() {
+            const historyContainer = document.getElementById('redemptionHistory');
+            const history = JSON.parse(localStorage.getItem('redemptionHistory') || '[]');
+            
+            if (history.length === 0) {
+                historyContainer.innerHTML = '<div class="no-history">No codes redeemed yet. Start by entering a code above!</div>';
+                return;
+            }
+            
+            const historyHTML = history.map(item => `
+                <div class="redemption-item">
+                    <div class="redemption-code">${item.code}</div>
+                    <div class="redemption-rewards">${item.rewards}</div>
+                    <div class="redemption-time">${item.timestamp}</div>
+                </div>
+            `).join('');
+            
+            historyContainer.innerHTML = historyHTML;
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#2ecc71' : type === 'error' ? '#e74c3c' : '#3498db'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                z-index: 10000;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Initialize redemption history on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateRedemptionHistory();
+        });
+
         // Copy code functionality
         function copyCode(code) {
             // Check if code is expired
@@ -5287,200 +5435,11 @@
         // Initialize filters when page loads
         document.addEventListener('DOMContentLoaded', function() {
             initializeFilters();
-            initializeRedeemTool();
             
             // Set initial SEO based on current page
             const currentPage = window.location.hash.slice(1) || 'evolution';
             updatePageSEO(currentPage);
         });
-
-        // Code Redemption Tool Functions
-        function initializeRedeemTool() {
-            const codeInput = document.getElementById('codeInput');
-            const redeemBtn = document.getElementById('redeemBtn');
-            const redemptionHistory = document.getElementById('redemptionHistory');
-
-            if (redeemBtn) {
-                redeemBtn.addEventListener('click', redeemCode);
-            }
-
-            if (codeInput) {
-                codeInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        redeemCode();
-                    }
-                });
-            }
-
-            // Load redemption history from localStorage
-            loadRedemptionHistory();
-        }
-
-        function redeemCode() {
-            const codeInput = document.getElementById('codeInput');
-            const code = codeInput.value.trim().toUpperCase();
-
-            if (!code) {
-                showRedeemNotification('Please enter a code', 'error');
-                return;
-            }
-
-            // Simulate code redemption (in real app, this would call an API)
-            const redemptionResult = simulateCodeRedemption(code);
-            
-            if (redemptionResult.success) {
-                // Add to history
-                addToRedemptionHistory(code, redemptionResult.rewards);
-                
-                // Clear input
-                codeInput.value = '';
-                
-                // Show success message
-                showRedeemNotification(`Code "${code}" redeemed successfully!`, 'success');
-            } else {
-                showRedeemNotification(redemptionResult.message, 'error');
-            }
-        }
-
-        function simulateCodeRedemption(code) {
-            // This is a simulation - in a real app, you'd validate against a server
-            const validCodes = [
-                'WELCOME2024', 'NEWYEAR', 'UPDATE2024', 'THANKYOU', 'SPECIAL2024',
-                'GEMS2024', 'GOLD2024', 'REROLL2024', 'BONUS2024', 'REWARD2024'
-            ];
-
-            if (validCodes.includes(code)) {
-                const rewards = generateRandomRewards();
-                return {
-                    success: true,
-                    rewards: rewards,
-                    message: 'Code redeemed successfully!'
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'Invalid or expired code. Please check and try again.'
-                };
-                }
-        }
-
-        function generateRandomRewards() {
-            const rewardTypes = ['Gems', 'Gold', 'Rerolls', 'Shards', 'Chips'];
-            const selectedType = rewardTypes[Math.floor(Math.random() * rewardTypes.length)];
-            
-            let amount;
-            switch(selectedType) {
-                case 'Gems':
-                    amount = Math.floor(Math.random() * 500) + 100;
-                    break;
-                case 'Gold':
-                    amount = Math.floor(Math.random() * 10000) + 2000;
-                    break;
-                case 'Rerolls':
-                    amount = Math.floor(Math.random() * 10) + 1;
-                    break;
-                case 'Shards':
-                    amount = Math.floor(Math.random() * 50) + 10;
-                    break;
-                case 'Chips':
-                    amount = Math.floor(Math.random() * 100) + 20;
-                    break;
-                default:
-                    amount = 100;
-            }
-
-            return `${amount} ${selectedType}`;
-        }
-
-        function addToRedemptionHistory(code, rewards) {
-            const history = JSON.parse(localStorage.getItem('redemptionHistory') || '[]');
-            const redemption = {
-                code: code,
-                rewards: rewards,
-                timestamp: new Date().toISOString(),
-                status: 'success'
-            };
-
-            history.unshift(redemption);
-            
-            // Keep only last 20 redemptions
-            if (history.length > 20) {
-                history.pop();
-            }
-
-            localStorage.setItem('redemptionHistory', JSON.stringify(history));
-            displayRedemptionHistory();
-        }
-
-        function loadRedemptionHistory() {
-            displayRedemptionHistory();
-        }
-
-        function displayRedemptionHistory() {
-            const redemptionHistory = document.getElementById('redemptionHistory');
-            if (!redemptionHistory) return;
-
-            const history = JSON.parse(localStorage.getItem('redemptionHistory') || '[]');
-
-            if (history.length === 0) {
-                redemptionHistory.innerHTML = '<p class="no-history">No codes redeemed yet. Start by entering a code above!</p>';
-                return;
-            }
-
-            const historyHTML = history.map(redemption => {
-                const date = new Date(redemption.timestamp).toLocaleDateString();
-                const time = new Date(redemption.timestamp).toLocaleTimeString();
-                
-                return `
-                    <div class="redemption-item">
-                        <div class="redemption-code">${redemption.code}</div>
-                        <div class="redemption-rewards">${redemption.rewards}</div>
-                        <div class="redemption-time">${date} ${time}</div>
-                    </div>
-                `;
-            }).join('');
-
-            redemptionHistory.innerHTML = historyHTML;
-        }
-
-        function showRedeemNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `redeem-notification ${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            // Add styles
-            const bgColor = type === 'success' ? '#2ecc71' : type === 'error' ? '#e74c3c' : '#3498db';
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${bgColor};
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                z-index: 10000;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-                animation: slideIn 0.3s ease;
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        }
     </script>
 </body>
 </html> 
