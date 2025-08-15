@@ -81,6 +81,7 @@ export class App {
             evolution: document.getElementById('evolutionPage'),
             dps: document.getElementById('dpsPage'),
             database: document.getElementById('databasePage'),
+            traits: document.getElementById('traitsPage'),
             codes: document.getElementById('codesPage'),
             about: document.getElementById('aboutPage')
         };
@@ -261,7 +262,7 @@ export class App {
     updatePageSEO(pageName) {
         const seoData = {
             home: {
-                title: "Anime Vanguards Wiki - Evolution Guide, Unit Stats & Codes | Roblox",
+                title: "Anime Vanguards Wiki - Evolution Guide, Unit Stats, Traits Guide & Codes | Roblox",
                 description: "Complete Anime Vanguards wiki with evolution guides, unit stats, database, and free codes. Your ultimate resource for Anime Vanguards gameplay optimization.",
                 keywords: "anime vanguards wiki, evolution guide, unit stats, unit database, free codes, roblox anime vanguards"
             },
