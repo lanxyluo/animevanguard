@@ -1,29 +1,7 @@
 // Anime Vanguards Traits 数据结构定义
 
-export interface Trait {
-  id: string;
-  name: string;
-  description: string;
-  rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Mythic';
-  category: 'Attack' | 'Defense' | 'Utility' | 'Special' | 'Support';
-  effect: {
-    type: string;
-    value: string;
-    description: string;
-  };
-  cost: {
-    rerollStones: number;
-    gems?: number;
-  };
-  tier: 'S' | 'A' | 'B' | 'C' | 'D';
-  compatibleUnits: string[]; // ["All"] 或具体单位名称
-  imageUrl?: string;
-  notes?: string;
-  gameMode?: 'Story' | 'Infinite' | 'Raids' | 'All';
-}
-
 // 完整的Traits数据集
-export const traitsData: Trait[] = [
+export const traitsData = [
   // ====== COMMON TRAITS ======
   {
     id: "sharp",
@@ -310,10 +288,10 @@ export const traitsData: Trait[] = [
 ];
 
 // 分类和筛选用的常量
-export const TRAIT_RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'] as const;
-export const TRAIT_CATEGORIES = ['Attack', 'Defense', 'Utility', 'Special', 'Support'] as const;
-export const TRAIT_TIERS = ['S', 'A', 'B', 'C', 'D'] as const;
-export const GAME_MODES = ['Story', 'Infinite', 'Raids', 'All'] as const;
+export const TRAIT_RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'];
+export const TRAIT_CATEGORIES = ['Attack', 'Defense', 'Utility', 'Special', 'Support'];
+export const TRAIT_TIERS = ['S', 'A', 'B', 'C', 'D'];
+export const GAME_MODES = ['Story', 'Infinite', 'Raids', 'All'];
 
 // 颜色映射
 export const RARITY_COLORS = {
