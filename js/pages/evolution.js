@@ -118,7 +118,7 @@ class EvolutionGuideManager {
       
       // 使用组件系统更新各个显示区域
       if (this.costSummary) {
-        this.costSummary.updateUnit(unit);
+        this.costSummary.updateCost(unit);
       }
       
       if (this.materialsList) {

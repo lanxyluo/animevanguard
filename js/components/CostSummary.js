@@ -142,12 +142,28 @@ export class CostSummary {
         // Clear container
         this.container.innerHTML = '';
         
-        // Get evolution data
-        const evolutionData = evolutionUtils.getEvolutionData(unit.id);
-        if (!evolutionData) {
+        // Check if unit has requirements (from Evolution page data)
+        if (!unit.requirements && !unit.evolutions) {
             this.showNoEvolutionData();
             return;
         }
+        
+        // Create a compatible evolution data structure
+        const evolutionData = {
+            evolutions: unit.evolutions || [{
+                tier: 1,
+                name: unit.name,
+                requirements: {
+                    level: 1,
+                    cost: 0,
+                    materials: []
+                }
+            }, {
+                tier: 2,
+                name: unit.evolutionName || `${unit.name} (Evolved)`,
+                requirements: unit.requirements || { cost: 15000, materials: [] }
+            }]
+        };
         
         // Calculate total costs
         const costBreakdown = this.calculateCostBreakdown(evolutionData);
@@ -183,7 +199,7 @@ export class CostSummary {
         
         evolutionData.evolutions.forEach(evolution => {
             // Add gold cost
-            totalGoldCost += evolution.requirements.cost;
+            totalGoldCost += evolution.requirements.cost || 0;
             
             // Add gems cost
             if (evolution.requirements.gems) {
@@ -191,15 +207,21 @@ export class CostSummary {
             }
             
             // Calculate material costs
-            evolution.requirements.materials.forEach(materialString => {
-                const parsedMaterial = evolutionUtils.parseMaterialString(materialString);
-                const materialData = evolutionUtils.getMaterialData(parsedMaterial.name);
-                
-                if (materialData) {
-                    totalMaterialCost += materialData.cost * parsedMaterial.quantity;
+            const materials = evolution.requirements.materials || [];
+            materials.forEach(material => {
+                if (typeof material === 'string') {
+                    // Handle string format: "Material Name x5"
+                    const parsedMaterial = this.parseMaterialString(material);
+                    totalMaterials += parsedMaterial.quantity;
+                    // Estimate cost (since we don't have material database)
+                    totalMaterialCost += parsedMaterial.quantity * 100; // Default cost per material
+                } else if (typeof material === 'object' && material.count) {
+                    // Handle object format: { name: "Material Name", count: 5 }
+                    totalMaterials += material.count;
+                    // Estimate cost based on rarity
+                    const rarityMultiplier = this.getRarityMultiplier(material.rarity);
+                    totalMaterialCost += material.count * 100 * rarityMultiplier;
                 }
-                
-                totalMaterials += parsedMaterial.quantity;
             });
         });
         
@@ -210,6 +232,34 @@ export class CostSummary {
             totalMaterials,
             grandTotal: totalGoldCost + totalMaterialCost
         };
+    }
+    
+    // Helper method to parse material strings
+    parseMaterialString(materialString) {
+        const match = materialString.match(/^(.+?)\s*x\s*(\d+)$/);
+        if (match) {
+            return {
+                name: match[1].trim(),
+                quantity: parseInt(match[2])
+            };
+        }
+        return {
+            name: materialString.trim(),
+            quantity: 1
+        };
+    }
+    
+    // Helper method to get rarity multiplier for cost estimation
+    getRarityMultiplier(rarity) {
+        const multipliers = {
+            'Common': 1,
+            'Uncommon': 2,
+            'Rare': 5,
+            'Epic': 10,
+            'Legendary': 20,
+            'Mythic': 50
+        };
+        return multipliers[rarity] || 1;
     }
     
     renderTotalCosts(costBreakdown, container) {
@@ -304,23 +354,25 @@ export class CostSummary {
         let materialCost = 0;
         let materialCount = 0;
         
-        evolution.requirements.materials.forEach(materialString => {
-            const parsedMaterial = evolutionUtils.parseMaterialString(materialString);
-            const materialData = evolutionUtils.getMaterialData(parsedMaterial.name);
-            
-            if (materialData) {
-                materialCost += materialData.cost * parsedMaterial.quantity;
+        const materials = evolution.requirements.materials || [];
+        materials.forEach(material => {
+            if (typeof material === 'string') {
+                const parsedMaterial = this.parseMaterialString(material);
+                materialCount += parsedMaterial.quantity;
+                materialCost += parsedMaterial.quantity * 100; // Default cost
+            } else if (typeof material === 'object' && material.count) {
+                materialCount += material.count;
+                const rarityMultiplier = this.getRarityMultiplier(material.rarity);
+                materialCost += material.count * 100 * rarityMultiplier;
             }
-            
-            materialCount += parsedMaterial.quantity;
         });
         
         return {
-            goldCost: evolution.requirements.cost,
+            goldCost: evolution.requirements.cost || 0,
             gemsCost: evolution.requirements.gems || 0,
             materialCost,
             materialCount,
-            totalCost: evolution.requirements.cost + materialCost
+            totalCost: (evolution.requirements.cost || 0) + materialCost
         };
     }
     

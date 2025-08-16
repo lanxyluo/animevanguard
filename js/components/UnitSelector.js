@@ -145,16 +145,23 @@ export class UnitSelector {
         this.filteredUnits = [...this.allUnits];
         
         console.log(`UnitSelector: Loaded ${this.allUnits.length} units from Unit Database`);
+        console.log('🔍 Debug: Units data received:', this.allUnits);
+        console.log('🔍 Debug: RARITIES constant:', RARITIES);
+        console.log('🔍 Debug: ELEMENTS constant:', ELEMENTS);
         
         // Data statistics and validation
         this.analyzeDataDistribution();
         this.validateDataCompleteness();
         
         // 更新筛选器显示数量
+        console.log('🔄 Updating filter counts...');
         this.updateRarityFilterCounts();
         this.populateElementFilter(); // 重新填充元素筛选器以显示数量
         
+        console.log('🔄 Populating unit select...');
         this.populateUnitSelect();
+        
+        console.log('✅ All filters and unit select updated');
     }
     
     analyzeDataDistribution() {
