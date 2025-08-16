@@ -5,6 +5,7 @@ import { FarmingGuide } from '../components/FarmingGuide.js';
 import { showError } from '../utils/dom.js';
 import { validateUnitData, validateMaterialsConfig, validateElementIcons } from '../utils/validation.js';
 import { unitsData } from '../config/units.js';
+import { EVOLUTION_UNITS } from '../config/evolutionUnits.js';
 import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
 
 export class EvolutionPage {
@@ -30,8 +31,8 @@ export class EvolutionPage {
     async initialize(data) {
         console.log('🚀 Initializing Evolution Page...');
         
-        // Use Unit Database data and filter units that can evolve
-        this.unitsData = unitsData.filter(unit => unit.evolution && unit.evolution !== "Base Form");
+        // Use dedicated evolution units data for better consistency
+        this.unitsData = EVOLUTION_UNITS;
         this.materialsConfig = data.materialsConfig;
         this.elementIcons = data.elementIcons;
         

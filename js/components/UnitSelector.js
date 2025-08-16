@@ -168,32 +168,59 @@ export class UnitSelector {
     }
     
     extractSeriesFromUnit(unit) {
-        // Try to extract series from description or use default based on unit name
-        if (unit.description) {
-            // Common anime series patterns
-            if (unit.description.includes('Dragon Ball') || unit.name.includes('Goku') || unit.name.includes('Vegeta')) {
-                return 'Dragon Ball';
+        // Check if this is evolution unit data or regular unit data
+        const isEvolutionUnit = unit.hasOwnProperty('canEvolve');
+        
+        if (isEvolutionUnit) {
+            // For evolution units, use obtainMethod and name to determine series
+            if (unit.obtainMethod) {
+                if (unit.obtainMethod.includes('Red Key Quest') || unit.name.includes('Song Jinwu')) {
+                    return 'Solo Leveling';
+                }
+                if (unit.obtainMethod.includes('Martial Island') || unit.name.includes('Roku')) {
+                    return 'Dragon Ball';
+                }
+                if (unit.name.includes('Alocard') || unit.name.includes('Vampire')) {
+                    return 'Hellsing';
+                }
+                if (unit.name.includes('Slime') || unit.name.includes('King')) {
+                    return 'That Time I Got Reincarnated as a Slime';
+                }
+                if (unit.name.includes('Saber') || unit.name.includes('Black Tyrant')) {
+                    return 'Fate';
+                }
+                if (unit.name.includes('Lfelt') || unit.name.includes('Love')) {
+                    return 'Overlord';
+                }
             }
-            if (unit.description.includes('One Punch Man') || unit.name.includes('Saitama')) {
-                return 'One Punch Man';
-            }
-            if (unit.description.includes('Demon Slayer') || unit.name.includes('Tanjiro') || unit.name.includes('Zenitsu')) {
-                return 'Demon Slayer';
-            }
-            if (unit.description.includes('Naruto') || unit.name.includes('Naruto') || unit.name.includes('Sasuke')) {
-                return 'Naruto';
-            }
-            if (unit.description.includes('My Hero Academia') || unit.name.includes('Deku') || unit.name.includes('All Might')) {
-                return 'My Hero Academia';
-            }
-            if (unit.description.includes('Bleach') || unit.name.includes('Ichigo')) {
-                return 'Bleach';
-            }
-            if (unit.description.includes('One Piece') || unit.name.includes('Luffy')) {
-                return 'One Piece';
-            }
-            if (unit.description.includes('Fate') || unit.name.includes('Saber') || unit.name.includes('Gilgamesh')) {
-                return 'Fate';
+            return 'Anime Vanguards';
+        } else {
+            // Regular unit data structure
+            if (unit.description) {
+                if (unit.description.includes('Dragon Ball') || unit.name.includes('Goku') || unit.name.includes('Vegeta')) {
+                    return 'Dragon Ball';
+                }
+                if (unit.description.includes('One Punch Man') || unit.name.includes('Saitama')) {
+                    return 'One Punch Man';
+                }
+                if (unit.description.includes('Demon Slayer') || unit.name.includes('Tanjiro') || unit.name.includes('Zenitsu')) {
+                    return 'Demon Slayer';
+                }
+                if (unit.description.includes('Naruto') || unit.name.includes('Naruto') || unit.name.includes('Sasuke')) {
+                    return 'Naruto';
+                }
+                if (unit.description.includes('My Hero Academia') || unit.name.includes('Deku') || unit.name.includes('All Might')) {
+                    return 'My Hero Academia';
+                }
+                if (unit.description.includes('Bleach') || unit.name.includes('Ichigo')) {
+                    return 'Bleach';
+                }
+                if (unit.description.includes('One Piece') || unit.name.includes('Luffy')) {
+                    return 'One Piece';
+                }
+                if (unit.description.includes('Fate') || unit.name.includes('Saber') || unit.name.includes('Gilgamesh')) {
+                    return 'Fate';
+                }
             }
         }
         
@@ -404,12 +431,12 @@ export class UnitSelector {
         }, 5000);
     }
     
-    // New filtering logic function for Unit Database data
+    // New filtering logic function for Evolution Units data
     filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
         return units.filter(unit => {
-            // 1. Only show units that can evolve (have evolution field and not "Base Form")
-            if (!unit.evolution || unit.evolution === "Base Form") {
-                console.log(`❌ 过滤掉 ${unit.name}: 无进化路径或为基础形态`);
+            // 1. Only show units that can evolve
+            if (!unit.canEvolve) {
+                console.log(`❌ 过滤掉 ${unit.name}: 不可进化`);
                 return false;
             }
             
@@ -429,10 +456,10 @@ export class UnitSelector {
             if (searchTerm) {
                 const searchLower = searchTerm.toLowerCase();
                 const nameMatch = unit.name.toLowerCase().includes(searchLower);
-                const evolutionMatch = unit.evolution.toLowerCase().includes(searchLower);
-                const descriptionMatch = unit.description && unit.description.toLowerCase().includes(searchLower);
+                const evolutionMatch = unit.evolutionName && unit.evolutionName.toLowerCase().includes(searchLower);
+                const obtainMatch = unit.obtainMethod && unit.obtainMethod.toLowerCase().includes(searchLower);
                 
-                if (!nameMatch && !evolutionMatch && !descriptionMatch) {
+                if (!nameMatch && !evolutionMatch && !obtainMatch) {
                     console.log(`❌ 过滤掉 ${unit.name}: 搜索词不匹配 "${searchTerm}"`);
                     return false;
                 }
