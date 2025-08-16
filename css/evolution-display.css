@@ -198,7 +198,7 @@
 
 /* 成本总结样式 */
 .cost-summary {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+    background: rgba(30, 41, 59, 0.8);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
@@ -530,6 +530,98 @@
     text-align: center;
 }
 
+/* 筛选器优化样式 */
+.filter-results {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(51, 65, 85, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(71, 85, 105, 0.2);
+}
+
+.filter-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.total-count {
+    color: #f1f5f9;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.evolution-count {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.no-evolution-warning {
+    color: #ef4444;
+    font-weight: 600;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.filter-help {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(51, 65, 85, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(71, 85, 105, 0.2);
+}
+
+.filter-help summary {
+    color: #f1f5f9;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 0;
+    user-select: none;
+}
+
+.filter-help summary:hover {
+    color: #3b82f6;
+}
+
+.help-content {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.help-content p {
+    color: #94a3b8;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.help-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.help-content li {
+    color: #94a3b8;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.help-content li:before {
+    content: "•";
+    color: #3b82f6;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.help-content strong {
+    color: #f1f5f9;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .requirements-grid {
@@ -548,6 +640,10 @@
     
     .step-number {
         align-self: flex-start;
+    }
+    
+    .filter-stats {
+        text-align: center;
     }
 }
 

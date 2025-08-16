@@ -3,6 +3,7 @@ import { debounce } from '../utils/helpers.js';
 import { getElementColor } from '../utils/helpers.js';
 import { showError } from '../utils/dom.js';
 import { DataValidator } from '../utils/dataValidator.js';
+import { FilterOptimizer } from '../utils/filterOptimizer.js';
 import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
 
 export class UnitSelector {
@@ -20,6 +21,9 @@ export class UnitSelector {
         this.currentUnit = null;
         this.filteredUnits = [];
         this.allUnits = [];
+        
+        // 筛选器优化器
+        this.filterOptimizer = new FilterOptimizer();
         
         // DOM elements
         this.unitSearch = null;
@@ -41,6 +45,9 @@ export class UnitSelector {
         this.populateElementFilter();
         this.bindEvents();
         this.render();
+        
+        // 优化筛选器
+        this.filterOptimizer.optimizeUnitFilter();
     }
     
     findExistingElements() {
@@ -298,8 +305,16 @@ export class UnitSelector {
             elementFilter: elementFilter || 'All Element' 
         });
         
-        // Use new filtering logic
-        this.filteredUnits = this.filterEvolutionUnits(this.allUnits, rarityFilter, elementFilter, searchTerm);
+        // 检查是否为Evolution Ready筛选
+        if (rarityFilter === 'evolution-ready') {
+            this.filteredUnits = this.filterOptimizer.applyFilterPreset('evolution-ready', this.allUnits);
+        } else {
+            // Use new filtering logic
+            this.filteredUnits = this.filterEvolutionUnits(this.allUnits, rarityFilter, elementFilter, searchTerm);
+        }
+        
+        // 更新筛选结果计数
+        this.filterOptimizer.updateFilterCount(this.filteredUnits);
         
         // Show unit count after filtering
         console.log(`📊 Units after filtering: ${this.filteredUnits.length}`);
