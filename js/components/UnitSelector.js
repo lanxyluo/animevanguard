@@ -102,7 +102,7 @@ export class UnitSelector {
         
         console.log(`UnitSelector: Loaded ${this.allUnits.length} evolution units`);
         
-        // 数据统计和验证
+        // Data statistics and validation
         this.analyzeDataDistribution();
         this.validateDataCompleteness();
         
@@ -115,35 +115,35 @@ export class UnitSelector {
         const rarityElementCount = {};
         
         this.allUnits.forEach(unit => {
-            // 统计稀有度
+            // Count rarities
             rarityCount[unit.rarity] = (rarityCount[unit.rarity] || 0) + 1;
             
-            // 统计元素
+            // Count elements
             elementCount[unit.element] = (elementCount[unit.element] || 0) + 1;
             
-            // 统计稀有度+元素组合
+            // Count rarity + element combinations
             const key = `${unit.rarity} + ${unit.element}`;
             rarityElementCount[key] = (rarityElementCount[key] || 0) + 1;
         });
         
-        console.log('=== 数据分布统计 ===');
-        console.log('稀有度分布:', rarityCount);
-        console.log('元素分布:', elementCount);
-        console.log('稀有度+元素组合分布:', rarityElementCount);
-        console.log('=== 统计结束 ===');
+        console.log('=== Data Distribution Statistics ===');
+        console.log('Rarity distribution:', rarityCount);
+        console.log('Element distribution:', elementCount);
+        console.log('Rarity + Element combination distribution:', rarityElementCount);
+        console.log('=== Statistics End ===');
     }
     
     validateDataCompleteness() {
-        console.log('\n🔍 开始数据完整性验证...');
+        console.log('\n🔍 Starting data completeness validation...');
         const validator = new DataValidator(this.allUnits);
         const results = validator.validateData();
         
-        // 生成对比表
+        // Generate comparison table
         validator.generateComparisonTable();
         
-        // 如果发现问题，在控制台显示警告
+        // If issues are found, display warnings in console
         if (results.potentialIssues.length > 0) {
-            console.warn('⚠️ 发现潜在问题，请检查Wiki数据是否完整！');
+            console.warn('⚠️ Potential issues found, please check if Wiki data is complete!');
         }
         
         return results;
@@ -174,66 +174,66 @@ export class UnitSelector {
     }
     
     handleUnitSelect(e) {
-        console.log('🎯 === 单位选择事件触发 ===');
-        console.log('📝 事件对象:', e);
-        console.log('🎛️ 选择的值:', e.target.value);
+        console.log('🎯 === Unit Selection Event Triggered ===');
+        console.log('📝 Event object:', e);
+        console.log('🎛️ Selected value:', e.target.value);
         
         const unitId = e.target.value;
         if (unitId) {
-            console.log('🔍 查找单位 ID:', unitId);
+            console.log('🔍 Looking for unit ID:', unitId);
             const unit = this.allUnits.find(u => u.id === unitId);
             if (unit) {
-                console.log('✅ 找到单位:', unit);
+                console.log('✅ Found unit:', unit);
                 this.selectUnit(unit);
             } else {
-                console.error('❌ 未找到单位 ID:', unitId);
+                console.error('❌ Unit ID not found:', unitId);
             }
         } else {
-            console.log('🗑️ 清除选择');
+            console.log('🗑️ Clear selection');
             this.clearSelection();
         }
-        console.log('🎯 === 单位选择事件结束 ===\n');
+        console.log('🎯 === Unit Selection Event Ended ===\n');
     }
     
     filterAndDisplayUnits(searchTerm = '') {
         const rarityFilter = this.rarityFilter ? this.rarityFilter.value : '';
         const elementFilter = this.elementFilter ? this.elementFilter.value : '';
         
-        // 显示筛选前的单位数量
-        console.log('🔍 === 筛选逻辑开始 ===');
-        console.log(`📊 筛选前单位总数: ${this.allUnits.length}`);
-        console.log('🎯 当前筛选条件:', { 
-            searchTerm: searchTerm || '无', 
+        // Show unit count before filtering
+        console.log('🔍 === Filtering Logic Started ===');
+        console.log(`📊 Total units before filtering: ${this.allUnits.length}`);
+        console.log('🎯 Current filter conditions:', { 
+            searchTerm: searchTerm || 'None', 
             rarityFilter: rarityFilter || 'All Rarity', 
             elementFilter: elementFilter || 'All Element' 
         });
         
-        // 使用新的筛选逻辑
+        // Use new filtering logic
         this.filteredUnits = this.filterEvolutionUnits(this.allUnits, rarityFilter, elementFilter, searchTerm);
         
-        // 显示筛选后的单位数量
-        console.log(`📊 筛选后单位数量: ${this.filteredUnits.length}`);
-        console.log(`📈 筛选效率: ${((this.filteredUnits.length / this.allUnits.length) * 100).toFixed(1)}%`);
+        // Show unit count after filtering
+        console.log(`📊 Units after filtering: ${this.filteredUnits.length}`);
+        console.log(`📈 Filter efficiency: ${((this.filteredUnits.length / this.allUnits.length) * 100).toFixed(1)}%`);
         
-        // 显示筛选结果详情
+        // Show filtering result details
         if (this.filteredUnits.length > 0) {
-            console.log('✅ 筛选结果详情:');
+            console.log('✅ Filtering result details:');
             this.filteredUnits.forEach((unit, index) => {
                 console.log(`  ${index + 1}. ${unit.name} (${unit.rarity}, ${unit.element}) → ${unit.evolutionName}`);
             });
         } else {
-            console.log('❌ 没有找到匹配的单位');
+            console.log('❌ No matching units found');
         }
-        console.log('🔍 === 筛选逻辑结束 ===\n');
+        console.log('🔍 === Filtering Logic Ended ===\n');
         
-        // 更新单位计数显示
+        // Update unit count display
         this.updateUnitCount();
         
         // Update unit select dropdown
         if (this.unitSelect) {
             this.unitSelect.innerHTML = '<option value="">Select Unit...</option>';
             if (this.filteredUnits.length === 0) {
-                // 优化空状态处理
+                // Optimize empty state handling
                 this.handleEmptyState(rarityFilter, elementFilter, searchTerm);
             } else {
                 this.filteredUnits.forEach(unit => {
@@ -246,12 +246,12 @@ export class UnitSelector {
         }
     }
     
-    // 更新单位计数显示
+            // Update unit count display
     updateUnitCount() {
-        // 查找或创建计数显示元素
+        // Find or create count display element
         let countDisplay = document.getElementById('unitCountDisplay');
         if (!countDisplay) {
-            // 在筛选区域附近创建计数显示
+            // Create count display near filter area
             const filterSection = document.querySelector('.filter-section');
             if (filterSection) {
                 countDisplay = document.createElement('div');
@@ -283,13 +283,13 @@ export class UnitSelector {
         }
     }
     
-    // 处理空状态
+            // Handle empty state
     handleEmptyState(rarityFilter, elementFilter, searchTerm) {
-        // 创建友好的空状态提示
+        // Create friendly empty state message
         const option = document.createElement('option');
         option.value = '';
         
-        // 根据筛选条件提供不同的提示信息
+        // Provide different messages based on filter conditions
         if (searchTerm) {
             option.textContent = `No units found matching "${searchTerm}"`;
         } else if (rarityFilter && elementFilter) {
@@ -304,27 +304,27 @@ export class UnitSelector {
         
         this.unitSelect.appendChild(option);
         
-        // 添加视觉提示
+        // Add visual indicator
         this.showEmptyStateMessage(rarityFilter, elementFilter, searchTerm);
     }
     
-    // 显示空状态消息
+            // Show empty state message
     showEmptyStateMessage(rarityFilter, elementFilter, searchTerm) {
-        // 查找或创建空状态消息容器
+        // Find or create empty state message container
         let emptyStateContainer = document.getElementById('emptyStateMessage');
         if (!emptyStateContainer) {
             emptyStateContainer = document.createElement('div');
             emptyStateContainer.id = 'emptyStateMessage';
             emptyStateContainer.className = 'empty-state-message';
             
-            // 插入到单位选择器附近
+            // Insert near unit selector
             const unitSelectorContainer = document.getElementById(this.containerId);
             if (unitSelectorContainer) {
                 unitSelectorContainer.appendChild(emptyStateContainer);
             }
         }
         
-        // 根据筛选条件生成不同的提示信息
+        // Generate different messages based on filter conditions
         let message = '';
         let icon = 'fas fa-search';
         
@@ -355,7 +355,7 @@ export class UnitSelector {
             </div>
         `;
         
-        // 3秒后自动隐藏消息
+        // Auto-hide message after 3 seconds
         setTimeout(() => {
             if (emptyStateContainer.parentNode) {
                 emptyStateContainer.remove();
@@ -363,35 +363,35 @@ export class UnitSelector {
         }, 5000);
     }
     
-    // 新的筛选逻辑函数
+    // New filtering logic function
     filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
         return units.filter(unit => {
-            // 1. 只显示可进化的稀有度
+            // 1. Only show evolvable rarities
             const canEvolveRarities = ['Vanguard', 'Secret', 'Exclusive', 'Mythic'];
             if (!canEvolveRarities.includes(unit.rarity)) {
                 console.log(`❌ 过滤掉 ${unit.name}: 稀有度 ${unit.rarity} 不可进化`);
                 return false;
             }
             
-            // 2. 确保单位可以进化
+            // 2. Ensure unit can evolve
             if (unit.canEvolve !== true) {
                 console.log(`❌ 过滤掉 ${unit.name}: canEvolve = ${unit.canEvolve}`);
                 return false;
             }
             
-            // 3. 稀有度匹配
+            // 3. Rarity match
             if (selectedRarity && selectedRarity !== 'All Rarity' && unit.rarity !== selectedRarity) {
                 console.log(`❌ 过滤掉 ${unit.name}: 稀有度不匹配 (${unit.rarity} !== ${selectedRarity})`);
                 return false;
             }
             
-            // 4. 元素匹配
+            // 4. Element match
             if (selectedElement && selectedElement !== 'All Element' && unit.element !== selectedElement) {
                 console.log(`❌ 过滤掉 ${unit.name}: 元素不匹配 (${unit.element} !== ${selectedElement})`);
                 return false;
             }
             
-            // 5. 搜索词匹配
+            // 5. Search term match
             if (searchTerm) {
                 const searchLower = searchTerm.toLowerCase();
                 const nameMatch = unit.name.toLowerCase().includes(searchLower);
@@ -403,7 +403,7 @@ export class UnitSelector {
                 }
             }
             
-            // 6. 通过所有筛选条件
+            // 6. Pass all filter conditions
             console.log(`✅ 保留 ${unit.name}: 通过所有筛选条件`);
             return true;
         });

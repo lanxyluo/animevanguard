@@ -107,11 +107,11 @@ export class EvolutionPage {
         console.log('📊 当前页面状态:', this.selectedUnit);
         console.log('🆕 新选择的单位:', unit);
         
-        // 更新页面状态
+        // Update page state
         this.selectedUnit = unit;
         console.log('✅ 页面状态已更新:', this.selectedUnit);
         
-        // 异步加载所有相关数据并更新组件
+        // Asynchronously load all related data and update components
         this.loadAndUpdateComponents(unit);
     }
     
@@ -125,7 +125,7 @@ export class EvolutionPage {
         console.log('🔄 开始加载单位数据:', unit.id);
         
         try {
-            // 并行加载所有数据
+            // Load all data in parallel
             const [materialsData, costData, farmingData] = await Promise.all([
                 this.loadMaterialsData(unit.id),
                 this.loadCostData(unit.id),
@@ -138,7 +138,7 @@ export class EvolutionPage {
                 farming: farmingData
             });
             
-            // 更新所有组件
+            // Update all components
             this.updateAllComponents(unit, materialsData, costData, farmingData);
             
         } catch (error) {
@@ -180,7 +180,7 @@ export class EvolutionPage {
     updateAllComponents(unit, materialsData, costData, farmingData) {
         console.log('🔄 更新所有组件...');
         
-        // 更新材料列表组件
+        // Update materials list component
         if (this.materialsList) {
             console.log('📋 更新 MaterialsList 组件');
             this.materialsList.updateMaterials(unit);
@@ -188,7 +188,7 @@ export class EvolutionPage {
             console.error('❌ MaterialsList 组件未初始化');
         }
         
-        // 更新成本汇总组件
+        // Update cost summary component
         if (this.costSummary) {
             console.log('💰 更新 CostSummary 组件');
             this.costSummary.updateCost(unit);
@@ -196,7 +196,7 @@ export class EvolutionPage {
             console.error('❌ CostSummary 组件未初始化');
         }
         
-        // 更新农场指南组件
+        // Update farming guide component
         if (this.farmingGuide) {
             console.log('🌾 更新 FarmingGuide 组件');
             this.farmingGuide.updateGuide(unit);
@@ -227,11 +227,11 @@ export class EvolutionPage {
     handleDataLoadError(error) {
         console.error('❌ 数据加载错误:', error);
         
-        // 显示错误信息给用户
+        // Show error message to user
         const errorMessage = '加载单位数据时出错，请重试';
         console.error(errorMessage);
         
-        // 清空组件显示
+        // Clear component display
         this.clearAllComponents();
     }
     

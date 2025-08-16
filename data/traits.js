@@ -1,6 +1,6 @@
-// Anime Vanguards Traits 数据结构定义
+// Anime Vanguards Traits Data Structure Definition
 
-// 完整的Traits数据集
+// Complete Traits Dataset
 export const traitsData = [
   // ====== COMMON TRAITS ======
   {
@@ -287,26 +287,26 @@ export const traitsData = [
   }
 ];
 
-// 分类和筛选用的常量
+// Constants for categorization and filtering
 export const TRAIT_RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'];
 export const TRAIT_CATEGORIES = ['Attack', 'Defense', 'Utility', 'Special', 'Support'];
 export const TRAIT_TIERS = ['S', 'A', 'B', 'C', 'D'];
 export const GAME_MODES = ['Story', 'Infinite', 'Raids', 'All'];
 
-// 颜色映射
+// Color mapping
 export const RARITY_COLORS = {
-  'Common': '#9CA3AF',      // 灰色
-  'Uncommon': '#10B981',    // 绿色
-  'Rare': '#3B82F6',       // 蓝色
-  'Epic': '#8B5CF6',       // 紫色
-  'Legendary': '#F59E0B',   // 橙色
-  'Mythic': '#EF4444'      // 红色
+      'Common': '#9CA3AF',      // Gray
+    'Uncommon': '#10B981',    // Green
+    'Rare': '#3B82F6',       // Blue
+    'Epic': '#8B5CF6',       // Purple
+    'Legendary': '#F59E0B',   // Orange
+    'Mythic': '#EF4444'      // Red
 };
 
 export const TIER_COLORS = {
-  'S': '#EF4444',   // 红色
-  'A': '#F59E0B',   // 橙色
-  'B': '#10B981',   // 绿色
-  'C': '#6B7280',   // 灰色
-  'D': '#374151'    // 深灰色
+      'S': '#EF4444',   // Red
+    'A': '#F59E0B',   // Orange
+    'B': '#10B981',   // Green
+    'C': '#6B7280',   // Gray
+    'D': '#374151'    // Dark Gray
 };

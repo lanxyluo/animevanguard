@@ -24,6 +24,10 @@
             text-decoration: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-tab:hover {
+            background: #555;
         }
         .nav-tab.active {
             background: #e94560;
@@ -33,6 +37,7 @@
             padding: 20px;
             background: #16213e;
             border-radius: 10px;
+            margin-top: 20px;
         }
         .page-container.active {
             display: block;
@@ -41,6 +46,14 @@
             padding: 20px;
             background: #16213e;
             border-radius: 10px;
+            margin-top: 20px;
+        }
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -79,12 +92,17 @@
         <p>This is the codes page content.</p>
     </div>
     
-    <script type="module">
-        import { App } from './js/app.js';
-        
-        // Simple navigation test
+    <div class="debug-info">
+        <p>Debug Info:</p>
+        <p id="debugText">Page loaded. Click tabs to test navigation.</p>
+    </div>
+    
+    <script>
+        // Simple navigation test without modules
         class SimpleNavigationTest {
             constructor() {
+                console.log('🚀 Initializing SimpleNavigationTest...');
+                
                 this.pageContainers = {
                     evolution: document.getElementById('evolutionPage'),
                     dps: document.getElementById('dpsPage'),
@@ -94,66 +112,113 @@
                 
                 this.homepageIntro = document.querySelector('.homepage-intro');
                 this.navTabs = document.querySelectorAll('.nav-tab');
+                this.debugText = document.getElementById('debugText');
+                
+                console.log('Page containers found:', Object.keys(this.pageContainers));
+                console.log('Navigation tabs found:', this.navTabs.length);
+                console.log('Homepage intro found:', !!this.homepageIntro);
                 
                 this.setupEvents();
                 this.showHomepage();
+                
+                console.log('✅ SimpleNavigationTest initialized successfully!');
             }
             
             setupEvents() {
-                this.navTabs.forEach(tab => {
+                console.log('🔧 Setting up event listeners...');
+                
+                this.navTabs.forEach((tab, index) => {
+                    console.log(`Setting up event for tab ${index}:`, tab.textContent);
+                    
                     tab.addEventListener('click', (e) => {
                         e.preventDefault();
                         const pageName = tab.getAttribute('data-page');
+                        console.log('Tab clicked:', pageName);
                         this.showPage(pageName);
                     });
                 });
+                
+                console.log('✅ Event listeners set up');
             }
             
             showHomepage() {
+                console.log('🏠 Showing homepage...');
+                
+                // Hide all pages
                 Object.values(this.pageContainers).forEach(container => {
                     if (container) {
                         container.style.display = 'none';
                     }
                 });
                 
+                // Show homepage intro
                 if (this.homepageIntro) {
                     this.homepageIntro.style.display = 'block';
                 }
                 
+                // Update navigation - no active tab
                 this.updateNavigation(null);
+                
+                this.updateDebug('Homepage displayed');
             }
             
             showPage(pageName) {
+                console.log(`📄 Showing page: ${pageName}`);
+                
+                // Hide all pages
                 Object.values(this.pageContainers).forEach(container => {
                     if (container) {
                         container.style.display = 'none';
                     }
                 });
                 
+                // Show target page
                 if (this.pageContainers[pageName]) {
                     this.pageContainers[pageName].style.display = 'block';
+                    console.log(`✅ Page ${pageName} displayed`);
+                } else {
+                    console.log(`❌ Page container not found for: ${pageName}`);
                 }
                 
+                // Hide homepage intro on all specific pages
                 if (this.homepageIntro) {
                     this.homepageIntro.style.display = 'none';
                 }
                 
+                // Update navigation
                 this.updateNavigation(pageName);
+                
+                this.updateDebug(`Page "${pageName}" displayed`);
             }
             
             updateNavigation(activePage) {
+                console.log(`🔧 Updating navigation, active page: ${activePage}`);
+                
                 this.navTabs.forEach(tab => {
                     tab.classList.remove('active');
                     if (activePage && tab.getAttribute('data-page') === activePage) {
                         tab.classList.add('active');
+                        console.log(`✅ Tab "${activePage}" activated`);
                     }
                 });
             }
+            
+            updateDebug(message) {
+                if (this.debugText) {
+                    this.debugText.textContent = `Last action: ${message} (${new Date().toLocaleTimeString()})`;
+                }
+            }
         }
         
-        // Initialize test
+        // Initialize test when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            new SimpleNavigationTest();
+            console.log('📄 DOM loaded, initializing navigation test...');
+            try {
+                new SimpleNavigationTest();
+            } catch (error) {
+                console.error('❌ Error initializing navigation test:', error);
+                document.getElementById('debugText').textContent = `Error: ${error.message}`;
+            }
         });
     </script>
 </body>

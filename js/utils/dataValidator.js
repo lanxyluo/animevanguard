@@ -61,7 +61,7 @@ export class DataValidator {
     checkForPotentialIssues() {
         const issues = [];
 
-        // 检查稀有度分布是否合理
+        // Check if rarity distribution is reasonable
         const rarityCounts = this.validationResults.rarityDistribution;
         if (rarityCounts['Mythic'] && rarityCounts['Mythic'] < 3) {
             issues.push('Mythic稀有度单元数量较少，可能遗漏了部分稀有单元');
@@ -70,7 +70,7 @@ export class DataValidator {
             issues.push('Vanguard稀有度单元数量较少，可能遗漏了基础单元');
         }
 
-        // 检查元素分布是否合理
+        // Check if element distribution is reasonable
         const elementCounts = this.validationResults.elementDistribution;
         const commonElements = ['Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 'Blast', 'Cosmic', 'Unbound', 'Curse'];
         commonElements.forEach(element => {
@@ -79,7 +79,7 @@ export class DataValidator {
             }
         });
 
-        // 检查组合分布
+        // Check combination distribution
         const combinations = this.validationResults.rarityElementCombinations;
         Object.entries(combinations).forEach(([combination, count]) => {
             if (count === 1) {
@@ -93,7 +93,7 @@ export class DataValidator {
     generateRecommendations() {
         const recommendations = [];
 
-        // 基于数据分布生成建议
+        // Generate suggestions based on data distribution
         const rarityCounts = this.validationResults.rarityDistribution;
         const elementCounts = this.validationResults.elementDistribution;
 
@@ -109,7 +109,7 @@ export class DataValidator {
             recommendations.push('建议增加Mythic稀有度的单元，这是游戏中最稀有的单元类型');
         }
 
-        // 检查是否有缺失的元素
+        // Check for missing elements
         const expectedElements = ['Fire', 'Water', 'Nature', 'Spark', 'Holy', 'Passion', 'Blast', 'Cosmic', 'Unbound', 'Curse', 'Life', 'Earth', 'Spirit', 'Lightning', 'Dark', 'Physical'];
         expectedElements.forEach(element => {
             if (!elementCounts[element] || elementCounts[element] < 2) {
@@ -157,7 +157,7 @@ export class DataValidator {
         console.log('=== 验证报告结束 ===\n');
     }
 
-    // 生成数据对比表
+            // Generate data comparison table
     generateComparisonTable() {
         console.log('\n📋 === 数据对比表 ===');
         console.log('请将以下数据与Wiki进行对比:');
