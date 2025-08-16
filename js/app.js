@@ -1,7 +1,7 @@
 // Import data modules
 import { unitsData } from './config/units.js';
 import { materialsConfig } from './config/materials.js';
-import { elementIcons } from './config/constants.js';
+import { elementIcons as elementIcons } from './config/constants.js';
 
 // Import pages
 import { EvolutionPage } from './pages/evolution.js';
