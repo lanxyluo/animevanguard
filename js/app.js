@@ -153,14 +153,64 @@ export class App {
         console.log('🔧 Setting up global events...');
         console.log('📊 Found nav tabs:', this.navTabs.length);
         
-        // Navigation tab clicks
+        // Verify tabs are actually clickable elements
+        this.navTabs.forEach((tab, index) => {
+            console.log(`🔗 Tab ${index} details:`, {
+                tagName: tab.tagName,
+                className: tab.className,
+                dataPage: tab.getAttribute('data-page'),
+                href: tab.href,
+                text: tab.textContent.trim()
+            });
+        });
+        
+        // Navigation tab clicks with enhanced error handling
         this.navTabs.forEach((tab, index) => {
             console.log(`🔗 Setting up tab ${index}:`, tab.getAttribute('data-page'));
-            tab.addEventListener('click', (e) => {
+            
+            // Add multiple event listeners to ensure one works
+            const pageName = tab.getAttribute('data-page');
+            
+            const clickHandler = (e) => {
+                console.log('🎯 Click event fired on tab:', pageName);
+                console.log('🎯 Event details:', {
+                    type: e.type,
+                    target: e.target,
+                    currentTarget: e.currentTarget,
+                    defaultPrevented: e.defaultPrevented
+                });
+                
                 e.preventDefault();
-                const pageName = tab.getAttribute('data-page');
+                e.stopPropagation();
+                
                 console.log('🎯 Tab clicked:', pageName);
-                this.showPage(pageName);
+                
+                try {
+                    this.showPage(pageName);
+                } catch (error) {
+                    console.error('❌ Error in showPage:', error);
+                }
+            };
+            
+            // Add both click and mousedown events
+            tab.addEventListener('click', clickHandler, true);
+            tab.addEventListener('mousedown', (e) => {
+                console.log('🖱️ Mousedown on tab:', pageName);
+            });
+            
+            // Make sure the tab is focusable and add keyboard support
+            tab.setAttribute('tabindex', '0');
+            tab.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    console.log('⌨️ Keyboard activation on tab:', pageName);
+                    clickHandler(e);
+                }
+            });
+            
+            // Add visual feedback
+            tab.style.cursor = 'pointer';
+            tab.addEventListener('mouseenter', () => {
+                console.log('🖱️ Mouse enter tab:', pageName);
             });
         });
         
@@ -173,6 +223,48 @@ export class App {
             });
             logo.style.cursor = 'pointer';
         }
+        
+        console.log('✅ Global events setup completed');
+        
+        // Expose navigation functions to global scope for debugging
+        window.debugNavigation = {
+            showPage: (pageName) => {
+                console.log('🔧 DEBUG: Manually showing page:', pageName);
+                this.showPage(pageName);
+            },
+            showHomepage: () => {
+                console.log('🔧 DEBUG: Manually showing homepage');
+                this.showHomepage();
+            },
+            listPages: () => {
+                console.log('🔧 DEBUG: Available pages:', Object.keys(this.pageContainers));
+                return this.pageContainers;
+            },
+            listTabs: () => {
+                console.log('🔧 DEBUG: Available tabs:', this.navTabs.length);
+                this.navTabs.forEach((tab, i) => {
+                    console.log(`  Tab ${i}:`, tab.getAttribute('data-page'), tab);
+                });
+                return this.navTabs;
+            },
+            getCurrentPage: () => {
+                console.log('🔧 DEBUG: Current page:', this.currentPage);
+                return this.currentPage;
+            },
+            testClick: (pageName) => {
+                console.log('🔧 DEBUG: Testing click for page:', pageName);
+                const tab = Array.from(this.navTabs).find(t => t.getAttribute('data-page') === pageName);
+                if (tab) {
+                    console.log('🔧 DEBUG: Found tab, triggering click');
+                    tab.click();
+                } else {
+                    console.error('🔧 DEBUG: Tab not found for page:', pageName);
+                }
+            }
+        };
+        
+        console.log('🔧 DEBUG: Navigation functions exposed to window.debugNavigation');
+        console.log('🔧 DEBUG: Try: window.debugNavigation.testClick("evolution")');
     }
     
     showHomepage() {
