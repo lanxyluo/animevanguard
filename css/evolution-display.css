@@ -260,6 +260,150 @@
     border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
+/* 新的Cost Summary样式 */
+.cost-breakdown-container {
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.cost-header {
+    color: #f1f5f9;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.cost-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.cost-card {
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cost-card.gold-card {
+    background: rgba(234, 179, 8, 0.1);
+    border-color: rgba(234, 179, 8, 0.3);
+}
+
+.cost-card.gems-card {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.3);
+}
+
+.cost-card.materials-card {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.cost-value {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+
+.cost-label {
+    color: #94a3b8;
+    font-size: 0.9em;
+}
+
+.cost-note {
+    text-align: center;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* 错误显示样式 */
+.error-display {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+}
+
+.error-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: #f87171;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.retry-button {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+/* 选择提示样式 */
+.select-prompt {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(51, 65, 85, 0.3);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    border-radius: 12px;
+}
+
+.prompt-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #64748b;
+}
+
+.prompt-message {
+    color: #94a3b8;
+    font-size: 1.1em;
+}
+
+/* 无进化数据样式 */
+.no-evolution-display {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(75, 85, 99, 0.3);
+    border: 1px solid rgba(107, 114, 128, 0.3);
+    border-radius: 12px;
+}
+
+.no-evo-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #6b7280;
+}
+
+.no-evo-message {
+    color: #d1d5db;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.no-evo-info {
+    color: #9ca3af;
+    font-size: 0.9em;
+}
+
 /* 确保所有子元素都使用暗色主题 */
 .cost-summary * {
     color: inherit;
