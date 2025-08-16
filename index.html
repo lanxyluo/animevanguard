@@ -4945,13 +4945,55 @@
             }
         }
 
+        // Navigation functionality
+        function switchPage(pageName) {
+            // Hide all page sections
+            const allPages = document.querySelectorAll('[id$="Page"]');
+            allPages.forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById(pageName + 'Page');
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            }
+            
+            // Update navigation tabs
+            const allTabs = document.querySelectorAll('.nav-tab');
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            const activeTab = document.querySelector(`[data-page="${pageName}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+            
+            // Update URL hash
+            window.location.hash = pageName;
+            
+            // Update SEO
+            updatePageSEO(pageName);
+        }
+
         // Initialize filters when page loads
         document.addEventListener('DOMContentLoaded', function() {
             initializeFilters();
             
-            // Set initial SEO based on current page
+            // Add navigation event listeners
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageName = this.getAttribute('data-page');
+                    switchPage(pageName);
+                });
+            });
+            
+            // Set initial page based on hash or default to evolution
             const currentPage = window.location.hash.slice(1) || 'evolution';
-            updatePageSEO(currentPage);
+            switchPage(currentPage);
         });
     </script>
 </body>
