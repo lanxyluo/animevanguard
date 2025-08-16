@@ -4945,9 +4945,307 @@
             }
         }
 
-        // Initialize filters when page loads
+        // Navigation System
+        class NavigationManager {
+            constructor() {
+                this.currentPage = 'evolution';
+                this.pages = ['evolution', 'dps', 'database', 'traits', 'codes', 'about'];
+                this.navigationStats = {
+                    totalNavigations: 0,
+                    pageVisits: {},
+                    lastVisit: null
+                };
+                this.loadStats();
+                this.init();
+            }
+
+            loadStats() {
+                try {
+                    const savedStats = localStorage.getItem('navigationStats');
+                    if (savedStats) {
+                        this.navigationStats = JSON.parse(savedStats);
+                    }
+                } catch (error) {
+                    console.warn('Could not load navigation stats:', error);
+                }
+            }
+
+            saveStats() {
+                try {
+                    localStorage.setItem('navigationStats', JSON.stringify(this.navigationStats));
+                } catch (error) {
+                    console.warn('Could not save navigation stats:', error);
+                }
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.handleInitialPage();
+                this.preloadPages();
+            }
+
+            preloadPages() {
+                // Preload other pages for faster navigation
+                this.pages.forEach(page => {
+                    if (page !== this.currentPage) {
+                        const pageElement = document.getElementById(page + 'Page');
+                        if (pageElement) {
+                            // Ensure page is ready but hidden
+                            pageElement.style.visibility = 'hidden';
+                            pageElement.style.position = 'absolute';
+                        }
+                    }
+                });
+            }
+
+            setupEventListeners() {
+                // Add click event listeners to all navigation tabs
+                const navTabs = document.querySelectorAll('.nav-tab');
+                navTabs.forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const pageName = tab.getAttribute('data-page');
+                        if (pageName) {
+                            this.showPage(pageName);
+                        }
+                    });
+                });
+
+                // Handle browser back/forward buttons
+                window.addEventListener('popstate', (e) => {
+                    if (e.state && e.state.page) {
+                        this.showPage(e.state.page, false);
+                    }
+                });
+
+                // Add keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    // Alt + number keys for quick navigation
+                    if (e.altKey && e.key >= '1' && e.key <= '6') {
+                        e.preventDefault();
+                        const pageIndex = parseInt(e.key) - 1;
+                        if (pageIndex < this.pages.length) {
+                            this.showPage(this.pages[pageIndex]);
+                        }
+                    }
+                });
+            }
+
+            handleInitialPage() {
+                // Check URL hash for initial page
+                const hash = window.location.hash.substring(1);
+                if (hash && this.pages.includes(hash)) {
+                    this.showPage(hash, false);
+                } else {
+                    this.showPage('evolution', false);
+                }
+            }
+
+            showPage(pageName, updateHistory = true) {
+                const startTime = performance.now();
+                console.log('Switching to page:', pageName);
+                
+                // Hide all pages
+                this.pages.forEach(page => {
+                    const pageElement = document.getElementById(page + 'Page');
+                    if (pageElement) {
+                        pageElement.classList.remove('active');
+                    }
+                });
+
+                // Show target page
+                const targetPage = document.getElementById(pageName + 'Page');
+                if (targetPage) {
+                    // Reset visibility and position for smooth transition
+                    targetPage.style.visibility = 'visible';
+                    targetPage.style.position = 'relative';
+                    targetPage.classList.add('active');
+                    console.log('Page shown:', pageName);
+                } else {
+                    console.error('Page not found:', pageName);
+                }
+
+                // Update navigation tabs
+                const navTabs = document.querySelectorAll('.nav-tab');
+                navTabs.forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.getAttribute('data-page') === pageName) {
+                        tab.classList.add('active');
+                    }
+                });
+
+                // Update page title with current section
+                const pageTitles = {
+                    'evolution': 'Evolution Guide',
+                    'dps': 'DPS Calculator',
+                    'database': 'Unit Database',
+                    'traits': 'Traits Guide',
+                    'codes': 'Codes & Rewards',
+                    'about': 'About'
+                };
+                
+                const currentTitle = pageTitles[pageName] || 'Anime Vanguard Wiki';
+                document.title = `${currentTitle} - Anime Vanguard Wiki`;
+
+                // Update current page
+                this.currentPage = pageName;
+
+                // Update navigation statistics
+                this.navigationStats.totalNavigations++;
+                this.navigationStats.pageVisits[pageName] = (this.navigationStats.pageVisits[pageName] || 0) + 1;
+                this.navigationStats.lastVisit = new Date().toISOString();
+                
+                // Save stats to localStorage
+                this.saveStats();
+                
+                console.log('Navigation stats:', this.navigationStats);
+
+                // Update URL and browser history
+                if (updateHistory) {
+                    const url = pageName === 'evolution' ? '#' : `#${pageName}`;
+                    window.history.pushState({ page: pageName }, '', url);
+                }
+
+                // Update SEO
+                updatePageSEO(pageName);
+
+                // Initialize page-specific functionality
+                this.initializePageContent(pageName);
+
+                // Performance monitoring
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                console.log(`Page switch completed in ${duration.toFixed(2)}ms`);
+            }
+
+            initializePageContent(pageName) {
+                switch (pageName) {
+                    case 'evolution':
+                        // Initialize evolution page components
+                        if (typeof initializeEvolutionPage === 'function') {
+                            initializeEvolutionPage();
+                        }
+                        break;
+                    case 'dps':
+                        // Initialize DPS page components
+                        if (typeof initializeDPSPage === 'function') {
+                            initializeDPSPage();
+                        }
+                        break;
+                    case 'database':
+                        // Initialize database page components
+                        if (typeof initializeDatabasePage === 'function') {
+                            initializeDatabasePage();
+                        }
+                        break;
+                    case 'traits':
+                        // Initialize traits page components
+                        if (typeof initializeTraitsPage === 'function') {
+                            initializeTraitsPage();
+                        }
+                        break;
+                    case 'codes':
+                        // Initialize codes page components
+                        if (typeof initializeCodesPage === 'function') {
+                            initializeCodesPage();
+                        }
+                        break;
+                    case 'about':
+                        // Initialize about page components
+                        if (typeof initializeAboutPage === 'function') {
+                            initializeAboutPage();
+                        }
+                        break;
+                }
+            }
+
+            getNavigationStats() {
+                return this.navigationStats;
+            }
+
+            getMostVisitedPage() {
+                const visits = this.navigationStats.pageVisits;
+                return Object.keys(visits).reduce((a, b) => visits[a] > visits[b] ? a : b, 'evolution');
+            }
+        }
+
+        // Page initialization functions
+        function initializeEvolutionPage() {
+            console.log('Initializing Evolution page...');
+            // Evolution page specific initialization
+        }
+
+        function initializeDPSPage() {
+            console.log('Initializing DPS page...');
+            // DPS page specific initialization
+        }
+
+        function initializeDatabasePage() {
+            console.log('Initializing Database page...');
+            // Database page specific initialization
+        }
+
+        function initializeTraitsPage() {
+            console.log('Initializing Traits page...');
+            // Traits page specific initialization
+        }
+
+        function initializeCodesPage() {
+            console.log('Initializing Codes page...');
+            // Codes page specific initialization
+        }
+
+        function initializeAboutPage() {
+            console.log('Initializing About page...');
+            // About page specific initialization
+        }
+
+        // Quick navigation helper
+        function showQuickNav() {
+            const pages = [
+                { name: 'Evolution Guide', key: 'evolution', shortcut: 'Alt+1' },
+                { name: 'DPS Calculator', key: 'dps', shortcut: 'Alt+2' },
+                { name: 'Unit Database', key: 'database', shortcut: 'Alt+3' },
+                { name: 'Traits Guide', key: 'traits', shortcut: 'Alt+4' },
+                { name: 'Codes & Rewards', key: 'codes', shortcut: 'Alt+5' },
+                { name: 'About', key: 'about', shortcut: 'Alt+6' }
+            ];
+            
+            console.log('Quick Navigation Guide:');
+            pages.forEach(page => {
+                console.log(`${page.shortcut}: ${page.name}`);
+            });
+        }
+
+        // Initialize navigation when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            initializeFilters();
+            try {
+                // Initialize navigation system
+                window.navigationManager = new NavigationManager();
+                console.log('Navigation system initialized successfully');
+                
+                // Initialize filters
+                initializeFilters();
+                console.log('Filters initialized successfully');
+                
+                // Add global error handler
+                window.addEventListener('error', function(e) {
+                    console.error('Global error:', e.error);
+                });
+                
+                // Show quick navigation guide
+                showQuickNav();
+                
+                // Save stats when page is unloaded
+                window.addEventListener('beforeunload', function() {
+                    if (window.navigationManager) {
+                        window.navigationManager.saveStats();
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error during initialization:', error);
+            }
         });
     </script>
 </body>
