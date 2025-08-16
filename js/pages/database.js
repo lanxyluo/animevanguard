@@ -47,6 +47,7 @@ export class DatabasePage {
         
         // Initialize UI
         this.initializeUI();
+        this.populateFilterOptions(); // Call populateFilterOptions here
         
         // Bind events
         this.bindEvents();
@@ -105,6 +106,50 @@ export class DatabasePage {
         });
         
         console.log('✅ Database UI elements initialized');
+    }
+    
+    populateFilterOptions() {
+        if (!this.unitsData) return;
+        
+        // Get unique values from units data
+        const rarities = [...new Set(Object.values(this.unitsData).map(unit => unit.rarity))].sort();
+        const elements = [...new Set(Object.values(this.unitsData).map(unit => unit.element))].sort();
+        const attackTypes = [...new Set(Object.values(this.unitsData).map(unit => unit.attackType))].sort();
+        const unitTypes = [...new Set(Object.values(this.unitsData).map(unit => unit.unitType))].sort();
+        
+        // Populate rarity filter
+        if (this.elements.rarityFilter) {
+            const currentValue = this.elements.rarityFilter.value;
+            this.elements.rarityFilter.innerHTML = '<option value="">All Rarity</option>' +
+                rarities.map(rarity => `<option value="${rarity}">${rarity}</option>`).join('');
+            this.elements.rarityFilter.value = currentValue;
+        }
+        
+        // Populate element filter
+        if (this.elements.elementFilter) {
+            const currentValue = this.elements.elementFilter.value;
+            this.elements.elementFilter.innerHTML = '<option value="">All Elements</option>' +
+                elements.map(element => `<option value="${element}">${element}</option>`).join('');
+            this.elements.elementFilter.value = currentValue;
+        }
+        
+        // Populate attack type filter
+        if (this.elements.attackTypeFilter) {
+            const currentValue = this.elements.attackTypeFilter.value;
+            this.elements.attackTypeFilter.innerHTML = '<option value="">All Attack Types</option>' +
+                attackTypes.map(type => `<option value="${type}">${type}</option>`).join('');
+            this.elements.attackTypeFilter.value = currentValue;
+        }
+        
+        // Populate unit type filter
+        if (this.elements.unitTypeFilter) {
+            const currentValue = this.elements.unitTypeFilter.value;
+            this.elements.unitTypeFilter.innerHTML = '<option value="">All Types</option>' +
+                unitTypes.map(type => `<option value="${type}">${type}</option>`).join('');
+            this.elements.unitTypeFilter.value = currentValue;
+        }
+        
+        console.log('✅ Filter options populated');
     }
     
     bindEvents() {
