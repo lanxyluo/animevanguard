@@ -265,6 +265,21 @@ export class App {
         
         console.log('🔧 DEBUG: Navigation functions exposed to window.debugNavigation');
         console.log('🔧 DEBUG: Try: window.debugNavigation.testClick("evolution")');
+        
+        // 立即测试导航是否工作
+        setTimeout(() => {
+            console.log('🧪 TESTING: Auto-testing navigation after 2 seconds...');
+            console.log('🧪 TESTING: Current nav tabs found:', this.navTabs.length);
+            console.log('🧪 TESTING: Page containers found:', Object.keys(this.pageContainers).length);
+            
+            if (this.navTabs.length > 0) {
+                console.log('🧪 TESTING: Navigation setup appears successful');
+                console.log('🧪 TESTING: You can now click navigation tabs or use:');
+                console.log('🧪 TESTING: window.debugNavigation.testClick("evolution")');
+            } else {
+                console.error('🧪 TESTING: ❌ No navigation tabs found - navigation setup failed');
+            }
+        }, 2000);
     }
     
     showHomepage() {

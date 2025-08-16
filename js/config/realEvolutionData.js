@@ -424,10 +424,9 @@ export const FARMING_GUIDE_DATA = {
   }
 };
 
-// 添加主流动漫角色的农场指南数据
-export const FARMING_GUIDE_DATA = {
-  // ... existing data ...
-  
+// 扩展农场指南数据 - 添加到现有的 FARMING_GUIDE_DATA 对象中
+// 注意：这里不再重新声明，而是扩展现有对象
+Object.assign(FARMING_GUIDE_DATA, {
   "goku": {
     priority: "Very High",
     difficulty: "Very Hard",
@@ -495,4 +494,4 @@ export const FARMING_GUIDE_DATA = {
       "Royal Tournaments (Rare materials)"
     ]
   }
-};
+});

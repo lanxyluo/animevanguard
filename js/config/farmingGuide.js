@@ -1,5 +1,5 @@
 // Complete Farming Guide Database for Anime Vanguards
-export const FARMING_GUIDE_DATA = {
+export const COMPLETE_FARMING_GUIDE_DATA = {
     "song_jinwu_igros": {
         priority: "Extreme",
         farmingSteps: [
