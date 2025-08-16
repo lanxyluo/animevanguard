@@ -145,9 +145,10 @@
 }
 
 .materials-summary {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(30, 41, 59, 0.8) !important;
     border-radius: 8px;
     padding: 16px;
+    border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
 .summary-list {
@@ -160,7 +161,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 8px 12px;
-    background: #f8f9fa;
+    background: rgba(51, 65, 85, 0.5) !important;
     border-radius: 6px;
     border-left: 3px solid #f093fb;
 }
@@ -176,14 +177,15 @@
 
 /* Cost Summary */
 .cost-summary {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: rgba(30, 41, 59, 0.95) !important;
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
+    border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
 .total-costs {
-    background: rgba(255, 255, 255, 0.95);
+    background: transparent !important;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
@@ -201,10 +203,11 @@
     align-items: center;
     gap: 12px;
     padding: 16px;
-    background: #f8f9fa;
+    background: rgba(51, 65, 85, 0.5) !important;
     border-radius: 8px;
     border-left: 4px solid;
     transition: transform 0.2s ease;
+    border: 1px solid rgba(71, 85, 105, 0.3);
 }
 
 .cost-item:hover {
@@ -287,13 +290,14 @@
 
 /* Tier Breakdown */
 .tier-breakdown {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(30, 41, 59, 0.8) !important;
     border-radius: 8px;
     padding: 20px;
+    border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
 .subsection-title {
-    color: #333;
+    color: #f1f5f9 !important;
     font-size: 1.2rem;
     margin-bottom: 16px;
     display: flex;
@@ -307,10 +311,11 @@
 }
 
 .tier-cost-item {
-    background: #f8f9fa;
+    background: rgba(51, 65, 85, 0.5) !important;
     border-radius: 8px;
     padding: 16px;
     border-left: 4px solid #4facfe;
+    border: 1px solid rgba(71, 85, 105, 0.3);
 }
 
 .tier-header {
@@ -322,7 +327,7 @@
 
 .tier-title {
     font-weight: 600;
-    color: #333;
+    color: #f1f5f9 !important;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -654,6 +659,54 @@
 .loading {
     opacity: 0.6;
     pointer-events: none;
+}
+
+/* 强制修复白色背景问题 - 最终解决方案 */
+.cost-summary,
+.cost-summary *,
+.total-costs,
+.total-costs *,
+.cost-grid,
+.cost-grid *,
+.cost-item,
+.cost-item *,
+.tier-breakdown,
+.tier-breakdown *,
+.materials-summary,
+.materials-summary *,
+.summary-item,
+.summary-item *,
+.tier-cost-item,
+.tier-cost-item * {
+    background-color: transparent !important;
+}
+
+/* 确保Cost Summary区域使用深色背景 */
+.cost-summary {
+    background: rgba(30, 41, 59, 0.95) !important;
+    border: 1px solid rgba(100, 116, 139, 0.3) !important;
+}
+
+/* 确保所有文本颜色正确 */
+.cost-summary,
+.cost-summary *,
+.total-costs,
+.total-costs *,
+.tier-breakdown,
+.tier-breakdown *,
+.materials-summary,
+.materials-summary * {
+    color: #f1f5f9 !important;
+}
+
+/* 修复任何可能的白色背景类 */
+.cost-summary .bg-white,
+.cost-summary .bg-gray-50,
+.cost-summary .bg-gray-100,
+.total-costs .bg-white,
+.total-costs .bg-gray-50,
+.total-costs .bg-gray-100 {
+    background: transparent !important;
 }
 
 .loading::after {
