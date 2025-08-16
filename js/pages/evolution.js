@@ -421,7 +421,8 @@ export class EvolutionPage {
         
         // 使用 CostSummary 组件处理
         if (this.costSummary) {
-            this.costSummary.updateCostSummary(evolutionInfo);
+            // 修复方法名：CostSummary组件中的方法是updateCost，不是updateCostSummary
+            this.costSummary.updateCost(evolutionInfo.unit);
         }
         
         const costContainer = document.getElementById('costSummaryContainer');
