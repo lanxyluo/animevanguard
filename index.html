@@ -3823,23 +3823,7 @@
                 </section>
             </div>
 
-            <!-- Main Content - Unit Database -->
-            <div class="database-main">
-                <div class="database-header">
-                    <h2><i class="fas fa-database"></i> Unit Database</h2>
-                    <div id="unitsCount" class="units-count">0 units</div>
-                </div>
-                
-                <div id="unitsGrid" class="units-grid">
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No units found matching your criteria</p>
-                        <button class="clear-filters-btn" onclick="this.closest('.database-page').querySelector('#dbResetFilters').click()">
-                            <i class="fas fa-undo"></i> Clear All Filters
-                        </button>
-                    </div>
-                </div>
-            </div>
+
 
 
 
@@ -3904,6 +3888,123 @@
                 </ol>
             </nav>
 
+            <!-- Traits Tools - Moved to top for immediate access -->
+            <div class="traits-tools-container">
+                <!-- Search and Filter Section -->
+                <section class="traits-search-filter-section">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="traitsSearchInput" class="search-input" placeholder="Search traits by name, description...">
+                            <button id="traitsClearSearch" class="clear-search-btn" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Filter Controls -->
+                    <div class="filter-controls">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="traitsCategoryFilter">Category:</label>
+                                <select id="traitsCategoryFilter" class="filter-select">
+                                    <option value="">All Categories</option>
+                                    <option value="combat">Combat Traits</option>
+                                    <option value="defensive">Defensive Traits</option>
+                                    <option value="utility">Utility Traits</option>
+                                    <option value="synergy">Synergy Traits</option>
+                                    <option value="legendary">Legendary Traits</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="traitsRarityFilter">Rarity:</label>
+                                <select id="traitsRarityFilter" class="filter-select">
+                                    <option value="">All Rarity</option>
+                                    <option value="common">Common</option>
+                                    <option value="rare">Rare</option>
+                                    <option value="epic">Epic</option>
+                                    <option value="legendary">Legendary</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="traitsEffectFilter">Effect Type:</label>
+                                <select id="traitsEffectFilter" class="filter-select">
+                                    <option value="">All Effects</option>
+                                    <option value="damage">Damage Boost</option>
+                                    <option value="defense">Defense Boost</option>
+                                    <option value="utility">Utility</option>
+                                    <option value="synergy">Team Synergy</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Filter Tags -->
+                        <div class="quick-filter-tags">
+                            <button class="quick-filter-tag" data-filter="popular">
+                                <i class="fas fa-fire"></i> Popular
+                            </button>
+                            <button class="quick-filter-tag" data-filter="meta">
+                                <i class="fas fa-star"></i> Meta
+                            </button>
+                            <button class="quick-filter-tag" data-filter="beginner">
+                                <i class="fas fa-bullseye"></i> Beginner Friendly
+                            </button>
+                            <button class="quick-filter-tag" data-filter="advanced">
+                                <i class="fas fa-crown"></i> Advanced
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Traits Builder Tool -->
+                <section class="traits-builder-section">
+                    <h3><i class="fas fa-tools"></i> Traits Builder</h3>
+                    <div class="traits-builder-tool">
+                        <div class="builder-controls">
+                            <div class="builder-group">
+                                <label for="unitForTraits">Select Unit:</label>
+                                <select id="unitForTraits" class="unit-select">
+                                    <option value="">Choose a unit to see available traits...</option>
+                                </select>
+                            </div>
+                            <div class="builder-group">
+                                <label for="traitSlot1">Trait Slot 1:</label>
+                                <select id="traitSlot1" class="trait-select">
+                                    <option value="">Select trait...</option>
+                                </select>
+                            </div>
+                            <div class="builder-group">
+                                <label for="traitSlot2">Trait Slot 2:</label>
+                                <select id="traitSlot2" class="trait-select">
+                                    <option value="">Select trait...</option>
+                                </select>
+                            </div>
+                            <div class="builder-group">
+                                <label for="traitSlot3">Trait Slot 3:</label>
+                                <select id="traitSlot3" class="trait-select">
+                                    <option value="">Select trait...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button id="analyzeTraits" class="analyze-traits-btn">
+                            <i class="fas fa-chart-bar"></i> Analyze Traits
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Traits Results -->
+                <section class="traits-results-section">
+                    <h3><i class="fas fa-chart-line"></i> Traits Analysis</h3>
+                    <div id="traitsResults" class="traits-results-placeholder">
+                        <i class="fas fa-search"></i>
+                        <p>Select a unit and traits to see analysis results</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Traits Guide Introduction - Moved below the tools -->
             <div class="traits-page">
                 <div class="card">
                     <div class="card-header">
@@ -4043,51 +4144,10 @@
                 </ol>
             </nav>
 
-            <div class="codes-page">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="codes-header-main">
-                            <div class="codes-title-section">
-                                <i class="fas fa-gift"></i>
-                                <div class="codes-title-content">
-                                    <h3>Anime Vanguards Codes - Latest Working Codes 2025</h3>
-                                    <p class="codes-subtitle">Get free Gems, Gold, Rerolls, and exclusive rewards</p>
-                                </div>
-                            </div>
-                            <div class="codes-stats-dashboard">
-                                <div class="stat-item">
-                                    <div class="stat-icon active">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span class="stat-number" id="activeCodesCount">3</span>
-                                        <span class="stat-label">Active Codes</span>
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-icon expired">
-                                        <i class="fas fa-times-circle"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span class="stat-number" id="expiredCodesCount">1</span>
-                                        <span class="stat-label">Expired Codes</span>
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-icon updated">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span class="stat-label">Last Updated</span>
-                                        <span class="stat-date" id="lastUpdatedDate">January 2025</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="codes-content">
-                        <!-- Filter Section -->
-                        <div class="codes-filter-section">
+            <!-- Codes Tools - Moved to top for immediate access -->
+            <div class="codes-tools-container">
+                <!-- Filter Section -->
+                <section class="codes-filter-section">
                             <div class="filter-controls">
                                 <div class="filter-group">
                                     <label for="rewardTypeFilter">Reward Type:</label>
@@ -4425,19 +4485,21 @@
                                 <p><i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Codes are case-sensitive and may expire without notice</p>
                             </div>
                         </div>
-                    </div>
-                </div>
             </div>
 
-            <!-- Codes Introduction - Moved below the tool -->
+            <!-- Codes Introduction - Moved below the tools -->
             <section class="page-introduction codes-intro">
                 <div class="intro-container">
-                    <h2>How to Use Anime Vanguards Codes</h2>
-                    <p>Anime Vanguards codes provide free rewards including gems, gold, rerolls, and exclusive items. These codes are regularly updated by the game developers and can be redeemed in-game for immediate rewards. Our code database is updated daily with the latest working codes and detailed redemption instructions.</p>
+                    <h1 class="page-title">Anime Vanguards Codes</h1>
+                    <p class="page-subtitle">Latest Working Codes & Redemption Guide</p>
                     
-                    <div class="codes-features">
-                        <h3>Code Features</h3>
-                        <ul>
+                    <div class="intro-content">
+                        <h2>How to Use Anime Vanguards Codes</h2>
+                        <p>Anime Vanguards codes provide free rewards including gems, gold, rerolls, and exclusive items. These codes are regularly updated by the game developers and can be redeemed in-game for immediate rewards. Our code database is updated daily with the latest working codes and detailed redemption instructions.</p>
+                        
+                        <div class="codes-features">
+                            <h3>Code Features</h3>
+                            <ul>
                             <li><strong>Daily Updates:</strong> Latest working codes updated regularly</li>
                             <li><strong>Reward Categories:</strong> Gems, gold, rerolls, stat chips, and exclusive items</li>
                             <li><strong>Easy Copy:</strong> One-click copy functionality for quick redemption</li>
