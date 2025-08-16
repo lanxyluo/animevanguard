@@ -218,6 +218,164 @@ export const EVOLUTION_DATA = {
                 statMultiplier: 2.5
             }
         ]
+    },
+    
+    // New Evolution Units Data
+    "song_jinwu_igros": {
+        unitId: "song_jinwu_igros",
+        evolutions: [
+            {
+                tier: 1,
+                name: "Song Jinwu and Igros",
+                requirements: { 
+                    level: 1, 
+                    materials: [], 
+                    cost: 50000 
+                },
+                statMultiplier: 1.0
+            },
+            {
+                tier: 2,
+                name: "Song Jinwu and Igros (Evolved)",
+                requirements: { 
+                    level: 80, 
+                    materials: ["Red Key Fragment x5", "Ancient Power x3", "Divine Essence x2"], 
+                    cost: 75000,
+                    gems: 500
+                },
+                statMultiplier: 2.0
+            }
+        ]
+    },
+    "alocard_vampire_king": {
+        unitId: "alocard_vampire_king",
+        evolutions: [
+            {
+                tier: 1,
+                name: "Alocard (Vampire King)",
+                requirements: { 
+                    level: 1, 
+                    materials: [], 
+                    cost: 25000 
+                },
+                statMultiplier: 1.0
+            },
+            {
+                tier: 2,
+                name: "Alocard (True Vampire)",
+                requirements: { 
+                    level: 75, 
+                    materials: ["Vampire Blood x3", "Dark Crystal x2", "Immortal Essence"], 
+                    cost: 50000,
+                    gems: 300
+                },
+                statMultiplier: 1.8
+            }
+        ]
+    },
+    "slime_king": {
+        unitId: "slime_king",
+        evolutions: [
+            {
+                tier: 1,
+                name: "Slime (King)",
+                requirements: { 
+                    level: 1, 
+                    materials: [], 
+                    cost: 20000 
+                },
+                statMultiplier: 1.0
+            },
+            {
+                tier: 2,
+                name: "Slime (Emperor)",
+                requirements: { 
+                    level: 70, 
+                    materials: ["Slime Core x3", "Nature Essence x2", "Royal Crown"], 
+                    cost: 40000,
+                    gems: 250
+                },
+                statMultiplier: 1.7
+            }
+        ]
+    },
+    "roku_super3": {
+        unitId: "roku_super3",
+        evolutions: [
+            {
+                tier: 1,
+                name: "Roku (Super 3)",
+                requirements: { 
+                    level: 1, 
+                    materials: [], 
+                    cost: 30000 
+                },
+                statMultiplier: 1.0
+            },
+            {
+                tier: 2,
+                name: "Roku (Angel)",
+                requirements: { 
+                    level: 85, 
+                    materials: ["Angel Wing x2", "Divine Power x3", "Martial Essence x4"], 
+                    cost: 60000,
+                    gems: 400
+                },
+                statMultiplier: 2.2
+            }
+        ]
+    },
+    "saber_black_tyrant": {
+        unitId: "saber_black_tyrant",
+        evolutions: [
+            {
+                tier: 1,
+                name: "Saber (Black Tyrant)",
+                requirements: { 
+                    level: 1, 
+                    materials: [], 
+                    cost: 35000 
+                },
+                statMultiplier: 1.0
+            },
+            {
+                tier: 2,
+                name: "Saber (True Tyrant)",
+                requirements: { 
+                    level: 90, 
+                    materials: ["Tyrant Crown x2", "Shadow Essence x3", "Dark Power x4"], 
+                    cost: 70000,
+                    gems: 600
+                },
+                statMultiplier: 2.5
+            }
+        ]
+    },
+    "lfelt_love": {
+        unitId: "lfelt_love",
+        evolutions: [
+            {
+                tier: 1,
+                name: "Lfelt (Love)",
+                requirements: { 
+                    level: 1, 
+                    materials: [], 
+                    cost: 28000 
+                },
+                statMultiplier: 1.0
+            },
+            {
+                tier: 2,
+                name: "Lfelt (Divine)",
+                requirements: { 
+                    level: 78, 
+                    materials: ["Divine Love x3", "Holy Essence x2", "Sacred Power x3"], 
+                    cost: 55000,
+                    gems: 350
+                },
+                statMultiplier: 1.9
+            }
+        ]
     }
 };
 
@@ -569,6 +727,152 @@ export const MATERIALS_DATA = {
         description: "Power of the six paths",
         dropRate: "0.4%",
         cost: 12000
+    },
+    
+    // New Evolution Materials
+    "Red Key Fragment": {
+        name: "Red Key Fragment",
+        rarity: "Legendary",
+        source: ["Red Key Quest", "Special Events", "Ancient Ruins"],
+        description: "Fragment of the legendary red key",
+        dropRate: "5%",
+        cost: 2000
+    },
+    "Ancient Power": {
+        name: "Ancient Power",
+        rarity: "Epic",
+        source: ["Ancient Battles", "Special Events", "Forgotten Temples"],
+        description: "Power from ancient times",
+        dropRate: "12%",
+        cost: 800
+    },
+    "Divine Essence": {
+        name: "Divine Essence",
+        rarity: "Mythic",
+        source: ["Divine Battles", "Mythic Events", "God's Domain"],
+        description: "Essence of divine power",
+        dropRate: "1%",
+        cost: 5000
+    },
+    "Vampire Blood": {
+        name: "Vampire Blood",
+        rarity: "Rare",
+        source: ["Vampire Battles", "Dark Events", "Blood Castle"],
+        description: "Blood of ancient vampires",
+        dropRate: "25%",
+        cost: 400
+    },
+    "Dark Crystal": {
+        name: "Dark Crystal",
+        rarity: "Epic",
+        source: ["Dark Realm", "Shadow Events", "Crystal Caves"],
+        description: "Crystal infused with dark energy",
+        dropRate: "15%",
+        cost: 900
+    },
+    "Immortal Essence": {
+        name: "Immortal Essence",
+        rarity: "Legendary",
+        source: ["Immortal Battles", "Mythic Events", "Eternal Realm"],
+        description: "Essence of immortality",
+        dropRate: "3%",
+        cost: 2500
+    },
+    "Slime Core": {
+        name: "Slime Core",
+        rarity: "Uncommon",
+        source: ["Slime Battles", "Nature Events", "Slime Forest"],
+        description: "Core of a powerful slime",
+        dropRate: "40%",
+        cost: 200
+    },
+    "Nature Essence": {
+        name: "Nature Essence",
+        rarity: "Rare",
+        source: ["Nature Battles", "Forest Events", "Natural Springs"],
+        description: "Essence of natural power",
+        dropRate: "30%",
+        cost: 350
+    },
+    "Royal Crown": {
+        name: "Royal Crown",
+        rarity: "Epic",
+        source: ["Royal Battles", "Special Events", "Royal Palace"],
+        description: "Crown of royal authority",
+        dropRate: "10%",
+        cost: 1000
+    },
+    "Angel Wing": {
+        name: "Angel Wing",
+        rarity: "Legendary",
+        source: ["Angel Battles", "Mythic Events", "Heavenly Realm"],
+        description: "Wing of a celestial angel",
+        dropRate: "4%",
+        cost: 3000
+    },
+    "Divine Power": {
+        name: "Divine Power",
+        rarity: "Epic",
+        source: ["Divine Battles", "Special Events", "Sacred Temples"],
+        description: "Power of divine beings",
+        dropRate: "8%",
+        cost: 1200
+    },
+    "Martial Essence": {
+        name: "Martial Essence",
+        rarity: "Rare",
+        source: ["Martial Battles", "Training Events", "Martial Island"],
+        description: "Essence of martial arts",
+        dropRate: "35%",
+        cost: 300
+    },
+    "Tyrant Crown": {
+        name: "Tyrant Crown",
+        rarity: "Legendary",
+        source: ["Tyrant Battles", "Mythic Events", "Tyrant's Throne"],
+        description: "Crown of absolute tyranny",
+        dropRate: "2%",
+        cost: 4000
+    },
+    "Shadow Essence": {
+        name: "Shadow Essence",
+        rarity: "Epic",
+        source: ["Shadow Battles", "Dark Events", "Shadow Realm"],
+        description: "Essence of shadow power",
+        dropRate: "11%",
+        cost: 850
+    },
+    "Dark Power": {
+        name: "Dark Power",
+        rarity: "Rare",
+        source: ["Dark Battles", "Shadow Events", "Dark Realm"],
+        description: "Power of darkness",
+        dropRate: "28%",
+        cost: 450
+    },
+    "Divine Love": {
+        name: "Divine Love",
+        rarity: "Epic",
+        source: ["Love Battles", "Holy Events", "Temple of Love"],
+        description: "Power of divine love",
+        dropRate: "9%",
+        cost: 1100
+    },
+    "Holy Essence": {
+        name: "Holy Essence",
+        rarity: "Rare",
+        source: ["Holy Battles", "Sacred Events", "Holy Temples"],
+        description: "Essence of holy power",
+        dropRate: "32%",
+        cost: 380
+    },
+    "Sacred Power": {
+        name: "Sacred Power",
+        rarity: "Epic",
+        source: ["Sacred Battles", "Holy Events", "Sacred Grounds"],
+        description: "Power of sacred beings",
+        dropRate: "7%",
+        cost: 1300
     }
 };
 
@@ -661,6 +965,230 @@ export const FARMING_GUIDE_DATA = {
                 }
             ]
         }
+    },
+    
+    // New Evolution Units Farming Guide
+    "song_jinwu_igros": {
+        unitId: "song_jinwu_igros",
+        farmingGuide: {
+            priority: "Very High",
+            difficulty: "Extreme",
+            estimatedTime: "4-6 weeks",
+            tips: [
+                "Red Key Fragment is extremely rare - focus on Red Key Quest events",
+                "Ancient Power requires special events - save energy for them",
+                "Divine Essence is mythic rarity - participate in all mythic raids",
+                "This is a Vanguard unit - expect high difficulty and costs"
+            ],
+            obtainMethods: [
+                {
+                    material: "Red Key Fragment",
+                    bestLocation: "Red Key Quest",
+                    alternativeLocations: ["Special Events", "Ancient Ruins"],
+                    energyCost: 100,
+                    dropRate: "5%"
+                },
+                {
+                    material: "Ancient Power",
+                    bestLocation: "Ancient Battles",
+                    alternativeLocations: ["Special Events", "Forgotten Temples"],
+                    energyCost: 80,
+                    dropRate: "12%"
+                },
+                {
+                    material: "Divine Essence",
+                    bestLocation: "Divine Battles",
+                    alternativeLocations: ["Mythic Events", "God's Domain"],
+                    energyCost: 150,
+                    dropRate: "1%"
+                }
+            ]
+        }
+    },
+    "alocard_vampire_king": {
+        unitId: "alocard_vampire_king",
+        farmingGuide: {
+            priority: "High",
+            difficulty: "Hard",
+            estimatedTime: "3-4 weeks",
+            tips: [
+                "Vampire Blood is common but needed in bulk",
+                "Dark Crystal requires shadow events - save energy",
+                "Immortal Essence is legendary - focus on mythic events",
+                "This is a Secret rarity unit - moderate difficulty"
+            ],
+            obtainMethods: [
+                {
+                    material: "Vampire Blood",
+                    bestLocation: "Vampire Battles",
+                    alternativeLocations: ["Dark Events", "Blood Castle"],
+                    energyCost: 25,
+                    dropRate: "25%"
+                },
+                {
+                    material: "Dark Crystal",
+                    bestLocation: "Dark Realm",
+                    alternativeLocations: ["Shadow Events", "Crystal Caves"],
+                    energyCost: 40,
+                    dropRate: "15%"
+                },
+                {
+                    material: "Immortal Essence",
+                    bestLocation: "Immortal Battles",
+                    alternativeLocations: ["Mythic Events", "Eternal Realm"],
+                    energyCost: 120,
+                    dropRate: "3%"
+                }
+            ]
+        }
+    },
+    "slime_king": {
+        unitId: "slime_king",
+        farmingGuide: {
+            priority: "Medium",
+            difficulty: "Medium",
+            estimatedTime: "2-3 weeks",
+            tips: [
+                "Slime Core is common - easy to farm",
+                "Nature Essence requires nature events",
+                "Royal Crown is epic rarity - moderate difficulty",
+                "This is a Secret rarity unit - balanced difficulty"
+            ],
+            obtainMethods: [
+                {
+                    material: "Slime Core",
+                    bestLocation: "Slime Battles",
+                    alternativeLocations: ["Nature Events", "Slime Forest"],
+                    energyCost: 15,
+                    dropRate: "40%"
+                },
+                {
+                    material: "Nature Essence",
+                    bestLocation: "Nature Battles",
+                    alternativeLocations: ["Forest Events", "Natural Springs"],
+                    energyCost: 20,
+                    dropRate: "30%"
+                },
+                {
+                    material: "Royal Crown",
+                    bestLocation: "Royal Battles",
+                    alternativeLocations: ["Special Events", "Royal Palace"],
+                    energyCost: 50,
+                    dropRate: "10%"
+                }
+            ]
+        }
+    },
+    "roku_super3": {
+        unitId: "roku_super3",
+        farmingGuide: {
+            priority: "High",
+            difficulty: "Hard",
+            estimatedTime: "3-4 weeks",
+            tips: [
+                "Angel Wing is legendary - focus on mythic events",
+                "Divine Power requires special events",
+                "Martial Essence is common but needed in bulk",
+                "This is a Secret rarity unit - high difficulty"
+            ],
+            obtainMethods: [
+                {
+                    material: "Angel Wing",
+                    bestLocation: "Angel Battles",
+                    alternativeLocations: ["Mythic Events", "Heavenly Realm"],
+                    energyCost: 100,
+                    dropRate: "4%"
+                },
+                {
+                    material: "Divine Power",
+                    bestLocation: "Divine Battles",
+                    alternativeLocations: ["Special Events", "Sacred Temples"],
+                    energyCost: 60,
+                    dropRate: "8%"
+                },
+                {
+                    material: "Martial Essence",
+                    bestLocation: "Martial Battles",
+                    alternativeLocations: ["Training Events", "Martial Island"],
+                    energyCost: 25,
+                    dropRate: "35%"
+                }
+            ]
+        }
+    },
+    "saber_black_tyrant": {
+        unitId: "saber_black_tyrant",
+        farmingGuide: {
+            priority: "Very High",
+            difficulty: "Extreme",
+            estimatedTime: "4-5 weeks",
+            tips: [
+                "Tyrant Crown is legendary - extremely rare",
+                "Shadow Essence requires shadow events",
+                "Dark Power is common but needed in bulk",
+                "This is a Secret rarity unit - extreme difficulty"
+            ],
+            obtainMethods: [
+                {
+                    material: "Tyrant Crown",
+                    bestLocation: "Tyrant Battles",
+                    alternativeLocations: ["Mythic Events", "Tyrant's Throne"],
+                    energyCost: 120,
+                    dropRate: "2%"
+                },
+                {
+                    material: "Shadow Essence",
+                    bestLocation: "Shadow Battles",
+                    alternativeLocations: ["Dark Events", "Shadow Realm"],
+                    energyCost: 45,
+                    dropRate: "11%"
+                },
+                {
+                    material: "Dark Power",
+                    bestLocation: "Dark Battles",
+                    alternativeLocations: ["Shadow Events", "Dark Realm"],
+                    energyCost: 20,
+                    dropRate: "28%"
+                }
+            ]
+        }
+    },
+    "lfelt_love": {
+        unitId: "lfelt_love",
+        farmingGuide: {
+            priority: "High",
+            difficulty: "Hard",
+            estimatedTime: "3-4 weeks",
+            tips: [
+                "Divine Love requires love events - special timing",
+                "Holy Essence is common but needed in bulk",
+                "Sacred Power requires sacred events",
+                "This is a Secret rarity unit - moderate difficulty"
+            ],
+            obtainMethods: [
+                {
+                    material: "Divine Love",
+                    bestLocation: "Love Battles",
+                    alternativeLocations: ["Holy Events", "Temple of Love"],
+                    energyCost: 55,
+                    dropRate: "9%"
+                },
+                {
+                    material: "Holy Essence",
+                    bestLocation: "Holy Battles",
+                    alternativeLocations: ["Sacred Events", "Holy Temples"],
+                    energyCost: 25,
+                    dropRate: "32%"
+                },
+                {
+                    material: "Sacred Power",
+                    bestLocation: "Sacred Battles",
+                    alternativeLocations: ["Holy Events", "Sacred Grounds"],
+                    energyCost: 50,
+                    dropRate: "7%"
+                }
+            ]
+        }
     }
 };
 
@@ -718,6 +1246,140 @@ export const COST_SUMMARY_DATA = {
                     goldCost: 8000,
                     gemsCost: 150,
                     materials: 7
+                }
+            ]
+        }
+    },
+    
+    // New Evolution Units Cost Data
+    "song_jinwu_igros": {
+        unitId: "song_jinwu_igros",
+        costSummary: {
+            totalGoldCost: 125000,
+            totalGemsCost: 500,
+            totalMaterials: 10,
+            breakdown: [
+                {
+                    tier: 1,
+                    goldCost: 50000,
+                    gemsCost: 0,
+                    materials: 0
+                },
+                {
+                    tier: 2,
+                    goldCost: 75000,
+                    gemsCost: 500,
+                    materials: 10
+                }
+            ]
+        }
+    },
+    "alocard_vampire_king": {
+        unitId: "alocard_vampire_king",
+        costSummary: {
+            totalGoldCost: 75000,
+            totalGemsCost: 300,
+            totalMaterials: 6,
+            breakdown: [
+                {
+                    tier: 1,
+                    goldCost: 25000,
+                    gemsCost: 0,
+                    materials: 0
+                },
+                {
+                    tier: 2,
+                    goldCost: 50000,
+                    gemsCost: 300,
+                    materials: 6
+                }
+            ]
+        }
+    },
+    "slime_king": {
+        unitId: "slime_king",
+        costSummary: {
+            totalGoldCost: 60000,
+            totalGemsCost: 250,
+            totalMaterials: 6,
+            breakdown: [
+                {
+                    tier: 1,
+                    goldCost: 20000,
+                    gemsCost: 0,
+                    materials: 0
+                },
+                {
+                    tier: 2,
+                    goldCost: 40000,
+                    gemsCost: 250,
+                    materials: 6
+                }
+            ]
+        }
+    },
+    "roku_super3": {
+        unitId: "roku_super3",
+        costSummary: {
+            totalGoldCost: 90000,
+            totalGemsCost: 400,
+            totalMaterials: 9,
+            breakdown: [
+                {
+                    tier: 1,
+                    goldCost: 30000,
+                    gemsCost: 0,
+                    materials: 0
+                },
+                {
+                    tier: 2,
+                    goldCost: 60000,
+                    gemsCost: 400,
+                    materials: 9
+                }
+            ]
+        }
+    },
+    "saber_black_tyrant": {
+        unitId: "saber_black_tyrant",
+        costSummary: {
+            totalGoldCost: 105000,
+            totalGemsCost: 600,
+            totalMaterials: 9,
+            breakdown: [
+                {
+                    tier: 1,
+                    goldCost: 35000,
+                    gemsCost: 0,
+                    materials: 0
+                },
+                {
+                    tier: 2,
+                    goldCost: 70000,
+                    gemsCost: 600,
+                    materials: 9
+                }
+            ]
+        }
+    },
+    "lfelt_love": {
+        unitId: "lfelt_love",
+        costSummary: {
+            totalGoldCost: 83000,
+            totalGemsCost: 350,
+            totalMaterials: 8,
+            breakdown: [
+                {
+                    tier: 1,
+                    goldCost: 28000,
+                    gemsCost: 0,
+                    materials: 0
+                },
+                {
+                    tier: 2,
+                    goldCost: 55000,
+                    gemsCost: 350,
+                    materials: 8
                 }
             ]
         }
