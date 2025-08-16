@@ -1,68 +1,88 @@
-// Evolution Guide 紧急修复 - 解决JavaScript错误和样式问题
+// Evolution Guide 完整修复 - 集成UnitSelector组件和智能筛选
+import { UnitSelector } from '../components/UnitSelector.js';
+import { CostSummary } from '../components/CostSummary.js';
+import { MaterialsList } from '../components/MaterialsList.js';
+import { FarmingGuide } from '../components/FarmingGuide.js';
+import { showError, showNotification } from '../utils/dom.js';
 
-// 1. 修复函数调用错误
+// 1. 修复函数调用错误并集成组件系统
 class EvolutionGuideManager {
   constructor() {
     this.evolutionData = this.getEvolutionData();
     this.materialsDatabase = this.getMaterialsDatabase();
+    this.unitSelector = null;
+    this.costSummary = null;
+    this.materialsList = null;
+    this.farmingGuide = null;
     this.initializeComponents();
   }
 
-  // 修复：确保所有函数都存在
+  // 修复：初始化所有组件
   initializeComponents() {
-    // 安全的函数引用
-    this.evolutionRequirements = {
-      update: (data) => this.updateEvolutionRequirements(data)
-    };
-    
-    this.evolutionMaterials = {
-      update: (data) => this.updateEvolutionMaterials(data)
-    };
-    
-    this.costSummary = {
-      update: (data) => this.updateCostSummary(data)
-    };
-    
-    this.farmingGuide = {
-      updateFarmingGuide: (data) => this.updateFarmingGuide(data)
-    };
+    try {
+      // 初始化UnitSelector组件 - 这将恢复智能筛选功能
+      this.unitSelector = new UnitSelector('unit-selection', {
+        onUnitSelect: (unit) => this.processUnitSelection(unit),
+        showFilters: true,
+        showSearch: true
+      });
+
+      // 初始化其他组件
+      this.costSummary = new CostSummary('cost-summary');
+      this.materialsList = new MaterialsList('evolution-materials');
+      this.farmingGuide = new FarmingGuide('farming-guide');
+
+      console.log("✅ 所有组件初始化成功");
+    } catch (error) {
+      console.error("❌ 组件初始化失败:", error);
+      showError("Failed to initialize Evolution Guide components");
+    }
   }
 
-  // 2. 安全的单位选择处理
-  processUnitSelection(unitValue) {
+  // 2. 安全的单位选择处理 - 使用组件系统
+  processUnitSelection(unit) {
     try {
-      console.log("Processing unit selection:", unitValue);
+      console.log("Processing unit selection:", unit);
       
-      if (!unitValue || unitValue === "Select Unit...") {
+      if (!unit) {
         this.clearAllDisplays();
         return;
       }
 
-      const unitId = this.extractUnitId(unitValue);
-      const evolutionInfo = this.evolutionData[unitId];
+      // 使用组件系统更新显示
+      this.displayEvolutionData(unit);
       
-      if (evolutionInfo && evolutionInfo.canEvolve) {
-        this.displayEvolutionData(evolutionInfo);
-      } else {
-        this.showNoEvolutionData(unitValue);
-      }
     } catch (error) {
       console.error("Error in processUnitSelection:", error);
-      this.showErrorMessage("Failed to process unit selection. Please try again.");
+      showError("Failed to process unit selection. Please try again.");
     }
   }
 
-  // 3. 修复：安全的显示更新函数
-  displayEvolutionData(evolutionInfo) {
+  // 3. 修复：使用组件系统更新显示
+  displayEvolutionData(unit) {
     try {
-      // 使用安全的函数调用
-      this.evolutionRequirements.update(evolutionInfo);
-      this.evolutionMaterials.update(evolutionInfo);
-      this.costSummary.update(evolutionInfo);
-      this.farmingGuide.updateFarmingGuide(evolutionInfo);
+      console.log("Displaying evolution data for:", unit);
+      
+      // 使用组件系统更新各个显示区域
+      if (this.costSummary) {
+        this.costSummary.updateUnit(unit);
+      }
+      
+      if (this.materialsList) {
+        this.materialsList.updateUnit(unit);
+      }
+      
+      if (this.farmingGuide) {
+        this.farmingGuide.updateUnit(unit);
+      }
+      
+      // 更新进化需求显示
+      this.updateEvolutionRequirements(unit);
+      
+      console.log("✅ Evolution data updated successfully");
     } catch (error) {
       console.error("Error updating displays:", error);
-      this.showErrorMessage("Failed to update evolution data displays.");
+      showError("Failed to update evolution data displays.");
     }
   }
 
@@ -363,10 +383,22 @@ class EvolutionGuideManager {
   }
 
   clearAllDisplays() {
-    const containers = ['evolution-requirements', 'evolution-materials', 'cost-summary', 'farming-guide'];
-    
-    containers.forEach(type => {
-      const container = this.getContainer(type);
+    try {
+      // 清空组件显示
+      if (this.costSummary && typeof this.costSummary.clear === 'function') {
+        this.costSummary.clear();
+      }
+      
+      if (this.materialsList && typeof this.materialsList.clear === 'function') {
+        this.materialsList.clear();
+      }
+      
+      if (this.farmingGuide && typeof this.farmingGuide.clear === 'function') {
+        this.farmingGuide.clear();
+      }
+      
+      // 清空进化需求显示
+      const container = this.getContainer('evolution-requirements');
       if (container) {
         container.innerHTML = `
           <div class="select-prompt">
@@ -375,7 +407,24 @@ class EvolutionGuideManager {
           </div>
         `;
       }
-    });
+      
+      console.log("✅ All displays cleared");
+    } catch (error) {
+      console.error("Error clearing displays:", error);
+      // 回退到原来的方法
+      const containers = ['evolution-requirements', 'evolution-materials', 'cost-summary', 'farming-guide'];
+      containers.forEach(type => {
+        const container = this.getContainer(type);
+        if (container) {
+          container.innerHTML = `
+            <div class="select-prompt">
+              <div class="prompt-icon">🔍</div>
+              <div class="prompt-message">Select a unit to view evolution data</div>
+            </div>
+          `;
+        }
+      });
+    }
   }
 
   showNoEvolutionData(unitName) {

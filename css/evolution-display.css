@@ -851,6 +851,53 @@
     color: inherit;
 }
 
+/* 13. 紧急修复 - 强制移除任何白色背景 */
+.cost-summary,
+.cost-summary *,
+.cost-breakdown-container,
+.cost-breakdown-container *,
+.farming-guide,
+.farming-guide *,
+.evolution-requirements,
+.evolution-requirements *,
+.evolution-materials,
+.evolution-materials *,
+[class*="cost"],
+[class*="farming"],
+[class*="evolution"],
+[class*="material"] {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* 14. 为Cost Summary区域添加强制深色背景 */
+.cost-summary {
+  background: rgba(30, 41, 59, 0.95) !important;
+  border: 2px solid rgba(100, 116, 139, 0.5) !important;
+}
+
+/* 15. 修复可能导致白色背景的具体类 */
+.cost-breakdown,
+.cost-breakdown *,
+.cost-cards,
+.cost-cards *,
+.cost-card,
+.cost-card * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 16. 强制所有可能的白色背景变为透明 */
+*[style*="background: white"],
+*[style*="background-color: white"],
+*[style*="background: #fff"],
+*[style*="background-color: #fff"],
+*[style*="background: #ffffff"],
+*[style*="background-color: #ffffff"] {
+  background: rgba(30, 41, 59, 0.8) !important;
+  background-color: rgba(30, 41, 59, 0.8) !important;
+}
+
 .cost-summary input, .cost-summary select, .cost-summary textarea {
     background: rgba(51, 65, 85, 0.8) !important;
     border: 1px solid rgba(71, 85, 105, 0.5) !important;
