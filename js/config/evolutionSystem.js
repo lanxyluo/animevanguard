@@ -876,8 +876,8 @@ export const MATERIALS_DATA = {
     }
 };
 
-// 3. 农场指南数据
-export const FARMING_GUIDE_DATA = {
+// 3. 农场指南数据 (Legacy - 已迁移到 realEvolutionData.js)
+export const LEGACY_FARMING_GUIDE_DATA = {
     "tanjiro": {
         unitId: "tanjiro",
         farmingGuide: {

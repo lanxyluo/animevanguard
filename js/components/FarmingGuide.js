@@ -332,21 +332,21 @@ export class FarmingGuide {
                         <div class="overview-label">Priority</div>
                         <div class="overview-value ${farmingData.priority.toLowerCase().replace(' ', '-')}">
                             ${farmingData.priority}
+                            </div>
                         </div>
-                    </div>
-                </div>
+                            </div>
                 
                 <div class="overview-item difficulty">
                     <div class="overview-icon">
                         <i class="fas fa-trophy"></i>
-                    </div>
+                            </div>
                     <div class="overview-details">
                         <div class="overview-label">Difficulty</div>
                         <div class="overview-value ${farmingData.difficulty.toLowerCase().replace(' ', '-')}">
                             ${farmingData.difficulty}
+                            </div>
                         </div>
                     </div>
-                </div>
                 
                 <div class="overview-item time">
                     <div class="overview-icon">
@@ -356,9 +356,9 @@ export class FarmingGuide {
                         <div class="overview-label">Estimated Time</div>
                         <div class="overview-value">${farmingData.estimatedTime}</div>
                     </div>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
         
         container.appendChild(overviewSection);
     }

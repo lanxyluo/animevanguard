@@ -311,7 +311,7 @@ export class UnitSelector {
             this.filteredUnits = this.filterOptimizer.applyFilterPreset('evolution-ready', this.allUnits);
         } else {
             // Use new filtering logic
-            this.filteredUnits = this.filterEvolutionUnits(this.allUnits, rarityFilter, elementFilter, searchTerm);
+        this.filteredUnits = this.filterEvolutionUnits(this.allUnits, rarityFilter, elementFilter, searchTerm);
         }
         
         // 更新筛选结果计数

@@ -86,11 +86,20 @@ export class App {
             about: document.getElementById('aboutPage')
         };
         
+        console.log('📊 Page containers found:', Object.keys(this.pageContainers).filter(key => this.pageContainers[key]).length);
+        
         // Get homepage intro section
         this.homepageIntro = document.querySelector('.homepage-intro');
+        console.log('🏠 Homepage intro found:', !!this.homepageIntro);
         
         // Get navigation tabs
         this.navTabs = document.querySelectorAll('.nav-tab');
+        console.log('🔗 Navigation tabs found:', this.navTabs.length);
+        
+        // Debug: List all found tabs
+        this.navTabs.forEach((tab, index) => {
+            console.log(`  Tab ${index}: ${tab.getAttribute('data-page')} (${tab.textContent.trim()})`);
+        });
         
         console.log('✅ Navigation initialized');
     }
@@ -141,11 +150,16 @@ export class App {
 
     
     setupGlobalEvents() {
+        console.log('🔧 Setting up global events...');
+        console.log('📊 Found nav tabs:', this.navTabs.length);
+        
         // Navigation tab clicks
-        this.navTabs.forEach(tab => {
+        this.navTabs.forEach((tab, index) => {
+            console.log(`🔗 Setting up tab ${index}:`, tab.getAttribute('data-page'));
             tab.addEventListener('click', (e) => {
                 e.preventDefault();
                 const pageName = tab.getAttribute('data-page');
+                console.log('🎯 Tab clicked:', pageName);
                 this.showPage(pageName);
             });
         });
@@ -190,6 +204,9 @@ export class App {
     }
     
     showPage(pageName) {
+        console.log('📄 Showing page:', pageName);
+        console.log('📊 Available page containers:', Object.keys(this.pageContainers).filter(key => this.pageContainers[key]));
+        
         // Hide all pages
         Object.values(this.pageContainers).forEach(container => {
             if (container) {
@@ -200,6 +217,11 @@ export class App {
         // Show target page
         if (this.pageContainers[pageName]) {
             this.pageContainers[pageName].style.display = 'block';
+            console.log('✅ Page shown successfully:', pageName);
+        } else {
+            console.error('❌ Page container not found:', pageName);
+            console.log('🔍 Available containers:', Object.keys(this.pageContainers));
+            return;
         }
         
         // Hide homepage intro on all specific pages
@@ -225,16 +247,21 @@ export class App {
         
         // Call page-specific show methods
         if (pageName === 'evolution' && this.evolutionPage) {
+            console.log('🧬 Calling evolution page show method');
             this.evolutionPage.show();
         } else if (pageName === 'dps' && this.dpsPage) {
+            console.log('⚔️ Calling DPS page show method');
             this.dpsPage.show();
         } else if (pageName === 'database' && this.databasePage) {
+            console.log('🗄️ Calling database page show method');
             this.databasePage.show();
         } else if (pageName === 'codes') {
+            console.log('🎁 Updating codes page');
             this.updateCodesPage();
         }
         
         this.currentPage = pageName;
+        console.log('✅ Page switch completed. Current page:', this.currentPage);
     }
     
     updateNavigation(activePage) {

@@ -802,7 +802,7 @@ export class EvolutionPage {
             
             // Fallback to legacy evolution system data
             const module = await import('../config/evolutionSystem.js');
-            return module.FARMING_GUIDE_DATA[unitId] || null;
+            return module.LEGACY_FARMING_GUIDE_DATA[unitId] || null;
         } catch (error) {
             console.warn('⚠️ 无法加载农场指南数据:', error);
             return null;
@@ -817,34 +817,34 @@ export class EvolutionPage {
             const updatePromises = [];
             
             // Update materials list component
-            if (this.materialsList) {
-                console.log('📋 更新 MaterialsList 组件');
+        if (this.materialsList) {
+            console.log('📋 更新 MaterialsList 组件');
                 updatePromises.push(this.materialsList.updateMaterials(unit));
-            } else {
-                console.error('❌ MaterialsList 组件未初始化');
-            }
-            
+        } else {
+            console.error('❌ MaterialsList 组件未初始化');
+        }
+        
             // Update cost summary component
-            if (this.costSummary) {
-                console.log('💰 更新 CostSummary 组件');
+        if (this.costSummary) {
+            console.log('💰 更新 CostSummary 组件');
                 updatePromises.push(this.costSummary.updateCost(unit));
-            } else {
-                console.error('❌ CostSummary 组件未初始化');
-            }
-            
+        } else {
+            console.error('❌ CostSummary 组件未初始化');
+        }
+        
             // Update farming guide component
-            if (this.farmingGuide) {
-                console.log('🌾 更新 FarmingGuide 组件');
+        if (this.farmingGuide) {
+            console.log('🌾 更新 FarmingGuide 组件');
                 updatePromises.push(this.farmingGuide.updateGuide(unit));
-            } else {
-                console.error('❌ FarmingGuide 组件未初始化');
-            }
+        } else {
+            console.error('❌ FarmingGuide 组件未初始化');
+        }
             
             // Wait for all components to update
             await Promise.all(updatePromises);
-            
-            console.log('✅ 所有组件更新完成');
-            console.log('📄 === EvolutionPage 单位选择处理完成 ===\n');
+        
+        console.log('✅ 所有组件更新完成');
+        console.log('📄 === EvolutionPage 单位选择处理完成 ===\n');
             
         } catch (error) {
             console.error('❌ 更新组件时出错:', error);

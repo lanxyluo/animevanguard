@@ -108,11 +108,11 @@ export class MaterialsList {
             <div class="empty-state">
                 <div class="empty-icon">
                     <i class="fas fa-search"></i>
-                </div>
+                    </div>
                 <h3>No Unit Selected</h3>
                 <p>Please select a unit from the list above to view its evolution requirements and materials.</p>
-            </div>
-        `;
+                </div>
+            `;
         this.isLoading = false;
     }
     
@@ -123,16 +123,16 @@ export class MaterialsList {
             <div class="empty-state">
                 <div class="empty-icon">
                     <i class="fas fa-info-circle"></i>
-                </div>
+                    </div>
                 <h3>No Evolution Data Available</h3>
                 <p>This unit doesn't have evolution data yet. Evolution system is being updated.</p>
                 <div class="evolution-status">
                     <span class="status-badge updating">
                         <i class="fas fa-sync-alt fa-spin"></i> Data Updating
                     </span>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
         this.isLoading = false;
     }
     
@@ -209,8 +209,8 @@ export class MaterialsList {
             </div>
             <div class="path-steps">
                 ${pathSteps}
-            </div>
-        `;
+                </div>
+            `;
         
         return pathContainer;
     }

@@ -218,23 +218,23 @@ export class CostSummary {
             <div class="cost-grid">
                 <div class="cost-item gold-cost">
                     <div class="cost-icon">
-                        <i class="fas fa-coins"></i>
+                            <i class="fas fa-coins"></i>
                     </div>
                     <div class="cost-details">
                         <div class="cost-label">Total Gold Cost</div>
                         <div class="cost-value">${costBreakdown.totalGoldCost.toLocaleString()}</div>
+                        </div>
                     </div>
-                </div>
                 
                 <div class="cost-item gems-cost">
                     <div class="cost-icon">
-                        <i class="fas fa-gem"></i>
-                    </div>
+                                <i class="fas fa-gem"></i>
+                            </div>
                     <div class="cost-details">
                         <div class="cost-label">Total Gems Cost</div>
                         <div class="cost-value">${costBreakdown.totalGemsCost.toLocaleString()}</div>
-                    </div>
-                </div>
+                            </div>
+                        </div>
                 
                 <div class="cost-item material-cost">
                     <div class="cost-icon">
@@ -249,13 +249,13 @@ export class CostSummary {
                 <div class="cost-item total-cost">
                     <div class="cost-icon">
                         <i class="fas fa-calculator"></i>
-                    </div>
-                    <div class="cost-details">
+                </div>
+            <div class="cost-details">
                         <div class="cost-label">Grand Total</div>
                         <div class="cost-value">${costBreakdown.grandTotal.toLocaleString()}</div>
                     </div>
                 </div>
-            </div>
+                    </div>
             
             <div class="cost-stats">
                 <div class="stat-item">
