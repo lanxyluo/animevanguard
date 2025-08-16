@@ -4,7 +4,7 @@ import { CostSummary } from '../components/CostSummary.js';
 import { FarmingGuide } from '../components/FarmingGuide.js';
 import { showError } from '../utils/dom.js';
 import { validateUnitData, validateMaterialsConfig, validateElementIcons } from '../utils/validation.js';
-import { EVOLUTION_UNITS, evolutionUtils } from '../config/evolutionUnits.js';
+import { unitsData } from '../config/units.js';
 import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
 
 export class EvolutionPage {
@@ -30,20 +30,14 @@ export class EvolutionPage {
     async initialize(data) {
         console.log('🚀 Initializing Evolution Page...');
         
-        this.unitsData = EVOLUTION_UNITS;
+        // Use Unit Database data and filter units that can evolve
+        this.unitsData = unitsData.filter(unit => unit.evolution && unit.evolution !== "Base Form");
         this.materialsConfig = data.materialsConfig;
         this.elementIcons = data.elementIcons;
         
-        // Validate evolution data
-        const evolutionValidation = evolutionUtils.validateEvolutionUnits();
+        // Validate data
         const rarityValidation = dataUtils.validateRarities();
         const elementValidation = dataUtils.validateElements();
-        
-        if (!evolutionValidation) {
-            console.error('❌ Evolution units validation failed');
-            showError('Evolution units validation failed', 'error');
-            return false;
-        }
         
         if (!rarityValidation) {
             console.error('❌ Rarities validation failed');
@@ -149,8 +143,8 @@ export class EvolutionPage {
     
     async loadMaterialsData(unitId) {
         try {
-            const module = await import('../config/evolutionMaterials.js');
-            return module.EVOLUTION_MATERIALS_DATA[unitId] || null;
+            const module = await import('../config/evolutionSystem.js');
+            return module.EVOLUTION_DATA[unitId] || null;
         } catch (error) {
             console.warn('⚠️ 无法加载材料数据:', error);
             return null;
@@ -159,7 +153,7 @@ export class EvolutionPage {
     
     async loadCostData(unitId) {
         try {
-            const module = await import('../config/costSummary.js');
+            const module = await import('../config/evolutionSystem.js');
             return module.COST_SUMMARY_DATA[unitId] || null;
         } catch (error) {
             console.warn('⚠️ 无法加载成本数据:', error);
@@ -169,7 +163,7 @@ export class EvolutionPage {
     
     async loadFarmingData(unitId) {
         try {
-            const module = await import('../config/farmingGuide.js');
+            const module = await import('../config/evolutionSystem.js');
             return module.FARMING_GUIDE_DATA[unitId] || null;
         } catch (error) {
             console.warn('⚠️ 无法加载农场指南数据:', error);

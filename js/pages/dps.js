@@ -96,6 +96,9 @@ export class DPSPage {
         // Initialize game states dropdown
         this.updateGameStateOptions();
         
+        // Initialize filter options
+        this.populateFilterOptions();
+        
         console.log('✅ Traits and Game States initialized');
     }
     
@@ -114,6 +117,32 @@ export class DPSPage {
             option.title = state.description; // Tooltip
             gameStateSelect.appendChild(option);
         });
+    }
+    
+    populateFilterOptions() {
+        if (!this.unitsData) return;
+        
+        // Get unique values from units data
+        const rarities = [...new Set(Object.values(this.unitsData).map(unit => unit.rarity))].sort();
+        const elements = [...new Set(Object.values(this.unitsData).map(unit => unit.element))].sort();
+        
+        // Populate rarity filter
+        if (this.elements.rarityFilter) {
+            const currentValue = this.elements.rarityFilter.value;
+            this.elements.rarityFilter.innerHTML = '<option value="">All Rarity</option>' +
+                rarities.map(rarity => `<option value="${rarity}">${rarity}</option>`).join('');
+            this.elements.rarityFilter.value = currentValue;
+        }
+        
+        // Populate element filter
+        if (this.elements.elementFilter) {
+            const currentValue = this.elements.elementFilter.value;
+            this.elements.elementFilter.innerHTML = '<option value="">All Elements</option>' +
+                elements.map(element => `<option value="${element}">${element}</option>`).join('');
+            this.elements.elementFilter.value = currentValue;
+        }
+        
+        console.log('✅ DPS filter options populated');
     }
     
     populateUnitSelect() {

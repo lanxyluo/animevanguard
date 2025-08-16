@@ -1,4 +1,5 @@
 // Farming Guide Component
+import { evolutionUtils } from '../config/evolutionSystem.js';
 
 export class FarmingGuide {
     constructor(containerId, options = {}) {
@@ -23,290 +24,367 @@ export class FarmingGuide {
             return;
         }
         
-        this.createDOM();
         this.render();
-    }
-    
-    createDOM() {
-        this.container.innerHTML = `
-            <div class="card">
-                <h2><i class="fas fa-map"></i> Farming Guide</h2>
-                <div id="farmingGuide" class="farming-guide">
-                    <p>Select a unit to view farming guide</p>
-                </div>
-            </div>
-        `;
-        
-        this.farmingGuideElement = document.getElementById('farmingGuide');
     }
     
     updateGuide(unit) {
-        console.log('🌾 === FarmingGuide 接收单位更新 ===');
-        console.log('📊 当前农场状态:', this.currentUnit);
-        console.log('🆕 新接收的单位:', unit);
+        console.log('🌾 === FarmingGuide 更新指南 ===');
+        console.log('📊 当前单位:', unit);
         
         this.currentUnit = unit;
-        console.log('✅ 农场状态已更新:', this.currentUnit);
         
-        console.log('🎨 开始渲染农场指南...');
-        this.render();
-        console.log('🌾 === FarmingGuide 单位更新完成 ===\n');
-    }
-    
-    render() {
-        if (!this.farmingGuideElement) return;
-        
-        if (!this.currentUnit) {
-            this.farmingGuideElement.innerHTML = '<p>Select a unit to view farming guide</p>';
+        if (!unit) {
+            this.showEmptyState();
             return;
         }
         
-        // Try to get detailed farming guide data
-        import('../config/farmingGuide.js').then(module => {
-            const farmingGuideData = module.FARMING_GUIDE_DATA[this.currentUnit.id];
-            if (farmingGuideData) {
-                this.renderDetailedFarmingGuide(farmingGuideData);
-            } else {
-                // Fallback to basic guide
-                this.renderBasicFarmingGuide();
-            }
-        }).catch(error => {
+        this.renderFarmingGuide(unit);
+    }
+    
+    renderFarmingGuide(unit) {
+        if (!this.container) return;
+        
+        // Clear container
+        this.container.innerHTML = '';
+        
+        // Get farming guide data
+        const farmingData = this.getFarmingData(unit.id);
+        if (!farmingData) {
+            this.showNoFarmingData();
+            return;
+        }
+        
+        // Create farming guide section
+        const guideSection = document.createElement('div');
+        guideSection.className = 'farming-guide';
+        
+        // Add title
+        const title = document.createElement('h3');
+        title.innerHTML = '<i class="fas fa-map"></i> Farming Guide';
+        title.className = 'section-title';
+        guideSection.appendChild(title);
+        
+        // Add farming overview
+        this.renderFarmingOverview(farmingData, guideSection);
+        
+        // Add farming tips
+        if (this.options.showTips && farmingData.tips) {
+            this.renderFarmingTips(farmingData.tips, guideSection);
+        }
+        
+        // Add obtain methods
+        if (this.options.showObtainMethods && farmingData.obtainMethods) {
+            this.renderObtainMethods(farmingData.obtainMethods, guideSection);
+        }
+        
+        this.container.appendChild(guideSection);
+    }
+    
+    getFarmingData(unitId) {
+        // Try to get from farming guide data first
+        const farmingGuideData = this.loadFarmingGuideData();
+        if (farmingGuideData && farmingGuideData[unitId]) {
+            return farmingGuideData[unitId].farmingGuide;
+        }
+        
+        // Fallback: generate farming guide from evolution data
+        return this.generateFarmingGuide(unitId);
+    }
+    
+    loadFarmingGuideData() {
+        try {
+            // This would be imported from the evolution system
+            // For now, we'll generate it dynamically
+            return null;
+        } catch (error) {
             console.warn('Could not load farming guide data:', error);
-            // Fallback to basic guide
-            this.renderBasicFarmingGuide();
-        });
-    }
-    
-    renderDetailedFarmingGuide(guideData) {
-        let guideHTML = `
-            <div class="farming-guide-container">
-                <h3><i class="fas fa-map-marked-alt"></i> Farming Guide for ${this.currentUnit.name}</h3>
-                <div class="unit-info">
-                    <span class="unit-rarity"><i class="fas fa-star"></i> ${this.currentUnit.rarity}</span>
-                    <span class="unit-element"><i class="fas fa-fire"></i> ${this.currentUnit.element}</span>
-                    <span class="priority-badge priority-${guideData.priority.toLowerCase()}">
-                        <i class="fas fa-flag"></i> Priority: ${guideData.priority}
-                    </span>
-                </div>
-        `;
-        
-        // Farming Steps
-        if (guideData.farmingSteps && guideData.farmingSteps.length > 0) {
-            guideHTML += `
-                <div class="farming-steps">
-                    <h4><i class="fas fa-list-ol"></i> Farming Steps:</h4>
-                    <ol>
-            `;
-            
-            guideData.farmingSteps.forEach((step, index) => {
-                guideHTML += `
-                    <li key="${index}">
-                        <div class="step-header">
-                            <strong><i class="fas fa-step-forward"></i> ${step.task}</strong>
-                        </div>
-                        <div class="step-content">
-                            <div class="step-method">
-                                <i class="fas fa-route"></i> ${step.method}
-                            </div>
-                            ${step.alternativeMethod ? `
-                                <div class="step-alternative">
-                                    <i class="fas fa-exchange-alt"></i> Alternative: ${step.alternativeMethod}
-                                </div>
-                            ` : ''}
-                            ${step.location ? `
-                                <div class="step-location">
-                                    <i class="fas fa-map-marker-alt"></i> Location: ${step.location}
-                                </div>
-                            ` : ''}
-                            ${step.timeEstimate ? `
-                                <div class="step-time">
-                                    <i class="fas fa-clock"></i> Time: ${step.timeEstimate}
-                                </div>
-                            ` : ''}
-                            ${step.notes ? `
-                                <div class="step-notes">
-                                    <i class="fas fa-info-circle"></i> Notes: ${step.notes}
-                                </div>
-                            ` : ''}
-                        </div>
-                    </li>
-                `;
-            });
-            
-            guideHTML += `
-                    </ol>
-                </div>
-            `;
-        }
-        
-        // Material Farming
-        if (guideData.materialFarming && guideData.materialFarming.length > 0) {
-            guideHTML += `
-                <div class="material-farming">
-                    <h4><i class="fas fa-gem"></i> Material Farming:</h4>
-                    <div class="material-list">
-            `;
-            
-            guideData.materialFarming.forEach((material, index) => {
-                guideHTML += `
-                    <div class="material-item" key="${index}">
-                        <div class="material-header">
-                            <div class="material-name">
-                                <i class="fas fa-cube"></i> ${material.material}
-                            </div>
-                        </div>
-                        <div class="material-method">
-                            <div class="method-item">
-                                <i class="fas fa-trophy"></i> <strong>Best Method:</strong> ${material.bestMethod}
-                            </div>
-                            <div class="method-item">
-                                <i class="fas fa-arrow-right"></i> <strong>Alternative:</strong> ${material.alternativeMethod}
-                            </div>
-                            <div class="method-item">
-                                <i class="fas fa-chart-line"></i> <strong>Efficiency:</strong> 
-                                <span class="efficiency-${material.efficiency.toLowerCase()}">${material.efficiency}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            guideHTML += `
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Tips
-        if (guideData.tips && guideData.tips.length > 0) {
-            guideHTML += `
-                <div class="farming-tips">
-                    <h4><i class="fas fa-lightbulb"></i> Tips:</h4>
-                    <ul>
-                        ${guideData.tips.map((tip, index) => `
-                            <li key="${index}">
-                                <i class="fas fa-check-circle"></i> ${tip}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-        
-        guideHTML += `</div>`;
-        
-        this.farmingGuideElement.innerHTML = guideHTML;
-    }
-    
-    renderBasicFarmingGuide() {
-        let guideHTML = `
-            <h3>Farming Guide for ${this.currentUnit.name}</h3>
-            <p><strong>Rarity:</strong> ${this.currentUnit.rarity} • <strong>Element:</strong> ${this.currentUnit.element}</p>
-            <hr>
-            <div class="farming-steps">
-                <h4>Farming Steps:</h4>
-                <ol>
-                    <li>Collect required materials</li>
-                    <li>Complete evolution quest</li>
-                    <li>Evolve unit</li>
-                </ol>
-            </div>
-            <div class="farming-tips">
-                <h4>Tips:</h4>
-                <ul>
-                    <li>Focus on daily challenges for materials</li>
-                    <li>Use element-specific teams for better drops</li>
-                    <li>Complete weekly challenges for bonus rewards</li>
-                </ul>
-            </div>
-        `;
-        
-        this.farmingGuideElement.innerHTML = guideHTML;
-    }
-    
-    getEvolutionStatus() {
-        if (this.currentUnit.canEvolve) {
-            if (this.currentUnit.evolutionTo) {
-                return `<p><strong>Evolves to:</strong> ${this.currentUnit.evolutionTo}</p>`;
-            } else {
-                return `<p><strong>Status:</strong> Can evolve (target not specified)</p>`;
-            }
-        } else {
-            if (this.currentUnit.evolutionFrom) {
-                return `<p><strong>Evolved from:</strong> ${this.currentUnit.evolutionFrom}</p>`;
-            } else {
-                return `<p><strong>Status:</strong> Cannot evolve</p>`;
-            }
-        }
-    }
-    
-    getFarmingRecommendations() {
-        if (!this.currentUnit || !this.currentUnit.farmingGuide) {
             return null;
         }
+    }
+    
+    generateFarmingGuide(unitId) {
+        const evolutionData = evolutionUtils.getEvolutionData(unitId);
+        if (!evolutionData) return null;
         
-        const { priority, difficulty, tips } = this.currentUnit.farmingGuide;
+        // Generate farming guide based on evolution requirements
+        const materials = this.extractAllMaterials(evolutionData);
+        const obtainMethods = this.generateObtainMethods(materials);
+        const tips = this.generateFarmingTips(materials);
         
         return {
-            priority: priority || 'Medium',
-            difficulty: difficulty || 'Medium',
-            tips: tips || [],
-            obtainMethod: this.currentUnit.obtainMethod,
-            dropRate: this.currentUnit.dropRate,
-            canEvolve: this.currentUnit.canEvolve,
-            evolutionFrom: this.currentUnit.evolutionFrom,
-            evolutionTo: this.currentUnit.evolutionTo
+            priority: this.calculatePriority(materials),
+            difficulty: this.calculateDifficulty(materials),
+            estimatedTime: this.calculateEstimatedTime(materials),
+            tips,
+            obtainMethods
         };
     }
     
-    getPriorityLevel() {
-        if (!this.currentUnit || !this.currentUnit.farmingGuide) {
-            return 'medium';
-        }
+    extractAllMaterials(evolutionData) {
+        const materials = [];
         
-        const priority = this.currentUnit.farmingGuide.priority?.toLowerCase();
+        evolutionData.evolutions.forEach(evolution => {
+            evolution.requirements.materials.forEach(materialString => {
+                const parsedMaterial = evolutionUtils.parseMaterialString(materialString);
+                const materialData = evolutionUtils.getMaterialData(parsedMaterial.name);
+                
+                if (materialData) {
+                    materials.push({
+                        ...parsedMaterial,
+                        ...materialData
+                    });
+                }
+            });
+        });
         
-        if (priority?.includes('high')) return 'high';
-        if (priority?.includes('low')) return 'low';
-        return 'medium';
+        return materials;
     }
     
-    getDifficultyLevel() {
-        if (!this.currentUnit || !this.currentUnit.farmingGuide) {
-            return 'medium';
-        }
-        
-        const difficulty = this.currentUnit.farmingGuide.difficulty?.toLowerCase();
-        
-        if (difficulty?.includes('easy')) return 'easy';
-        if (difficulty?.includes('hard')) return 'hard';
-        if (difficulty?.includes('very')) return 'very-hard';
-        return 'medium';
+    generateObtainMethods(materials) {
+        return materials.map(material => ({
+            material: material.name,
+            bestLocation: material.source[0] || 'Unknown Location',
+            alternativeLocations: material.source.slice(1) || [],
+            energyCost: this.estimateEnergyCost(material.rarity),
+            dropRate: material.dropRate
+        }));
     }
     
-    getEstimatedTime() {
-        if (!this.currentUnit || !this.currentUnit.farmingGuide) {
-            return 'Unknown';
+    generateFarmingTips(materials) {
+        const tips = [];
+        
+        // Sort materials by rarity (most common first)
+        const sortedMaterials = materials.sort((a, b) => {
+            const rarityOrder = { 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Epic': 4, 'Legendary': 5, 'Mythic': 6 };
+            return rarityOrder[a.rarity] - rarityOrder[b.rarity];
+        });
+        
+        // Add tips based on material characteristics
+        const commonMaterials = materials.filter(m => m.rarity === 'Common');
+        const rareMaterials = materials.filter(m => m.rarity === 'Rare' || m.rarity === 'Epic');
+        const mythicMaterials = materials.filter(m => m.rarity === 'Legendary' || m.rarity === 'Mythic');
+        
+        if (commonMaterials.length > 0) {
+            tips.push(`Focus on ${commonMaterials[0].name} first (${commonMaterials[0].dropRate} drop rate)`);
         }
         
-        const priority = this.getPriorityLevel();
-        const difficulty = this.getDifficultyLevel();
+        if (rareMaterials.length > 0) {
+            tips.push(`${rareMaterials[0].name} requires special events - save energy for them`);
+        }
         
-        // Simple estimation based on priority and difficulty
-        if (priority === 'high' && difficulty === 'easy') return '1-2 weeks';
-        if (priority === 'high' && difficulty === 'medium') return '2-4 weeks';
-        if (priority === 'high' && difficulty === 'hard') return '1-2 months';
-        if (priority === 'medium' && difficulty === 'easy') return '2-3 weeks';
-        if (priority === 'medium' && difficulty === 'medium') return '1-2 months';
-        if (priority === 'medium' && difficulty === 'hard') return '2-3 months';
-        if (priority === 'low' && difficulty === 'easy') return '3-4 weeks';
-        if (priority === 'low' && difficulty === 'medium') return '2-3 months';
-        if (priority === 'low' && difficulty === 'hard') return '3-6 months';
+        if (mythicMaterials.length > 0) {
+            tips.push(`${mythicMaterials[0].name} is extremely rare - participate in all mythic events`);
+        }
         
-        return 'Unknown';
+        tips.push('Use daily missions for common materials');
+        tips.push('Save gems for rare material events');
+        
+        return tips;
+    }
+    
+    calculatePriority(materials) {
+        const mythicCount = materials.filter(m => m.rarity === 'Mythic').length;
+        const legendaryCount = materials.filter(m => m.rarity === 'Legendary').length;
+        
+        if (mythicCount > 0) return 'Very High';
+        if (legendaryCount > 2) return 'High';
+        if (legendaryCount > 0) return 'Medium';
+        return 'Low';
+    }
+    
+    calculateDifficulty(materials) {
+        const mythicCount = materials.filter(m => m.rarity === 'Mythic').length;
+        const legendaryCount = materials.filter(m => m.rarity === 'Legendary').length;
+        const epicCount = materials.filter(m => m.rarity === 'Epic').length;
+        
+        if (mythicCount > 0) return 'Very Hard';
+        if (legendaryCount > 1) return 'Hard';
+        if (epicCount > 2) return 'Medium';
+        return 'Easy';
+    }
+    
+    calculateEstimatedTime(materials) {
+        const totalRarity = materials.reduce((sum, m) => {
+            const rarityValues = { 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Epic': 4, 'Legendary': 5, 'Mythic': 6 };
+            return sum + rarityValues[m.rarity] * m.quantity;
+        }, 0);
+        
+        if (totalRarity > 50) return '4-5 weeks';
+        if (totalRarity > 30) return '3-4 weeks';
+        if (totalRarity > 15) return '2-3 weeks';
+        return '1-2 weeks';
+    }
+    
+    estimateEnergyCost(rarity) {
+        const energyCosts = {
+            'Common': 10,
+            'Uncommon': 15,
+            'Rare': 25,
+            'Epic': 40,
+            'Legendary': 60,
+            'Mythic': 100
+        };
+        return energyCosts[rarity] || 20;
+    }
+    
+    renderFarmingOverview(farmingData, container) {
+        const overviewSection = document.createElement('div');
+        overviewSection.className = 'farming-overview';
+        
+        overviewSection.innerHTML = `
+            <div class="overview-grid">
+                <div class="overview-item priority">
+                    <div class="overview-icon">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <div class="overview-details">
+                        <div class="overview-label">Priority</div>
+                        <div class="overview-value ${farmingData.priority.toLowerCase().replace(' ', '-')}">
+                            ${farmingData.priority}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="overview-item difficulty">
+                    <div class="overview-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="overview-details">
+                        <div class="overview-label">Difficulty</div>
+                        <div class="overview-value ${farmingData.difficulty.toLowerCase().replace(' ', '-')}">
+                            ${farmingData.difficulty}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="overview-item time">
+                    <div class="overview-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="overview-details">
+                        <div class="overview-label">Estimated Time</div>
+                        <div class="overview-value">${farmingData.estimatedTime}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(overviewSection);
+    }
+    
+    renderFarmingTips(tips, container) {
+        const tipsSection = document.createElement('div');
+        tipsSection.className = 'farming-tips';
+        
+        const title = document.createElement('h4');
+        title.innerHTML = '<i class="fas fa-lightbulb"></i> Farming Tips';
+        title.className = 'subsection-title';
+        tipsSection.appendChild(title);
+        
+        const tipsList = document.createElement('div');
+        tipsList.className = 'tips-list';
+        
+        tips.forEach((tip, index) => {
+            const tipItem = document.createElement('div');
+            tipItem.className = 'tip-item';
+            tipItem.innerHTML = `
+                <div class="tip-number">${index + 1}</div>
+                <div class="tip-content">${tip}</div>
+            `;
+            tipsList.appendChild(tipItem);
+        });
+        
+        tipsSection.appendChild(tipsList);
+        container.appendChild(tipsSection);
+    }
+    
+    renderObtainMethods(obtainMethods, container) {
+        const methodsSection = document.createElement('div');
+        methodsSection.className = 'obtain-methods';
+        
+        const title = document.createElement('h4');
+        title.innerHTML = '<i class="fas fa-map-marker-alt"></i> Best Farming Locations';
+        title.className = 'subsection-title';
+        methodsSection.appendChild(title);
+        
+        const methodsList = document.createElement('div');
+        methodsList.className = 'methods-list';
+        
+        obtainMethods.forEach(method => {
+            const methodItem = this.createMethodItem(method);
+            methodsList.appendChild(methodItem);
+        });
+        
+        methodsSection.appendChild(methodsList);
+        container.appendChild(methodsSection);
+    }
+    
+    createMethodItem(method) {
+        const methodItem = document.createElement('div');
+        methodItem.className = 'method-item';
+        
+        const dropRateFormatted = evolutionUtils.formatDropRate(method.dropRate);
+        
+        methodItem.innerHTML = `
+            <div class="method-header">
+                <div class="material-name">${method.material}</div>
+                <div class="drop-rate">${dropRateFormatted}</div>
+            </div>
+            
+            <div class="method-details">
+                <div class="best-location">
+                    <i class="fas fa-star"></i>
+                    <strong>Best:</strong> ${method.bestLocation}
+                </div>
+                
+                ${method.alternativeLocations.length > 0 ? `
+                    <div class="alternative-locations">
+                        <i class="fas fa-map"></i>
+                        <strong>Also:</strong> ${method.alternativeLocations.join(', ')}
+                    </div>
+                ` : ''}
+                
+                <div class="energy-cost">
+                    <i class="fas fa-bolt"></i>
+                    <strong>Energy:</strong> ${method.energyCost}
+                </div>
+            </div>
+        `;
+        
+        return methodItem;
+    }
+    
+    showEmptyState() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-map"></i>
+                <h3>No Unit Selected</h3>
+                <p>Select a unit to view its farming guide.</p>
+            </div>
+        `;
+    }
+    
+    showNoFarmingData() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>No Farming Data</h3>
+                <p>Farming guide not available for this unit.</p>
+            </div>
+        `;
+    }
+    
+    render() {
+        // Component is already rendered in HTML
+        console.log('FarmingGuide: Using existing HTML structure');
     }
     
     destroy() {
+        // Clean up if needed
         if (this.container) {
             this.container.innerHTML = '';
         }

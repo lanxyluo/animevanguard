@@ -1,5 +1,5 @@
 // Materials List Component
-import { formatNumber } from '../utils/helpers.js';
+import { evolutionUtils } from '../config/evolutionSystem.js';
 
 export class MaterialsList {
     constructor(containerId, options = {}) {
@@ -9,11 +9,10 @@ export class MaterialsList {
             showRarity: true,
             showDescription: true,
             showQuantity: true,
-            showCost: false,
             ...options
         };
         
-        this.materialsConfig = {};
+        this.materialsConfig = null;
         this.currentUnit = null;
         
         this.init();
@@ -25,192 +24,258 @@ export class MaterialsList {
             return;
         }
         
-        this.createDOM();
         this.render();
     }
     
-    createDOM() {
-        this.container.innerHTML = `
-            <div class="card">
-                <h2><i class="fas fa-list"></i> Evolution Materials</h2>
-                <div id="materialsList" class="materials-list">
-                    <p>Select a unit to view evolution materials</p>
-                </div>
-            </div>
-        `;
-        
-        this.materialsListElement = document.getElementById('materialsList');
-    }
-    
-    setMaterialsConfig(materialsConfig) {
-        this.materialsConfig = materialsConfig;
+    setMaterialsConfig(config) {
+        this.materialsConfig = config;
     }
     
     updateMaterials(unit) {
-        console.log('📋 === MaterialsList 接收单位更新 ===');
-        console.log('📊 当前材料状态:', this.currentUnit);
-        console.log('🆕 新接收的单位:', unit);
+        console.log('📋 === MaterialsList 更新材料 ===');
+        console.log('📊 当前单位:', unit);
         
         this.currentUnit = unit;
-        console.log('✅ 材料状态已更新:', this.currentUnit);
         
-        console.log('🎨 开始渲染材料列表...');
-        this.render();
-        console.log('📋 === MaterialsList 单位更新完成 ===\n');
+        if (!unit) {
+            this.showEmptyState();
+            return;
+        }
+        
+        this.renderEvolutionRequirements(unit);
+    }
+    
+    renderEvolutionRequirements(unit) {
+        if (!this.container) return;
+        
+        // Clear container
+        this.container.innerHTML = '';
+        
+        // Get evolution data
+        const evolutionData = evolutionUtils.getEvolutionData(unit.id);
+        if (!evolutionData) {
+            this.showNoEvolutionData();
+            return;
+        }
+        
+        // Create evolution requirements section
+        const requirementsSection = document.createElement('div');
+        requirementsSection.className = 'evolution-requirements';
+        
+        // Add title
+        const title = document.createElement('h3');
+        title.innerHTML = '<i class="fas fa-arrow-up"></i> Evolution Requirements';
+        title.className = 'section-title';
+        requirementsSection.appendChild(title);
+        
+        // Add evolution tiers
+        evolutionData.evolutions.forEach((evolution, index) => {
+            if (index === 0) return; // Skip base form
+            
+            const tierSection = this.createTierSection(evolution, index);
+            requirementsSection.appendChild(tierSection);
+        });
+        
+        this.container.appendChild(requirementsSection);
+        
+        // Add materials breakdown
+        this.renderMaterialsBreakdown(evolutionData);
+    }
+    
+    createTierSection(evolution, tierIndex) {
+        const tierSection = document.createElement('div');
+        tierSection.className = `evolution-tier tier-${evolution.tier}`;
+        
+        const tierHeader = document.createElement('div');
+        tierHeader.className = 'tier-header';
+        
+        const tierTitle = document.createElement('h4');
+        tierTitle.innerHTML = `<i class="fas fa-star"></i> Tier ${evolution.tier} → ${evolution.name}`;
+        tierHeader.appendChild(tierTitle);
+        
+        const tierStats = document.createElement('div');
+        tierStats.className = 'tier-stats';
+        tierStats.innerHTML = `
+            <span class="stat-item">
+                <i class="fas fa-level-up-alt"></i> Level ${evolution.requirements.level}
+            </span>
+            <span class="stat-item">
+                <i class="fas fa-coins"></i> ${evolution.requirements.cost.toLocaleString()} Gold
+            </span>
+            ${evolution.requirements.gems ? `
+                <span class="stat-item">
+                    <i class="fas fa-gem"></i> ${evolution.requirements.gems} Gems
+                </span>
+            ` : ''}
+            <span class="stat-item">
+                <i class="fas fa-cube"></i> ${evolution.requirements.materials.length} Materials
+            </span>
+        `;
+        tierHeader.appendChild(tierStats);
+        
+        tierSection.appendChild(tierHeader);
+        
+        // Add materials list
+        if (evolution.requirements.materials.length > 0) {
+            const materialsList = this.createMaterialsList(evolution.requirements.materials);
+            tierSection.appendChild(materialsList);
+        }
+        
+        return tierSection;
+    }
+    
+    createMaterialsList(materials) {
+        const materialsContainer = document.createElement('div');
+        materialsContainer.className = 'materials-list';
+        
+        materials.forEach(materialString => {
+            const materialItem = this.createMaterialItem(materialString);
+            materialsContainer.appendChild(materialItem);
+        });
+        
+        return materialsContainer;
+    }
+    
+    createMaterialItem(materialString) {
+        const materialItem = document.createElement('div');
+        materialItem.className = 'material-item';
+        
+        const parsedMaterial = evolutionUtils.parseMaterialString(materialString);
+        const materialData = evolutionUtils.getMaterialData(parsedMaterial.name);
+        
+        if (materialData) {
+            const rarityColor = evolutionUtils.getRarityColor(materialData.rarity);
+            const dropRateFormatted = evolutionUtils.formatDropRate(materialData.dropRate);
+            
+            materialItem.innerHTML = `
+                <div class="material-info">
+                    <div class="material-name" style="color: ${rarityColor}">
+                        <i class="fas fa-cube"></i> ${materialData.name}
+                        <span class="material-quantity">x${parsedMaterial.quantity}</span>
+                    </div>
+                    <div class="material-details">
+                        <span class="material-rarity">${materialData.rarity}</span>
+                        <span class="material-drop-rate">${dropRateFormatted}</span>
+                        <span class="material-cost">${materialData.cost.toLocaleString()} Gold</span>
+                    </div>
+                    <div class="material-description">${materialData.description}</div>
+                    <div class="material-sources">
+                        <strong>Sources:</strong> ${materialData.source.join(', ')}
+                    </div>
+                </div>
+            `;
+        } else {
+            // Fallback for unknown materials
+            materialItem.innerHTML = `
+                <div class="material-info">
+                    <div class="material-name">
+                        <i class="fas fa-question-circle"></i> ${parsedMaterial.name}
+                        <span class="material-quantity">x${parsedMaterial.quantity}</span>
+                    </div>
+                    <div class="material-details">
+                        <span class="material-unknown">Unknown Material</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        return materialItem;
+    }
+    
+    renderMaterialsBreakdown(evolutionData) {
+        const breakdownSection = document.createElement('div');
+        breakdownSection.className = 'materials-breakdown';
+        
+        const title = document.createElement('h3');
+        title.innerHTML = '<i class="fas fa-list"></i> Materials Summary';
+        title.className = 'section-title';
+        breakdownSection.appendChild(title);
+        
+        // Calculate total materials needed
+        const totalMaterials = this.calculateTotalMaterials(evolutionData);
+        const materialsSummary = this.createMaterialsSummary(totalMaterials);
+        breakdownSection.appendChild(materialsSummary);
+        
+        this.container.appendChild(breakdownSection);
+    }
+    
+    calculateTotalMaterials(evolutionData) {
+        const materialCounts = {};
+        
+        evolutionData.evolutions.forEach(evolution => {
+            evolution.requirements.materials.forEach(materialString => {
+                const parsedMaterial = evolutionUtils.parseMaterialString(materialString);
+                const materialName = parsedMaterial.name;
+                
+                if (materialCounts[materialName]) {
+                    materialCounts[materialName] += parsedMaterial.quantity;
+                } else {
+                    materialCounts[materialName] = parsedMaterial.quantity;
+                }
+            });
+        });
+        
+        return materialCounts;
+    }
+    
+    createMaterialsSummary(materialCounts) {
+        const summaryContainer = document.createElement('div');
+        summaryContainer.className = 'materials-summary';
+        
+        const summaryList = document.createElement('div');
+        summaryList.className = 'summary-list';
+        
+        Object.entries(materialCounts).forEach(([materialName, quantity]) => {
+            const materialData = evolutionUtils.getMaterialData(materialName);
+            const rarityColor = materialData ? evolutionUtils.getRarityColor(materialData.rarity) : '#9e9e9e';
+            
+            const summaryItem = document.createElement('div');
+            summaryItem.className = 'summary-item';
+            summaryItem.innerHTML = `
+                <span class="material-name" style="color: ${rarityColor}">
+                    ${materialName}
+                </span>
+                <span class="material-total">x${quantity}</span>
+            `;
+            
+            summaryList.appendChild(summaryItem);
+        });
+        
+        summaryContainer.appendChild(summaryList);
+        return summaryContainer;
+    }
+    
+    showEmptyState() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-cube"></i>
+                <h3>No Unit Selected</h3>
+                <p>Select a unit to view its evolution requirements and materials.</p>
+            </div>
+        `;
+    }
+    
+    showNoEvolutionData() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>No Evolution Data</h3>
+                <p>Evolution data not found for this unit.</p>
+            </div>
+        `;
     }
     
     render() {
-        if (!this.materialsListElement) return;
-        
-        if (!this.currentUnit) {
-            this.materialsListElement.innerHTML = '<p>Select a unit to view evolution materials</p>';
-            return;
-        }
-        
-        // Try to get materials data
-        let materialsData = this.currentUnit.evolutionMaterials;
-        if (!materialsData) {
-            // Try to load from materials data file
-            import('../config/evolutionMaterials.js').then(module => {
-                materialsData = module.EVOLUTION_MATERIALS_DATA[this.currentUnit.id];
-                if (materialsData) {
-                    this.renderMaterials(materialsData);
-                } else {
-                    this.materialsListElement.innerHTML = '<p>No evolution materials available</p>';
-                }
-            }).catch(error => {
-                console.warn('Could not load materials data:', error);
-                this.materialsListElement.innerHTML = '<p>No evolution materials available</p>';
-            });
-            return;
-        }
-        
-        this.renderMaterials(materialsData);
-    }
-    
-    renderMaterials(materialsData) {
-        if (!materialsData || !materialsData.materials) {
-            this.materialsListElement.innerHTML = '<p>No evolution materials available</p>';
-            return;
-        }
-        
-        let materialsHTML = `
-            <div class="evolution-materials">
-                <h3>Evolution Materials Required</h3>
-        `;
-        
-        // Gold cost section
-        if (materialsData.goldCost) {
-            materialsHTML += `
-                <div class="gold-cost-section">
-                    <div class="gold-cost">
-                        <i class="fas fa-coins"></i>
-                        <strong>Gold Cost: ${formatNumber(materialsData.goldCost)}</strong>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Materials list
-        materialsHTML += `
-            <div class="materials-list">
-                <h4>Required Materials:</h4>
-        `;
-        
-        materialsData.materials.forEach((material, index) => {
-            materialsHTML += `
-                <div class="material-item" key="${index}">
-                    <div class="material-header">
-                        <span class="material-name">${material.name}</span>
-                        <span class="material-quantity">x${material.quantity}</span>
-                    </div>
-                    <div class="material-type">${material.type || 'Material'}</div>
-                    <div class="material-description">${material.description || 'Required for evolution'}</div>
-                    <div class="material-obtain">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Obtain: ${material.obtainMethod || 'Various sources'}
-                    </div>
-                </div>
-            `;
-        });
-        
-        materialsHTML += `</div>`;
-        
-        // Special requirements section
-        if (materialsData.specialRequirements && materialsData.specialRequirements.length > 0) {
-            materialsHTML += `
-                <div class="special-requirements">
-                    <h4><i class="fas fa-exclamation-triangle"></i> Special Requirements:</h4>
-                    <ul>
-                        ${materialsData.specialRequirements.map((req, index) => `
-                            <li key="${index}">
-                                <i class="fas fa-check-circle"></i>
-                                ${req}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-        
-        materialsHTML += `</div>`;
-        
-        this.materialsListElement.innerHTML = materialsHTML;
-    }
-    
-    getMaterialsSummary() {
-        if (!this.currentUnit || !this.currentUnit.evolutionMaterials) {
-            return null;
-        }
-        
-        const { goldCost, specialItem, essenceStones } = this.currentUnit.evolutionMaterials;
-        const summary = {
-            totalGold: goldCost || 0,
-            totalEssenceStones: 0,
-            specialItems: specialItem ? 1 : 0,
-            materials: []
-        };
-        
-        if (essenceStones) {
-            Object.entries(essenceStones).forEach(([name, quantity]) => {
-                summary.totalEssenceStones += quantity;
-                summary.materials.push({ name, quantity });
-            });
-        }
-        
-        return summary;
-    }
-    
-    getTotalCost() {
-        if (!this.currentUnit || !this.currentUnit.evolutionMaterials) {
-            return 0;
-        }
-        
-        const { goldCost, specialItem, essenceStones } = this.currentUnit.evolutionMaterials;
-        let totalCost = goldCost || 0;
-        
-        // Add special item cost
-        if (specialItem) {
-            const material = this.materialsConfig[specialItem.name];
-            if (material && material.cost) {
-                totalCost += material.cost;
-            }
-        }
-        
-        // Add essence stones cost
-        if (essenceStones) {
-            Object.entries(essenceStones).forEach(([name, quantity]) => {
-                const material = this.materialsConfig[name];
-                if (material && material.cost) {
-                    totalCost += material.cost * quantity;
-                }
-            });
-        }
-        
-        return totalCost;
+        // Component is already rendered in HTML
+        console.log('MaterialsList: Using existing HTML structure');
     }
     
     destroy() {
+        // Clean up if needed
         if (this.container) {
             this.container.innerHTML = '';
         }

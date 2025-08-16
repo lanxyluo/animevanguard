@@ -1,5 +1,5 @@
 // Cost Summary Component
-import { formatNumber } from '../utils/helpers.js';
+import { evolutionUtils } from '../config/evolutionSystem.js';
 
 export class CostSummary {
     constructor(containerId, options = {}) {
@@ -12,7 +12,7 @@ export class CostSummary {
             ...options
         };
         
-        this.materialsConfig = {};
+        this.materialsConfig = null;
         this.currentUnit = null;
         
         this.init();
@@ -24,355 +24,286 @@ export class CostSummary {
             return;
         }
         
-        this.createDOM();
         this.render();
     }
     
-    createDOM() {
-        this.container.innerHTML = `
-            <div class="card">
-                <h2><i class="fas fa-coins"></i> Cost Summary</h2>
-                <div id="costSummary" class="cost-summary">
-                    <p>Select a unit to view cost breakdown</p>
-                </div>
-            </div>
-        `;
-        
-        this.costSummaryElement = document.getElementById('costSummary');
-    }
-    
-    setMaterialsConfig(materialsConfig) {
-        this.materialsConfig = materialsConfig;
+    setMaterialsConfig(config) {
+        this.materialsConfig = config;
     }
     
     updateCost(unit) {
-        console.log('💰 === CostSummary 接收单位更新 ===');
-        console.log('📊 当前成本状态:', this.currentUnit);
-        console.log('🆕 新接收的单位:', unit);
+        console.log('💰 === CostSummary 更新成本 ===');
+        console.log('📊 当前单位:', unit);
         
         this.currentUnit = unit;
-        console.log('✅ 成本状态已更新:', this.currentUnit);
         
-        console.log('🎨 开始渲染成本摘要...');
-        this.render();
-        console.log('💰 === CostSummary 单位更新完成 ===\n');
-    }
-    
-    render() {
-        if (!this.costSummaryElement) return;
-        
-        if (!this.currentUnit) {
-            this.costSummaryElement.innerHTML = '<p>Select a unit to view cost breakdown</p>';
+        if (!unit) {
+            this.showEmptyState();
             return;
         }
         
-        // Try to get materials data
-        let materialsData = this.currentUnit.evolutionMaterials;
-        if (!materialsData) {
-            // Try to load from materials data file
-            import('../config/evolutionMaterials.js').then(module => {
-                materialsData = module.EVOLUTION_MATERIALS_DATA[this.currentUnit.id];
-                if (materialsData) {
-                    this.renderCostBreakdown(materialsData);
-                } else {
-                    this.costSummaryElement.innerHTML = '<p>No evolution materials available</p>';
-                }
-            }).catch(error => {
-                console.warn('Could not load materials data:', error);
-                this.costSummaryElement.innerHTML = '<p>No evolution materials available</p>';
-            });
+        this.renderCostSummary(unit);
+    }
+    
+    renderCostSummary(unit) {
+        if (!this.container) return;
+        
+        // Clear container
+        this.container.innerHTML = '';
+        
+        // Get evolution data
+        const evolutionData = evolutionUtils.getEvolutionData(unit.id);
+        if (!evolutionData) {
+            this.showNoEvolutionData();
             return;
         }
         
-        this.renderCostBreakdown(materialsData);
-    }
-    
-    renderCostBreakdown(materialsData) {
-        if (!materialsData) {
-            this.costSummaryElement.innerHTML = '<p>No evolution materials available</p>';
-            return;
-        }
+        // Calculate total costs
+        const costBreakdown = this.calculateCostBreakdown(evolutionData);
         
-        // Try to get detailed cost summary data
-        import('../config/costSummary.js').then(module => {
-            const costSummaryData = module.COST_SUMMARY_DATA[this.currentUnit.id];
-            if (costSummaryData) {
-                this.renderDetailedCostBreakdown(costSummaryData);
-            } else {
-                // Fallback to basic calculation
-                const costBreakdown = this.calculateCostBreakdown(materialsData);
-                const totalCost = this.calculateTotalCost(materialsData);
-                this.renderBasicCostBreakdown(costBreakdown, totalCost);
-            }
-        }).catch(error => {
-            console.warn('Could not load cost summary data:', error);
-            // Fallback to basic calculation
-            const costBreakdown = this.calculateCostBreakdown(materialsData);
-            const totalCost = this.calculateTotalCost(materialsData);
-            this.renderBasicCostBreakdown(costBreakdown, totalCost);
-        });
-    }
-    
-    renderDetailedCostBreakdown(costData) {
-        let summaryHTML = `
-            <div class="cost-summary-container">
-                <h3><i class="fas fa-calculator"></i> Evolution Cost Analysis</h3>
-        `;
+        // Create cost summary section
+        const summarySection = document.createElement('div');
+        summarySection.className = 'cost-summary';
         
+        // Add title
+        const title = document.createElement('h3');
+        title.innerHTML = '<i class="fas fa-calculator"></i> Cost Summary';
+        title.className = 'section-title';
+        summarySection.appendChild(title);
+        
+        // Add total costs
+        this.renderTotalCosts(costBreakdown, summarySection);
+        
+        // Add tier breakdown
         if (this.options.showBreakdown) {
-            summaryHTML += `
-                <div class="cost-breakdown">
-                    <h4><i class="fas fa-list"></i> Cost Breakdown</h4>
-                    <div class="cost-items">
-            `;
-            
-            // Gold cost
-            if (costData.totalGold > 0) {
-                summaryHTML += `
-                    <div class="cost-item">
-                        <div class="cost-item-header">
-                            <i class="fas fa-coins"></i>
-                            <span class="cost-label">Gold Cost</span>
-                        </div>
-                        <span class="cost-value">${formatNumber(costData.totalGold)}</span>
-                    </div>
-                `;
-            }
-            
-            // Material costs
-            if (costData.materialCosts) {
-                costData.materialCosts.forEach((material, index) => {
-                    summaryHTML += `
-                        <div class="cost-item" key="${index}">
-                            <div class="cost-item-header">
-                                <i class="fas fa-gem"></i>
-                                <span class="cost-label">${material.material}</span>
-                            </div>
-                            <div class="cost-item-details">
-                                <span class="cost-value">${material.estimatedCost}</span>
-                                <span class="cost-difficulty difficulty-${material.difficulty.toLowerCase()}">${material.difficulty}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            
-            summaryHTML += `
-                    </div>
-                </div>
-            `;
+            this.renderTierBreakdown(evolutionData, summarySection);
         }
         
-        if (this.options.showTotal) {
-            summaryHTML += `
-                <div class="total-cost">
-                    <h4><i class="fas fa-total"></i> Total Estimated Cost</h4>
-                    <div class="total-amount">${costData.totalEstimatedCost}</div>
-                </div>
-            `;
-        }
+        this.container.appendChild(summarySection);
+    }
+    
+    calculateCostBreakdown(evolutionData) {
+        let totalGoldCost = 0;
+        let totalGemsCost = 0;
+        let totalMaterialCost = 0;
+        let totalMaterials = 0;
         
-        // Additional cost information
-        summaryHTML += `
-            <div class="cost-details">
-                <div class="cost-detail-item">
-                    <div class="detail-header">
-                        <i class="fas fa-clock"></i>
-                        <span class="detail-label">Time Investment:</span>
+        evolutionData.evolutions.forEach(evolution => {
+            // Add gold cost
+            totalGoldCost += evolution.requirements.cost;
+            
+            // Add gems cost
+            if (evolution.requirements.gems) {
+                totalGemsCost += evolution.requirements.gems;
+            }
+            
+            // Calculate material costs
+            evolution.requirements.materials.forEach(materialString => {
+                const parsedMaterial = evolutionUtils.parseMaterialString(materialString);
+                const materialData = evolutionUtils.getMaterialData(parsedMaterial.name);
+                
+                if (materialData) {
+                    totalMaterialCost += materialData.cost * parsedMaterial.quantity;
+                }
+                
+                totalMaterials += parsedMaterial.quantity;
+            });
+        });
+        
+        return {
+            totalGoldCost,
+            totalGemsCost,
+            totalMaterialCost,
+            totalMaterials,
+            grandTotal: totalGoldCost + totalMaterialCost
+        };
+    }
+    
+    renderTotalCosts(costBreakdown, container) {
+        const totalCostsSection = document.createElement('div');
+        totalCostsSection.className = 'total-costs';
+        
+        totalCostsSection.innerHTML = `
+            <div class="cost-grid">
+                <div class="cost-item gold-cost">
+                    <div class="cost-icon">
+                        <i class="fas fa-coins"></i>
                     </div>
-                    <span class="detail-value">${costData.timeInvestment}</span>
+                    <div class="cost-details">
+                        <div class="cost-label">Total Gold Cost</div>
+                        <div class="cost-value">${costBreakdown.totalGoldCost.toLocaleString()}</div>
+                    </div>
                 </div>
-                <div class="cost-detail-item">
-                    <div class="detail-header">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span class="detail-label">Difficulty:</span>
+                
+                <div class="cost-item gems-cost">
+                    <div class="cost-icon">
+                        <i class="fas fa-gem"></i>
                     </div>
-                    <span class="detail-value difficulty-${costData.difficulty.toLowerCase()}">${costData.difficulty}</span>
+                    <div class="cost-details">
+                        <div class="cost-label">Total Gems Cost</div>
+                        <div class="cost-value">${costBreakdown.totalGemsCost.toLocaleString()}</div>
+                    </div>
                 </div>
-                <div class="cost-detail-item">
-                    <div class="detail-header">
-                        <i class="fas fa-thumbs-up"></i>
-                        <span class="detail-label">Worth Investment:</span>
+                
+                <div class="cost-item material-cost">
+                    <div class="cost-icon">
+                        <i class="fas fa-cube"></i>
                     </div>
-                    <span class="detail-value ${costData.worthIt ? 'worth-it' : 'not-worth-it'}">
-                        <i class="fas fa-${costData.worthIt ? 'check-circle' : 'times-circle'}"></i>
-                        ${costData.worthIt ? 'Yes' : 'No'}
-                    </span>
+                    <div class="cost-details">
+                        <div class="cost-label">Material Cost</div>
+                        <div class="cost-value">${costBreakdown.totalMaterialCost.toLocaleString()}</div>
+                    </div>
+                </div>
+                
+                <div class="cost-item total-cost">
+                    <div class="cost-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="cost-details">
+                        <div class="cost-label">Grand Total</div>
+                        <div class="cost-value">${costBreakdown.grandTotal.toLocaleString()}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cost-stats">
+                <div class="stat-item">
+                    <i class="fas fa-cube"></i>
+                    <span>Total Materials: ${costBreakdown.totalMaterials}</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Evolution Tiers: ${evolutionData.evolutions.length - 1}</span>
                 </div>
             </div>
         `;
         
-        // Investment notes
-        if (costData.notes) {
-            summaryHTML += `
-                <div class="investment-notes">
-                    <h4><i class="fas fa-lightbulb"></i> Investment Notes</h4>
-                    <p>${costData.notes}</p>
-                </div>
-            `;
-        }
-        
-        summaryHTML += `</div>`;
-        
-        this.costSummaryElement.innerHTML = summaryHTML;
+        container.appendChild(totalCostsSection);
     }
     
-    renderBasicCostBreakdown(costBreakdown, totalCost) {
-        let summaryHTML = '';
+    renderTierBreakdown(evolutionData, container) {
+        const breakdownSection = document.createElement('div');
+        breakdownSection.className = 'tier-breakdown';
         
-        if (this.options.showBreakdown) {
-            summaryHTML += `
-                <div class="cost-breakdown">
-                    <h3>Cost Breakdown</h3>
-                    <div class="cost-items">
-            `;
-            
-            // Gold cost
-            if (costBreakdown.goldCost > 0) {
-                summaryHTML += `
-                    <div class="cost-item">
-                        <span class="cost-label">Gold</span>
-                        <span class="cost-value">${formatNumber(costBreakdown.goldCost)}</span>
-                    </div>
-                `;
-            }
-            
-            // Materials cost
-            if (costBreakdown.materialsCost > 0) {
-                summaryHTML += `
-                    <div class="cost-item">
-                        <span class="cost-label">Materials</span>
-                        <span class="cost-value">${formatNumber(costBreakdown.materialsCost)}</span>
-                    </div>
-                `;
-            }
-            
-            summaryHTML += `
-                    </div>
-                </div>
-            `;
-        }
+        const title = document.createElement('h4');
+        title.innerHTML = '<i class="fas fa-list-ol"></i> Tier Breakdown';
+        title.className = 'subsection-title';
+        breakdownSection.appendChild(title);
         
-        if (this.options.showTotal) {
-            summaryHTML += `
-                <div class="total-cost">
-                    <h3>Total Cost</h3>
-                    <div class="total-amount">${formatNumber(totalCost)} ${this.options.currency}</div>
-                </div>
-            `;
-        }
+        const breakdownList = document.createElement('div');
+        breakdownList.className = 'breakdown-list';
         
-        this.costSummaryElement.innerHTML = summaryHTML;
+        evolutionData.evolutions.forEach((evolution, index) => {
+            if (index === 0) return; // Skip base form
+            
+            const tierCost = this.calculateTierCost(evolution);
+            const tierItem = this.createTierCostItem(evolution, tierCost);
+            breakdownList.appendChild(tierItem);
+        });
+        
+        breakdownSection.appendChild(breakdownList);
+        container.appendChild(breakdownSection);
     }
     
-    calculateCostBreakdown(materialsData) {
-        if (!materialsData) {
-            return { goldCost: 0, materialsCost: 0 };
-        }
+    calculateTierCost(evolution) {
+        let materialCost = 0;
+        let materialCount = 0;
         
-        let goldCost = materialsData.goldCost || 0;
-        let materialsCost = 0;
-        
-        // Calculate materials cost (simplified for now)
-        if (materialsData.materials) {
-            materialsData.materials.forEach(material => {
-                // Estimate cost based on rarity
-                let materialCost = 0;
-                switch (material.rarity) {
-                    case 'Common':
-                        materialCost = 100;
-                        break;
-                    case 'Uncommon':
-                        materialCost = 500;
-                        break;
-                    case 'Rare':
-                        materialCost = 2000;
-                        break;
-                    case 'Epic':
-                        materialCost = 5000;
-                        break;
-                    case 'Legendary':
-                        materialCost = 15000;
-                        break;
-                    default:
-                        materialCost = 1000;
-                }
-                materialsCost += materialCost * material.quantity;
-            });
-        }
+        evolution.requirements.materials.forEach(materialString => {
+            const parsedMaterial = evolutionUtils.parseMaterialString(materialString);
+            const materialData = evolutionUtils.getMaterialData(parsedMaterial.name);
+            
+            if (materialData) {
+                materialCost += materialData.cost * parsedMaterial.quantity;
+            }
+            
+            materialCount += parsedMaterial.quantity;
+        });
         
         return {
-            goldCost: goldCost,
-            materialsCost: materialsCost
+            goldCost: evolution.requirements.cost,
+            gemsCost: evolution.requirements.gems || 0,
+            materialCost,
+            materialCount,
+            totalCost: evolution.requirements.cost + materialCost
         };
     }
     
-    calculateTotalCost(materialsData) {
-        const breakdown = this.calculateCostBreakdown(materialsData);
-        return breakdown.goldCost + breakdown.materialsCost;
+    createTierCostItem(evolution, tierCost) {
+        const tierItem = document.createElement('div');
+        tierItem.className = 'tier-cost-item';
+        
+        tierItem.innerHTML = `
+            <div class="tier-header">
+                <div class="tier-title">
+                    <i class="fas fa-star"></i>
+                    Tier ${evolution.tier}: ${evolution.name}
+                </div>
+                <div class="tier-level">
+                    <i class="fas fa-level-up-alt"></i>
+                    Level ${evolution.requirements.level}
+                </div>
+            </div>
+            
+            <div class="tier-costs">
+                <div class="cost-row">
+                    <span class="cost-type">Gold:</span>
+                    <span class="cost-value">${tierCost.goldCost.toLocaleString()}</span>
+                </div>
+                
+                ${tierCost.gemsCost > 0 ? `
+                    <div class="cost-row">
+                        <span class="cost-type">Gems:</span>
+                        <span class="cost-value">${tierCost.gemsCost.toLocaleString()}</span>
+                    </div>
+                ` : ''}
+                
+                <div class="cost-row">
+                    <span class="cost-type">Materials:</span>
+                    <span class="cost-value">${tierCost.materialCost.toLocaleString()} (${tierCost.materialCount} items)</span>
+                </div>
+                
+                <div class="cost-row total">
+                    <span class="cost-type">Total:</span>
+                    <span class="cost-value">${tierCost.totalCost.toLocaleString()}</span>
+                </div>
+            </div>
+        `;
+        
+        return tierItem;
     }
     
-    getCostBreakdown() {
-        return this.calculateCostBreakdown();
+    showEmptyState() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-calculator"></i>
+                <h3>No Unit Selected</h3>
+                <p>Select a unit to view its evolution cost summary.</p>
+            </div>
+        `;
     }
     
-    getTotalCost() {
-        return this.calculateTotalCost();
+    showNoEvolutionData() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>No Evolution Data</h3>
+                <p>Evolution cost data not found for this unit.</p>
+            </div>
+        `;
     }
     
-    getCostByCategory() {
-        if (!this.currentUnit || !this.currentUnit.evolutionMaterials) {
-            return {};
-        }
-        
-        const { goldCost, specialItem, essenceStones } = this.currentUnit.evolutionMaterials;
-        const categories = {};
-        
-        // Gold category
-        if (goldCost) {
-            categories.gold = {
-                name: 'Gold',
-                cost: goldCost,
-                quantity: goldCost,
-                type: 'currency'
-            };
-        }
-        
-        // Special item category
-        if (specialItem) {
-            const material = this.materialsConfig[specialItem.name];
-            if (material) {
-                categories.specialItem = {
-                    name: specialItem.name,
-                    cost: material.cost || 0,
-                    quantity: 1,
-                    type: 'special',
-                    rarity: material.rarity
-                };
-            }
-        }
-        
-        // Essence stones category
-        if (essenceStones) {
-            Object.entries(essenceStones).forEach(([name, quantity]) => {
-                const material = this.materialsConfig[name];
-                if (material) {
-                    categories[name] = {
-                        name: name,
-                        cost: (material.cost || 0) * quantity,
-                        quantity: quantity,
-                        type: 'essence',
-                        rarity: material.rarity,
-                        unitCost: material.cost || 0
-                    };
-                }
-            });
-        }
-        
-        return categories;
+    render() {
+        // Component is already rendered in HTML
+        console.log('CostSummary: Using existing HTML structure');
     }
     
     destroy() {
+        // Clean up if needed
         if (this.container) {
             this.container.innerHTML = '';
         }

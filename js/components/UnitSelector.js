@@ -4,7 +4,6 @@ import { getElementColor } from '../utils/helpers.js';
 import { showError } from '../utils/dom.js';
 import { DataValidator } from '../utils/dataValidator.js';
 import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
-import { EVOLUTION_UNITS, evolutionUtils } from '../config/evolutionUnits.js';
 
 export class UnitSelector {
     constructor(containerId, options = {}) {
@@ -95,12 +94,12 @@ export class UnitSelector {
     }
     
     setUnits(unitsData, elementIcons) {
-        // Use evolution units data for evolution calculator
-        this.allUnits = EVOLUTION_UNITS;
+        // Use provided units data (from Unit Database)
+        this.allUnits = unitsData || [];
         this.elementIcons = elementIcons;
         this.filteredUnits = [...this.allUnits];
         
-        console.log(`UnitSelector: Loaded ${this.allUnits.length} evolution units`);
+        console.log(`UnitSelector: Loaded ${this.allUnits.length} units from Unit Database`);
         
         // Data statistics and validation
         this.analyzeDataDistribution();
@@ -155,13 +154,51 @@ export class UnitSelector {
         // Clear existing options except "Select Unit..."
         this.unitSelect.innerHTML = '<option value="">Select Unit...</option>';
         
-        // Add unit options
+        // Add unit options with the required format: "[Rarity] Unit Name (Series)"
         this.allUnits.forEach(unit => {
             const option = document.createElement('option');
             option.value = unit.id;
-            option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element} → ${unit.evolutionName}`;
+            
+            // Extract series from description or use a default
+            const series = this.extractSeriesFromUnit(unit);
+            option.textContent = `[${unit.rarity}] ${unit.name} (${series})`;
+            
             this.unitSelect.appendChild(option);
         });
+    }
+    
+    extractSeriesFromUnit(unit) {
+        // Try to extract series from description or use default based on unit name
+        if (unit.description) {
+            // Common anime series patterns
+            if (unit.description.includes('Dragon Ball') || unit.name.includes('Goku') || unit.name.includes('Vegeta')) {
+                return 'Dragon Ball';
+            }
+            if (unit.description.includes('One Punch Man') || unit.name.includes('Saitama')) {
+                return 'One Punch Man';
+            }
+            if (unit.description.includes('Demon Slayer') || unit.name.includes('Tanjiro') || unit.name.includes('Zenitsu')) {
+                return 'Demon Slayer';
+            }
+            if (unit.description.includes('Naruto') || unit.name.includes('Naruto') || unit.name.includes('Sasuke')) {
+                return 'Naruto';
+            }
+            if (unit.description.includes('My Hero Academia') || unit.name.includes('Deku') || unit.name.includes('All Might')) {
+                return 'My Hero Academia';
+            }
+            if (unit.description.includes('Bleach') || unit.name.includes('Ichigo')) {
+                return 'Bleach';
+            }
+            if (unit.description.includes('One Piece') || unit.name.includes('Luffy')) {
+                return 'One Piece';
+            }
+            if (unit.description.includes('Fate') || unit.name.includes('Saber') || unit.name.includes('Gilgamesh')) {
+                return 'Fate';
+            }
+        }
+        
+        // Default series based on unit characteristics
+        return 'Anime Vanguards';
     }
     
     handleSearch(e) {
@@ -239,7 +276,11 @@ export class UnitSelector {
                 this.filteredUnits.forEach(unit => {
                     const option = document.createElement('option');
                     option.value = unit.id;
-                    option.textContent = `${unit.name} (${unit.rarity}) - ${unit.element} → ${unit.evolutionName}`;
+                    
+                    // Use the same format as populateUnitSelect
+                    const series = this.extractSeriesFromUnit(unit);
+                    option.textContent = `[${unit.rarity}] ${unit.name} (${series})`;
+                    
                     this.unitSelect.appendChild(option);
                 });
             }
@@ -332,16 +373,16 @@ export class UnitSelector {
             message = `No units found matching "${searchTerm}". Try adjusting your search terms.`;
             icon = 'fas fa-search';
         } else if (rarityFilter && elementFilter) {
-            message = `No ${rarityFilter} ${elementFilter} units are available for evolution. This combination may not exist in the current data.`;
+            message = `No ${rarityFilter} ${elementFilter} units with evolution paths found. This combination may not exist in the current data.`;
             icon = 'fas fa-info-circle';
         } else if (rarityFilter) {
-            message = `No ${rarityFilter} units are available for evolution. Try selecting a different rarity.`;
+            message = `No ${rarityFilter} units with evolution paths found. Try selecting a different rarity.`;
             icon = 'fas fa-star';
         } else if (elementFilter) {
-            message = `No ${elementFilter} units are available for evolution. Try selecting a different element.`;
+            message = `No ${elementFilter} units with evolution paths found. Try selecting a different element.`;
             icon = 'fas fa-fire';
         } else {
-            message = 'No units are currently available. This might be a data loading issue.';
+            message = 'No units with evolution paths are currently available. This might be a data loading issue.';
             icon = 'fas fa-exclamation-triangle';
         }
         
@@ -363,47 +404,41 @@ export class UnitSelector {
         }, 5000);
     }
     
-    // New filtering logic function
+    // New filtering logic function for Unit Database data
     filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
         return units.filter(unit => {
-            // 1. Only show evolvable rarities
-            const canEvolveRarities = ['Vanguard', 'Secret', 'Exclusive', 'Mythic'];
-            if (!canEvolveRarities.includes(unit.rarity)) {
-                console.log(`❌ 过滤掉 ${unit.name}: 稀有度 ${unit.rarity} 不可进化`);
+            // 1. Only show units that can evolve (have evolution field and not "Base Form")
+            if (!unit.evolution || unit.evolution === "Base Form") {
+                console.log(`❌ 过滤掉 ${unit.name}: 无进化路径或为基础形态`);
                 return false;
             }
             
-            // 2. Ensure unit can evolve
-            if (unit.canEvolve !== true) {
-                console.log(`❌ 过滤掉 ${unit.name}: canEvolve = ${unit.canEvolve}`);
-                return false;
-            }
-            
-            // 3. Rarity match
+            // 2. Rarity match
             if (selectedRarity && selectedRarity !== 'All Rarity' && unit.rarity !== selectedRarity) {
                 console.log(`❌ 过滤掉 ${unit.name}: 稀有度不匹配 (${unit.rarity} !== ${selectedRarity})`);
                 return false;
             }
             
-            // 4. Element match
+            // 3. Element match
             if (selectedElement && selectedElement !== 'All Element' && unit.element !== selectedElement) {
                 console.log(`❌ 过滤掉 ${unit.name}: 元素不匹配 (${unit.element} !== ${selectedElement})`);
                 return false;
             }
             
-            // 5. Search term match
+            // 4. Search term match
             if (searchTerm) {
                 const searchLower = searchTerm.toLowerCase();
                 const nameMatch = unit.name.toLowerCase().includes(searchLower);
-                const evolutionMatch = unit.evolutionName.toLowerCase().includes(searchLower);
+                const evolutionMatch = unit.evolution.toLowerCase().includes(searchLower);
+                const descriptionMatch = unit.description && unit.description.toLowerCase().includes(searchLower);
                 
-                if (!nameMatch && !evolutionMatch) {
+                if (!nameMatch && !evolutionMatch && !descriptionMatch) {
                     console.log(`❌ 过滤掉 ${unit.name}: 搜索词不匹配 "${searchTerm}"`);
                     return false;
                 }
             }
             
-            // 6. Pass all filter conditions
+            // 5. Pass all filter conditions
             console.log(`✅ 保留 ${unit.name}: 通过所有筛选条件`);
             return true;
         });
