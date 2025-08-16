@@ -10,10 +10,13 @@ export class FarmingGuide {
             showDifficulty: true,
             showTips: true,
             showObtainMethods: true,
+            showLoadingState: true,
+            sortByEfficiency: true,
             ...options
         };
         
         this.currentUnit = null;
+        this.isLoading = false;
         
         this.init();
     }
@@ -27,7 +30,82 @@ export class FarmingGuide {
         this.render();
     }
     
-    updateGuide(unit) {
+    showLoadingState() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="loading-state">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <p>Generating farming guide...</p>
+            </div>
+        `;
+        this.isLoading = true;
+    }
+    
+    showErrorState(message) {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="error-state">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Error Loading Farming Guide</h3>
+                <p>${message}</p>
+                <button class="retry-btn" onclick="this.parentElement.parentElement.dispatchEvent(new CustomEvent('retry'))">
+                    <i class="fas fa-redo"></i> Retry
+                </button>
+            </div>
+        `;
+        
+        // Add retry event listener
+        this.container.addEventListener('retry', () => {
+            if (this.currentUnit) {
+                this.updateGuide(this.currentUnit);
+            }
+        });
+        
+        this.isLoading = false;
+    }
+    
+    showEmptyState() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-map"></i>
+                </div>
+                <h3>No Farming Guide</h3>
+                <p>Select a unit to view its farming guide and material collection strategies.</p>
+            </div>
+        `;
+        this.isLoading = false;
+    }
+    
+    showNoFarmingData() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3>No Farming Guide Available</h3>
+                <p>This unit doesn't have farming guide data yet. Guide is being generated.</p>
+                <div class="farming-status">
+                    <span class="status-badge updating">
+                        <i class="fas fa-sync-alt fa-spin"></i> Guide Generating
+                    </span>
+                </div>
+            </div>
+        `;
+        this.isLoading = false;
+    }
+    
+    async updateGuide(unit) {
         console.log('🌾 === FarmingGuide 更新指南 ===');
         console.log('📊 当前单位:', unit);
         
@@ -38,7 +116,20 @@ export class FarmingGuide {
             return;
         }
         
-        this.renderFarmingGuide(unit);
+        // Show loading state
+        if (this.options.showLoadingState) {
+            this.showLoadingState();
+        }
+        
+        // Simulate loading delay for better UX
+        await new Promise(resolve => setTimeout(resolve, 250));
+        
+        try {
+            await this.renderFarmingGuide(unit);
+        } catch (error) {
+            console.error('❌ 渲染农场指南时出错:', error);
+            this.showErrorState('Failed to load farming guide');
+        }
     }
     
     renderFarmingGuide(unit) {

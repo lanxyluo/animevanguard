@@ -9,11 +9,14 @@ export class CostSummary {
             showBreakdown: true,
             showTotal: true,
             currency: 'Gold',
+            showLoadingState: true,
+            showDifficultyGradient: true,
             ...options
         };
         
         this.materialsConfig = null;
         this.currentUnit = null;
+        this.isLoading = false;
         
         this.init();
     }
@@ -31,7 +34,82 @@ export class CostSummary {
         this.materialsConfig = config;
     }
     
-    updateCost(unit) {
+    showLoadingState() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="loading-state">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <p>Calculating costs...</p>
+            </div>
+        `;
+        this.isLoading = true;
+    }
+    
+    showErrorState(message) {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="error-state">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Error Loading Cost Data</h3>
+                <p>${message}</p>
+                <button class="retry-btn" onclick="this.parentElement.parentElement.dispatchEvent(new CustomEvent('retry'))">
+                    <i class="fas fa-redo"></i> Retry
+                </button>
+            </div>
+        `;
+        
+        // Add retry event listener
+        this.container.addEventListener('retry', () => {
+            if (this.currentUnit) {
+                this.updateCost(this.currentUnit);
+            }
+        });
+        
+        this.isLoading = false;
+    }
+    
+    showEmptyState() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>No Cost Data</h3>
+                <p>Select a unit to view its evolution cost breakdown and total expenses.</p>
+            </div>
+        `;
+        this.isLoading = false;
+    }
+    
+    showNoEvolutionData() {
+        if (!this.container) return;
+        
+        this.container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3>No Evolution Cost Data</h3>
+                <p>This unit doesn't have evolution cost data available yet.</p>
+                <div class="cost-status">
+                    <span class="status-badge updating">
+                        <i class="fas fa-sync-alt fa-spin"></i> Cost Data Updating
+                    </span>
+                </div>
+            </div>
+        `;
+        this.isLoading = false;
+    }
+    
+    async updateCost(unit) {
         console.log('💰 === CostSummary 更新成本 ===');
         console.log('📊 当前单位:', unit);
         
@@ -42,7 +120,20 @@ export class CostSummary {
             return;
         }
         
-        this.renderCostSummary(unit);
+        // Show loading state
+        if (this.options.showLoadingState) {
+            this.showLoadingState();
+        }
+        
+        // Simulate loading delay for better UX
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        try {
+            await this.renderCostSummary(unit);
+        } catch (error) {
+            console.error('❌ 渲染成本总结时出错:', error);
+            this.showErrorState('Failed to load cost data');
+        }
     }
     
     renderCostSummary(unit) {

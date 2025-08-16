@@ -171,35 +171,58 @@ export class EvolutionPage {
         }
     }
     
-    updateAllComponents(unit, materialsData, costData, farmingData) {
+    async updateAllComponents(unit, materialsData, costData, farmingData) {
         console.log('🔄 更新所有组件...');
         
-        // Update materials list component
-        if (this.materialsList) {
-            console.log('📋 更新 MaterialsList 组件');
-            this.materialsList.updateMaterials(unit);
-        } else {
-            console.error('❌ MaterialsList 组件未初始化');
+        try {
+            // Update all components in parallel for better performance
+            const updatePromises = [];
+            
+            // Update materials list component
+            if (this.materialsList) {
+                console.log('📋 更新 MaterialsList 组件');
+                updatePromises.push(this.materialsList.updateMaterials(unit));
+            } else {
+                console.error('❌ MaterialsList 组件未初始化');
+            }
+            
+            // Update cost summary component
+            if (this.costSummary) {
+                console.log('💰 更新 CostSummary 组件');
+                updatePromises.push(this.costSummary.updateCost(unit));
+            } else {
+                console.error('❌ CostSummary 组件未初始化');
+            }
+            
+            // Update farming guide component
+            if (this.farmingGuide) {
+                console.log('🌾 更新 FarmingGuide 组件');
+                updatePromises.push(this.farmingGuide.updateGuide(unit));
+            } else {
+                console.error('❌ FarmingGuide 组件未初始化');
+            }
+            
+            // Wait for all components to update
+            await Promise.all(updatePromises);
+            
+            console.log('✅ 所有组件更新完成');
+            console.log('📄 === EvolutionPage 单位选择处理完成 ===\n');
+            
+        } catch (error) {
+            console.error('❌ 更新组件时出错:', error);
+            this.handleComponentUpdateError(error);
         }
+    }
+    
+    handleComponentUpdateError(error) {
+        console.error('❌ 组件更新错误:', error);
         
-        // Update cost summary component
-        if (this.costSummary) {
-            console.log('💰 更新 CostSummary 组件');
-            this.costSummary.updateCost(unit);
-        } else {
-            console.error('❌ CostSummary 组件未初始化');
-        }
+        // Show error notification to user
+        const errorMessage = 'Some components failed to update. Please try selecting the unit again.';
+        console.error(errorMessage);
         
-        // Update farming guide component
-        if (this.farmingGuide) {
-            console.log('🌾 更新 FarmingGuide 组件');
-            this.farmingGuide.updateGuide(unit);
-        } else {
-            console.error('❌ FarmingGuide 组件未初始化');
-        }
-        
-        console.log('✅ 所有组件更新完成');
-        console.log('📄 === EvolutionPage 单位选择处理完成 ===\n');
+        // You could add a notification system here
+        // showNotification(errorMessage, 'error');
     }
     
     clearAllComponents() {
