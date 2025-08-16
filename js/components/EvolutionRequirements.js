@@ -8,7 +8,7 @@ export class EvolutionRequirements {
 
     render(unitId) {
         this.currentUnit = unitId;
-        const evolution = evolutionData.find(evo => evo.unitId === unitId);
+        const evolution = evolutionData[unitId];
         
         if (!evolution) {
             return '<div class="evolution-requirements"><p>No evolution data available for this unit.</p></div>';
@@ -158,10 +158,12 @@ export class EvolutionRequirements {
         // Collect all unique materials needed
         const allMaterials = new Set();
         evolution.evolutions.forEach(tier => {
-            tier.requirements.materials.forEach(materialStr => {
-                const material = this.parseMaterial(materialStr);
-                allMaterials.add(material.name);
-            });
+            if (tier.requirements.materials) {
+                tier.requirements.materials.forEach(materialStr => {
+                    const material = this.parseMaterial(materialStr);
+                    allMaterials.add(material.name);
+                });
+            }
         });
 
         if (allMaterials.size === 0) return '';
@@ -173,7 +175,7 @@ export class EvolutionRequirements {
         `;
 
         allMaterials.forEach(materialName => {
-            const materialData = materials.find(m => m.name === materialName);
+            const materialData = materials[materialName];
             if (materialData) {
                 const color = RARITY_COLORS[materialData.rarity];
                 html += `
@@ -355,7 +357,7 @@ export class EvolutionRequirements {
     }
 
     showMaterialTooltip(element, materialName) {
-        const materialData = materials.find(m => m.name === materialName);
+        const materialData = materials[materialName];
         if (!materialData) return;
 
         // Remove existing tooltip

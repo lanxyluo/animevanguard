@@ -1,458 +1,493 @@
-// Evolution Guide 完整修复 - 集成UnitSelector组件和智能筛选
+// Evolution Guide Page - Complete Interactive Logic Implementation
 import { UnitSelector } from '../components/UnitSelector.js';
 import { CostSummary } from '../components/CostSummary.js';
 import { MaterialsList } from '../components/MaterialsList.js';
 import { FarmingGuide } from '../components/FarmingGuide.js';
 import { EvolutionRequirements } from '../components/EvolutionRequirements.js';
-import { showError, showNotification } from '../utils/dom.js';
+import { showError, showNotification, showLoading, hideLoading } from '../utils/dom.js';
 import { unitsData } from '../config/units.js';
-import { evolutionData } from '../config/evolutionData.js';
+import { evolutionData, materials, RARITY_COLORS, evolutionUtils } from '../config/evolutionData.js';
 
-// 1. 修复函数调用错误并集成组件系统
 class EvolutionGuideManager {
   constructor() {
-    this.evolutionData = this.getEvolutionData();
-    this.materialsDatabase = this.getMaterialsDatabase();
-    this.unitSelector = null;
-    this.costSummary = null;
-    this.materialsList = null;
-    this.farmingGuide = null;
-    this.evolutionRequirements = null;
     this.initialized = false;
-    // 异步初始化
+    this.currentUnit = null;
+    this.components = {
+      unitSelector: null,
+      costSummary: null,
+      materialsList: null,
+      farmingGuide: null,
+      evolutionRequirements: null
+    };
+    
+    // Initialize components
     this.init();
   }
 
   async init() {
-    await this.initializeComponents();
-    this.initialized = true;
+    try {
+      showLoading('Initializing Evolution Guide...');
+      
+      await this.initializeComponents();
+      await this.loadEvolutionUnits();
+      this.bindEvents();
+      
+      this.initialized = true;
+      hideLoading();
+      showNotification('Evolution Guide loaded successfully!', 'success');
+      
+      console.log('✅ Evolution Guide initialized successfully');
+    } catch (error) {
+      console.error('❌ Failed to initialize Evolution Guide:', error);
+      hideLoading();
+      showError('Failed to initialize Evolution Guide. Please refresh the page.');
+    }
   }
 
-  // 修复：初始化所有组件
   async initializeComponents() {
     try {
-      // 初始化UnitSelector组件 - 这将恢复智能筛选功能
-      this.unitSelector = new UnitSelector('unit-selection', {
-        onUnitSelect: (unit) => this.processUnitSelection(unit),
+      // Initialize UnitSelector with enhanced options
+      this.components.unitSelector = new UnitSelector('unit-selection', {
+        onUnitSelect: (unit) => this.handleUnitSelection(unit),
         showFilters: true,
-        showSearch: true
+        showSearch: true,
+        placeholder: 'Select a unit to view evolution path...'
       });
 
-      // 初始化其他组件
-      this.costSummary = new CostSummary('cost-summary');
-      this.materialsList = new MaterialsList('evolution-materials');
-      this.farmingGuide = new FarmingGuide('farming-guide');
-      this.evolutionRequirements = new EvolutionRequirements();
+      // Initialize other components
+      this.components.costSummary = new CostSummary('cost-summary');
+      this.components.materialsList = new MaterialsList('evolution-materials');
+      this.components.farmingGuide = new FarmingGuide('farming-guide');
+      this.components.evolutionRequirements = new EvolutionRequirements();
 
-      // 加载进化单位数据到UnitSelector
-      await this.loadEvolutionUnitsData();
-
-      console.log("✅ 所有组件初始化成功");
+      console.log('✅ All components initialized');
     } catch (error) {
-      console.error("❌ 组件初始化失败:", error);
-      showError("Failed to initialize Evolution Guide components");
+      console.error('❌ Component initialization failed:', error);
+      throw error;
     }
   }
 
-  // 修复：加载真实的Unit Database数据
-  async loadEvolutionUnitsData() {
+  async loadEvolutionUnits() {
     try {
-      console.log("🔄 Loading evolution units data from Unit Database...");
+      showLoading('Loading evolution data...');
       
-      // 筛选可以进化的单位（从真实的Unit Database数据）
+      // Filter units that can evolve
       const evolvableUnits = unitsData.filter(unit => {
-        // 只显示有进化数据的单位
-        const unitId = unit.name.toLowerCase().replace(/\s+/g, '');
-        return evolutionData[unitId] || 
-               (unit.rarity && ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity));
+        const unitId = this.generateUnitId(unit.name);
+        const hasEvolutionData = evolutionData[unitId] !== undefined;
+        const canEvolveByRarity = ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity);
+        
+        return hasEvolutionData || canEvolveByRarity;
       });
+
+      console.log(`📊 Found ${evolvableUnits.length} evolvable units`);
       
-      console.log(`📊 Found ${evolvableUnits.length} evolvable units from Unit Database`);
-      console.log("🔍 Available rarities:", [...new Set(evolvableUnits.map(u => u.rarity))]);
-      console.log("🔍 Available elements:", [...new Set(evolvableUnits.map(u => u.element))]);
-      
-      // 设置数据到UnitSelector
-      if (this.unitSelector && evolvableUnits.length > 0) {
-        this.unitSelector.setUnits(evolvableUnits, {});
-        console.log("✅ Evolution units data loaded successfully from Unit Database");
-      } else {
-        console.warn("⚠️ No evolvable units found or UnitSelector not initialized");
+      // Set units to selector
+      if (this.components.unitSelector) {
+        this.components.unitSelector.setUnits(evolvableUnits, {});
       }
+
+      hideLoading();
     } catch (error) {
-      console.error("❌ Failed to load evolution units data:", error);
+      console.error('❌ Failed to load evolution units:', error);
+      hideLoading();
+      throw error;
     }
   }
 
-  // 修复：处理单位选择，使用新的进化数据
-  lookupEvolutionData(unit) {
-    // 安全检查
-    if (!unit || !unit.name) {
-      console.error('❌ Invalid unit object passed to lookupEvolutionData:', unit);
-      return null;
-    }
-
-    // 尝试从新进化数据中查找
-    const unitId = unit.name.toLowerCase().replace(/\s+/g, '');
-    const newEvolutionData = evolutionData.find(evo => evo.unitId === unitId);
-    
-    if (newEvolutionData) {
-      console.log(`✅ Found new evolution data for ${unit.name}`);
-      return {
-        ...unit,
-        evolutionData: newEvolutionData,
-        hasEvolutionData: true
-      };
-    }
-    
-    // 尝试从真实进化数据中查找（向后兼容）
-    const realEvolutionData = evolutionData[unitId];
-    if (realEvolutionData) {
-      console.log(`✅ Found legacy evolution data for ${unit.name}`);
-      return {
-        ...unit,
-        ...realEvolutionData,
-        hasEvolutionData: true
-      };
-    }
-    
-    // 如果没有进化数据，返回基础信息
-    console.log(`⚠️ No evolution data found for ${unit.name}, showing basic info`);
-    return {
-      ...unit,
-      hasEvolutionData: false
-    };
-  }
-
-  // 2. 修复：安全的单位选择处理 - 使用真实数据
-  processUnitSelection(unit) {
+  // 1. Enhanced Unit Selection Handler with Loading States
+  async handleUnitSelection(unit) {
     try {
-      console.log("Processing unit selection:", unit);
+      console.log('🎯 Processing unit selection:', unit);
       
       if (!unit) {
         this.clearAllDisplays();
         return;
       }
 
-      // 查找真实的进化数据
-      const evolutionData = this.lookupEvolutionData(unit);
+      // Show loading state
+      this.showLoadingState();
       
-      // 检查是否成功获取数据
-      if (!evolutionData) {
-        console.error("❌ Failed to lookup evolution data");
-        this.clearAllDisplays();
-        return;
-      }
+      // Generate unit ID and lookup evolution data
+      const unitId = this.generateUnitId(unit.name);
+      const evolutionInfo = this.lookupEvolutionData(unitId, unit);
       
-      // 使用组件系统更新显示
-      this.displayEvolutionData(evolutionData);
-      
-    } catch (error) {
-      console.error("Error in processUnitSelection:", error);
-      showError("Failed to process unit selection. Please try again.");
-    }
-  }
-
-  // 3. 修复：使用组件系统更新显示
-  displayEvolutionData(unit) {
-    try {
-      console.log("Displaying evolution data for:", unit);
-      
-      if (!unit.hasEvolutionData) {
+      if (!evolutionInfo) {
         this.showNoEvolutionData(unit.name);
         return;
       }
+
+      // Update all display areas with enhanced error handling
+      await this.updateAllDisplays(evolutionInfo);
       
-      // 使用组件系统更新各个显示区域
-      if (this.costSummary) {
-        this.costSummary.updateCost(unit);
-      }
+      this.currentUnit = evolutionInfo;
+      console.log('✅ Unit selection processed successfully');
       
-      if (this.materialsList) {
-        this.materialsList.updateUnit(unit);
-      }
-      
-      if (this.farmingGuide) {
-        this.farmingGuide.updateUnit(unit);
-      }
-      
-      // 使用新的EvolutionRequirements组件
-      if (this.evolutionRequirements && unit.evolutionData) {
-        const requirementsHtml = this.evolutionRequirements.render(unit.evolutionData.unitId);
-        const container = this.getContainer('evolution-requirements');
-        if (container) {
-          container.innerHTML = requirementsHtml;
-          // 绑定事件
-          this.evolutionRequirements.bindEvents();
-        }
-      } else {
-        // 使用旧的显示方法作为后备
-        this.updateEvolutionRequirements(unit);
-      }
-      
-      console.log("✅ Evolution data updated successfully");
     } catch (error) {
-      console.error("Error updating displays:", error);
-      showError("Failed to update evolution data displays.");
+      console.error('❌ Error processing unit selection:', error);
+      this.showErrorState('Failed to load evolution data. Please try again.');
+    } finally {
+      this.hideLoadingState();
     }
   }
 
-  // 4. Evolution Requirements更新
-  updateEvolutionRequirements(evolutionInfo) {
+  // 2. Enhanced Data Lookup with Better Error Handling
+  lookupEvolutionData(unitId, unit) {
+    console.log(`🔍 Looking up evolution data for: ${unit.name} (ID: ${unitId})`);
+    
+    const evolutionInfo = evolutionData[unitId];
+    
+    if (evolutionInfo) {
+      console.log(`✅ Found evolution data for ${unit.name}`);
+      return {
+        ...unit,
+        unitId,
+        evolutionData: evolutionInfo,
+        evolutions: evolutionInfo.evolutions,
+        hasEvolutionData: true
+      };
+    }
+
+    // Check if unit can evolve by rarity but no specific data
+    if (['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity)) {
+      console.log(`⚠️ Unit ${unit.name} can evolve but no specific data found`);
+      return {
+        ...unit,
+        unitId,
+        hasEvolutionData: false,
+        canEvolveByRarity: true
+      };
+    }
+
+    console.log(`❌ No evolution data found for ${unit.name}`);
+    return null;
+  }
+
+  // 3. Enhanced Display Updates with Material Color Classification
+  async updateAllDisplays(evolutionInfo) {
+    try {
+      // Update Evolution Requirements with enhanced display
+      await this.updateEvolutionRequirements(evolutionInfo);
+      
+      // Update Cost Summary with gradient colors
+      await this.updateCostSummary(evolutionInfo);
+      
+      // Update Materials List with rarity color classification
+      await this.updateMaterialsList(evolutionInfo);
+      
+      // Update Farming Guide with efficiency sorting
+      await this.updateFarmingGuide(evolutionInfo);
+      
+    } catch (error) {
+      console.error('❌ Error updating displays:', error);
+      throw error;
+    }
+  }
+
+  // 4. Enhanced Evolution Requirements Display
+  async updateEvolutionRequirements(evolutionInfo) {
     const container = this.getContainer('evolution-requirements');
     if (!container) return;
 
-    let html = `
-      <div class="evolution-path-header">
-        <h3 class="text-lg font-semibold text-white mb-4">Evolution Requirements</h3>
-      </div>
-      <div class="evolution-stages">
-    `;
-
-    if (evolutionInfo.evolutions && evolutionInfo.evolutions.length > 0) {
-      evolutionInfo.evolutions.forEach((evo, index) => {
-        html += this.renderEvolutionStage(evo, index);
-      });
-    } else {
-      // 简单的单次进化显示
-      html += this.renderSimpleEvolution(evolutionInfo);
+    if (!evolutionInfo.hasEvolutionData) {
+      container.innerHTML = this.renderDataUpdatingMessage();
+      return;
     }
 
-    html += '</div>';
-    container.innerHTML = html;
-  }
-
-  // 5. 渲染进化阶段
-  renderEvolutionStage(evo, index) {
-    const isBase = index === 0;
-    const materials = evo.materials || [];
-    
-    return `
-      <div class="evolution-stage ${isBase ? 'base-stage' : 'evolution-stage'}">
-        <div class="stage-header">
-          <h4 class="stage-title">${evo.name || `Stage ${index + 1}`}</h4>
-          ${!isBase ? '<span class="evolution-indicator">⚡ Evolution</span>' : ''}
-        </div>
-        
-        ${!isBase ? `
-          <div class="requirements-grid">
-            <div class="requirement-item">
-              <span class="req-label">Cost:</span>
-              <span class="req-value gold">${(evo.cost || 15000).toLocaleString()}</span>
-            </div>
-            ${evo.gems ? `
-              <div class="requirement-item">
-                <span class="req-label">Gems:</span>
-                <span class="req-value gems">${evo.gems}</span>
-              </div>
-            ` : ''}
-            ${materials.length > 0 ? `
-              <div class="requirement-item materials-list">
-                <span class="req-label">Materials:</span>
-                <div class="materials-grid">
-                  ${materials.map(mat => `
-                    <span class="material-chip">${mat.name} x${mat.count}</span>
-                  `).join('')}
-                </div>
-              </div>
-            ` : ''}
-          </div>
-        ` : '<div class="base-stage-info">Base form - No requirements</div>'}
-      </div>
-    `;
-  }
-
-  // 6. 渲染简单进化（单次进化）
-  renderSimpleEvolution(evolutionInfo) {
-    const materials = evolutionInfo.requirements?.materials || [];
-    const cost = evolutionInfo.requirements?.cost || 15000;
-    
-    return `
-      <div class="evolution-stage base-stage">
-        <div class="stage-header">
-          <h4 class="stage-title">${evolutionInfo.name}</h4>
-        </div>
-        <div class="base-stage-info">Base form</div>
-      </div>
+    try {
+      // Use EvolutionRequirements component for rich display
+      const requirementsHtml = this.components.evolutionRequirements.render(evolutionInfo.unitId);
+      container.innerHTML = requirementsHtml;
       
-      <div class="evolution-stage evolution-stage">
-        <div class="stage-header">
-          <h4 class="stage-title">${evolutionInfo.evolutionName}</h4>
-          <span class="evolution-indicator">⚡ Evolution</span>
-        </div>
-        
-        <div class="requirements-grid">
-          <div class="requirement-item">
-            <span class="req-label">Cost:</span>
-            <span class="req-value gold">${cost.toLocaleString()}</span>
-          </div>
-          ${materials.length > 0 ? `
-            <div class="requirement-item materials-list">
-              <span class="req-label">Materials:</span>
-              <div class="materials-grid">
-                ${materials.map(mat => `
-                  <span class="material-chip">${mat.name} x${mat.count}</span>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-        </div>
-      </div>
-    `;
+      // Bind interactive events
+      this.components.evolutionRequirements.bindEvents();
+      
+    } catch (error) {
+      console.error('❌ Error updating evolution requirements:', error);
+      container.innerHTML = this.renderErrorMessage('Failed to load evolution requirements');
+    }
   }
 
-  // 7. Cost Summary更新（修复白色背景）
-  updateCostSummary(evolutionInfo) {
+  // 5. Enhanced Cost Summary with Gradient Colors
+  async updateCostSummary(evolutionInfo) {
     const container = this.getContainer('cost-summary');
     if (!container) return;
 
-    let totalCost = 0;
-    let totalGems = 0;
-    let totalMaterials = 0;
-
-    if (evolutionInfo.evolutions) {
-      evolutionInfo.evolutions.forEach(evo => {
-        totalCost += evo.cost || 0;
-        totalGems += evo.gems || 0;
-        if (evo.materials) {
-          totalMaterials += evo.materials.reduce((sum, mat) => sum + mat.count, 0);
-        }
-      });
-    } else if (evolutionInfo.requirements) {
-      totalCost = evolutionInfo.requirements.cost || 15000;
-      totalGems = evolutionInfo.requirements.gems || 0;
-      if (evolutionInfo.requirements.materials) {
-        totalMaterials = evolutionInfo.requirements.materials.reduce((sum, mat) => sum + mat.count, 0);
-      }
+    if (!evolutionInfo.hasEvolutionData) {
+      container.innerHTML = this.renderDataUpdatingMessage();
+      return;
     }
 
-    // 修复：使用深色背景，移除白色
-    container.innerHTML = `
-      <div class="cost-breakdown-container">
-        <h3 class="cost-header">Cost Summary</h3>
-        
-        <div class="cost-cards">
-          <div class="cost-card gold-card">
-            <div class="cost-value">${totalCost.toLocaleString()}</div>
-            <div class="cost-label">Gold Required</div>
+    try {
+      const costData = evolutionUtils.calculateEvolutionCost ? 
+        evolutionUtils.calculateEvolutionCost(evolutionInfo.unitId) : 
+        this.calculateCostFallback(evolutionInfo);
+
+      const difficulty = this.calculateDifficulty(costData);
+      
+      container.innerHTML = `
+        <div class="cost-summary-container">
+          <div class="cost-header">
+            <h3>Total Evolution Cost</h3>
+            <span class="difficulty-badge ${difficulty.class}">${difficulty.label}</span>
           </div>
           
-          ${totalGems > 0 ? `
-            <div class="cost-card gems-card">
-              <div class="cost-value">${totalGems}</div>
-              <div class="cost-label">Gems Required</div>
+          <div class="cost-cards">
+            <div class="cost-card gold-card" style="background: linear-gradient(135deg, #ffd700, #ffed4e);">
+              <div class="cost-icon">💰</div>
+              <div class="cost-value">${costData.totalCost.toLocaleString()}</div>
+              <div class="cost-label">Gold Required</div>
             </div>
-          ` : ''}
+            
+            ${costData.totalGems > 0 ? `
+              <div class="cost-card gems-card" style="background: linear-gradient(135deg, #9c27b0, #e91e63);">
+                <div class="cost-icon">💎</div>
+                <div class="cost-value">${costData.totalGems}</div>
+                <div class="cost-label">Gems Required</div>
+              </div>
+            ` : ''}
+            
+            <div class="cost-card materials-card" style="background: linear-gradient(135deg, #2196f3, #00bcd4);">
+              <div class="cost-icon">🧪</div>
+              <div class="cost-value">${costData.totalMaterials}</div>
+              <div class="cost-label">Materials Required</div>
+            </div>
+          </div>
           
-          <div class="cost-card materials-card">
-            <div class="cost-value">${totalMaterials}</div>
-            <div class="cost-label">Materials Required</div>
+          <div class="cost-breakdown">
+            <h4>Cost by Tier</h4>
+            <div class="tier-costs">
+              ${costData.breakdown.map((tier, index) => `
+                <div class="tier-cost-item">
+                  <div class="tier-info">
+                    <span class="tier-name">${tier.name}</span>
+                    <span class="tier-multiplier">${tier.statMultiplier || 1.0}x stats</span>
+                  </div>
+                  <div class="tier-requirements">
+                    <span class="cost">${tier.cost.toLocaleString()} gold</span>
+                    ${tier.gems > 0 ? `<span class="gems">${tier.gems} gems</span>` : ''}
+                    <span class="materials">${tier.materials.length} materials</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
         </div>
-        
-        <div class="cost-note">
-          <small>💡 Costs may vary based on current game version</small>
-        </div>
-      </div>
-    `;
+      `;
+    } catch (error) {
+      console.error('❌ Error updating cost summary:', error);
+      container.innerHTML = this.renderErrorMessage('Failed to load cost summary');
+    }
   }
 
-  // 8. Farming Guide更新
-  updateFarmingGuide(evolutionInfo) {
-    const container = this.getContainer('farming-guide');
-    if (!container) return;
-
-    container.innerHTML = `
-      <div class="farming-guide-container">
-        <h3 class="farming-header">Farming Guide</h3>
-        
-        <div class="farming-content">
-          <div class="farming-tip">
-            <div class="tip-icon">🎯</div>
-            <div class="tip-content">
-              <h4>Material Sources</h4>
-              <p>Evolution materials can be obtained from:</p>
-              <ul>
-                <li>Legend Stages (primary source)</li>
-                <li>Raid Shop purchases</li>
-                <li>Event rewards</li>
-                <li>Daily/Weekly challenges</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="farming-tip">
-            <div class="tip-icon">💰</div>
-            <div class="tip-content">
-              <h4>Gold Farming</h4>
-              <p>Efficiently farm gold through:</p>
-              <ul>
-                <li>Story mode replays</li>
-                <li>Challenge modes</li>
-                <li>Daily gold dungeons</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  // 9. Evolution Materials更新
-  updateEvolutionMaterials(evolutionInfo) {
+  // 6. Enhanced Materials List with Rarity Color Classification
+  async updateMaterialsList(evolutionInfo) {
     const container = this.getContainer('evolution-materials');
     if (!container) return;
 
-    // 收集所有材料
-    const allMaterials = new Map();
-    
-    if (evolutionInfo.evolutions) {
-      evolutionInfo.evolutions.forEach(evo => {
-        if (evo.materials) {
-          evo.materials.forEach(mat => {
-            const existing = allMaterials.get(mat.name) || { count: 0, rarity: mat.rarity };
-            existing.count += mat.count;
-            allMaterials.set(mat.name, existing);
-          });
-        }
-      });
-    } else if (evolutionInfo.requirements?.materials) {
-      evolutionInfo.requirements.materials.forEach(mat => {
-        allMaterials.set(mat.name, { count: mat.count, rarity: mat.rarity });
-      });
+    if (!evolutionInfo.hasEvolutionData) {
+      container.innerHTML = this.renderDataUpdatingMessage();
+      return;
     }
 
-    let html = `
-      <div class="materials-container">
-        <h3 class="materials-header">Required Materials</h3>
-        <div class="materials-list">
-    `;
+    try {
+      const allMaterials = this.collectAllMaterials(evolutionInfo);
+      const sortedMaterials = this.sortMaterialsByRarity(allMaterials);
 
-    if (allMaterials.size > 0) {
-      allMaterials.forEach((data, materialName) => {
-        const rarityClass = `rarity-${(data.rarity || 'common').toLowerCase()}`;
-        html += `
-          <div class="material-item ${rarityClass}">
-            <div class="material-info">
-              <span class="material-name">${materialName}</span>
-              <span class="material-count">x${data.count}</span>
+      container.innerHTML = `
+        <div class="materials-container">
+          <div class="materials-header">
+            <h3>Required Materials</h3>
+            <div class="rarity-legend">
+              ${Object.entries(RARITY_COLORS).map(([rarity, color]) => `
+                <span class="rarity-indicator" style="background: ${color}">${rarity}</span>
+              `).join('')}
             </div>
-            <div class="material-rarity">${data.rarity || 'Common'}</div>
           </div>
-        `;
-      });
-    } else {
-      html += '<div class="no-materials">No specific materials data available</div>';
+          
+          <div class="materials-grid">
+            ${sortedMaterials.map(material => {
+              const materialData = this.getMaterialData(material.name);
+              const rarity = materialData?.rarity || 'Common';
+              const color = RARITY_COLORS[rarity] || RARITY_COLORS.Common;
+              
+              return `
+                <div class="material-card" data-rarity="${rarity}" style="border-left: 4px solid ${color}">
+                  <div class="material-header">
+                    <h4 class="material-name" style="color: ${color}">${material.name}</h4>
+                    <span class="material-quantity">x${material.quantity}</span>
+                  </div>
+                  <div class="material-info">
+                    <span class="material-rarity" style="background: ${color}">${rarity}</span>
+                    ${materialData ? `
+                      <div class="material-details">
+                        <p class="material-description">${materialData.description}</p>
+                        <div class="material-stats">
+                          <span class="drop-rate">📊 ${materialData.dropRate}</span>
+                          <span class="sources">📍 ${materialData.source.slice(0, 2).join(', ')}</span>
+                        </div>
+                      </div>
+                    ` : '<p class="material-description">Material information updating...</p>'}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    } catch (error) {
+      console.error('❌ Error updating materials list:', error);
+      container.innerHTML = this.renderErrorMessage('Failed to load materials list');
     }
-
-    html += '</div></div>';
-    container.innerHTML = html;
   }
 
-  // 10. 辅助函数
+  // 7. Enhanced Farming Guide with Efficiency Sorting
+  async updateFarmingGuide(evolutionInfo) {
+    const container = this.getContainer('farming-guide');
+    if (!container) return;
+
+    if (!evolutionInfo.hasEvolutionData) {
+      container.innerHTML = this.renderDataUpdatingMessage();
+      return;
+    }
+
+    try {
+      const farmingMethods = this.getFarmingMethods();
+      const sortedMethods = farmingMethods.sort((a, b) => b.efficiency - a.efficiency);
+
+      container.innerHTML = `
+        <div class="farming-guide-container">
+          <div class="farming-header">
+            <h3>Farming Guide</h3>
+            <div class="efficiency-legend">
+              <span class="efficiency-indicator ultra">Ultra High</span>
+              <span class="efficiency-indicator high">High</span>
+              <span class="efficiency-indicator medium">Medium</span>
+              <span class="efficiency-indicator low">Low</span>
+            </div>
+          </div>
+          
+          <div class="farming-methods">
+            ${sortedMethods.map(method => `
+              <div class="farming-method" data-efficiency="${method.efficiency}">
+                <div class="method-header">
+                  <h4 class="method-name">${method.name}</h4>
+                  <span class="efficiency-badge ${method.efficiencyClass}">${method.efficiencyLabel}</span>
+                </div>
+                <div class="method-details">
+                  <div class="method-info">
+                    <span class="stamina-cost">⚡ ${method.staminaCost}</span>
+                    <span class="attempts">🔄 ${method.attempts}</span>
+                    <span class="drop-rate">📊 ${method.dropRate}</span>
+                  </div>
+                  <div class="method-materials">
+                    <strong>Materials:</strong> ${method.materials.join(', ')}
+                  </div>
+                  <div class="method-recommendation">
+                    <strong>💡 Tip:</strong> ${method.recommendation}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="farming-tips">
+            <h4>Optimal Farming Strategy</h4>
+            <ul>
+              <li><strong>Priority:</strong> Focus on Ultra High and High efficiency methods first</li>
+              <li><strong>Daily:</strong> Complete all daily dungeons for consistent material gain</li>
+              <li><strong>Events:</strong> Participate in limited-time events for rare materials</li>
+              <li><strong>Planning:</strong> Check material requirements before spending stamina</li>
+            </ul>
+          </div>
+        </div>
+      `;
+    } catch (error) {
+      console.error('❌ Error updating farming guide:', error);
+      container.innerHTML = this.renderErrorMessage('Failed to load farming guide');
+    }
+  }
+
+  // 8. Enhanced Error Handling
+  showNoEvolutionData(unitName) {
+    const message = `
+      <div class="no-evolution-display">
+        <div class="no-evo-icon">🚫</div>
+        <div class="no-evo-message">${unitName} Evolution Path Not Available</div>
+        <div class="no-evo-info">
+          <p>This unit currently doesn't have evolution data in our database.</p>
+          <p>Only Mythic and Secret units can evolve in Anime Vanguards.</p>
+        </div>
+        <button class="retry-button" onclick="location.reload()">
+          <i class="fas fa-refresh"></i> Refresh Data
+        </button>
+      </div>
+    `;
+    
+    this.updateAllContainers(message);
+  }
+
+  showErrorState(message) {
+    const errorDisplay = `
+      <div class="error-display">
+        <div class="error-icon">⚠️</div>
+        <div class="error-message">${message}</div>
+        <div class="error-actions">
+          <button class="retry-button" onclick="location.reload()">
+            <i class="fas fa-refresh"></i> Refresh Page
+          </button>
+        </div>
+      </div>
+    `;
+    
+    this.updateAllContainers(errorDisplay);
+  }
+
+  renderDataUpdatingMessage() {
+    return `
+      <div class="data-updating">
+        <div class="updating-icon">🔄</div>
+        <div class="updating-message">Data Updating...</div>
+        <div class="updating-info">Evolution information is being updated. Please check back later.</div>
+      </div>
+    `;
+  }
+
+  renderErrorMessage(message) {
+    return `
+      <div class="error-message">
+        <div class="error-icon">❌</div>
+        <div class="error-text">${message}</div>
+      </div>
+    `;
+  }
+
+  // 9. Loading States
+  showLoadingState() {
+    const loadingDisplay = `
+      <div class="loading-display">
+        <div class="loading-spinner"></div>
+        <div class="loading-message">Loading evolution data...</div>
+      </div>
+    `;
+    
+    this.updateAllContainers(loadingDisplay);
+  }
+
+  hideLoadingState() {
+    // Loading states will be replaced by actual content
+  }
+
+  // 10. Utility Functions
+  generateUnitId(unitName) {
+    return unitName.toLowerCase().replace(/\s+/g, '');
+  }
+
   getContainer(type) {
     const selectors = [
       `[data-${type}]`,
       `.${type}`,
+      `#${type}`,
       `[data-${type.replace('-', '')}]`,
       `.${type.replace('-', '')}`
     ];
@@ -466,165 +501,193 @@ class EvolutionGuideManager {
     return null;
   }
 
-  extractUnitId(unitDisplayName) {
-    return unitDisplayName
-      .replace(/^\[.*?\]\s*/, '') // 移除稀有度标签
-      .replace(/\s*\(.*?\).*$/, '') // 移除括号内容
-      .toLowerCase()
-      .replace(/\s+/g, ''); // 移除空格
-  }
-
-  // 11. 错误处理
-  showErrorMessage(message) {
+  updateAllContainers(content) {
     const containers = ['evolution-requirements', 'evolution-materials', 'cost-summary', 'farming-guide'];
-    
     containers.forEach(type => {
       const container = this.getContainer(type);
       if (container) {
-        container.innerHTML = `
-          <div class="error-display">
-            <div class="error-icon">⚠️</div>
-            <div class="error-message">${message}</div>
-            <button class="retry-button" onclick="location.reload()">Refresh Page</button>
-          </div>
-        `;
+        container.innerHTML = content;
       }
     });
   }
 
   clearAllDisplays() {
-    try {
-      // 清空组件显示
-      if (this.costSummary && typeof this.costSummary.clear === 'function') {
-        this.costSummary.clear();
-      }
-      
-      if (this.materialsList && typeof this.materialsList.clear === 'function') {
-        this.materialsList.clear();
-      }
-      
-      if (this.farmingGuide && typeof this.farmingGuide.clear === 'function') {
-        this.farmingGuide.clear();
-      }
-      
-      // 清空进化需求显示
-      const container = this.getContainer('evolution-requirements');
-      if (container) {
-        container.innerHTML = `
-          <div class="select-prompt">
-            <div class="prompt-icon">🔍</div>
-            <div class="prompt-message">Select a unit to view evolution data</div>
-          </div>
-        `;
-      }
-      
-      console.log("✅ All displays cleared");
-    } catch (error) {
-      console.error("Error clearing displays:", error);
-      // 回退到原来的方法
-      const containers = ['evolution-requirements', 'evolution-materials', 'cost-summary', 'farming-guide'];
-      containers.forEach(type => {
-        const container = this.getContainer(type);
-        if (container) {
-          container.innerHTML = `
-            <div class="select-prompt">
-              <div class="prompt-icon">🔍</div>
-              <div class="prompt-message">Select a unit to view evolution data</div>
-            </div>
-          `;
+    const clearMessage = `
+      <div class="select-prompt">
+        <div class="prompt-icon">🔍</div>
+        <div class="prompt-message">Select a unit to view evolution data</div>
+      </div>
+    `;
+    
+    this.updateAllContainers(clearMessage);
+  }
+
+  // Helper functions
+  calculateCostFallback(evolutionInfo) {
+    // Fallback cost calculation if utility function not available
+    let totalCost = 0;
+    let totalGems = 0;
+    let totalMaterials = 0;
+    const breakdown = [];
+
+    if (evolutionInfo.evolutionData && evolutionInfo.evolutionData.evolutions) {
+      evolutionInfo.evolutionData.evolutions.forEach(tier => {
+        totalCost += tier.requirements.cost || 0;
+        totalGems += tier.requirements.gems || 0;
+        totalMaterials += tier.requirements.materials ? tier.requirements.materials.length : 0;
+        
+        breakdown.push({
+          name: tier.name,
+          cost: tier.requirements.cost || 0,
+          gems: tier.requirements.gems || 0,
+          materials: tier.requirements.materials || [],
+          statMultiplier: tier.statMultiplier
+        });
+      });
+    }
+
+    return { totalCost, totalGems, totalMaterials, breakdown };
+  }
+
+  calculateDifficulty(costData) {
+    const totalCost = costData.totalCost + (costData.totalGems * 100);
+    
+    if (totalCost > 10000) return { class: 'ultra', label: 'Ultra Hard' };
+    if (totalCost > 5000) return { class: 'high', label: 'Hard' };
+    if (totalCost > 2000) return { class: 'medium', label: 'Medium' };
+    return { class: 'low', label: 'Easy' };
+  }
+
+  collectAllMaterials(evolutionInfo) {
+    const allMaterials = new Map();
+    
+    if (evolutionInfo.evolutionData && evolutionInfo.evolutionData.evolutions) {
+      evolutionInfo.evolutionData.evolutions.forEach(tier => {
+        if (tier.requirements.materials) {
+          tier.requirements.materials.forEach(materialStr => {
+            const material = evolutionUtils.parseMaterialString(materialStr);
+            const existing = allMaterials.get(material.name) || { quantity: 0 };
+            existing.quantity += material.quantity;
+            allMaterials.set(material.name, { name: material.name, quantity: existing.quantity });
+          });
         }
       });
     }
+    
+    return Array.from(allMaterials.values());
   }
 
-  showNoEvolutionData(unitName) {
-    const containers = ['evolution-requirements', 'evolution-materials', 'cost-summary', 'farming-guide'];
+  sortMaterialsByRarity(materials) {
+    const rarityOrder = { 'Mythic': 6, 'Legendary': 5, 'Epic': 4, 'Rare': 3, 'Uncommon': 2, 'Common': 1 };
     
-    containers.forEach(type => {
-      const container = this.getContainer(type);
-      if (container) {
-        container.innerHTML = `
-          <div class="no-evolution-display">
-            <div class="no-evo-icon">🚫</div>
-            <div class="no-evo-message">${unitName} cannot evolve</div>
-            <div class="no-evo-info">Only Mythic and Secret units can evolve</div>
-          </div>
-        `;
+    return materials.sort((a, b) => {
+      const aData = this.getMaterialData(a.name);
+      const bData = this.getMaterialData(b.name);
+      const aRarity = rarityOrder[aData?.rarity || 'Common'] || 1;
+      const bRarity = rarityOrder[bData?.rarity || 'Common'] || 1;
+      
+      return bRarity - aRarity;
+    });
+  }
+
+  getMaterialData(materialName) {
+    return materials[materialName] || null;
+  }
+
+  getFarmingMethods() {
+    return [
+      {
+        name: 'Daily Material Dungeon',
+        efficiency: 5,
+        efficiencyClass: 'ultra',
+        efficiencyLabel: 'Ultra High',
+        staminaCost: '25 Stamina',
+        attempts: '3 Attempts/Day',
+        dropRate: '70-80%',
+        materials: ['Water Essence', 'Fire Essence', 'Training Manual'],
+        recommendation: 'Complete daily for consistent material gain'
+      },
+      {
+        name: 'Weekly Boss Challenge',
+        efficiency: 4,
+        efficiencyClass: 'high',
+        efficiencyLabel: 'High',
+        staminaCost: '50 Stamina',
+        attempts: '1 Attempt/Week',
+        dropRate: '25-30%',
+        materials: ['Epic Materials', 'Rare Essences'],
+        recommendation: 'Essential for rare materials'
+      },
+      {
+        name: 'Story Mode Ch1-5',
+        efficiency: 4,
+        efficiencyClass: 'high',
+        efficiencyLabel: 'High',
+        staminaCost: '10 Stamina',
+        attempts: 'Unlimited',
+        dropRate: '40-50%',
+        materials: ['Basic Essences', 'Training Materials'],
+        recommendation: 'Best for farming common materials'
+      },
+      {
+        name: 'Monthly Legendary Event',
+        efficiency: 5,
+        efficiencyClass: 'ultra',
+        efficiencyLabel: 'Ultra High',
+        staminaCost: '100 Stamina',
+        attempts: '1 Attempt/Month',
+        dropRate: '2-3%',
+        materials: ['Legendary Materials', 'Mythic Fragments'],
+        recommendation: 'Don\'t miss this event!'
+      },
+      {
+        name: 'Raid Battles',
+        efficiency: 3,
+        efficiencyClass: 'medium',
+        efficiencyLabel: 'Medium',
+        staminaCost: '30-80 Stamina',
+        attempts: 'Limited',
+        dropRate: '15-20%',
+        materials: ['Epic Materials', 'Rare Crystals'],
+        recommendation: 'Good for mid-tier materials'
       }
-    });
+    ];
   }
 
-  // 12. 获取进化数据（使用新的数据结构）
-  getEvolutionData() {
-    // 合并新的进化数据和旧的进化数据
-    const combinedData = {};
-    
-    // 先添加旧的进化数据（向后兼容）
-    Object.assign(combinedData, evolutionData);
-    
-    // 添加新的进化数据（覆盖旧数据）
-    evolutionData.forEach(evolution => {
-      combinedData[evolution.unitId] = {
-        ...evolution,
-        // 保持与旧格式的兼容性
-        name: evolution.evolutions[0]?.name || evolution.unitId,
-        evolutionName: evolution.evolutions[evolution.evolutions.length - 1]?.name || `${evolution.unitId} (Evolved)`,
-        hasEvolutionData: true
-      };
-    });
-    
-    return combinedData;
+  bindEvents() {
+    // Additional event binding if needed
+    console.log('✅ Events bound successfully');
   }
 
-  getMaterialsDatabase() {
-    return {
-      "Hellsing Arms": { rarity: "Legendary", sources: ["Alocard Summon"] },
-      "Shadow Trace": { rarity: "Legendary", sources: ["World Lines"] },
-      "Hero License": { rarity: "Legendary", sources: ["Hero Association"] },
-      "Green Essence Stone": { rarity: "Common", sources: ["Story Mode"] },
-      "Purple Essence Stone": { rarity: "Rare", sources: ["Challenge Mode"] },
-      "Pink Essence Stone": { rarity: "Rare", sources: ["Daily Dungeons"] },
-      "Red Essence Stone": { rarity: "Rare", sources: ["Raid Shop"] }
-    };
+  // Public methods
+  getCurrentUnit() {
+    return this.currentUnit;
+  }
+
+  isInitialized() {
+    return this.initialized;
   }
 }
 
-// 13. 初始化
+// Initialize Evolution Guide
 let evolutionManager;
 
 function initializeEvolutionGuide() {
   try {
     evolutionManager = new EvolutionGuideManager();
-    
-    // 绑定单位选择事件
-    const unitSelector = document.querySelector('select[data-unit-selector]') || 
-                        document.querySelector('.unit-selector select') ||
-                        document.querySelector('select');
-    
-    if (unitSelector) {
-      unitSelector.addEventListener('change', function(e) {
-        evolutionManager.processUnitSelection(e.target.value);
-      });
-      
-      console.log("Evolution Guide initialized successfully");
-    } else {
-      console.warn("Unit selector not found");
-    }
-    
+    console.log('✅ Evolution Guide Manager initialized');
   } catch (error) {
-    console.error("Failed to initialize Evolution Guide:", error);
+    console.error('❌ Failed to initialize Evolution Guide Manager:', error);
+    showError('Failed to initialize Evolution Guide. Please refresh the page.');
   }
 }
 
-// 14. DOM加载完成后初始化
+// Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(initializeEvolutionGuide, 1000);
+  setTimeout(initializeEvolutionGuide, 500);
 });
 
-// 15. 导出供外部使用
-window.evolutionManager = evolutionManager;
-
-// 16. 兼容性导出（保持与原有系统的兼容性）
+// Export for compatibility
 export class EvolutionPage {
   constructor(app) {
     this.app = app;
@@ -632,39 +695,16 @@ export class EvolutionPage {
   }
 
   async initialize() {
-    console.log('🚀 Initializing Evolution Page (Compatibility Mode)...');
-    
-    // 初始化新的管理器
+    console.log('🚀 Initializing Evolution Page...');
     this.manager = new EvolutionGuideManager();
-    
-    // 绑定事件
-    this.bindEvents();
-    
-    console.log('✅ Evolution Page initialized successfully');
+    console.log('✅ Evolution Page initialized');
     return true;
-  }
-
-  bindEvents() {
-    // 查找单位选择器并绑定事件
-    const unitSelector = document.querySelector('select[data-unit-selector]') || 
-                        document.querySelector('.unit-selector select') ||
-                        document.querySelector('select');
-    
-    if (unitSelector) {
-      unitSelector.addEventListener('change', (e) => {
-        this.handleUnitSelect({ id: e.target.value });
-      });
-    }
-  }
-
-  handleUnitSelect(unit) {
-    if (this.manager) {
-      this.manager.processUnitSelection(unit.id);
-    }
   }
 
   cleanup() {
     console.log('🧹 Cleaning up Evolution Page...');
-    // 清理资源
   }
 }
+
+// Global export
+window.evolutionManager = evolutionManager;
