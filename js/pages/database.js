@@ -543,7 +543,7 @@ export class DatabasePage {
             
             <div class="unit-card-footer">
                 <div class="card-actions">
-                                         <button class="btn-primary" onclick="event.stopPropagation(); databasePage.showUnitDetails(databasePage.unitsData['${unit.id}'])">
+                                         <button class="btn-primary" onclick="event.stopPropagation(); databasePage.showUnitDetails(unit)">
                          View Details
                      </button>
                      <button class="btn-ghost" onclick="event.stopPropagation(); databasePage.toggleUnitSelection('${unit.id}')">
@@ -645,7 +645,7 @@ export class DatabasePage {
         this.elements.selectedUnitsDisplay.style.display = 'flex';
         
         const selectedUnitsHTML = this.selectedUnits.map(unitId => {
-            const unit = this.unitsData[unitId];
+            const unit = this.unitsData.find(u => u.id === unitId);
             if (!unit) return '';
             
             return `
@@ -934,6 +934,13 @@ export class DatabasePage {
     }
 
     showUnitDetails(unit) {
+        // Validate unit parameter
+        if (!unit || typeof unit !== 'object') {
+            console.error('Invalid unit parameter passed to showUnitDetails:', unit);
+            showNotification('Error: Invalid unit data', 'error');
+            return;
+        }
+
         // Define detail sections
         const detailSections = [
             {
@@ -1296,14 +1303,17 @@ export class DatabasePage {
         
         const unitsToCompare = [];
         
-        if (unit1Id && this.unitsData[unit1Id]) {
-            unitsToCompare.push(this.unitsData[unit1Id]);
+        if (unit1Id) {
+            const unit1 = this.unitsData.find(u => u.id === unit1Id);
+            if (unit1) unitsToCompare.push(unit1);
         }
-        if (unit2Id && this.unitsData[unit2Id]) {
-            unitsToCompare.push(this.unitsData[unit2Id]);
+        if (unit2Id) {
+            const unit2 = this.unitsData.find(u => u.id === unit2Id);
+            if (unit2) unitsToCompare.push(unit2);
         }
-        if (unit3Id && this.unitsData[unit3Id]) {
-            unitsToCompare.push(this.unitsData[unit3Id]);
+        if (unit3Id) {
+            const unit3 = this.unitsData.find(u => u.id === unit3Id);
+            if (unit3) unitsToCompare.push(unit3);
         }
         
         if (unitsToCompare.length === 0) {
@@ -1325,7 +1335,7 @@ export class DatabasePage {
             return;
         }
 
-        const selectedUnitsData = this.selectedUnits.map(id => this.unitsData[id]).filter(unit => unit);
+        const selectedUnitsData = this.selectedUnits.map(id => this.unitsData.find(u => u.id === id)).filter(unit => unit);
         this.showComparison(selectedUnitsData);
     }
     
@@ -1352,7 +1362,7 @@ export class DatabasePage {
         [1, 2, 3].forEach(slotNumber => {
             const select = this.elements[`compareUnit${slotNumber}`];
             if (select && select.value) {
-                const unit = this.unitsData[select.value];
+                const unit = this.unitsData.find(u => u.id === select.value);
                 if (unit) {
                     allUnits.push(unit);
                 } else {

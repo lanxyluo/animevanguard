@@ -236,7 +236,7 @@ export class DPSPage {
             return;
         }
         
-        this.selectedUnit = this.unitsData[unitId];
+        this.selectedUnit = this.unitsData.find(u => u.id === unitId);
         this.updateTraitOptions();
         
         // Auto-calculate if unit has data
