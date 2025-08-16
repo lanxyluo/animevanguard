@@ -1,5 +1,5 @@
 // Cost Summary Component
-import { evolutionUtils } from '../config/evolutionSystem.js';
+import { evolutionData, materials, evolutionUtils } from '../config/evolutionData.js';
 
 export class CostSummary {
     constructor(containerId, options = {}) {

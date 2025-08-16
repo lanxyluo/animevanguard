@@ -373,7 +373,7 @@ export const unitsData = [
         id: "inosuke",
         name: "Inosuke",
         rarity: "Uncommon",
-        element: "Earth",
+        element: "Physical",
         attackType: "Single Target",
         unitType: "Melee",
         evolution: "Beast Breathing",
@@ -503,7 +503,7 @@ export const unitsData = [
         id: "songjinwu",
         name: "Song Jinwu",
         rarity: "Mythic",
-        element: "Shadow",
+        element: "Dark",
         attackType: "Full AoE",
         unitType: "Ranged",
         evolution: "Song Jinwu (Monarch)",
@@ -695,12 +695,46 @@ export const unitsData = [
         pros: ["High fire damage", "Fire immunity", "Damage boost at low HP", "Burning effect"],
         cons: ["Very expensive", "Fire element weakness", "Complex abilities"],
         description: "The Flame Hashira with purgatory flame powers"
+    },
+
+    // ====== LIGHT ELEMENT UNIT ======
+    {
+        id: "allmight",
+        name: "All Might",
+        rarity: "Legendary",
+        element: "Light",
+        attackType: "Full AoE",
+        unitType: "Melee",
+        evolution: "All Might (Prime)",
+        stats: {
+            damage: 1800,
+            spa: 1.2,
+            range: 5,
+            dps: 1500
+        },
+        deploymentCost: "Very High",
+        totalCost: "Very High",
+        upgradeLevel: 12,
+        placementLimit: 1,
+        obtainment: "My Hero Academia Banner (0.5% drop rate)",
+        passiveAbilities: [
+            "Symbol of Peace - Allies gain 30% damage boost",
+            "One For All - Damage increases by 10% per enemy defeated",
+            "Plus Ultra - Cannot be stunned or debuffed"
+        ],
+        activeAbilities: [
+            "Detroit Smash - Deals 400% damage to all enemies",
+            "United States of Smash - Ultimate attack dealing 800% damage"
+        ],
+        pros: ["High AoE damage", "Team support", "Status immunity", "Scaling damage"],
+        cons: ["Very expensive", "Limited placement", "Requires setup"],
+        description: "The Symbol of Peace with overwhelming light-based power"
     }
 ];
 
 // Unit categorization and filtering constants
 export const UNIT_RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'];
-export const UNIT_ELEMENTS = ['All Elements', 'Fire', 'Water', 'Wind', 'Lightning', 'Dark', 'Light', 'Physical', 'Energy', 'Soul', 'Earth', 'Shadow'];
+export const UNIT_ELEMENTS = ['All Elements', 'Fire', 'Water', 'Wind', 'Lightning', 'Dark', 'Light', 'Physical', 'Energy', 'Soul'];
 export const UNIT_ATTACK_TYPES = ['All Types', 'Melee', 'Ranged', 'Support', 'Hybrid'];
 export const UNIT_SERIES = ['All Series', 'Dragon Ball', 'Naruto', 'One Piece', 'Demon Slayer', 'Bleach', 'One Punch Man', 'Generic'];
 

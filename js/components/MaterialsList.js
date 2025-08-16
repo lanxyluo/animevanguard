@@ -1,5 +1,5 @@
 // Materials List Component
-import { evolutionUtils } from '../config/evolutionSystem.js';
+import { evolutionData, materials, evolutionUtils } from '../config/evolutionData.js';
 
 export class MaterialsList {
     constructor(containerId, options = {}) {

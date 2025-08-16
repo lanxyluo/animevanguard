@@ -1,5 +1,5 @@
 // Farming Guide Component
-import { evolutionUtils } from '../config/evolutionSystem.js';
+import { evolutionData, materials, farmingLocations, evolutionUtils } from '../config/evolutionData.js';
 
 export class FarmingGuide {
     constructor(containerId, options = {}) {

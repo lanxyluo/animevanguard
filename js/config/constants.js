@@ -21,38 +21,29 @@ export const elementIcons = {
 
 // Complete rarity data with evolution capability
 export const RARITIES = [
-    { value: "Vanguard", label: "Vanguard", canEvolve: true },
-    { value: "Secret", label: "Secret", canEvolve: true },
-    { value: "Exclusive", label: "Exclusive", canEvolve: true },
-    { value: "Mythic", label: "Mythic", canEvolve: true },
-    { value: "Legendary", label: "Legendary", canEvolve: false },
-    { value: "Epic", label: "Epic", canEvolve: false },
-    { value: "Rare", label: "Rare", canEvolve: false }
+    { value: "Common", label: "Common", canEvolve: false },
+    { value: "Uncommon", label: "Uncommon", canEvolve: false },
+    { value: "Rare", label: "Rare", canEvolve: true },
+    { value: "Epic", label: "Epic", canEvolve: true },
+    { value: "Legendary", label: "Legendary", canEvolve: true },
+    { value: "Mythic", label: "Mythic", canEvolve: true }
 ];
 
 // Complete element data
 export const ELEMENTS = [
-    { value: "Unknown", label: "Unknown" },
-    { value: "Cosmic", label: "Cosmic" },
-    { value: "Holy", label: "Holy" },
     { value: "Fire", label: "Fire" },
     { value: "Water", label: "Water" },
-    { value: "Nature", label: "Nature" },
-    { value: "Life", label: "Life" },
-    { value: "Spirit", label: "Spirit" },
-    { value: "Spark", label: "Spark" },
-    { value: "Passion", label: "Passion" },
-    { value: "Blood", label: "Blood" },
-    { value: "Shadow", label: "Shadow" },
-    { value: "Curse", label: "Curse" },
-    { value: "Earth", label: "Earth" },
+    { value: "Wind", label: "Wind" },
     { value: "Lightning", label: "Lightning" },
     { value: "Dark", label: "Dark" },
-    { value: "Physical", label: "Physical" }
+    { value: "Light", label: "Light" },
+    { value: "Physical", label: "Physical" },
+    { value: "Energy", label: "Energy" },
+    { value: "Soul", label: "Soul" }
 ];
 
-// Rarity order for sorting and display (updated with Vanguard)
-export const RARITY_ORDER = ['Rare', 'Epic', 'Legendary', 'Mythic', 'Exclusive', 'Secret', 'Vanguard'];
+// Rarity order for sorting and display
+export const RARITY_ORDER = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'];
 
 // Attack types for filtering
 export const ATTACK_TYPES = [

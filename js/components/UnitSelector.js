@@ -524,8 +524,8 @@ export class UnitSelector {
     // New filtering logic function for Evolution Units data
     filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
         return units.filter(unit => {
-            // 1. Only show units that can evolve (Mythic, Secret, Vanguard rarity)
-            const canEvolve = unit.rarity === 'Mythic' || unit.rarity === 'Secret' || unit.rarity === 'Vanguard' || unit.canEvolve;
+            // 1. Only show units that can evolve (Rare, Epic, Legendary, Mythic rarity)
+            const canEvolve = ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity) || unit.canEvolve;
             if (!canEvolve) {
                 console.log(`❌ 过滤掉 ${unit.name}: 不可进化 (${unit.rarity})`);
                 return false;

@@ -3,9 +3,10 @@ import { UnitSelector } from '../components/UnitSelector.js';
 import { CostSummary } from '../components/CostSummary.js';
 import { MaterialsList } from '../components/MaterialsList.js';
 import { FarmingGuide } from '../components/FarmingGuide.js';
+import { EvolutionRequirements } from '../components/EvolutionRequirements.js';
 import { showError, showNotification } from '../utils/dom.js';
 import { unitsData } from '../config/units.js';
-import { REAL_EVOLUTION_DATA } from '../config/realEvolutionData.js';
+import { evolutionData } from '../config/evolutionData.js';
 
 // 1. 修复函数调用错误并集成组件系统
 class EvolutionGuideManager {
@@ -16,6 +17,7 @@ class EvolutionGuideManager {
     this.costSummary = null;
     this.materialsList = null;
     this.farmingGuide = null;
+    this.evolutionRequirements = null;
     this.initialized = false;
     // 异步初始化
     this.init();
@@ -40,6 +42,7 @@ class EvolutionGuideManager {
       this.costSummary = new CostSummary('cost-summary');
       this.materialsList = new MaterialsList('evolution-materials');
       this.farmingGuide = new FarmingGuide('farming-guide');
+      this.evolutionRequirements = new EvolutionRequirements();
 
       // 加载进化单位数据到UnitSelector
       await this.loadEvolutionUnitsData();
@@ -57,13 +60,11 @@ class EvolutionGuideManager {
       console.log("🔄 Loading evolution units data from Unit Database...");
       
       // 筛选可以进化的单位（从真实的Unit Database数据）
-      const evolvableUnits = Object.values(unitsData).filter(unit => {
+      const evolvableUnits = unitsData.filter(unit => {
         // 只显示有进化数据的单位
         const unitId = unit.name.toLowerCase().replace(/\s+/g, '');
-        return REAL_EVOLUTION_DATA[unitId] || 
-               unit.rarity === 'Mythic' || 
-               unit.rarity === 'Secret' || 
-               unit.rarity === 'Vanguard';
+        return evolutionData[unitId] || 
+               (unit.rarity && ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity));
       });
       
       console.log(`📊 Found ${evolvableUnits.length} evolvable units from Unit Database`);
@@ -82,7 +83,7 @@ class EvolutionGuideManager {
     }
   }
 
-  // 修复：处理单位选择，使用真实的进化数据
+  // 修复：处理单位选择，使用新的进化数据
   lookupEvolutionData(unit) {
     // 安全检查
     if (!unit || !unit.name) {
@@ -90,12 +91,23 @@ class EvolutionGuideManager {
       return null;
     }
 
-    // 尝试从真实进化数据中查找
+    // 尝试从新进化数据中查找
     const unitId = unit.name.toLowerCase().replace(/\s+/g, '');
-    const realEvolutionData = REAL_EVOLUTION_DATA[unitId];
+    const newEvolutionData = evolutionData.find(evo => evo.unitId === unitId);
     
+    if (newEvolutionData) {
+      console.log(`✅ Found new evolution data for ${unit.name}`);
+      return {
+        ...unit,
+        evolutionData: newEvolutionData,
+        hasEvolutionData: true
+      };
+    }
+    
+    // 尝试从真实进化数据中查找（向后兼容）
+    const realEvolutionData = evolutionData[unitId];
     if (realEvolutionData) {
-      console.log(`✅ Found real evolution data for ${unit.name}`);
+      console.log(`✅ Found legacy evolution data for ${unit.name}`);
       return {
         ...unit,
         ...realEvolutionData,
@@ -103,7 +115,7 @@ class EvolutionGuideManager {
       };
     }
     
-    // 如果没有真实进化数据，返回基础信息
+    // 如果没有进化数据，返回基础信息
     console.log(`⚠️ No evolution data found for ${unit.name}, showing basic info`);
     return {
       ...unit,
@@ -163,8 +175,19 @@ class EvolutionGuideManager {
         this.farmingGuide.updateUnit(unit);
       }
       
-      // 更新进化需求显示
-      this.updateEvolutionRequirements(unit);
+      // 使用新的EvolutionRequirements组件
+      if (this.evolutionRequirements && unit.evolutionData) {
+        const requirementsHtml = this.evolutionRequirements.render(unit.evolutionData.unitId);
+        const container = this.getContainer('evolution-requirements');
+        if (container) {
+          container.innerHTML = requirementsHtml;
+          // 绑定事件
+          this.evolutionRequirements.bindEvents();
+        }
+      } else {
+        // 使用旧的显示方法作为后备
+        this.updateEvolutionRequirements(unit);
+      }
       
       console.log("✅ Evolution data updated successfully");
     } catch (error) {
@@ -531,10 +554,26 @@ class EvolutionGuideManager {
     });
   }
 
-  // 12. 获取进化数据（使用真实数据）
+  // 12. 获取进化数据（使用新的数据结构）
   getEvolutionData() {
-    // 直接返回真实的进化数据
-    return REAL_EVOLUTION_DATA;
+    // 合并新的进化数据和旧的进化数据
+    const combinedData = {};
+    
+    // 先添加旧的进化数据（向后兼容）
+    Object.assign(combinedData, evolutionData);
+    
+    // 添加新的进化数据（覆盖旧数据）
+    evolutionData.forEach(evolution => {
+      combinedData[evolution.unitId] = {
+        ...evolution,
+        // 保持与旧格式的兼容性
+        name: evolution.evolutions[0]?.name || evolution.unitId,
+        evolutionName: evolution.evolutions[evolution.evolutions.length - 1]?.name || `${evolution.unitId} (Evolved)`,
+        hasEvolutionData: true
+      };
+    });
+    
+    return combinedData;
   }
 
   getMaterialsDatabase() {
