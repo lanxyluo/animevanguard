@@ -5,8 +5,8 @@ import { FarmingGuide } from '../components/FarmingGuide.js';
 import { showError } from '../utils/dom.js';
 import { validateUnitData, validateMaterialsConfig, validateElementIcons } from '../utils/validation.js';
 import { unitsData } from '../config/units.js';
-import { EVOLUTION_UNITS } from '../config/evolutionUnits.js';
 import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
+import { REAL_EVOLUTION_DATA, MATERIAL_OBTAIN_METHODS, EVOLUTION_COST_SUMMARY, FARMING_GUIDE_DATA } from '../config/realEvolutionData.js';
 
 export class EvolutionPage {
     constructor(app) {
@@ -31,8 +31,8 @@ export class EvolutionPage {
     async initialize(data) {
         console.log('🚀 Initializing Evolution Page...');
         
-        // Use dedicated evolution units data for better consistency
-        this.unitsData = EVOLUTION_UNITS;
+        // Use the same data source as Unit Database, but filter for evolvable units
+        this.unitsData = this.filterEvolvableUnits(unitsData);
         this.materialsConfig = data.materialsConfig;
         this.elementIcons = data.elementIcons;
         
@@ -58,6 +58,29 @@ export class EvolutionPage {
         this.isInitialized = true;
         console.log('✅ Evolution Page initialized!');
         return true;
+    }
+    
+    filterEvolvableUnits(allUnits) {
+        // Filter units that can evolve (mainly Mythic and Secret rarity)
+        // Also include units that have evolution data in the evolution system
+        const evolvableUnits = Object.values(allUnits).filter(unit => {
+            // Check if unit has evolution data
+            const hasEvolutionData = this.checkEvolutionData(unit.id);
+            
+            // Include units that are Mythic, Secret, or have evolution data
+            return unit.rarity === 'Mythic' || 
+                   unit.rarity === 'Secret' || 
+                   unit.rarity === 'Vanguard' ||
+                   hasEvolutionData;
+        });
+        
+        console.log(`🔍 Filtered ${evolvableUnits.length} evolvable units from ${Object.values(allUnits).length} total units`);
+        return evolvableUnits;
+    }
+    
+    checkEvolutionData(unitId) {
+        // Check if unit has evolution data in the real evolution data
+        return REAL_EVOLUTION_DATA.hasOwnProperty(unitId);
     }
     
     initializeComponents() {
@@ -106,8 +129,575 @@ export class EvolutionPage {
         this.selectedUnit = unit;
         console.log('✅ 页面状态已更新:', this.selectedUnit);
         
-        // Asynchronously load all related data and update components
-        this.loadAndUpdateComponents(unit);
+        // Process unit selection with improved logic
+        this.processUnitSelection(unit);
+    }
+    
+    processUnitSelection(selectedUnit) {
+        console.log("🔄 Processing unit selection:", selectedUnit);
+        
+        if (!selectedUnit || !selectedUnit.id) {
+            console.log('❌ 无效的单位数据，清空所有组件');
+            this.clearAllComponents();
+            return;
+        }
+        
+        // 1. 从单位名称提取ID (使用改进的ID提取逻辑)
+        const unitId = this.extractUnitId(selectedUnit);
+        console.log('🔍 提取的单位ID:', unitId);
+        
+        // 2. 查找进化数据
+        const evolutionInfo = REAL_EVOLUTION_DATA[unitId];
+        console.log('📋 找到的进化数据:', evolutionInfo);
+        
+        if (evolutionInfo && evolutionInfo.canEvolve) {
+            console.log('✅ 单位可以进化，开始更新所有区域');
+            // 3. 更新所有区域
+            this.updateEvolutionRequirements(evolutionInfo);
+            this.updateEvolutionMaterials(evolutionInfo); 
+            this.updateCostSummary(evolutionInfo);
+            this.updateFarmingGuide(evolutionInfo);
+        } else {
+            console.log('❌ 单位无法进化或无进化数据');
+            // 4. 显示无进化数据提示
+            this.showNoEvolutionData(selectedUnit);
+        }
+    }
+    
+    // 修复ID提取逻辑
+    extractUnitId(unitDisplayName) {
+        if (typeof unitDisplayName === 'object' && unitDisplayName.id) {
+            // 如果传入的是单位对象，直接返回ID
+            return unitDisplayName.id;
+        }
+        
+        if (typeof unitDisplayName === 'string') {
+            // 如果传入的是字符串，进行解析
+            return unitDisplayName
+                .replace(/^\[.*?\]\s*/, '') // 移除 [Mythic] 等
+                .replace(/\s*\(.*?\).*$/, '') // 移除 (Free) 等
+                .toLowerCase()
+                .replace(/\s+/g, ''); // 移除空格
+        }
+        
+        // 默认返回原值
+        return unitDisplayName;
+    }
+    
+    // 更新进化需求
+    updateEvolutionRequirements(evolutionInfo) {
+        console.log('📋 更新进化需求:', evolutionInfo);
+        
+        const requirementsContainer = document.getElementById('evolutionRequirementsContainer');
+        if (requirementsContainer && evolutionInfo) {
+            const materialsCount = evolutionInfo.requirements.materials.length;
+            const totalMaterials = evolutionInfo.requirements.materials.reduce((sum, material) => sum + material.quantity, 0);
+            
+            requirementsContainer.innerHTML = `
+                <div class="evolution-requirements">
+                    <div class="evolution-path">
+                        <h3>进化路径</h3>
+                        <div class="path-display">
+                            <span class="base-form">${evolutionInfo.name}</span>
+                            <i class="fas fa-arrow-right"></i>
+                            <span class="evolved-form">${evolutionInfo.evolutionName}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="requirements-grid">
+                        <div class="requirement-item">
+                            <i class="fas fa-coins"></i>
+                            <div class="requirement-details">
+                                <span class="requirement-label">金币成本</span>
+                                <span class="requirement-value">${evolutionInfo.requirements.cost.toLocaleString()} Gold</span>
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-item">
+                            <i class="fas fa-cube"></i>
+                            <div class="requirement-details">
+                                <span class="requirement-label">材料种类</span>
+                                <span class="requirement-value">${materialsCount} 种</span>
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-item">
+                            <i class="fas fa-layer-group"></i>
+                            <div class="requirement-details">
+                                <span class="requirement-label">总材料数量</span>
+                                <span class="requirement-value">${totalMaterials} 个</span>
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-item">
+                            <i class="fas fa-star"></i>
+                            <div class="requirement-details">
+                                <span class="requirement-label">进化稀有度</span>
+                                <span class="requirement-value rarity-${evolutionInfo.rarity?.toLowerCase() || 'mythic'}">${evolutionInfo.rarity || 'Mythic'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    // 更新进化材料
+    updateEvolutionMaterials(evolutionInfo) {
+        console.log('📦 更新进化材料:', evolutionInfo);
+        
+        const materialsContainer = document.getElementById('evolutionMaterialsContainer');
+        if (materialsContainer && evolutionInfo) {
+            const materials = evolutionInfo.requirements.materials;
+            
+            // 按稀有度分组材料
+            const materialsByRarity = this.groupMaterialsByRarity(materials);
+            
+            let materialsHTML = `
+                <div class="materials-section">
+                    <h3>进化材料</h3>
+                    <div class="materials-summary">
+                        <span class="total-materials">总计: ${materials.length} 种材料</span>
+                    </div>
+            `;
+            
+            // 按稀有度顺序显示材料
+            const rarityOrder = ['mythic', 'legendary', 'epic', 'rare', 'uncommon', 'common'];
+            
+            rarityOrder.forEach(rarity => {
+                if (materialsByRarity[rarity] && materialsByRarity[rarity].length > 0) {
+                    materialsHTML += `
+                        <div class="rarity-group">
+                            <h4 class="rarity-${rarity}">${this.capitalizeFirst(rarity)} 材料</h4>
+                            <div class="materials-list">
+                    `;
+                    
+                    materialsByRarity[rarity].forEach(material => {
+                        const dropRate = this.getDropRate(material.name);
+                        const obtainMethod = this.getObtainMethod(material.name);
+                        
+                        materialsHTML += `
+                            <div class="material-item">
+                                <div class="material-header">
+                                    <span class="material-name rarity-${material.rarity || 'common'}">${material.name}</span>
+                                    <span class="material-quantity">x${material.quantity}</span>
+                                </div>
+                                <div class="material-details">
+                                    <div class="material-source">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>${obtainMethod}</span>
+                                    </div>
+                                    ${dropRate ? `
+                                        <div class="material-drop-rate">
+                                            <i class="fas fa-percentage"></i>
+                                            <span>掉落率: ${dropRate}%</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    materialsHTML += `
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            materialsHTML += '</div>';
+            materialsContainer.innerHTML = materialsHTML;
+        }
+    }
+    
+    // 按稀有度分组材料
+    groupMaterialsByRarity(materials) {
+        const grouped = {};
+        materials.forEach(material => {
+            const rarity = material.rarity || 'common';
+            if (!grouped[rarity]) {
+                grouped[rarity] = [];
+            }
+            grouped[rarity].push(material);
+        });
+        return grouped;
+    }
+    
+    // 获取材料掉落率
+    getDropRate(materialName) {
+        // 这里可以从材料配置中获取掉落率
+        const dropRates = {
+            'Mythic Essence': 0.1,
+            'Legendary Core': 0.5,
+            'Epic Fragment': 2.0,
+            'Rare Crystal': 5.0,
+            'Uncommon Shard': 15.0,
+            'Common Dust': 25.0
+        };
+        return dropRates[materialName] || null;
+    }
+    
+    // 获取材料获取方式
+    getObtainMethod(materialName) {
+        // 这里可以从材料配置中获取获取方式
+        const obtainMethods = {
+            'Mythic Essence': 'Mythic Dungeon',
+            'Legendary Core': 'Legendary Raid',
+            'Epic Fragment': 'Epic Challenge',
+            'Rare Crystal': 'Rare Mission',
+            'Uncommon Shard': 'Uncommon Quest',
+            'Common Dust': 'Common Farm'
+        };
+        return obtainMethods[materialName] || 'Unknown Source';
+    }
+    
+    // 首字母大写
+    capitalizeFirst(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    
+    // 更新成本汇总
+    updateCostSummary(evolutionInfo) {
+        console.log('💰 更新成本汇总:', evolutionInfo);
+        
+        const costContainer = document.getElementById('costSummaryContainer');
+        if (costContainer && evolutionInfo) {
+            const materials = evolutionInfo.requirements.materials;
+            const goldCost = evolutionInfo.requirements.cost;
+            
+            // 计算材料成本
+            const materialCosts = this.calculateMaterialCosts(materials);
+            const totalMaterialCost = Object.values(materialCosts).reduce((sum, cost) => sum + cost, 0);
+            const totalCost = goldCost + totalMaterialCost;
+            
+            // 确定成本等级
+            const costLevel = this.getCostLevel(totalCost);
+            
+            costContainer.innerHTML = `
+                <div class="cost-summary ${costLevel.class}">
+                    <h3>成本汇总</h3>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <div class="cost-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="cost-details">
+                                <span class="cost-label">金币成本</span>
+                                <span class="cost-value">${goldCost.toLocaleString()} Gold</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cost-item">
+                            <div class="cost-icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <div class="cost-details">
+                                <span class="cost-label">材料成本</span>
+                                <span class="cost-value">${totalMaterialCost.toLocaleString()} Gold</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cost-item total">
+                            <div class="cost-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="cost-details">
+                                <span class="cost-label">总成本</span>
+                                <span class="cost-value ${costLevel.class}">${totalCost.toLocaleString()} Gold</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-level-indicator">
+                        <span class="level-badge ${costLevel.class}">${costLevel.label}</span>
+                        <span class="level-description">${costLevel.description}</span>
+                    </div>
+                    
+                    <div class="material-cost-breakdown">
+                        <h4>材料成本明细</h4>
+                        <div class="material-costs">
+                            ${Object.entries(materialCosts).map(([rarity, cost]) => `
+                                <div class="material-cost-item">
+                                    <span class="rarity-${rarity}">${this.capitalizeFirst(rarity)}</span>
+                                    <span class="cost-amount">${cost.toLocaleString()} Gold</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    // 计算材料成本
+    calculateMaterialCosts(materials) {
+        const costs = {};
+        const materialPrices = {
+            'mythic': 50000,
+            'legendary': 25000,
+            'epic': 10000,
+            'rare': 5000,
+            'uncommon': 1000,
+            'common': 100
+        };
+        
+        materials.forEach(material => {
+            const rarity = material.rarity || 'common';
+            const price = materialPrices[rarity] || 100;
+            const totalCost = price * material.quantity;
+            
+            if (!costs[rarity]) {
+                costs[rarity] = 0;
+            }
+            costs[rarity] += totalCost;
+        });
+        
+        return costs;
+    }
+    
+    // 获取成本等级
+    getCostLevel(totalCost) {
+        if (totalCost >= 1000000) {
+            return {
+                class: 'cost-extreme',
+                label: '极难',
+                description: '需要大量时间和资源投入'
+            };
+        } else if (totalCost >= 500000) {
+            return {
+                class: 'cost-hard',
+                label: '困难',
+                description: '需要相当的努力和资源'
+            };
+        } else if (totalCost >= 100000) {
+            return {
+                class: 'cost-medium',
+                label: '中等',
+                description: '需要适度的努力'
+            };
+        } else if (totalCost >= 10000) {
+            return {
+                class: 'cost-easy',
+                label: '简单',
+                description: '相对容易完成'
+            };
+        } else {
+            return {
+                class: 'cost-trivial',
+                label: '简单',
+                description: '非常容易完成'
+            };
+        }
+    }
+    
+    // 更新农场指南
+    updateFarmingGuide(evolutionInfo) {
+        console.log('🌾 更新农场指南:', evolutionInfo);
+        
+        const farmingContainer = document.getElementById('farmingGuideContainer');
+        if (farmingContainer && evolutionInfo) {
+            const materials = evolutionInfo.requirements.materials;
+            
+            // 按获取来源分组材料
+            const materialsBySource = this.groupMaterialsBySource(materials);
+            
+            // 计算农场效率
+            const farmingEfficiency = this.calculateFarmingEfficiency(materials);
+            
+            // 生成最佳刷取路线
+            const optimalRoute = this.generateOptimalRoute(materials);
+            
+            farmingContainer.innerHTML = `
+                <div class="farming-guide">
+                    <h3>农场指南</h3>
+                    
+                    <div class="farming-overview">
+                        <div class="efficiency-indicator">
+                            <span class="efficiency-label">农场效率</span>
+                            <span class="efficiency-value ${farmingEfficiency.level}">${farmingEfficiency.score}/100</span>
+                        </div>
+                        <div class="estimated-time">
+                            <i class="fas fa-clock"></i>
+                            <span>预计时间: ${farmingEfficiency.estimatedTime}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="farming-sources">
+                        <h4>材料获取来源</h4>
+                        ${Object.entries(materialsBySource).map(([source, sourceMaterials]) => `
+                            <div class="source-group">
+                                <div class="source-header">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="source-name">${source}</span>
+                                    <span class="source-count">${sourceMaterials.length} 种材料</span>
+                                </div>
+                                <div class="source-materials">
+                                    ${sourceMaterials.map(material => `
+                                        <div class="source-material-item">
+                                            <span class="material-name rarity-${material.rarity || 'common'}">${material.name}</span>
+                                            <span class="material-quantity">x${material.quantity}</span>
+                                            <span class="drop-rate">${this.getDropRate(material.name) || 'N/A'}%</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="optimal-route">
+                        <h4>最佳刷取路线</h4>
+                        <div class="route-steps">
+                            ${optimalRoute.map((step, index) => `
+                                <div class="route-step">
+                                    <div class="step-number">${index + 1}</div>
+                                    <div class="step-content">
+                                        <div class="step-location">${step.location}</div>
+                                        <div class="step-materials">
+                                            ${step.materials.map(material => `
+                                                <span class="route-material rarity-${material.rarity || 'common'}">${material.name}</span>
+                                            `).join('')}
+                                        </div>
+                                        <div class="step-tips">${step.tips}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="farming-tips">
+                        <h4>农场技巧</h4>
+                        <ul class="tips-list">
+                            <li><i class="fas fa-lightbulb"></i> 优先刷取稀有度高的材料</li>
+                            <li><i class="fas fa-clock"></i> 利用双倍掉落活动时间</li>
+                            <li><i class="fas fa-users"></i> 组队刷取提高效率</li>
+                            <li><i class="fas fa-sync"></i> 定期刷新商店购买材料</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    // 按获取来源分组材料
+    groupMaterialsBySource(materials) {
+        const grouped = {};
+        materials.forEach(material => {
+            const source = this.getObtainMethod(material.name);
+            if (!grouped[source]) {
+                grouped[source] = [];
+            }
+            grouped[source].push(material);
+        });
+        return grouped;
+    }
+    
+    // 计算农场效率
+    calculateFarmingEfficiency(materials) {
+        let totalDifficulty = 0;
+        let totalRuns = 0;
+        
+        materials.forEach(material => {
+            const dropRate = this.getDropRate(material.name) || 1;
+            const rarity = material.rarity || 'common';
+            const quantity = material.quantity;
+            
+            // 根据稀有度计算难度
+            const rarityMultiplier = {
+                'mythic': 10,
+                'legendary': 5,
+                'epic': 3,
+                'rare': 2,
+                'uncommon': 1.5,
+                'common': 1
+            };
+            
+            const difficulty = rarityMultiplier[rarity] * quantity / (dropRate / 100);
+            totalDifficulty += difficulty;
+            totalRuns += Math.ceil(quantity / (dropRate / 100));
+        });
+        
+        // 计算效率分数 (0-100)
+        const efficiencyScore = Math.max(0, 100 - Math.log10(totalDifficulty) * 10);
+        
+        // 估算时间
+        const estimatedHours = Math.ceil(totalRuns * 0.1); // 假设每次运行10分钟
+        
+        return {
+            score: Math.round(efficiencyScore),
+            level: efficiencyScore >= 80 ? 'excellent' : efficiencyScore >= 60 ? 'good' : efficiencyScore >= 40 ? 'medium' : 'hard',
+            estimatedTime: `${estimatedHours} 小时`,
+            totalRuns: totalRuns
+        };
+    }
+    
+    // 生成最佳刷取路线
+    generateOptimalRoute(materials) {
+        const route = [];
+        
+        // 按稀有度排序材料
+        const sortedMaterials = materials.sort((a, b) => {
+            const rarityOrder = { 'mythic': 6, 'legendary': 5, 'epic': 4, 'rare': 3, 'uncommon': 2, 'common': 1 };
+            return (rarityOrder[b.rarity || 'common'] || 1) - (rarityOrder[a.rarity || 'common'] || 1);
+        });
+        
+        // 按来源分组
+        const materialsBySource = this.groupMaterialsBySource(sortedMaterials);
+        
+        Object.entries(materialsBySource).forEach(([source, sourceMaterials]) => {
+            route.push({
+                location: source,
+                materials: sourceMaterials,
+                tips: this.generateLocationTips(source, sourceMaterials)
+            });
+        });
+        
+        return route;
+    }
+    
+    // 生成地点提示
+    generateLocationTips(location, materials) {
+        const tips = {
+            'Mythic Dungeon': '建议组队挑战，准备充足的恢复道具',
+            'Legendary Raid': '需要高级装备，建议先提升角色等级',
+            'Epic Challenge': '中等难度，可以单人挑战',
+            'Rare Mission': '相对简单，适合日常刷取',
+            'Uncommon Quest': '新手友好，建议优先完成',
+            'Common Farm': '基础材料，可以快速获取'
+        };
+        
+        return tips[location] || '根据材料稀有度调整策略';
+    }
+    
+    // 显示无进化数据提示
+    showNoEvolutionData(selectedUnit) {
+        console.log('⚠️ 显示无进化数据提示:', selectedUnit);
+        
+        // 清空所有组件
+        this.clearAllComponents();
+        
+        // 显示提示信息
+        const mainContainer = document.querySelector('.evolution-page-container');
+        if (mainContainer) {
+            const noDataMessage = document.createElement('div');
+            noDataMessage.className = 'no-evolution-data';
+            noDataMessage.innerHTML = `
+                <div class="no-data-content">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>无进化数据</h3>
+                    <p>单位 "${selectedUnit.name}" 目前没有可用的进化路径。</p>
+                    <p>请选择其他单位或稍后再试。</p>
+                </div>
+            `;
+            
+            // 移除之前的提示
+            const existingMessage = mainContainer.querySelector('.no-evolution-data');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            mainContainer.appendChild(noDataMessage);
+        }
     }
     
     async loadAndUpdateComponents(unit) {
@@ -144,6 +734,12 @@ export class EvolutionPage {
     
     async loadMaterialsData(unitId) {
         try {
+            // First check real evolution data
+            if (REAL_EVOLUTION_DATA[unitId]) {
+                return REAL_EVOLUTION_DATA[unitId];
+            }
+            
+            // Fallback to legacy evolution system data
             const module = await import('../config/evolutionSystem.js');
             return module.EVOLUTION_DATA[unitId] || null;
         } catch (error) {
@@ -154,6 +750,12 @@ export class EvolutionPage {
     
     async loadCostData(unitId) {
         try {
+            // First check real evolution cost data
+            if (EVOLUTION_COST_SUMMARY[unitId]) {
+                return EVOLUTION_COST_SUMMARY[unitId];
+            }
+            
+            // Fallback to legacy evolution system data
             const module = await import('../config/evolutionSystem.js');
             return module.COST_SUMMARY_DATA[unitId] || null;
         } catch (error) {
@@ -164,6 +766,12 @@ export class EvolutionPage {
     
     async loadFarmingData(unitId) {
         try {
+            // First check real farming guide data
+            if (FARMING_GUIDE_DATA[unitId]) {
+                return FARMING_GUIDE_DATA[unitId];
+            }
+            
+            // Fallback to legacy evolution system data
             const module = await import('../config/evolutionSystem.js');
             return module.FARMING_GUIDE_DATA[unitId] || null;
         } catch (error) {

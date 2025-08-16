@@ -169,7 +169,7 @@ export class UnitSelector {
     
     extractSeriesFromUnit(unit) {
         // Check if this is evolution unit data or regular unit data
-        const isEvolutionUnit = unit.hasOwnProperty('canEvolve');
+        const isEvolutionUnit = unit.hasOwnProperty('canEvolve') && unit.hasOwnProperty('evolutionName');
         
         if (isEvolutionUnit) {
             // For evolution units, use obtainMethod and name to determine series
@@ -195,7 +195,7 @@ export class UnitSelector {
             }
             return 'Anime Vanguards';
         } else {
-            // Regular unit data structure
+            // Regular unit data structure from unitsData
             if (unit.description) {
                 if (unit.description.includes('Dragon Ball') || unit.name.includes('Goku') || unit.name.includes('Vegeta')) {
                     return 'Dragon Ball';
@@ -221,6 +221,32 @@ export class UnitSelector {
                 if (unit.description.includes('Fate') || unit.name.includes('Saber') || unit.name.includes('Gilgamesh')) {
                     return 'Fate';
                 }
+            }
+            
+            // Also check unit name for series identification
+            if (unit.name.includes('Goku') || unit.name.includes('Vegeta')) {
+                return 'Dragon Ball';
+            }
+            if (unit.name.includes('Saitama')) {
+                return 'One Punch Man';
+            }
+            if (unit.name.includes('Tanjiro') || unit.name.includes('Zenitsu')) {
+                return 'Demon Slayer';
+            }
+            if (unit.name.includes('Naruto') || unit.name.includes('Sasuke')) {
+                return 'Naruto';
+            }
+            if (unit.name.includes('Deku') || unit.name.includes('All Might')) {
+                return 'My Hero Academia';
+            }
+            if (unit.name.includes('Ichigo')) {
+                return 'Bleach';
+            }
+            if (unit.name.includes('Luffy')) {
+                return 'One Piece';
+            }
+            if (unit.name.includes('Saber') || unit.name.includes('Gilgamesh')) {
+                return 'Fate';
             }
         }
         
@@ -434,9 +460,10 @@ export class UnitSelector {
     // New filtering logic function for Evolution Units data
     filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
         return units.filter(unit => {
-            // 1. Only show units that can evolve
-            if (!unit.canEvolve) {
-                console.log(`❌ 过滤掉 ${unit.name}: 不可进化`);
+            // 1. Only show units that can evolve (Mythic, Secret, Vanguard rarity)
+            const canEvolve = unit.rarity === 'Mythic' || unit.rarity === 'Secret' || unit.rarity === 'Vanguard' || unit.canEvolve;
+            if (!canEvolve) {
+                console.log(`❌ 过滤掉 ${unit.name}: 不可进化 (${unit.rarity})`);
                 return false;
             }
             
@@ -506,15 +533,35 @@ export class UnitSelector {
         // Create unit card
         const unitCard = document.createElement('div');
         unitCard.className = 'unit-card selected';
+        
+        // Check if this is evolution unit data or regular unit data
+        const isEvolutionUnit = unit.hasOwnProperty('canEvolve') && unit.hasOwnProperty('evolutionName');
+        
+        let evolutionInfo = '';
+        let obtainInfo = '';
+        
+        if (isEvolutionUnit) {
+            evolutionInfo = `<p class="unit-evolution">→ ${unit.evolutionName}</p>`;
+            obtainInfo = `<p class="unit-obtain">Obtain: ${unit.obtainMethod}</p>`;
+        } else {
+            // For regular units from unitsData, show evolution info if available
+            if (unit.evolution) {
+                evolutionInfo = `<p class="unit-evolution">→ ${unit.evolution}</p>`;
+            }
+            if (unit.obtainment) {
+                obtainInfo = `<p class="unit-obtain">Obtain: ${unit.obtainment}</p>`;
+            }
+        }
+        
         unitCard.innerHTML = `
             <div class="unit-header">
                 <i class="${this.elementIcons[unit.element] || 'fas fa-question-circle'}" style="color: ${getElementColor(unit.element)}"></i>
                 <h3>${unit.name}</h3>
             </div>
             <div class="unit-details">
-                <p class="unit-meta">${unit.rarity} • ${unit.element} • ${unit.canEvolve ? 'Can Evolve' : 'Cannot Evolve'}</p>
-                <p class="unit-evolution">→ ${unit.evolutionName}</p>
-                <p class="unit-obtain">Obtain: ${unit.obtainMethod}</p>
+                <p class="unit-meta">${unit.rarity} • ${unit.element} • ${unit.rarity === 'Mythic' || unit.rarity === 'Secret' || unit.rarity === 'Vanguard' ? 'Can Evolve' : 'Cannot Evolve'}</p>
+                ${evolutionInfo}
+                ${obtainInfo}
             </div>
         `;
         

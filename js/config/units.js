@@ -463,12 +463,244 @@ export const unitsData = [
         pros: ["Very cheap", "Good range", "Anti-flying", "Easy to obtain"],
         cons: ["Low damage", "Basic abilities", "No evolution", "Limited utility"],
         description: "A basic archer with fundamental ranged combat skills"
+    },
+
+    // ====== REAL ANIME VANGUARDS EVOLUTION UNITS ======
+    {
+        id: "alocard",
+        name: "Alocard",
+        rarity: "Mythic",
+        element: "Dark",
+        attackType: "Single Target",
+        unitType: "Melee",
+        evolution: "Alocard (Vampire King)",
+        stats: {
+            damage: 1800,
+            spa: 1.5,
+            range: 3,
+            dps: 1200
+        },
+        deploymentCost: "Extremely High",
+        totalCost: "Extremely High",
+        upgradeLevel: 15,
+        placementLimit: 1,
+        obtainment: "Hellsing Banner (0.1% drop rate)",
+        passiveAbilities: [
+            "Vampire Blood - Heals 10% HP for each enemy killed",
+            "Dark Aura - Reduces enemy attack by 20% within range",
+            "Immortal - Cannot be killed by normal attacks below 10% HP"
+        ],
+        activeAbilities: [
+            "Blood Drain - Deals 300% damage and heals for 50% of damage dealt",
+            "Dark Transformation - Increases all stats by 100% for 15 seconds"
+        ],
+        pros: ["Self-healing", "Dark element", "Immortal ability", "High damage"],
+        cons: ["Very expensive", "Limited range", "Dark element weakness"],
+        description: "The legendary vampire from Hellsing with dark powers"
+    },
+
+    {
+        id: "songjinwu",
+        name: "Song Jinwu",
+        rarity: "Mythic",
+        element: "Shadow",
+        attackType: "Full AoE",
+        unitType: "Ranged",
+        evolution: "Song Jinwu (Monarch)",
+        stats: {
+            damage: 2200,
+            spa: 2.0,
+            range: 6,
+            dps: 1100
+        },
+        deploymentCost: "Extremely High",
+        totalCost: "Extremely High",
+        upgradeLevel: 15,
+        placementLimit: 1,
+        obtainment: "Solo Leveling Banner (0.1% drop rate)",
+        passiveAbilities: [
+            "Shadow Monarch - Controls shadows to attack enemies",
+            "Monarch's Authority - All allies within range gain 30% damage boost",
+            "Shadow Step - Can teleport to any shadow on the field"
+        ],
+        activeAbilities: [
+            "Shadow Army - Summons shadow soldiers to fight",
+            "Monarch's Wrath - Deals 500% damage to all enemies"
+        ],
+        pros: ["Shadow element", "Team buff", "Teleportation", "Massive AoE"],
+        cons: ["Very expensive", "Complex abilities", "Shadow element weakness"],
+        description: "The Shadow Monarch from Solo Leveling with ultimate shadow powers"
+    },
+
+    {
+        id: "igros",
+        name: "Igros",
+        rarity: "Mythic",
+        element: "Physical",
+        attackType: "Single Target",
+        unitType: "Melee",
+        evolution: "Igros (Elite Knight)",
+        stats: {
+            damage: 2000,
+            spa: 1.8,
+            range: 2,
+            dps: 1111
+        },
+        deploymentCost: "Extremely High",
+        totalCost: "Extremely High",
+        upgradeLevel: 15,
+        placementLimit: 1,
+        obtainment: "Knight Banner (0.1% drop rate)",
+        passiveAbilities: [
+            "Elite Knight - Physical attacks deal 50% more damage",
+            "Knight's Honor - Cannot be controlled or stunned",
+            "Blood Red Armor - Reduces incoming damage by 40%"
+        ],
+        activeAbilities: [
+            "Knight's Charge - Deals 400% damage and stuns target",
+            "Elite Formation - Buffs all nearby allies with 50% damage boost"
+        ],
+        pros: ["High physical damage", "Damage reduction", "Team buff", "Stun immunity"],
+        cons: ["Very expensive", "Low range", "Physical element weakness"],
+        description: "The elite knight with unmatched physical combat skills"
+    },
+
+    {
+        id: "obita",
+        name: "Obita",
+        rarity: "Mythic",
+        element: "Fire",
+        attackType: "Single Target",
+        unitType: "Ranged",
+        evolution: "Obita (Awakened)",
+        stats: {
+            damage: 1900,
+            spa: 1.6,
+            range: 7,
+            dps: 1187
+        },
+        deploymentCost: "Extremely High",
+        totalCost: "Extremely High",
+        upgradeLevel: 15,
+        placementLimit: 1,
+        obtainment: "Fire Banner (0.1% drop rate)",
+        passiveAbilities: [
+            "Awakened Power - Fire attacks deal 60% more damage",
+            "Flame Aura - Burns enemies for 20% damage over time",
+            "Fire Immunity - Immune to fire damage"
+        ],
+        activeAbilities: [
+            "Flame Burst - Deals 350% damage to target and nearby enemies",
+            "Awakened Form - Transforms and increases all stats by 80%"
+        ],
+        pros: ["High fire damage", "Burn effect", "Fire immunity", "Good range"],
+        cons: ["Very expensive", "Fire element weakness", "Complex abilities"],
+        description: "The awakened fire user with devastating flame powers"
+    },
+
+    {
+        id: "noruto",
+        name: "Noruto",
+        rarity: "Mythic",
+        element: "Wind",
+        attackType: "Full AoE",
+        unitType: "Ranged",
+        evolution: "Noruto (Six Tails)",
+        stats: {
+            damage: 2100,
+            spa: 1.9,
+            range: 5,
+            dps: 1105
+        },
+        deploymentCost: "Extremely High",
+        totalCost: "Extremely High",
+        upgradeLevel: 15,
+        placementLimit: 1,
+        obtainment: "Naruto Banner (0.1% drop rate)",
+        passiveAbilities: [
+            "Six Tails Chakra - Wind attacks deal 50% more damage",
+            "Chakra Mode - Increases attack speed by 30%",
+            "Wind Mastery - Can attack through walls"
+        ],
+        activeAbilities: [
+            "Wind Release - Deals 400% damage to all enemies",
+            "Six Tails Transformation - Increases all stats by 100% for 20 seconds"
+        ],
+        pros: ["High wind damage", "Attack speed boost", "Wall penetration", "Massive AoE"],
+        cons: ["Very expensive", "Wind element weakness", "Complex transformation"],
+        description: "The Six Tails jinchuriki with devastating wind powers"
+    },
+
+    {
+        id: "gujo",
+        name: "Gujo",
+        rarity: "Mythic",
+        element: "Energy",
+        attackType: "Single Target",
+        unitType: "Ranged",
+        evolution: "Gujo (Infinity)",
+        stats: {
+            damage: 2400,
+            spa: 2.2,
+            range: 8,
+            dps: 1090
+        },
+        deploymentCost: "Extremely High",
+        totalCost: "Extremely High",
+        upgradeLevel: 15,
+        placementLimit: 1,
+        obtainment: "Cursed Banner (0.1% drop rate)",
+        passiveAbilities: [
+            "Infinity - Cannot be killed by normal attacks",
+            "Cursed Energy - Energy attacks deal 70% more damage",
+            "Domain Expansion - Creates a barrier that reduces enemy damage by 50%"
+        ],
+        activeAbilities: [
+            "Infinity Void - Deals 600% damage and stuns all enemies",
+            "Cursed Technique - Increases all stats by 120% for 25 seconds"
+        ],
+        pros: ["Immortality", "High energy damage", "Domain barrier", "Massive damage"],
+        cons: ["Very expensive", "Complex abilities", "Energy element weakness"],
+        description: "The cursed user with infinity technique and immortality"
+    },
+
+    {
+        id: "rengoku",
+        name: "Rengoku",
+        rarity: "Mythic",
+        element: "Fire",
+        attackType: "Single Target",
+        unitType: "Melee",
+        evolution: "Rengoku (Purgatory)",
+        stats: {
+            damage: 2300,
+            spa: 1.7,
+            range: 4,
+            dps: 1352
+        },
+        deploymentCost: "Extremely High",
+        totalCost: "Extremely High",
+        upgradeLevel: 15,
+        placementLimit: 1,
+        obtainment: "Demon Slayer Banner (0.1% drop rate)",
+        passiveAbilities: [
+            "Purgatory Flame - Fire attacks deal 80% more damage",
+            "Flame Hashira - Cannot be burned or affected by fire",
+            "Burning Spirit - Damage increases by 50% when below 30% HP"
+        ],
+        activeAbilities: [
+            "Flame Breathing - Deals 450% damage to target and burns enemies",
+            "Purgatory Form - Increases all stats by 90% and becomes immune to damage"
+        ],
+        pros: ["High fire damage", "Fire immunity", "Damage boost at low HP", "Burning effect"],
+        cons: ["Very expensive", "Fire element weakness", "Complex abilities"],
+        description: "The Flame Hashira with purgatory flame powers"
     }
 ];
 
 // Unit categorization and filtering constants
 export const UNIT_RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'];
-export const UNIT_ELEMENTS = ['All Elements', 'Fire', 'Water', 'Wind', 'Lightning', 'Dark', 'Light', 'Physical', 'Energy', 'Soul', 'Earth'];
+export const UNIT_ELEMENTS = ['All Elements', 'Fire', 'Water', 'Wind', 'Lightning', 'Dark', 'Light', 'Physical', 'Energy', 'Soul', 'Earth', 'Shadow'];
 export const UNIT_ATTACK_TYPES = ['All Types', 'Melee', 'Ranged', 'Support', 'Hybrid'];
 export const UNIT_SERIES = ['All Series', 'Dragon Ball', 'Naruto', 'One Piece', 'Demon Slayer', 'Bleach', 'One Punch Man', 'Generic'];
 
@@ -492,5 +724,6 @@ export const ELEMENT_COLORS = {
     'Physical': '#6B7280',   // Gray
     'Energy': '#EC4899',     // Pink
     'Soul': '#8B5CF6',       // Purple
-    'Earth': '#A0522D'       // Brown
+    'Earth': '#A0522D',      // Brown
+    'Shadow': '#1F2937'      // Dark Gray
 };

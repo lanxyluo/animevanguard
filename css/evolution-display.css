@@ -1,0 +1,587 @@
+/* 进化显示区域样式 */
+
+/* 稀有度颜色定义 */
+.rarity-common { color: #22c55e; }
+.rarity-uncommon { color: #3b82f6; }
+.rarity-rare { color: #a855f7; }
+.rarity-epic { color: #8b5cf6; }
+.rarity-legendary { color: #f59e0b; }
+.rarity-mythic { color: #ef4444; }
+
+/* 进化需求区域 */
+.evolution-requirements {
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.evolution-path h3 {
+    color: #f1f5f9;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.path-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.base-form, .evolved-form {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.base-form {
+    background: rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.evolved-form {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.requirement-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.requirement-item i {
+    font-size: 1.2em;
+    color: #3b82f6;
+    width: 20px;
+    text-align: center;
+}
+
+.requirement-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.requirement-label {
+    font-size: 0.85em;
+    color: #94a3b8;
+}
+
+.requirement-value {
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+/* 材料显示区域 */
+.materials-section {
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(147, 51, 234, 0.3);
+}
+
+.materials-section h3 {
+    color: #f1f5f9;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.materials-summary {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(147, 51, 234, 0.1);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.total-materials {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+.rarity-group {
+    margin-bottom: 20px;
+}
+
+.rarity-group h4 {
+    margin-bottom: 10px;
+    font-size: 1em;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: rgba(51, 65, 85, 0.5);
+    border-left: 4px solid;
+}
+
+.rarity-common { border-left-color: #22c55e; }
+.rarity-uncommon { border-left-color: #3b82f6; }
+.rarity-rare { border-left-color: #a855f7; }
+.rarity-epic { border-left-color: #8b5cf6; }
+.rarity-legendary { border-left-color: #f59e0b; }
+.rarity-mythic { border-left-color: #ef4444; }
+
+.materials-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.material-item {
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    transition: all 0.2s ease;
+}
+
+.material-item:hover {
+    background: rgba(71, 85, 105, 0.5);
+    border-color: rgba(147, 51, 234, 0.3);
+}
+
+.material-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.material-name {
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.material-quantity {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.material-details {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85em;
+    color: #94a3b8;
+}
+
+.material-source, .material-drop-rate {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.material-source i, .material-drop-rate i {
+    color: #64748b;
+}
+
+/* 成本总结样式 */
+.cost-summary {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.cost-summary h3 {
+    color: #f1f5f9;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.cost-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.cost-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.cost-item.total {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.cost-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.2);
+    border-radius: 8px;
+    color: #3b82f6;
+    font-size: 1.2em;
+}
+
+.cost-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cost-label {
+    font-size: 0.85em;
+    color: #94a3b8;
+}
+
+.cost-value {
+    font-weight: 600;
+    color: #f1f5f9;
+    font-size: 1.1em;
+}
+
+.cost-level-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 8px;
+}
+
+.level-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #f1f5f9;
+}
+
+.cost-trivial { background: rgba(34, 197, 94, 0.3); }
+.cost-easy { background: rgba(59, 130, 246, 0.3); }
+.cost-medium { background: rgba(245, 158, 11, 0.3); }
+.cost-hard { background: rgba(239, 68, 68, 0.3); }
+.cost-extreme { background: rgba(147, 51, 234, 0.3); }
+
+.level-description {
+    color: #94a3b8;
+    font-size: 0.9em;
+}
+
+.material-cost-breakdown {
+    border-top: 1px solid rgba(71, 85, 105, 0.3);
+    padding-top: 15px;
+}
+
+.material-cost-breakdown h4 {
+    color: #f1f5f9;
+    margin-bottom: 12px;
+    font-size: 1em;
+}
+
+.material-costs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.material-cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(51, 65, 85, 0.3);
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.cost-amount {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+/* 农场指南区域 */
+.farming-guide {
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.farming-guide h3 {
+    color: #f1f5f9;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.farming-overview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.efficiency-indicator {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.efficiency-label {
+    font-size: 0.85em;
+    color: #94a3b8;
+}
+
+.efficiency-value {
+    font-weight: 600;
+    font-size: 1.2em;
+    color: #f1f5f9;
+}
+
+.efficiency-value.excellent { color: #22c55e; }
+.efficiency-value.good { color: #3b82f6; }
+.efficiency-value.medium { color: #f59e0b; }
+.efficiency-value.hard { color: #ef4444; }
+
+.estimated-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 0.9em;
+}
+
+.farming-sources h4, .optimal-route h4, .farming-tips h4 {
+    color: #f1f5f9;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+.source-group {
+    margin-bottom: 15px;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.source-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(51, 65, 85, 0.5);
+    border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.source-header i {
+    color: #3b82f6;
+}
+
+.source-name {
+    font-weight: 600;
+    color: #f1f5f9;
+    flex: 1;
+}
+
+.source-count {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.source-materials {
+    padding: 12px;
+}
+
+.source-material-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(71, 85, 105, 0.2);
+}
+
+.source-material-item:last-child {
+    border-bottom: none;
+}
+
+.drop-rate {
+    background: rgba(147, 51, 234, 0.2);
+    color: #a855f7;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.route-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.route-step {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    border-radius: 50%;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-location {
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 8px;
+}
+
+.step-materials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.route-material {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+    background: rgba(51, 65, 85, 0.5);
+}
+
+.step-tips {
+    font-size: 0.85em;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.tips-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tips-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(51, 65, 85, 0.3);
+    border-radius: 6px;
+    color: #94a3b8;
+    font-size: 0.9em;
+}
+
+.tips-list i {
+    color: #f59e0b;
+    width: 16px;
+    text-align: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .requirements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .farming-overview {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .route-step {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .step-number {
+        align-self: flex-start;
+    }
+}
+
+/* 动画效果 */
+.material-item, .cost-item, .route-step {
+    transition: all 0.2s ease;
+}
+
+.material-item:hover, .cost-item:hover, .route-step:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 加载状态 */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #3b82f6;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
