@@ -348,5 +348,151 @@ export const FARMING_GUIDE_DATA = {
       "Mythic Summon (Rainbow Essence Stones)",
       "Purgatory Raids (Better drops)"
     ]
+  },
+  
+  // 添加主流动漫角色的进化数据
+  "goku": {
+    name: "Goku (Ultra Instinct)",
+    rarity: "Mythic",
+    element: "Energy",
+    canEvolve: true,
+    evolutionName: "Goku (Mastered Ultra Instinct)",
+    requirements: {
+      cost: 25000,
+      materials: [
+        { name: "God Ki Essence", count: 15, rarity: "Mythic" },
+        { name: "Ultra Instinct Fragment", count: 8, rarity: "Legendary" },
+        { name: "Blue Essence Stone", count: 20, rarity: "Rare" },
+        { name: "Rainbow Essence Stone", count: 3, rarity: "Mythic" },
+        { name: "Green Essence Stone", count: 50, rarity: "Common" }
+      ]
+    }
+  },
+  
+  "saitama": {
+    name: "Saitama",
+    rarity: "Mythic",
+    element: "Physical",
+    canEvolve: true,
+    evolutionName: "Saitama (Serious Mode)",
+    requirements: {
+      cost: 20000,
+      materials: [
+        { name: "Hero's Badge", count: 10, rarity: "Legendary" },
+        { name: "Red Essence Stone", count: 25, rarity: "Rare" },
+        { name: "Rainbow Essence Stone", count: 2, rarity: "Mythic" },
+        { name: "Yellow Essence Stone", count: 30, rarity: "Uncommon" },
+        { name: "Green Essence Stone", count: 40, rarity: "Common" }
+      ]
+    }
+  },
+  
+  "naruto": {
+    name: "Naruto (Kurama Mode)",
+    rarity: "Mythic",
+    element: "Wind",
+    canEvolve: true,
+    evolutionName: "Naruto (Six Paths Sage Mode)",
+    requirements: {
+      cost: 22000,
+      materials: [
+        { name: "Six Paths Chakra", count: 12, rarity: "Mythic" },
+        { name: "Kurama Fragment", count: 6, rarity: "Legendary" },
+        { name: "Yellow Essence Stone", count: 18, rarity: "Rare" },
+        { name: "Rainbow Essence Stone", count: 2, rarity: "Mythic" },
+        { name: "Blue Essence Stone", count: 25, rarity: "Uncommon" }
+      ]
+    }
+  },
+  
+  "vegeta": {
+    name: "Vegeta (SSB)",
+    rarity: "Mythic",
+    element: "Energy",
+    canEvolve: true,
+    evolutionName: "Vegeta (Ultra Ego)",
+    requirements: {
+      cost: 23000,
+      materials: [
+        { name: "Pride Essence", count: 14, rarity: "Mythic" },
+        { name: "Royal Blood Fragment", count: 7, rarity: "Legendary" },
+        { name: "Purple Essence Stone", count: 22, rarity: "Rare" },
+        { name: "Rainbow Essence Stone", count: 2, rarity: "Mythic" },
+        { name: "Red Essence Stone", count: 28, rarity: "Uncommon" }
+      ]
+    }
+  }
+};
+
+// 添加主流动漫角色的农场指南数据
+export const FARMING_GUIDE_DATA = {
+  // ... existing data ...
+  
+  "goku": {
+    priority: "Very High",
+    difficulty: "Very Hard",
+    tips: [
+      "Train at God Ki Temple for God Ki Essence",
+      "Complete Ultra Instinct trials for fragments",
+      "Use energy-based farming for better efficiency",
+      "Join god-tier raids for rare materials"
+    ],
+    obtainMethods: [
+      "God Ki Temple (God Ki Essence)",
+      "Ultra Instinct Trials (Fragments)",
+      "Energy Dungeons (Blue Essence Stones)",
+      "God-tier Raids (Rare materials)"
+    ]
+  },
+  
+  "saitama": {
+    priority: "High",
+    difficulty: "Medium",
+    tips: [
+      "Complete Hero Association missions for badges",
+      "Focus on Red Essence Stone farming",
+      "Use physical training for better efficiency",
+      "Join hero tournaments for rewards"
+    ],
+    obtainMethods: [
+      "Hero Association (Hero's Badge)",
+      "Physical Dungeons (Red Essence Stones)",
+      "Rare Dungeons (Yellow Essence Stones)",
+      "Hero Tournaments (Rewards)"
+    ]
+  },
+  
+  "naruto": {
+    priority: "Very High",
+    difficulty: "Hard",
+    tips: [
+      "Train at Six Paths Temple for chakra",
+      "Complete Kurama missions for fragments",
+      "Use wind-based farming for better efficiency",
+      "Join ninja raids for rare materials"
+    ],
+    obtainMethods: [
+      "Six Paths Temple (Six Paths Chakra)",
+      "Kurama Missions (Kurama Fragment)",
+      "Wind Dungeons (Yellow Essence Stones)",
+      "Ninja Raids (Rare materials)"
+    ]
+  },
+  
+  "vegeta": {
+    priority: "Very High",
+    difficulty: "Very Hard",
+    tips: [
+      "Complete Royal Training for Pride Essence",
+      "Enter Royal Blood Chamber for fragments",
+      "Use energy-based farming for better efficiency",
+      "Join royal tournaments for rare materials"
+    ],
+    obtainMethods: [
+      "Royal Training (Pride Essence)",
+      "Royal Blood Chamber (Royal Blood Fragment)",
+      "Energy Dungeons (Purple Essence Stones)",
+      "Royal Tournaments (Rare materials)"
+    ]
   }
 };

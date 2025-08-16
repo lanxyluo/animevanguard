@@ -146,20 +146,24 @@ export class EvolutionPage {
         const unitId = this.extractUnitId(selectedUnit);
         console.log('🔍 提取的单位ID:', unitId);
         
-        // 2. 查找进化数据
-        const evolutionInfo = REAL_EVOLUTION_DATA[unitId];
+        // 2. 映射ID到进化数据格式
+        const mappedUnitId = this.mapUnitIdToEvolutionData(unitId);
+        console.log('🔄 映射后的单位ID:', mappedUnitId);
+        
+        // 3. 查找进化数据
+        const evolutionInfo = REAL_EVOLUTION_DATA[mappedUnitId];
         console.log('📋 找到的进化数据:', evolutionInfo);
         
         if (evolutionInfo && evolutionInfo.canEvolve) {
             console.log('✅ 单位可以进化，开始更新所有区域');
-            // 3. 更新所有区域
+            // 4. 更新所有区域
             this.updateEvolutionRequirements(evolutionInfo);
             this.updateEvolutionMaterials(evolutionInfo); 
             this.updateCostSummary(evolutionInfo);
             this.updateFarmingGuide(evolutionInfo);
         } else {
             console.log('❌ 单位无法进化或无进化数据');
-            // 4. 显示无进化数据提示
+            // 5. 显示无进化数据提示
             this.showNoEvolutionData(selectedUnit);
         }
     }
@@ -182,6 +186,31 @@ export class EvolutionPage {
         
         // 默认返回原值
         return unitDisplayName;
+    }
+    
+    // 新增：ID映射函数，将unitsData的ID格式映射到REAL_EVOLUTION_DATA的ID格式
+    mapUnitIdToEvolutionData(unitId) {
+        // 创建ID映射表
+        const idMapping = {
+            // 将unitsData的ID映射到REAL_EVOLUTION_DATA的ID
+            'goku_ultra_instinct': 'goku',
+            'saitama': 'saitama',
+            'goku_base': 'goku',
+            'vegeta_ssb': 'vegeta',
+            'naruto_kurama': 'naruto',
+            'sasuke_eternal': 'sasuke',
+            'tanjiro_demon_slayer': 'tanjiro',
+            'zenitsu_agatsuma': 'zenitsu',
+            'deku_full_cowl': 'deku',
+            'all_might': 'allmight',
+            'ichigo_bankai': 'ichigo',
+            'luffy_gear_fourth': 'luffy',
+            'saber_artoria': 'saber',
+            'gilgamesh': 'gilgamesh',
+            // 添加更多映射...
+        };
+        
+        return idMapping[unitId] || unitId;
     }
     
     // 更新进化需求
