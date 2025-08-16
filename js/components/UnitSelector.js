@@ -48,6 +48,7 @@ export class UnitSelector {
         
         // 优化筛选器
         this.filterOptimizer.optimizeUnitFilter();
+        this.filterOptimizer.addSmartFilterStyles();
     }
     
     findExistingElements() {
