@@ -83,6 +83,81 @@ export class EvolutionPage {
         return REAL_EVOLUTION_DATA.hasOwnProperty(unitId);
     }
     
+    updateFilterOptions() {
+        // Update rarity filter to show correct default text and counts
+        const rarityFilter = document.getElementById('rarityFilter');
+        const elementFilter = document.getElementById('elementFilter');
+        
+        if (rarityFilter) {
+            // Count units by rarity
+            const rarityCount = {};
+            this.unitsData.forEach(unit => {
+                rarityCount[unit.rarity] = (rarityCount[unit.rarity] || 0) + 1;
+            });
+            
+            // Update rarity options
+            rarityFilter.innerHTML = `
+                <option value="">All Rarity (${this.unitsData.length} evolvable)</option>
+                <option value="Mythic">Mythic (${rarityCount['Mythic'] || 0})</option>
+                <option value="Secret">Secret (${rarityCount['Secret'] || 0})</option>
+                <option value="Vanguard">Vanguard (${rarityCount['Vanguard'] || 0})</option>
+                <option value="Legendary">Legendary (${rarityCount['Legendary'] || 0})</option>
+                <option value="Epic">Epic (${rarityCount['Epic'] || 0})</option>
+                <option value="Rare">Rare (${rarityCount['Rare'] || 0})</option>
+            `;
+        }
+        
+        if (elementFilter) {
+            // Count units by element
+            const elementCount = {};
+            this.unitsData.forEach(unit => {
+                elementCount[unit.element] = (elementCount[unit.element] || 0) + 1;
+            });
+            
+            // Update element options
+            elementFilter.innerHTML = `
+                <option value="">All Element (${this.unitsData.length} evolvable)</option>
+                <option value="Fire">Fire (${elementCount['Fire'] || 0})</option>
+                <option value="Dark">Dark (${elementCount['Dark'] || 0})</option>
+                <option value="Physical">Physical (${elementCount['Physical'] || 0})</option>
+                <option value="Energy">Energy (${elementCount['Energy'] || 0})</option>
+                <option value="Lightning">Lightning (${elementCount['Lightning'] || 0})</option>
+                <option value="Water">Water (${elementCount['Water'] || 0})</option>
+                <option value="Light">Light (${elementCount['Light'] || 0})</option>
+                <option value="Wind">Wind (${elementCount['Wind'] || 0})</option>
+                <option value="Earth">Earth (${elementCount['Earth'] || 0})</option>
+                <option value="Soul">Soul (${elementCount['Soul'] || 0})</option>
+            `;
+        }
+    }
+    
+    addFilterHelp() {
+        // Add helpful explanation for why there are few results
+        const filterSection = document.querySelector('.filter-section');
+        if (!filterSection || filterSection.querySelector('.filter-help')) {
+            return;
+        }
+        
+        const helpHtml = `
+            <div class="filter-help">
+                <details>
+                    <summary>❓ Why so few results?</summary>
+                    <div class="help-content">
+                        <p><strong>In Anime Vanguard, only high-rarity units can evolve:</strong></p>
+                        <ul>
+                            <li><strong>Secret:</strong> Ultra rare units (0.004% drop rate)</li>
+                            <li><strong>Mythic:</strong> Very rare units (0.5% drop rate)</li>
+                            <li><strong>Vanguard:</strong> Special event units</li>
+                        </ul>
+                        <p>💡 <strong>Tip:</strong> Most units in the game cannot evolve - only these premium units have evolution paths!</p>
+                    </div>
+                </details>
+            </div>
+        `;
+        
+        filterSection.insertAdjacentHTML('beforeend', helpHtml);
+    }
+    
     initializeComponents() {
         // Initialize Unit Selector
         this.unitSelector = new UnitSelector('unitSelectorContainer', {
@@ -91,6 +166,15 @@ export class EvolutionPage {
             showSearch: true,
             debounceDelay: 300
         });
+        
+        // Set the units data and update filter options
+        this.unitSelector.setUnits(this.unitsData, this.elementIcons);
+        
+        // Update filter options to show correct counts
+        this.updateFilterOptions();
+        
+        // Add filter help explanation
+        this.addFilterHelp();
         
         // Initialize Materials List
         this.materialsList = new MaterialsList('materialsListContainer', {
@@ -217,7 +301,7 @@ export class EvolutionPage {
     updateEvolutionRequirements(evolutionInfo) {
         console.log('📋 更新进化需求:', evolutionInfo);
         
-        const requirementsContainer = document.getElementById('evolutionRequirementsContainer');
+        const requirementsContainer = document.getElementById('materialsListContainer');
         if (requirementsContainer && evolutionInfo) {
             const materialsCount = evolutionInfo.requirements.materials.length;
             const totalMaterials = evolutionInfo.requirements.materials.reduce((sum, material) => sum + material.quantity, 0);
@@ -275,67 +359,13 @@ export class EvolutionPage {
     updateEvolutionMaterials(evolutionInfo) {
         console.log('📦 更新进化材料:', evolutionInfo);
         
-        const materialsContainer = document.getElementById('evolutionMaterialsContainer');
-        if (materialsContainer && evolutionInfo) {
-            const materials = evolutionInfo.requirements.materials;
-            
-            // 按稀有度分组材料
-            const materialsByRarity = this.groupMaterialsByRarity(materials);
-            
-            let materialsHTML = `
-                <div class="materials-section">
-                    <h3>进化材料</h3>
-                    <div class="materials-summary">
-                        <span class="total-materials">总计: ${materials.length} 种材料</span>
-                    </div>
-            `;
-            
-            // 按稀有度顺序显示材料
-            const rarityOrder = ['mythic', 'legendary', 'epic', 'rare', 'uncommon', 'common'];
-            
-            rarityOrder.forEach(rarity => {
-                if (materialsByRarity[rarity] && materialsByRarity[rarity].length > 0) {
-                    materialsHTML += `
-                        <div class="rarity-group">
-                            <h4 class="rarity-${rarity}">${this.capitalizeFirst(rarity)} 材料</h4>
-                            <div class="materials-list">
-                    `;
-                    
-                    materialsByRarity[rarity].forEach(material => {
-                        const dropRate = this.getDropRate(material.name);
-                        const obtainMethod = this.getObtainMethod(material.name);
-                        
-                        materialsHTML += `
-                            <div class="material-item">
-                                <div class="material-header">
-                                    <span class="material-name rarity-${material.rarity || 'common'}">${material.name}</span>
-                                    <span class="material-quantity">x${material.quantity}</span>
-                                </div>
-                                <div class="material-details">
-                                    <div class="material-source">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span>${obtainMethod}</span>
-                                    </div>
-                                    ${dropRate ? `
-                                        <div class="material-drop-rate">
-                                            <i class="fas fa-percentage"></i>
-                                            <span>掉落率: ${dropRate}%</span>
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    materialsHTML += `
-                            </div>
-                        </div>
-                    `;
-                }
+        // 这个方法现在由 MaterialsList 组件处理，不需要在这里重复实现
+        if (this.materialsList) {
+            this.materialsList.renderEvolutionRequirements({
+                id: evolutionInfo.name,
+                name: evolutionInfo.name,
+                ...evolutionInfo
             });
-            
-            materialsHTML += '</div>';
-            materialsContainer.innerHTML = materialsHTML;
         }
     }
     
@@ -388,6 +418,11 @@ export class EvolutionPage {
     // 更新成本汇总
     updateCostSummary(evolutionInfo) {
         console.log('💰 更新成本汇总:', evolutionInfo);
+        
+        // 使用 CostSummary 组件处理
+        if (this.costSummary) {
+            this.costSummary.updateCostSummary(evolutionInfo);
+        }
         
         const costContainer = document.getElementById('costSummaryContainer');
         if (costContainer && evolutionInfo) {
@@ -523,6 +558,15 @@ export class EvolutionPage {
     // 更新农场指南
     updateFarmingGuide(evolutionInfo) {
         console.log('🌾 更新农场指南:', evolutionInfo);
+        
+        // 使用 FarmingGuide 组件处理
+        if (this.farmingGuide) {
+            this.farmingGuide.updateFarmingGuide({
+                id: evolutionInfo.name,
+                name: evolutionInfo.name,
+                ...evolutionInfo
+            });
+        }
         
         const farmingContainer = document.getElementById('farmingGuideContainer');
         if (farmingContainer && evolutionInfo) {
