@@ -265,8 +265,8 @@ export class CostSummary {
     renderTotalCosts(costBreakdown, container) {
         const totalCostsSection = document.createElement('div');
         totalCostsSection.className = 'total-costs';
-        totalCostsSection.style.background = 'transparent';
-        totalCostsSection.style.backgroundColor = 'transparent';
+        totalCostsSection.style.background = 'rgba(30, 41, 59, 0.95)';
+        totalCostsSection.style.backgroundColor = 'rgba(30, 41, 59, 0.95)';
         
         totalCostsSection.innerHTML = `
             <div class="cost-grid">

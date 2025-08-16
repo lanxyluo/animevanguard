@@ -4,6 +4,8 @@ import { CostSummary } from '../components/CostSummary.js';
 import { MaterialsList } from '../components/MaterialsList.js';
 import { FarmingGuide } from '../components/FarmingGuide.js';
 import { showError, showNotification } from '../utils/dom.js';
+import { unitsData } from '../config/units.js';
+import { REAL_EVOLUTION_DATA } from '../config/realEvolutionData.js';
 
 // 1. 修复函数调用错误并集成组件系统
 class EvolutionGuideManager {
@@ -49,50 +51,67 @@ class EvolutionGuideManager {
     }
   }
 
-  // 新增：加载进化单位数据
+  // 修复：加载真实的Unit Database数据
   async loadEvolutionUnitsData() {
     try {
-      console.log("🔄 Loading evolution units data...");
+      console.log("🔄 Loading evolution units data from Unit Database...");
       
-      // 从进化数据生成单位列表
-      const evolutionUnits = this.convertEvolutionDataToUnits(this.evolutionData);
+      // 筛选可以进化的单位（从真实的Unit Database数据）
+      const evolvableUnits = Object.values(unitsData).filter(unit => {
+        // 只显示有进化数据的单位
+        const unitId = unit.name.toLowerCase().replace(/\s+/g, '');
+        return REAL_EVOLUTION_DATA[unitId] || 
+               unit.rarity === 'Mythic' || 
+               unit.rarity === 'Secret' || 
+               unit.rarity === 'Vanguard';
+      });
       
-      console.log(`📊 Generated ${evolutionUnits.length} evolution units`);
+      console.log(`📊 Found ${evolvableUnits.length} evolvable units from Unit Database`);
+      console.log("🔍 Available rarities:", [...new Set(evolvableUnits.map(u => u.rarity))]);
+      console.log("🔍 Available elements:", [...new Set(evolvableUnits.map(u => u.element))]);
       
       // 设置数据到UnitSelector
-      if (this.unitSelector && evolutionUnits.length > 0) {
-        this.unitSelector.setUnits(evolutionUnits, {});
-        console.log("✅ Evolution units data loaded successfully");
+      if (this.unitSelector && evolvableUnits.length > 0) {
+        this.unitSelector.setUnits(evolvableUnits, {});
+        console.log("✅ Evolution units data loaded successfully from Unit Database");
       } else {
-        console.warn("⚠️ No evolution units data available or UnitSelector not initialized");
+        console.warn("⚠️ No evolvable units found or UnitSelector not initialized");
       }
     } catch (error) {
       console.error("❌ Failed to load evolution units data:", error);
     }
   }
 
-  // 新增：将进化数据转换为单位列表格式
-  convertEvolutionDataToUnits(evolutionData) {
-    const units = [];
+  // 修复：处理单位选择，使用真实的进化数据
+  lookupEvolutionData(unit) {
+    // 安全检查
+    if (!unit || !unit.name) {
+      console.error('❌ Invalid unit object passed to lookupEvolutionData:', unit);
+      return null;
+    }
+
+    // 尝试从真实进化数据中查找
+    const unitId = unit.name.toLowerCase().replace(/\s+/g, '');
+    const realEvolutionData = REAL_EVOLUTION_DATA[unitId];
     
-    Object.entries(evolutionData).forEach(([unitId, unitData]) => {
-      if (unitData.canEvolve) {
-        units.push({
-          id: unitId,
-          name: unitData.name,
-          rarity: unitData.rarity,
-          element: unitData.element,
-          canEvolve: unitData.canEvolve,
-          evolutionName: unitData.evolutionName,
-          requirements: unitData.requirements
-        });
-      }
-    });
+    if (realEvolutionData) {
+      console.log(`✅ Found real evolution data for ${unit.name}`);
+      return {
+        ...unit,
+        ...realEvolutionData,
+        hasEvolutionData: true
+      };
+    }
     
-    return units;
+    // 如果没有真实进化数据，返回基础信息
+    console.log(`⚠️ No evolution data found for ${unit.name}, showing basic info`);
+    return {
+      ...unit,
+      hasEvolutionData: false
+    };
   }
 
-  // 2. 安全的单位选择处理 - 使用组件系统
+  // 2. 修复：安全的单位选择处理 - 使用真实数据
   processUnitSelection(unit) {
     try {
       console.log("Processing unit selection:", unit);
@@ -102,8 +121,18 @@ class EvolutionGuideManager {
         return;
       }
 
+      // 查找真实的进化数据
+      const evolutionData = this.lookupEvolutionData(unit);
+      
+      // 检查是否成功获取数据
+      if (!evolutionData) {
+        console.error("❌ Failed to lookup evolution data");
+        this.clearAllDisplays();
+        return;
+      }
+      
       // 使用组件系统更新显示
-      this.displayEvolutionData(unit);
+      this.displayEvolutionData(evolutionData);
       
     } catch (error) {
       console.error("Error in processUnitSelection:", error);
@@ -115,6 +144,11 @@ class EvolutionGuideManager {
   displayEvolutionData(unit) {
     try {
       console.log("Displaying evolution data for:", unit);
+      
+      if (!unit.hasEvolutionData) {
+        this.showNoEvolutionData(unit.name);
+        return;
+      }
       
       // 使用组件系统更新各个显示区域
       if (this.costSummary) {
@@ -497,54 +531,10 @@ class EvolutionGuideManager {
     });
   }
 
-  // 12. 获取进化数据（简化版）
+  // 12. 获取进化数据（使用真实数据）
   getEvolutionData() {
-    return {
-      "alocard": {
-        name: "Alocard",
-        rarity: "Secret",
-        element: "Dark",
-        canEvolve: true,
-        evolutionName: "Alocard (Vampire King)",
-        requirements: {
-          cost: 15000,
-          materials: [
-            { name: "Hellsing Arms", count: 1, rarity: "Legendary" },
-            { name: "Purple Essence Stone", count: 13, rarity: "Rare" },
-            { name: "Green Essence Stone", count: 35, rarity: "Common" }
-          ]
-        }
-      },
-      "songjinwu": {
-        name: "Song Jinwu",
-        rarity: "Mythic",
-        element: "Shadow", 
-        canEvolve: true,
-        evolutionName: "Song Jinwu (Monarch)",
-        requirements: {
-          cost: 15000,
-          materials: [
-            { name: "Shadow Trace", count: 12, rarity: "Legendary" },
-            { name: "Pink Essence Stone", count: 11, rarity: "Rare" }
-          ]
-        }
-      },
-      "saitama": {
-        name: "Saitama",
-        rarity: "Mythic",
-        element: "Physical",
-        canEvolve: true,
-        evolutionName: "Saitama (Serious)",
-        requirements: {
-          cost: 15000,
-          materials: [
-            { name: "Hero License", count: 8, rarity: "Legendary" },
-            { name: "Red Essence Stone", count: 15, rarity: "Rare" }
-          ]
-        }
-      }
-      // 可以添加更多单位数据
-    };
+    // 直接返回真实的进化数据
+    return REAL_EVOLUTION_DATA;
   }
 
   getMaterialsDatabase() {

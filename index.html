@@ -3107,13 +3107,20 @@
 
         /* Cost Summary */
         .cost-summary {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: rgba(30, 41, 59, 0.95) !important;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
         }
 
-        .total-costs {
+        .total-costs,
+        .cost-breakdown-container,
+        .cost-cards,
+        .cost-card,
+        #costSummary,
+        #costSummaryContainer,
+        [data-cost-summary],
+        .cost-summary-content {
             background: rgba(30, 41, 59, 0.95) !important;
             border-radius: 8px;
             padding: 20px;
@@ -3780,7 +3787,7 @@
 
         /* Unit Name Display */
         .unit-name {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(30, 41, 59, 0.8);
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.9rem;
