@@ -4,7 +4,7 @@ import { getElementColor } from '../utils/helpers.js';
 import { showError } from '../utils/dom.js';
 import { DataValidator } from '../utils/dataValidator.js';
 import { FilterOptimizer } from '../utils/filterOptimizer.js';
-import { RARITIES, ELEMENTS, dataUtils } from '../config/constants.js';
+import { RARITIES, ELEMENTS } from '../config/constants.js';
 
 export class UnitSelector {
     constructor(containerId, options = {}) {
@@ -74,13 +74,50 @@ export class UnitSelector {
         // Clear existing options except "All Element"
         this.elementFilter.innerHTML = '<option value="">All Element</option>';
         
-        // Add all element options from the new data structure
+        // Add all element options with count display
         ELEMENTS.forEach(element => {
+            const count = this.getElementCount(element.value);
             const option = document.createElement('option');
             option.value = element.value;
-            option.textContent = element.label;
+            option.textContent = `${element.label} (${count})`;
             this.elementFilter.appendChild(option);
         });
+    }
+
+    // 新增：获取特定元素的单位数量
+    getElementCount(elementValue) {
+        if (!elementValue || !this.allUnits) return 0;
+        return this.allUnits.filter(unit => unit.element === elementValue).length;
+    }
+
+    // 新增：更新稀有度筛选器显示数量
+    updateRarityFilterCounts() {
+        if (!this.rarityFilter) return;
+
+        // 保存当前选中的值
+        const currentValue = this.rarityFilter.value;
+        
+        // 重新填充选项并添加数量
+        this.rarityFilter.innerHTML = '<option value="">All Rarity</option>';
+        
+        RARITIES.forEach(rarity => {
+            if (rarity.canEvolve) {
+                const count = this.getRarityCount(rarity.value);
+                const option = document.createElement('option');
+                option.value = rarity.value;
+                option.textContent = `${rarity.label} (${count})`;
+                this.rarityFilter.appendChild(option);
+            }
+        });
+        
+        // 恢复之前选中的值
+        this.rarityFilter.value = currentValue;
+    }
+
+    // 新增：获取特定稀有度的单位数量
+    getRarityCount(rarityValue) {
+        if (!rarityValue || !this.allUnits) return 0;
+        return this.allUnits.filter(unit => unit.rarity === rarityValue).length;
     }
     
     bindEvents() {
@@ -112,6 +149,10 @@ export class UnitSelector {
         // Data statistics and validation
         this.analyzeDataDistribution();
         this.validateDataCompleteness();
+        
+        // 更新筛选器显示数量
+        this.updateRarityFilterCounts();
+        this.populateElementFilter(); // 重新填充元素筛选器以显示数量
         
         this.populateUnitSelect();
     }

@@ -14,11 +14,18 @@ class EvolutionGuideManager {
     this.costSummary = null;
     this.materialsList = null;
     this.farmingGuide = null;
-    this.initializeComponents();
+    this.initialized = false;
+    // 异步初始化
+    this.init();
+  }
+
+  async init() {
+    await this.initializeComponents();
+    this.initialized = true;
   }
 
   // 修复：初始化所有组件
-  initializeComponents() {
+  async initializeComponents() {
     try {
       // 初始化UnitSelector组件 - 这将恢复智能筛选功能
       this.unitSelector = new UnitSelector('unit-selection', {
@@ -32,11 +39,57 @@ class EvolutionGuideManager {
       this.materialsList = new MaterialsList('evolution-materials');
       this.farmingGuide = new FarmingGuide('farming-guide');
 
+      // 加载进化单位数据到UnitSelector
+      await this.loadEvolutionUnitsData();
+
       console.log("✅ 所有组件初始化成功");
     } catch (error) {
       console.error("❌ 组件初始化失败:", error);
       showError("Failed to initialize Evolution Guide components");
     }
+  }
+
+  // 新增：加载进化单位数据
+  async loadEvolutionUnitsData() {
+    try {
+      console.log("🔄 Loading evolution units data...");
+      
+      // 从进化数据生成单位列表
+      const evolutionUnits = this.convertEvolutionDataToUnits(this.evolutionData);
+      
+      console.log(`📊 Generated ${evolutionUnits.length} evolution units`);
+      
+      // 设置数据到UnitSelector
+      if (this.unitSelector && evolutionUnits.length > 0) {
+        this.unitSelector.setUnits(evolutionUnits, {});
+        console.log("✅ Evolution units data loaded successfully");
+      } else {
+        console.warn("⚠️ No evolution units data available or UnitSelector not initialized");
+      }
+    } catch (error) {
+      console.error("❌ Failed to load evolution units data:", error);
+    }
+  }
+
+  // 新增：将进化数据转换为单位列表格式
+  convertEvolutionDataToUnits(evolutionData) {
+    const units = [];
+    
+    Object.entries(evolutionData).forEach(([unitId, unitData]) => {
+      if (unitData.canEvolve) {
+        units.push({
+          id: unitId,
+          name: unitData.name,
+          rarity: unitData.rarity,
+          element: unitData.element,
+          canEvolve: unitData.canEvolve,
+          evolutionName: unitData.evolutionName,
+          requirements: unitData.requirements
+        });
+      }
+    });
+    
+    return units;
   }
 
   // 2. 安全的单位选择处理 - 使用组件系统

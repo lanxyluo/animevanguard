@@ -898,6 +898,45 @@
   background-color: rgba(30, 41, 59, 0.8) !important;
 }
 
+/* 17. 极端修复 - 针对所有可能的白色背景元素 */
+.cost-grid,
+.cost-grid *,
+.cost-item,
+.cost-item *,
+.cost-details,
+.cost-details *,
+.cost-value,
+.cost-value *,
+.cost-label,
+.cost-label *,
+.total-costs,
+.total-costs * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 18. 使用CSS变量强制深色主题 */
+:root {
+  --cost-summary-bg: rgba(30, 41, 59, 0.95) !important;
+  --cost-item-bg: transparent !important;
+}
+
+/* 19. 最终解决方案 - 使用CSS选择器优先级 */
+#cost-summary,
+#cost-summary *,
+[id*="cost"],
+[id*="cost"] *,
+[class*="cost"],
+[class*="cost"] * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#cost-summary {
+  background: var(--cost-summary-bg) !important;
+  border: 2px solid rgba(100, 116, 139, 0.5) !important;
+}
+
 .cost-summary input, .cost-summary select, .cost-summary textarea {
     background: rgba(51, 65, 85, 0.8) !important;
     border: 1px solid rgba(71, 85, 105, 0.5) !important;

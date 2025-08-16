@@ -155,6 +155,8 @@ export class CostSummary {
         // Create cost summary section
         const summarySection = document.createElement('div');
         summarySection.className = 'cost-summary';
+        summarySection.style.background = 'rgba(30, 41, 59, 0.95)';
+        summarySection.style.border = '2px solid rgba(100, 116, 139, 0.5)';
         
         // Add title
         const title = document.createElement('h3');
@@ -213,6 +215,8 @@ export class CostSummary {
     renderTotalCosts(costBreakdown, container) {
         const totalCostsSection = document.createElement('div');
         totalCostsSection.className = 'total-costs';
+        totalCostsSection.style.background = 'transparent';
+        totalCostsSection.style.backgroundColor = 'transparent';
         
         totalCostsSection.innerHTML = `
             <div class="cost-grid">
