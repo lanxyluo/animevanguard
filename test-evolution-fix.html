@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Fix 测试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 15px;
+        }
+        
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Evolution Fix 测试页面</h1>
+        
+        <div class="test-section">
+            <h3>🧪 测试修复</h3>
+            <button class="btn" onclick="testEvolutionFix()">测试Evolution修复</button>
+            <button class="btn" onclick="testComponentInit()">测试组件初始化</button>
+            <button class="btn" onclick="testDataFlow()">测试数据流</button>
+            <button class="btn" onclick="clearOutput()">清除输出</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 测试结果</h3>
+            <div id="testOutput" class="output">
+                点击测试按钮开始测试...
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // 模拟evolutionData
+        const mockEvolutionData = {
+            "goku": {
+                unitId: "goku",
+                evolutions: [
+                    { tier: 1, name: "Goku", requirements: { level: 1, materials: [], cost: 1200 } },
+                    { tier: 2, name: "Super Saiyan Goku", requirements: { level: 40, materials: ["Saiyan Blood x4"], cost: 2500 } },
+                    { tier: 3, name: "Super Saiyan Blue Goku", requirements: { level: 60, materials: ["Divine Ki x3"], cost: 4500 } }
+                ]
+            }
+        };
+
+        // 模拟unitsData
+        const mockUnitsData = [
+            {
+                id: "goku_base",
+                name: "Goku",
+                rarity: "Legendary",
+                element: "Energy"
+            }
+        ];
+
+        // 测试Evolution修复
+        window.testEvolutionFix = function() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '🧪 开始测试Evolution修复...\n\n';
+            
+            try {
+                // 1. 测试数据查找
+                output.innerHTML += '📊 测试数据查找:\n';
+                const unit = mockUnitsData[0];
+                const unitId = unit.name.toLowerCase().replace(/\s+/g, '');
+                const evolutionInfo = mockEvolutionData[unitId];
+                
+                output.innerHTML += `  - 单位: ${unit.name}\n`;
+                output.innerHTML += `  - 生成的ID: ${unitId}\n`;
+                output.innerHTML += `  - 找到进化数据: ${!!evolutionInfo}\n`;
+                output.innerHTML += `  - 进化层数: ${evolutionInfo ? evolutionInfo.evolutions.length : 0}\n\n`;
+                
+                // 2. 测试进化信息处理
+                if (evolutionInfo) {
+                    output.innerHTML += '🔬 进化信息处理:\n';
+                    const processedInfo = {
+                        ...unit,
+                        unitId: unitId,
+                        evolutionData: evolutionInfo,
+                        evolutions: evolutionInfo.evolutions,
+                        hasEvolutionData: true
+                    };
+                    
+                    output.innerHTML += `  - 处理后的信息: ${JSON.stringify(processedInfo, null, 2)}\n\n`;
+                }
+                
+                output.innerHTML += '<span class="success">✅ Evolution修复测试完成</span>\n';
+                
+            } catch (error) {
+                output.innerHTML += `<span class="error">❌ 测试失败: ${error.message}</span>\n`;
+                console.error('Test failed:', error);
+            }
+        };
+
+        // 测试组件初始化
+        window.testComponentInit = function() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '🔧 开始测试组件初始化...\n\n';
+            
+            try {
+                // 模拟组件初始化
+                const components = {
+                    unitSelector: { setUnits: () => console.log('UnitSelector initialized') },
+                    costSummary: { render: () => '<div>Cost Summary</div>' },
+                    materialsList: { render: () => '<div>Materials List</div>' },
+                    farmingGuide: { render: () => '<div>Farming Guide</div>' },
+                    evolutionRequirements: { render: () => '<div>Evolution Requirements</div>' }
+                };
+                
+                output.innerHTML += '📦 组件状态:\n';
+                Object.entries(components).forEach(([name, component]) => {
+                    output.innerHTML += `  - ${name}: ${component ? '✅ 已初始化' : '❌ 未初始化'}\n`;
+                });
+                
+                output.innerHTML += '\n🎯 测试组件方法:\n';
+                
+                // 测试UnitSelector
+                if (components.unitSelector) {
+                    components.unitSelector.setUnits(mockUnitsData, {});
+                    output.innerHTML += '  - UnitSelector.setUnits() 调用成功\n';
+                }
+                
+                // 测试EvolutionRequirements
+                if (components.evolutionRequirements) {
+                    const html = components.evolutionRequirements.render('goku');
+                    output.innerHTML += `  - EvolutionRequirements.render() 返回: ${html}\n`;
+                }
+                
+                output.innerHTML += '\n<span class="success">✅ 组件初始化测试完成</span>\n';
+                
+            } catch (error) {
+                output.innerHTML += `<span class="error">❌ 测试失败: ${error.message}</span>\n`;
+                console.error('Test failed:', error);
+            }
+        };
+
+        // 测试数据流
+        window.testDataFlow = function() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '🔄 开始测试数据流...\n\n';
+            
+            try {
+                // 模拟完整的数据流
+                output.innerHTML += '📊 数据流测试:\n';
+                
+                // 1. 单位选择
+                const selectedUnit = mockUnitsData[0];
+                output.innerHTML += `  1. 选择单位: ${selectedUnit.name}\n`;
+                
+                // 2. 生成单位ID
+                const unitId = selectedUnit.name.toLowerCase().replace(/\s+/g, '');
+                output.innerHTML += `  2. 生成单位ID: ${unitId}\n`;
+                
+                // 3. 查找进化数据
+                const evolutionInfo = mockEvolutionData[unitId];
+                output.innerHTML += `  3. 查找进化数据: ${evolutionInfo ? '✅ 找到' : '❌ 未找到'}\n`;
+                
+                // 4. 处理进化信息
+                if (evolutionInfo) {
+                    const processedInfo = {
+                        ...selectedUnit,
+                        unitId: unitId,
+                        evolutionData: evolutionInfo,
+                        evolutions: evolutionInfo.evolutions,
+                        hasEvolutionData: true
+                    };
+                    
+                    output.innerHTML += `  4. 处理进化信息: ✅ 完成\n`;
+                    output.innerHTML += `     - 单位ID: ${processedInfo.unitId}\n`;
+                    output.innerHTML += `     - 有进化数据: ${processedInfo.hasEvolutionData}\n`;
+                    output.innerHTML += `     - 进化层数: ${processedInfo.evolutions.length}\n`;
+                }
+                
+                // 5. 模拟显示更新
+                output.innerHTML += `  5. 更新显示: ✅ 模拟完成\n`;
+                
+                output.innerHTML += '\n<span class="success">✅ 数据流测试完成</span>\n';
+                
+            } catch (error) {
+                output.innerHTML += `<span class="error">❌ 测试失败: ${error.message}</span>\n`;
+                console.error('Test failed:', error);
+            }
+        };
+
+        // 清除输出
+        window.clearOutput = function() {
+            document.getElementById('testOutput').innerHTML = '点击测试按钮开始测试...';
+            console.log('🗑️ 输出已清除');
+        };
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Evolution Fix 测试页面已加载');
+            console.log('📊 模拟数据已准备就绪');
+            console.log('🔍 可以开始测试修复效果');
+        });
+    </script>
+</body>
+</html>

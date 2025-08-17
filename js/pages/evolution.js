@@ -213,17 +213,25 @@ class EvolutionGuideManager {
   // 3. Enhanced Display Updates with Material Color Classification
   async updateAllDisplays(evolutionInfo) {
     try {
+      console.log('🔄 Starting to update all displays with:', evolutionInfo);
+      
       // Update Evolution Requirements with enhanced display
+      console.log('📋 Updating Evolution Requirements...');
       await this.updateEvolutionRequirements(evolutionInfo);
       
       // Update Cost Summary with gradient colors
+      console.log('💰 Updating Cost Summary...');
       await this.updateCostSummary(evolutionInfo);
       
       // Update Materials List with rarity color classification
+      console.log('🧪 Updating Materials List...');
       await this.updateMaterialsList(evolutionInfo);
       
       // Update Farming Guide with efficiency sorting
+      console.log('🌾 Updating Farming Guide...');
       await this.updateFarmingGuide(evolutionInfo);
+      
+      console.log('✅ All displays updated successfully');
       
     } catch (error) {
       console.error('❌ Error updating displays:', error);
@@ -233,21 +241,37 @@ class EvolutionGuideManager {
 
   // 4. Enhanced Evolution Requirements Display
   async updateEvolutionRequirements(evolutionInfo) {
+    console.log('🔍 Updating Evolution Requirements for:', evolutionInfo);
+    
     const container = this.getContainer('evolution-requirements');
-    if (!container) return;
+    if (!container) {
+      console.error('❌ Container "evolution-requirements" not found');
+      return;
+    }
+
+    console.log('📦 Container found:', container);
 
     if (!evolutionInfo.hasEvolutionData) {
+      console.log('⚠️ No evolution data, showing updating message');
       container.innerHTML = this.renderDataUpdatingMessage();
       return;
     }
 
     try {
+      console.log('🎯 Using EvolutionRequirements component...');
+      console.log('🔍 Component exists:', !!this.components.evolutionRequirements);
+      console.log('🔍 Unit ID:', evolutionInfo.unitId);
+      
       // Use EvolutionRequirements component for rich display
       const requirementsHtml = this.components.evolutionRequirements.render(evolutionInfo.unitId);
+      console.log('📋 Generated HTML:', requirementsHtml);
+      
       container.innerHTML = requirementsHtml;
       
       // Bind interactive events
       this.components.evolutionRequirements.bindEvents();
+      
+      console.log('✅ Evolution Requirements updated successfully');
       
     } catch (error) {
       console.error('❌ Error updating evolution requirements:', error);
@@ -257,22 +281,32 @@ class EvolutionGuideManager {
 
   // 5. Enhanced Cost Summary with Gradient Colors
   async updateCostSummary(evolutionInfo) {
+    console.log('🔍 Updating Cost Summary for:', evolutionInfo);
+    
     const container = this.getContainer('cost-summary');
-    if (!container) return;
+    if (!container) {
+      console.error('❌ Container "cost-summary" not found');
+      return;
+    }
+
+    console.log('📦 Container found:', container);
 
     if (!evolutionInfo.hasEvolutionData) {
+      console.log('⚠️ No evolution data, showing updating message');
       container.innerHTML = this.renderDataUpdatingMessage();
       return;
     }
 
     try {
+      console.log('💰 Calculating evolution cost...');
       const costData = evolutionUtils.calculateEvolutionCost ? 
         evolutionUtils.calculateEvolutionCost(evolutionInfo.unitId) : 
         this.calculateCostFallback(evolutionInfo);
 
+      console.log('📊 Cost data calculated:', costData);
       const difficulty = this.calculateDifficulty(costData);
       
-      container.innerHTML = `
+      const costHtml = `
         <div class="cost-summary-container">
           <div class="cost-header">
             <h3>Total Evolution Cost</h3>
@@ -290,7 +324,7 @@ class EvolutionGuideManager {
               <div class="cost-card gems-card" style="background: linear-gradient(135deg, #9c27b0, #e91e63);">
                 <div class="cost-icon">💎</div>
                 <div class="cost-value">${costData.totalGems}</div>
-                <div class="cost-label">Gems Required</div>
+                <div class="cost-label">Gems Required</span>
               </div>
             ` : ''}
             
@@ -321,6 +355,11 @@ class EvolutionGuideManager {
           </div>
         </div>
       `;
+      
+      console.log('📋 Generated cost HTML:', costHtml);
+      container.innerHTML = costHtml;
+      console.log('✅ Cost Summary updated successfully');
+      
     } catch (error) {
       console.error('❌ Error updating cost summary:', error);
       container.innerHTML = this.renderErrorMessage('Failed to load cost summary');
