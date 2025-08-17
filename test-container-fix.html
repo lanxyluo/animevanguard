@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container ID Fix 测试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 15px;
+        }
+        
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        
+        .container-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .container-id {
+            background: #f3e5f5;
+            border: 1px solid #9c27b0;
+            border-radius: 5px;
+            padding: 8px;
+            margin: 5px 0;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Container ID Fix 测试页面</h1>
+        
+        <div class="test-section">
+            <h3>🧪 测试容器ID匹配</h3>
+            <button class="btn" onclick="testContainerIds()">测试容器ID</button>
+            <button class="btn" onclick="testContainerLookup()">测试容器查找</button>
+            <button class="btn" onclick="clearOutput()">清除输出</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 测试结果</h3>
+            <div id="testOutput" class="output">
+                点击测试按钮开始测试...
+            </div>
+        </div>
+        
+        <!-- 模拟进化系统的容器结构 -->
+        <div class="test-section">
+            <h3>🏗️ 模拟容器结构</h3>
+            <div class="container-info">
+                <h4>Evolution Requirements 容器</h4>
+                <div id="evolution-requirements" class="container-id">
+                    ID: evolution-requirements
+                </div>
+                <p>这个容器应该显示进化要求信息</p>
+            </div>
+            
+            <div class="container-info">
+                <h4>Cost Summary 容器</h4>
+                <div id="cost-summary" class="container-id">
+                    ID: cost-summary
+                </div>
+                <p>这个容器应该显示成本总结</p>
+            </div>
+            
+            <div class="container-info">
+                <h4>Evolution Materials 容器</h4>
+                <div id="evolution-materials" class="container-id">
+                    ID: evolution-materials
+                </div>
+                <p>这个容器应该显示材料列表</p>
+            </div>
+            
+            <div class="container-info">
+                <h4>Farming Guide 容器</h4>
+                <div id="farming-guide" class="container-id">
+                    ID: farming-guide
+                </div>
+                <p>这个容器应该显示农场指南</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟getContainer方法
+        function getContainer(type) {
+            const selectors = [
+                `[data-${type}]`,
+                `.${type}`,
+                `#${type}`,
+                `[data-${type.replace('-', '')}]`,
+                `.${type.replace('-', '')}`
+            ];
+            
+            for (const selector of selectors) {
+                const element = document.querySelector(selector);
+                if (element) return element;
+            }
+            
+            console.warn(`Container not found for type: ${type}`);
+            return null;
+        }
+
+        // 测试容器ID
+        window.testContainerIds = function() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '🧪 开始测试容器ID匹配...\n\n';
+            
+            const expectedContainers = [
+                'evolution-requirements',
+                'cost-summary', 
+                'evolution-materials',
+                'farming-guide'
+            ];
+            
+            let allFound = true;
+            
+            expectedContainers.forEach(containerType => {
+                const container = getContainer(containerType);
+                
+                if (container) {
+                    output.innerHTML += `<span class="success">✅ ${containerType}: 找到容器</span>\n`;
+                    output.innerHTML += `  - 元素: ${container.tagName}\n`;
+                    output.innerHTML += `  - ID: ${container.id}\n`;
+                    output.innerHTML += `  - 类名: ${container.className}\n\n`;
+                } else {
+                    output.innerHTML += `<span class="error">❌ ${containerType}: 容器未找到</span>\n\n`;
+                    allFound = false;
+                }
+            });
+            
+            if (allFound) {
+                output.innerHTML += '<span class="success">🎉 所有容器都找到了！</span>\n';
+            } else {
+                output.innerHTML += '<span class="error">⚠️ 部分容器未找到，需要检查HTML结构</span>\n';
+            }
+        };
+
+        // 测试容器查找
+        window.testContainerLookup = function() {
+            const output = document.getElementById('testOutput');
+            output.innerHTML = '🔍 开始测试容器查找逻辑...\n\n';
+            
+            const testCases = [
+                'evolution-requirements',
+                'cost-summary',
+                'evolution-materials', 
+                'farming-guide'
+            ];
+            
+            testCases.forEach(testCase => {
+                output.innerHTML += `🔍 测试查找: ${testCase}\n`;
+                
+                // 测试不同的选择器策略
+                const selectors = [
+                    `[data-${testCase}]`,
+                    `.${testCase}`,
+                    `#${testCase}`,
+                    `[data-${testCase.replace('-', '')}]`,
+                    `.${testCase.replace('-', '')}`
+                ];
+                
+                let found = false;
+                selectors.forEach((selector, index) => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        output.innerHTML += `  ✅ 选择器 ${index + 1}: ${selector}\n`;
+                        found = true;
+                    } else {
+                        output.innerHTML += `  ❌ 选择器 ${index + 1}: ${selector}\n`;
+                    }
+                });
+                
+                if (found) {
+                    output.innerHTML += `  <span class="success">✅ ${testCase} 查找成功</span>\n\n`;
+                } else {
+                    output.innerHTML += `  <span class="error">❌ ${testCase} 查找失败</span>\n\n`;
+                }
+            });
+        };
+
+        // 清除输出
+        window.clearOutput = function() {
+            document.getElementById('testOutput').innerHTML = '点击测试按钮开始测试...';
+            console.log('🗑️ 输出已清除');
+        };
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Container ID Fix 测试页面已加载');
+            console.log('🔍 模拟容器结构已准备就绪');
+            console.log('🧪 可以开始测试容器ID匹配');
+        });
+    </script>
+</body>
+</html>
