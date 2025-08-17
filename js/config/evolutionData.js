@@ -463,6 +463,28 @@ export const evolutionData = {
         statMultiplier: 3.5
       }
     ]
+  },
+
+  "noruto": {
+    unitId: "noruto",
+    evolutions: [
+      {
+        tier: 1,
+        name: "Noruto",
+        requirements: { level: 1, materials: [], cost: 1500 },
+        statMultiplier: 1.0
+      },
+      {
+        tier: 2,
+        name: "Noruto (Six Tails)",
+        requirements: { 
+          level: 45, 
+          materials: ["Six Tails Chakra x3", "Wind Essence x5", "Chakra Crystal x2"], 
+          cost: 3500 
+        },
+        statMultiplier: 2.2
+      }
+    ]
   }
 };
 
@@ -638,6 +660,32 @@ export const materials = {
     description: "All Might's power in his absolute prime",
     dropRate: "0.2%",
     color: "#f44336"
+  },
+
+  // Noruto Evolution Materials
+  "Six Tails Chakra": {
+    name: "Six Tails Chakra",
+    rarity: "Epic",
+    source: ["Six Tails Event", "Bijuu Raid", "Wind Temple"],
+    description: "Pure chakra from the Six Tails beast",
+    dropRate: "15%",
+    color: "#9c27b0"
+  },
+  "Wind Essence": {
+    name: "Wind Essence",
+    rarity: "Rare",
+    source: ["Wind Temple", "Daily Material Dungeon", "Story Mode Ch15-20"],
+    description: "Concentrated wind energy for wind-based evolutions",
+    dropRate: "30%",
+    color: "#2196f3"
+  },
+  "Chakra Crystal": {
+    name: "Chakra Crystal",
+    rarity: "Uncommon",
+    source: ["Chakra Training Grounds", "Daily Material Dungeon", "Story Mode Ch10-15"],
+    description: "Crystal containing pure chakra energy",
+    dropRate: "45%",
+    color: "#4caf50"
   }
 };
 
