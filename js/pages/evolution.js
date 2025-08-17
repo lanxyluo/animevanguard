@@ -73,14 +73,32 @@ class EvolutionGuideManager {
       
       // Filter units that can evolve
       const evolvableUnits = unitsData.filter(unit => {
-        const unitId = this.generateUnitId(unit.name);
-        const hasEvolutionData = evolutionData[unitId] !== undefined;
+        // 尝试多种ID匹配策略
+        const possibleIds = [
+          this.generateUnitId(unit.name),           // 从名称生成
+          unit.id,                                  // 直接使用unit.id
+          unit.id.replace(/_base$/, ''),            // 移除_base后缀
+          unit.id.replace(/_evolved$/, ''),         // 移除_evolved后缀
+          unit.name.toLowerCase().replace(/\s+/g, '') // 从名称生成（备用）
+        ];
+        
+        // 检查是否有任何ID匹配evolutionData
+        const hasEvolutionData = possibleIds.some(id => evolutionData[id] !== undefined);
         const canEvolveByRarity = ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity);
+        
+        console.log(`🔍 Unit ${unit.name}:`, {
+          unitId: unit.id,
+          possibleIds,
+          hasEvolutionData,
+          canEvolveByRarity,
+          rarity: unit.rarity
+        });
         
         return hasEvolutionData || canEvolveByRarity;
       });
 
       console.log(`📊 Found ${evolvableUnits.length} evolvable units`);
+      console.log('🔍 Evolvable units:', evolvableUnits.map(u => ({ name: u.name, id: u.id, rarity: u.rarity })));
       
       // Set units to selector
       if (this.components.unitSelector) {
@@ -135,13 +153,33 @@ class EvolutionGuideManager {
   lookupEvolutionData(unitId, unit) {
     console.log(`🔍 Looking up evolution data for: ${unit.name} (ID: ${unitId})`);
     
-    const evolutionInfo = evolutionData[unitId];
+    // 尝试多种ID匹配策略
+    const possibleIds = [
+      unitId,                                        // 传入的ID
+      unit.id,                                       // 直接使用unit.id
+      unit.id.replace(/_base$/, ''),                 // 移除_base后缀
+      unit.id.replace(/_evolved$/, ''),              // 移除_evolved后缀
+      this.generateUnitId(unit.name),                // 从名称生成
+      unit.name.toLowerCase().replace(/\s+/g, '')    // 从名称生成（备用）
+    ];
+    
+    // 查找匹配的evolutionData
+    let evolutionInfo = null;
+    let matchedId = null;
+    
+    for (const id of possibleIds) {
+      if (evolutionData[id]) {
+        evolutionInfo = evolutionData[id];
+        matchedId = id;
+        break;
+      }
+    }
     
     if (evolutionInfo) {
-      console.log(`✅ Found evolution data for ${unit.name}`);
+      console.log(`✅ Found evolution data for ${unit.name} with ID: ${matchedId}`);
       return {
         ...unit,
-        unitId,
+        unitId: matchedId,
         evolutionData: evolutionInfo,
         evolutions: evolutionInfo.evolutions,
         hasEvolutionData: true
@@ -153,7 +191,7 @@ class EvolutionGuideManager {
       console.log(`⚠️ Unit ${unit.name} can evolve but no specific data found`);
       return {
         ...unit,
-        unitId,
+        unitId: unitId,
         hasEvolutionData: false,
         canEvolveByRarity: true
       };
@@ -480,7 +518,20 @@ class EvolutionGuideManager {
 
   // 10. Utility Functions
   generateUnitId(unitName) {
-    return unitName.toLowerCase().replace(/\s+/g, '');
+    // 改进的ID生成逻辑，尝试匹配evolutionData中的键
+    let id = unitName.toLowerCase().replace(/\s+/g, '');
+    
+    // 特殊处理：移除常见的后缀
+    id = id.replace(/_base$/, '');
+    id = id.replace(/_evolved$/, '');
+    id = id.replace(/_form$/, '');
+    id = id.replace(/_mode$/, '');
+    
+    // 特殊处理：处理括号内容
+    id = id.replace(/\([^)]*\)/g, '');
+    id = id.replace(/\s+/g, ''); // 再次清理空格
+    
+    return id;
   }
 
   getContainer(type) {

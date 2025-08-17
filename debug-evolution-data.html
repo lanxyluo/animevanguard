@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Guide 数据流调试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .debug-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .debug-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .data-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Evolution Guide 数据流调试</h1>
+        
+        <div class="debug-section">
+            <h3>📊 数据源检查</h3>
+            <button class="btn" onclick="checkDataSources()">检查数据源</button>
+            <div id="dataSourcesResult" class="data-display">点击按钮检查数据源...</div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🔄 数据流追踪</h3>
+            <button class="btn" onclick="traceDataFlow()">追踪数据流</button>
+            <div id="dataFlowResult" class="data-display">点击按钮追踪数据流...</div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🎯 筛选器测试</h3>
+            <button class="btn" onclick="testFilters()">测试筛选器</button>
+            <div id="filterTestResult" class="data-display">点击按钮测试筛选器...</div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🐛 问题诊断</h3>
+            <button class="btn" onclick="diagnoseIssues()">诊断问题</button>
+            <div id="diagnosisResult" class="data-display">点击按钮诊断问题...</div>
+        </div>
+    </div>
+
+    <script type="module">
+        // 模拟数据源
+        const mockUnitsData = [
+            {
+                id: "goku_ultra_instinct",
+                name: "Goku (Ultra Instinct)",
+                rarity: "Mythic",
+                element: "Energy",
+                evolution: "Ultra Instinct Mastery"
+            },
+            {
+                id: "saitama",
+                name: "Saitama",
+                rarity: "Mythic",
+                element: "Physical",
+                evolution: "One Punch Man"
+            },
+            {
+                id: "goku_base",
+                name: "Goku",
+                rarity: "Legendary",
+                element: "Energy",
+                evolution: "Super Saiyan Blue"
+            },
+            {
+                id: "naruto_base",
+                name: "Naruto",
+                rarity: "Legendary",
+                element: "Wind",
+                evolution: "Six Paths Sage Mode"
+            },
+            {
+                id: "tanjiro",
+                name: "Tanjiro",
+                rarity: "Epic",
+                element: "Water",
+                evolution: "Sun Breathing"
+            }
+        ];
+
+        const mockEvolutionData = {
+            "goku_ultra_instinct": {
+                name: "Goku (Ultra Instinct)",
+                rarity: "Mythic",
+                element: "Energy",
+                evolutionName: "Ultra Instinct Mastery"
+            },
+            "saitama": {
+                name: "Saitama",
+                rarity: "Mythic",
+                element: "Physical",
+                evolutionName: "One Punch Man"
+            }
+        };
+
+        // 检查数据源
+        window.checkDataSources = function() {
+            const result = document.getElementById('dataSourcesResult');
+            let output = '';
+            
+            try {
+                // 检查 unitsData
+                output += '<h4>📋 Units Data 检查:</h4>';
+                output += `<p>总单位数: ${mockUnitsData.length}</p>`;
+                output += `<p>可进化单位数: ${mockUnitsData.filter(u => ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(u.rarity)).length}</p>`;
+                
+                // 检查稀有度分布
+                const rarityCount = {};
+                mockUnitsData.forEach(unit => {
+                    rarityCount[unit.rarity] = (rarityCount[unit.rarity] || 0) + 1;
+                });
+                output += '<p>稀有度分布:</p>';
+                output += '<ul>';
+                Object.entries(rarityCount).forEach(([rarity, count]) => {
+                    output += `<li>${rarity}: ${count}个</li>`;
+                });
+                output += '</ul>';
+                
+                // 检查元素分布
+                const elementCount = {};
+                mockUnitsData.forEach(unit => {
+                    elementCount[unit.element] = (elementCount[unit.element] || 0) + 1;
+                });
+                output += '<p>元素分布:</p>';
+                output += '<ul>';
+                Object.entries(elementCount).forEach(([element, count]) => {
+                    output += `<li>${element}: ${count}个</li>`;
+                });
+                output += '</ul>';
+                
+                output += '<p class="success">✅ 数据源检查完成</p>';
+                
+            } catch (error) {
+                output += `<p class="error">❌ 数据源检查失败: ${error.message}</p>`;
+            }
+            
+            result.innerHTML = output;
+        };
+
+        // 追踪数据流
+        window.traceDataFlow = function() {
+            const result = document.getElementById('dataFlowResult');
+            let output = '';
+            
+            try {
+                output += '<h4>🔄 数据流追踪:</h4>';
+                
+                // 步骤1: 过滤可进化单位
+                output += '<p><strong>步骤1: 过滤可进化单位</strong></p>';
+                const evolvableUnits = mockUnitsData.filter(unit => {
+                    const unitId = unit.id;
+                    const hasEvolutionData = mockEvolutionData[unitId] !== undefined;
+                    const canEvolveByRarity = ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity);
+                    
+                    output += `<p>  - ${unit.name}: hasEvolutionData=${hasEvolutionData}, canEvolveByRarity=${canEvolveByRarity}</p>`;
+                    
+                    return hasEvolutionData || canEvolveByRarity;
+                });
+                
+                output += `<p>结果: 找到 ${evolvableUnits.length} 个可进化单位</p>`;
+                
+                // 步骤2: 传递给UnitSelector
+                output += '<p><strong>步骤2: 传递给UnitSelector</strong></p>';
+                output += `<p>传递的单位数据: ${JSON.stringify(evolvableUnits.map(u => ({ name: u.name, rarity: u.rarity, element: u.element })), null, 2)}</p>`;
+                
+                // 步骤3: 筛选逻辑
+                output += '<p><strong>步骤3: 筛选逻辑</strong></p>';
+                const testRarity = "Mythic";
+                const testElement = "Energy";
+                
+                const filteredUnits = evolvableUnits.filter(unit => {
+                    const rarityMatch = unit.rarity === testRarity;
+                    const elementMatch = unit.element === testElement;
+                    
+                    output += `<p>  - ${unit.name}: rarityMatch=${rarityMatch} (${unit.rarity} === ${testRarity}), elementMatch=${elementMatch} (${unit.element} === ${testElement})</p>`;
+                    
+                    return rarityMatch && elementMatch;
+                });
+                
+                output += `<p>筛选结果: 找到 ${filteredUnits.length} 个匹配单位</p>`;
+                
+                output += '<p class="success">✅ 数据流追踪完成</p>';
+                
+            } catch (error) {
+                output += `<p class="error">❌ 数据流追踪失败: ${error.message}</p>`;
+            }
+            
+            result.innerHTML = output;
+        };
+
+        // 测试筛选器
+        window.testFilters = function() {
+            const result = document.getElementById('filterTestResult');
+            let output = '';
+            
+            try {
+                output += '<h4>🎯 筛选器测试:</h4>';
+                
+                // 测试不同的筛选组合
+                const testCases = [
+                    { rarity: "Mythic", element: "Energy", description: "Mythic + Energy" },
+                    { rarity: "Mythic", element: "Physical", description: "Mythic + Physical" },
+                    { rarity: "Legendary", element: "Energy", description: "Legendary + Energy" },
+                    { rarity: "Epic", element: "Water", description: "Epic + Water" },
+                    { rarity: "", element: "", description: "无筛选条件" }
+                ];
+                
+                testCases.forEach(testCase => {
+                    output += `<p><strong>测试: ${testCase.description}</strong></p>`;
+                    
+                    const filteredUnits = mockUnitsData.filter(unit => {
+                        let canEvolve = false;
+                        
+                        // 检查是否可进化
+                        if (['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity)) {
+                            canEvolve = true;
+                        }
+                        
+                        if (!canEvolve) {
+                            output += `<p>  - ${unit.name}: 不可进化 (${unit.rarity})</p>`;
+                            return false;
+                        }
+                        
+                        // 稀有度匹配
+                        if (testCase.rarity && unit.rarity !== testCase.rarity) {
+                            output += `<p>  - ${unit.name}: 稀有度不匹配 (${unit.rarity} !== ${testCase.rarity})</p>`;
+                            return false;
+                        }
+                        
+                        // 元素匹配
+                        if (testCase.element && unit.element !== testCase.element) {
+                            output += `<p>  - ${unit.name}: 元素不匹配 (${unit.element} !== ${testCase.element})</p>`;
+                            return false;
+                        }
+                        
+                        output += `<p>  - ${unit.name}: ✅ 通过所有筛选条件</p>`;
+                        return true;
+                    });
+                    
+                    output += `<p>结果: ${filteredUnits.length} 个单位</p><hr>`;
+                });
+                
+                output += '<p class="success">✅ 筛选器测试完成</p>';
+                
+            } catch (error) {
+                output += `<p class="error">❌ 筛选器测试失败: ${error.message}</p>`;
+            }
+            
+            result.innerHTML = output;
+        };
+
+        // 诊断问题
+        window.diagnoseIssues = function() {
+            const result = document.getElementById('diagnosisResult');
+            let output = '';
+            
+            try {
+                output += '<h4>🐛 问题诊断:</h4>';
+                
+                // 检查可能的问题
+                const issues = [];
+                
+                // 问题1: 数据不匹配
+                const unitsWithEvolution = mockUnitsData.filter(u => mockEvolutionData[u.id]);
+                if (unitsWithEvolution.length === 0) {
+                    issues.push("数据不匹配: unitsData 和 evolutionData 中的单位ID不一致");
+                }
+                
+                // 问题2: 筛选逻辑
+                const evolvableByRarity = mockUnitsData.filter(u => ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(u.rarity));
+                if (evolvableByRarity.length === 0) {
+                    issues.push("筛选逻辑问题: 没有找到符合稀有度条件的单位");
+                }
+                
+                // 问题3: 数据传递
+                if (mockUnitsData.length === 0) {
+                    issues.push("数据传递问题: unitsData 为空");
+                }
+                
+                // 问题4: 筛选器绑定
+                const hasFilters = true; // 模拟检查
+                if (!hasFilters) {
+                    issues.push("筛选器绑定问题: 筛选器事件未正确绑定");
+                }
+                
+                if (issues.length === 0) {
+                    output += '<p class="success">✅ 未发现明显问题</p>';
+                } else {
+                    output += '<p class="warning">⚠️ 发现以下问题:</p>';
+                    output += '<ul>';
+                    issues.forEach(issue => {
+                        output += `<li>${issue}</li>`;
+                    });
+                    output += '</ul>';
+                }
+                
+                // 建议解决方案
+                output += '<h4>💡 建议解决方案:</h4>';
+                output += '<ol>';
+                output += '<li>检查浏览器控制台是否有JavaScript错误</li>';
+                output += '<li>确认数据文件正确加载</li>';
+                output += '<li>验证筛选器HTML元素存在</li>';
+                output += '<li>检查事件绑定是否正确</li>';
+                output += '<li>确认数据格式一致</li>';
+                output += '</ol>';
+                
+                output += '<p class="success">✅ 问题诊断完成</p>';
+                
+            } catch (error) {
+                output += `<p class="error">❌ 问题诊断失败: ${error.message}</p>`;
+            }
+            
+            result.innerHTML = output;
+        };
+
+        console.log('🚀 Evolution Guide 数据流调试页面已加载');
+        console.log('📊 模拟数据:', { mockUnitsData, mockEvolutionData });
+    </script>
+</body>
+</html>

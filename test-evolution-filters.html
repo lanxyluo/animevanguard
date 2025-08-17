@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Guide 筛选器测试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-group label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-width: 150px;
+        }
+        
+        .results-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .unit-item {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .unit-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .unit-details {
+            color: #666;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Evolution Guide 筛选器测试</h1>
+        
+        <div class="test-section">
+            <h3>🎯 筛选器控制</h3>
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="rarityFilter">稀有度筛选:</label>
+                    <select id="rarityFilter">
+                        <option value="">All Rarity</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="elementFilter">元素筛选:</label>
+                    <select id="elementFilter">
+                        <option value="">All Element</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="unitSearch">搜索:</label>
+                    <input type="text" id="unitSearch" placeholder="输入单位名称..." style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+            </div>
+            
+            <button class="btn" onclick="testFilters()">🧪 测试筛选器</button>
+            <button class="btn" onclick="resetFilters()">🔄 重置筛选器</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 筛选结果</h3>
+            <div id="filterResults" class="results-display">
+                点击"测试筛选器"按钮开始测试...
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 调试信息</h3>
+            <div id="debugInfo" class="results-display">
+                调试信息将在这里显示...
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // 模拟数据 - 与evolution.js中使用的相同
+        const mockUnitsData = [
+            {
+                id: "goku_ultra_instinct",
+                name: "Goku (Ultra Instinct)",
+                rarity: "Mythic",
+                element: "Energy",
+                evolution: "Ultra Instinct",
+                obtainment: "Dragon Ball Banner (0.1% drop rate)"
+            },
+            {
+                id: "saitama",
+                name: "Saitama",
+                rarity: "Mythic",
+                element: "Physical",
+                evolution: "One Punch Man",
+                obtainment: "One Punch Man Banner (0.1% drop rate)"
+            },
+            {
+                id: "goku_base",
+                name: "Goku",
+                rarity: "Legendary",
+                element: "Energy",
+                evolution: "Base Form",
+                obtainment: "Dragon Ball Banner (2% drop rate)"
+            },
+            {
+                id: "naruto_base",
+                name: "Naruto",
+                rarity: "Legendary",
+                element: "Wind",
+                evolution: "Six Paths Sage Mode",
+                obtainment: "Naruto Banner (2% drop rate)"
+            },
+            {
+                id: "tanjiro",
+                name: "Tanjiro",
+                rarity: "Epic",
+                element: "Water",
+                evolution: "Sun Breathing",
+                obtainment: "Demon Slayer Banner (5% drop rate)"
+            },
+            {
+                id: "ichigo_base",
+                name: "Ichigo",
+                rarity: "Epic",
+                element: "Soul",
+                evolution: "Bankai",
+                obtainment: "Bleach Banner (5% drop rate)"
+            }
+        ];
+
+        const mockEvolutionData = {
+            "goku": {
+                unitId: "goku",
+                evolutions: [
+                    { tier: 1, name: "Goku", requirements: { level: 1, materials: [], cost: 1200 } },
+                    { tier: 2, name: "Super Saiyan Goku", requirements: { level: 40, materials: ["Saiyan Blood x4"], cost: 2500 } },
+                    { tier: 3, name: "Super Saiyan Blue Goku", requirements: { level: 60, materials: ["Divine Ki x3"], cost: 4500 } }
+                ]
+            },
+            "tanjiro": {
+                unitId: "tanjiro",
+                evolutions: [
+                    { tier: 1, name: "Tanjiro", requirements: { level: 1, materials: [], cost: 800 } },
+                    { tier: 2, name: "Tanjiro (Water Breathing Master)", requirements: { level: 35, materials: ["Water Essence x3"], cost: 1500 } },
+                    { tier: 3, name: "Tanjiro (Sun Breathing)", requirements: { level: 55, materials: ["Sun Stone x2"], cost: 2200 } }
+                ]
+            }
+        };
+
+        // 模拟RARITIES和ELEMENTS常量
+        const RARITIES = [
+            { value: "Common", label: "Common", canEvolve: false },
+            { value: "Uncommon", label: "Uncommon", canEvolve: false },
+            { value: "Rare", label: "Rare", canEvolve: true },
+            { value: "Epic", label: "Epic", canEvolve: true },
+            { value: "Legendary", label: "Legendary", canEvolve: true },
+            { value: "Mythic", label: "Mythic", canEvolve: true }
+        ];
+
+        const ELEMENTS = [
+            { value: "Fire", label: "Fire" },
+            { value: "Water", label: "Water" },
+            { value: "Wind", label: "Wind" },
+            { value: "Lightning", label: "Lightning" },
+            { value: "Dark", label: "Dark" },
+            { value: "Light", label: "Light" },
+            { value: "Physical", label: "Physical" },
+            { value: "Energy", label: "Energy" },
+            { value: "Soul", label: "Soul" }
+        ];
+
+        // 初始化筛选器
+        function initializeFilters() {
+            const rarityFilter = document.getElementById('rarityFilter');
+            const elementFilter = document.getElementById('elementFilter');
+            
+            // 填充稀有度筛选器
+            RARITIES.forEach(rarity => {
+                if (rarity.canEvolve) {
+                    const count = getRarityCount(rarity.value);
+                    const option = document.createElement('option');
+                    option.value = rarity.value;
+                    option.textContent = `${rarity.label} (${count})`;
+                    rarityFilter.appendChild(option);
+                }
+            });
+            
+            // 填充元素筛选器
+            ELEMENTS.forEach(element => {
+                const count = getElementCount(element.value);
+                const option = document.createElement('option');
+                option.value = element.value;
+                option.textContent = `${element.label} (${count})`;
+                elementFilter.appendChild(option);
+            });
+            
+            // 绑定事件
+            rarityFilter.addEventListener('change', updateResults);
+            elementFilter.addEventListener('change', updateResults);
+            document.getElementById('unitSearch').addEventListener('input', debounce(updateResults, 300));
+        }
+
+        // 获取稀有度数量
+        function getRarityCount(rarityValue) {
+            if (!rarityValue) return 0;
+            return mockUnitsData.filter(unit => unit.rarity === rarityValue).length;
+        }
+
+        // 获取元素数量
+        function getElementCount(elementValue) {
+            if (!elementValue) return 0;
+            return mockUnitsData.filter(unit => unit.element === elementValue).length;
+        }
+
+        // 防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // 更新结果
+        function updateResults() {
+            const rarityFilter = document.getElementById('rarityFilter').value;
+            const elementFilter = document.getElementById('elementFilter').value;
+            const searchTerm = document.getElementById('unitSearch').value;
+            
+            // 使用与evolution.js相同的筛选逻辑
+            const filteredUnits = filterEvolutionUnits(mockUnitsData, rarityFilter, elementFilter, searchTerm);
+            
+            displayResults(filteredUnits, rarityFilter, elementFilter, searchTerm);
+            updateDebugInfo(filteredUnits, rarityFilter, elementFilter, searchTerm);
+        }
+
+        // 筛选逻辑 - 与evolution.js中的相同
+        function filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
+            return units.filter(unit => {
+                // 1. 检查是否可进化
+                let canEvolve = false;
+                
+                // 方法1: 检查稀有度
+                if (['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity)) {
+                    canEvolve = true;
+                }
+                
+                // 方法2: 检查是否有evolution属性
+                if (unit.evolution || unit.evolutionName) {
+                    canEvolve = true;
+                }
+                
+                // 方法3: 检查是否有canEvolve属性
+                if (unit.canEvolve) {
+                    canEvolve = true;
+                }
+                
+                // 方法4: 检查是否在evolutionData中存在
+                const possibleIds = [
+                    unit.id,
+                    unit.id.replace(/_base$/, ''),
+                    unit.id.replace(/_evolved$/, ''),
+                    unit.name.toLowerCase().replace(/\s+/g, ''),
+                    unit.name.toLowerCase().replace(/\s+/g, '').replace(/\([^)]*\)/g, '')
+                ];
+                
+                if (possibleIds.some(id => mockEvolutionData[id])) {
+                    canEvolve = true;
+                }
+                
+                if (!canEvolve) {
+                    return false;
+                }
+                
+                // 2. 稀有度匹配
+                if (selectedRarity && unit.rarity !== selectedRarity) {
+                    return false;
+                }
+                
+                // 3. 元素匹配
+                if (selectedElement && unit.element !== selectedElement) {
+                    return false;
+                }
+                
+                // 4. 搜索词匹配
+                if (searchTerm) {
+                    const searchLower = searchTerm.toLowerCase();
+                    const nameMatch = unit.name.toLowerCase().includes(searchLower);
+                    const evolutionMatch = (unit.evolution && unit.evolution.toLowerCase().includes(searchLower));
+                    const obtainMatch = (unit.obtainment && unit.obtainment.toLowerCase().includes(searchLower));
+                    
+                    if (!nameMatch && !evolutionMatch && !obtainMatch) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+        }
+
+        // 显示结果
+        function displayResults(units, rarityFilter, elementFilter, searchTerm) {
+            const resultsDiv = document.getElementById('filterResults');
+            
+            if (units.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="warning">
+                        <h4>❌ 没有找到匹配的单位</h4>
+                        <p>筛选条件: 稀有度=${rarityFilter || 'All'}, 元素=${elementFilter || 'All'}, 搜索=${searchTerm || 'None'}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <div class="success">
+                    <h4>✅ 找到 ${units.length} 个匹配单位</h4>
+                    <p>筛选条件: 稀有度=${rarityFilter || 'All'}, 元素=${elementFilter || 'All'}, 搜索=${searchTerm || 'None'}</p>
+                </div>
+                <hr>
+            `;
+            
+            units.forEach(unit => {
+                html += `
+                    <div class="unit-item">
+                        <div class="unit-name">${unit.name}</div>
+                        <div class="unit-details">
+                            稀有度: ${unit.rarity} | 元素: ${unit.element} | 进化: ${unit.evolution}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        // 更新调试信息
+        function updateDebugInfo(units, rarityFilter, elementFilter, searchTerm) {
+            const debugDiv = document.getElementById('debugInfo');
+            
+            let html = `
+                <h4>🔍 调试信息</h4>
+                <p><strong>筛选条件:</strong></p>
+                <ul>
+                    <li>稀有度: ${rarityFilter || 'All Rarity'}</li>
+                    <li>元素: ${elementFilter || 'All Element'}</li>
+                    <li>搜索: ${searchTerm || 'None'}</li>
+                </ul>
+                
+                <p><strong>数据统计:</strong></p>
+                <ul>
+                    <li>总单位数: ${mockUnitsData.length}</li>
+                    <li>可进化单位数: ${mockUnitsData.filter(u => ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(u.rarity)).length}</li>
+                    <li>筛选后单位数: ${units.length}</li>
+                </ul>
+                
+                <p><strong>稀有度分布:</strong></p>
+                <ul>
+                    ${Object.entries(getRarityDistribution()).map(([rarity, count]) => `<li>${rarity}: ${count}</li>`).join('')}
+                </ul>
+                
+                <p><strong>元素分布:</strong></p>
+                <ul>
+                    ${Object.entries(getElementDistribution()).map(([element, count]) => `<li>${element}: ${count}</li>`).join('')}
+                </ul>
+            `;
+            
+            debugDiv.innerHTML = html;
+        }
+
+        // 获取稀有度分布
+        function getRarityDistribution() {
+            const distribution = {};
+            mockUnitsData.forEach(unit => {
+                distribution[unit.rarity] = (distribution[unit.rarity] || 0) + 1;
+            });
+            return distribution;
+        }
+
+        // 获取元素分布
+        function getElementDistribution() {
+            const distribution = {};
+            mockUnitsData.forEach(unit => {
+                distribution[unit.element] = (distribution[unit.element] || 0) + 1;
+            });
+            return distribution;
+        }
+
+        // 测试筛选器
+        window.testFilters = function() {
+            console.log('🧪 开始测试筛选器...');
+            updateResults();
+        };
+
+        // 重置筛选器
+        window.resetFilters = function() {
+            document.getElementById('rarityFilter').value = '';
+            document.getElementById('elementFilter').value = '';
+            document.getElementById('unitSearch').value = '';
+            updateResults();
+        };
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Evolution Guide 筛选器测试页面已加载');
+            initializeFilters();
+            updateResults();
+        });
+    </script>
+</body>
+</html>
