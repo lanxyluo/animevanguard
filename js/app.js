@@ -59,11 +59,14 @@ export class App {
             // Initialize Traits Builder
             this.traitsBuilder = new TraitsBuilder();
             
-            // Expose databasePage to global scope for onclick handlers
-            window.databasePage = this.databasePage;
-            
-            // Set up global event listeners
-            this.setupGlobalEvents();
+                    // Expose databasePage to global scope for onclick handlers
+        window.databasePage = this.databasePage;
+        
+        // Set up global event listeners
+        this.setupGlobalEvents();
+        
+        // Set up tool link handlers
+        this.setupToolLinks();
             
             // Show homepage by default (no specific page)
             this.showHomepage();
@@ -230,6 +233,9 @@ export class App {
         }
         
         console.log('✅ Global events setup completed');
+        
+        // Set up tool link handlers
+        this.setupToolLinks();
         
         // Expose navigation functions to global scope for debugging
         window.debugNavigation = {
@@ -497,5 +503,40 @@ export class App {
         // Debug information
         console.log('Active codes count:', activeCodes.length);
         console.log('Expired codes count:', expiredCodes.length);
+    }
+    
+    setupToolLinks() {
+        console.log('🔧 Setting up tool link handlers...');
+        
+        // Find all tool links
+        const toolLinks = document.querySelectorAll('.tool-link');
+        console.log(`🔗 Found ${toolLinks.length} tool links`);
+        
+        toolLinks.forEach((link, index) => {
+            const href = link.getAttribute('href');
+            console.log(`🔗 Tool link ${index}: ${href}`);
+            
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Extract page name from href (e.g., "#evolutionPage" -> "evolution")
+                const pageName = href.replace('#', '').replace('Page', '');
+                console.log(`🎯 Tool link clicked: ${href} -> ${pageName}`);
+                
+                // Navigate to the page
+                this.showPage(pageName);
+                
+                // Smooth scroll to top of the page
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Add hover effect
+            link.style.cursor = 'pointer';
+        });
+        
+        console.log('✅ Tool link handlers setup completed');
     }
 } 
