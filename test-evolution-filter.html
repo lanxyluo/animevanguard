@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Guide 筛选系统测试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .filter-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9em;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            min-width: 150px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            overflow: hidden;
+        }
+        
+        .results-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .results-count {
+            font-size: 1.1em;
+            color: #495057;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .unit-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .unit-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .unit-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 10px;
+        }
+        
+        .unit-rarity {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .rarity-common { background: #6c757d; color: white; }
+        .rarity-uncommon { background: #28a745; color: white; }
+        .rarity-rare { background: #007bff; color: white; }
+        .rarity-epic { background: #6f42c1; color: white; }
+        .rarity-legendary { background: #fd7e14; color: white; }
+        .rarity-mythic { background: #dc3545; color: white; }
+        .rarity-secret { background: #6f42c1; color: white; }
+        
+        .unit-element {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+        
+        .element-fire { background: #dc3545; color: white; }
+        .element-water { background: #007bff; color: white; }
+        .element-earth { background: #28a745; color: white; }
+        .element-air { background: #17a2b8; color: white; }
+        .element-energy { background: #ffc107; color: #212529; }
+        .element-physical { background: #6c757d; color: white; }
+        .element-dark { background: #343a40; color: white; }
+        .element-light { background: #f8f9fa; color: #212529; border: 1px solid #dee2e6; }
+        .element-lightning { background: #6f42c1; color: white; }
+        .element-ice { background: #17a2b8; color: white; }
+        .element-shadow { background: #495057; color: white; }
+        .element-wind { background: #20c997; color: white; }
+        
+        .unit-evolution {
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+        
+        .no-results h3 {
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        
+        .debug-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .debug-info h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        
+        .debug-info pre {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Evolution Guide 筛选系统测试</h1>
+            <p>测试修复后的进化单位筛选功能</p>
+        </div>
+        
+        <div class="content">
+            <div class="filter-section">
+                <h3>🎯 筛选条件</h3>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="rarityFilter">稀有度</label>
+                        <select id="rarityFilter">
+                            <option value="">所有稀有度</option>
+                            <option value="Common">Common</option>
+                            <option value="Uncommon">Uncommon</option>
+                            <option value="Rare">Rare</option>
+                            <option value="Epic">Epic</option>
+                            <option value="Legendary">Legendary</option>
+                            <option value="Mythic">Mythic</option>
+                            <option value="Secret">Secret</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="elementFilter">元素</label>
+                        <select id="elementFilter">
+                            <option value="">所有元素</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Water">Water</option>
+                            <option value="Earth">Earth</option>
+                            <option value="Air">Air</option>
+                            <option value="Energy">Energy</option>
+                            <option value="Physical">Physical</option>
+                            <option value="Dark">Dark</option>
+                            <option value="Light">Light</option>
+                            <option value="Lightning">Lightning</option>
+                            <option value="Ice">Ice</option>
+                            <option value="Shadow">Shadow</option>
+                            <option value="Wind">Wind</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group search-box">
+                        <label for="searchInput">搜索</label>
+                        <input type="text" id="searchInput" placeholder="输入单位名称、进化名称或获取方式...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button class="btn" onclick="applyFilters()">应用筛选</button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-secondary" onclick="clearFilters()">清除筛选</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <div class="results-header">
+                    <h3>📊 筛选结果</h3>
+                    <div class="results-count" id="resultsCount">共找到 0 个单位</div>
+                </div>
+                
+                <div class="results-grid" id="resultsGrid">
+                    <div class="no-results">
+                        <h3>🔍 请选择筛选条件</h3>
+                        <p>选择稀有度和元素来查看可进化的单位</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="debug-info">
+                <h4>🐛 调试信息</h4>
+                <pre id="debugInfo">等待筛选操作...</pre>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // 模拟unitsData
+        const unitsData = [
+            {
+                id: "goku_ultra_instinct",
+                name: "Goku (Ultra Instinct)",
+                rarity: "Mythic",
+                element: "Energy",
+                evolution: "Ultra Instinct Mastery"
+            },
+            {
+                id: "saitama",
+                name: "Saitama",
+                rarity: "Mythic",
+                element: "Physical",
+                evolution: "One Punch Man"
+            },
+            {
+                id: "goku_base",
+                name: "Goku",
+                rarity: "Legendary",
+                element: "Energy",
+                evolution: "Super Saiyan Blue"
+            },
+            {
+                id: "naruto_base",
+                name: "Naruto",
+                rarity: "Legendary",
+                element: "Wind",
+                evolution: "Six Paths Sage Mode"
+            },
+            {
+                id: "tanjiro",
+                name: "Tanjiro",
+                rarity: "Epic",
+                element: "Water",
+                evolution: "Sun Breathing"
+            },
+            {
+                id: "ichigo",
+                name: "Ichigo",
+                rarity: "Legendary",
+                element: "Dark",
+                evolution: "Bankai Master"
+            },
+            {
+                id: "luffy",
+                name: "Luffy",
+                rarity: "Legendary",
+                element: "Physical",
+                evolution: "Gear 5"
+            },
+            {
+                id: "all_might",
+                name: "All Might",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Symbol of Peace"
+            },
+            {
+                id: "deku",
+                name: "Deku",
+                rarity: "Rare",
+                element: "Physical",
+                evolution: "One For All Master"
+            },
+            {
+                id: "bakugo",
+                name: "Bakugo",
+                rarity: "Rare",
+                element: "Fire",
+                evolution: "Explosion Master"
+            },
+            {
+                id: "todoroki",
+                name: "Todoroki",
+                rarity: "Rare",
+                element: "Ice",
+                evolution: "Dual Quirk Master"
+            },
+            {
+                id: "erwin",
+                name: "Erwin",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Commander"
+            },
+            {
+                id: "levi",
+                name: "Levi",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Humanity's Strongest"
+            },
+            {
+                id: "eren",
+                name: "Eren",
+                rarity: "Rare",
+                element: "Physical",
+                evolution: "Founding Titan"
+            },
+            {
+                id: "mikasa",
+                name: "Mikasa",
+                rarity: "Rare",
+                element: "Physical",
+                evolution: "Ackerman"
+            },
+            {
+                id: "gon",
+                name: "Gon",
+                rarity: "Rare",
+                element: "Physical",
+                evolution: "Nen Master"
+            },
+            {
+                id: "killua",
+                name: "Killua",
+                rarity: "Rare",
+                element: "Lightning",
+                evolution: "Assassin"
+            },
+            {
+                id: "hisoka",
+                name: "Hisoka",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Magician"
+            },
+            {
+                id: "meruem",
+                name: "Meruem",
+                rarity: "Legendary",
+                element: "Physical",
+                evolution: "Chimera Ant King"
+            },
+            {
+                id: "netero",
+                name: "Netero",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Chairman"
+            },
+            {
+                id: "kurapika",
+                name: "Kurapika",
+                rarity: "Rare",
+                element: "Light",
+                evolution: "Chain User"
+            },
+            {
+                id: "leorio",
+                name: "Leorio",
+                rarity: "Rare",
+                element: "Wind",
+                evolution: "Doctor"
+            },
+            {
+                id: "yusuke",
+                name: "Yusuke",
+                rarity: "Rare",
+                element: "Dark",
+                evolution: "Spirit Detective"
+            },
+            {
+                id: "hiei",
+                name: "Hiei",
+                rarity: "Rare",
+                element: "Fire",
+                evolution: "Fire Demon"
+            },
+            {
+                id: "kurama",
+                name: "Kurama",
+                rarity: "Epic",
+                element: "Wind",
+                evolution: "Nine-Tailed Fox"
+            },
+            {
+                id: "kaito",
+                name: "Kaito",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Phantom Thief"
+            },
+            {
+                id: "edward",
+                name: "Edward",
+                rarity: "Rare",
+                element: "Physical",
+                evolution: "Fullmetal Alchemist"
+            },
+            {
+                id: "alphonse",
+                name: "Alphonse",
+                rarity: "Rare",
+                element: "Physical",
+                evolution: "Armor Alchemist"
+            },
+            {
+                id: "roy",
+                name: "Roy",
+                rarity: "Rare",
+                element: "Fire",
+                evolution: "Flame Alchemist"
+            },
+            {
+                id: "winry",
+                name: "Winry",
+                rarity: "Rare",
+                element: "Physical",
+                evolution: "Automail Engineer"
+            },
+            {
+                id: "scar",
+                name: "Scar",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Ishvalan"
+            },
+            {
+                id: "bradley",
+                name: "Bradley",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Wrath"
+            },
+            {
+                id: "lust",
+                name: "Lust",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Homunculus"
+            },
+            {
+                id: "greed",
+                name: "Greed",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Homunculus"
+            },
+            {
+                id: "envy",
+                name: "Envy",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Homunculus"
+            },
+            {
+                id: "sloth",
+                name: "Sloth",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Homunculus"
+            },
+            {
+                id: "gluttony",
+                name: "Gluttony",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Homunculus"
+            },
+            {
+                id: "pride",
+                name: "Pride",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Homunculus"
+            },
+            {
+                id: "wrath",
+                name: "Wrath",
+                rarity: "Epic",
+                element: "Physical",
+                evolution: "Homunculus"
+            }
+        ];
+
+        // 筛选逻辑函数
+        function filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
+            return units.filter(unit => {
+                // 1. Check if unit can evolve using multiple methods
+                let canEvolve = false;
+                
+                // Method 1: Check rarity (Rare, Epic, Legendary, Mythic can evolve)
+                if (['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity)) {
+                    canEvolve = true;
+                }
+                
+                // Method 2: Check if unit has evolution property
+                if (unit.evolution || unit.evolutionName) {
+                    canEvolve = true;
+                }
+                
+                // Method 3: Check if unit has canEvolve property
+                if (unit.canEvolve) {
+                    canEvolve = true;
+                }
+                
+                if (!canEvolve) {
+                    console.log(`❌ 过滤掉 ${unit.name}: 不可进化 (${unit.rarity})`);
+                    return false;
+                }
+                
+                // 2. Rarity match
+                if (selectedRarity && selectedRarity !== '' && unit.rarity !== selectedRarity) {
+                    console.log(`❌ 过滤掉 ${unit.name}: 稀有度不匹配 (${unit.rarity} !== ${selectedRarity})`);
+                    return false;
+                }
+                
+                // 3. Element match
+                if (selectedElement && selectedElement !== '' && unit.element !== selectedElement) {
+                    console.log(`❌ 过滤掉 ${unit.name}: 元素不匹配 (${unit.element} !== ${selectedElement})`);
+                    return false;
+                }
+                
+                // 4. Search term match
+                if (searchTerm) {
+                    const searchLower = searchTerm.toLowerCase();
+                    const nameMatch = unit.name.toLowerCase().includes(searchLower);
+                    const evolutionMatch = (unit.evolutionName && unit.evolutionName.toLowerCase().includes(searchLower)) ||
+                                         (unit.evolution && unit.evolution.toLowerCase().includes(searchLower));
+                    
+                    if (!nameMatch && !evolutionMatch) {
+                        console.log(`❌ 过滤掉 ${unit.name}: 搜索词不匹配 "${searchTerm}"`);
+                        return false;
+                    }
+                }
+                
+                // 5. Pass all filter conditions
+                console.log(`✅ 保留 ${unit.name}: 通过所有筛选条件 (${unit.rarity}, ${unit.element})`);
+                return true;
+            });
+        }
+
+        // 应用筛选
+        window.applyFilters = function() {
+            const rarityFilter = document.getElementById('rarityFilter').value;
+            const elementFilter = document.getElementById('elementFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            
+            console.log('🔍 === 开始筛选 ===');
+            console.log('📊 筛选条件:', { rarityFilter, elementFilter, searchTerm });
+            console.log(`📊 总单位数: ${unitsData.length}`);
+            
+            const filteredUnits = filterEvolutionUnits(unitsData, rarityFilter, elementFilter, searchTerm);
+            
+            console.log(`📊 筛选后单位数: ${filteredUnits.length}`);
+            console.log('🔍 === 筛选完成 ===\n');
+            
+            displayResults(filteredUnits);
+            updateDebugInfo(filteredUnits, rarityFilter, elementFilter, searchTerm);
+        };
+
+        // 清除筛选
+        window.clearFilters = function() {
+            document.getElementById('rarityFilter').value = '';
+            document.getElementById('elementFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            displayResults([]);
+            updateDebugInfo([], '', '', '');
+        };
+
+        // 显示结果
+        function displayResults(units) {
+            const resultsGrid = document.getElementById('resultsGrid');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            resultsCount.textContent = `共找到 ${units.length} 个单位`;
+            
+            if (units.length === 0) {
+                resultsGrid.innerHTML = `
+                    <div class="no-results">
+                        <h3>🔍 没有找到匹配的单位</h3>
+                        <p>请尝试调整筛选条件</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            resultsGrid.innerHTML = units.map(unit => `
+                <div class="unit-card">
+                    <div class="unit-name">${unit.name}</div>
+                    <div class="unit-rarity rarity-${unit.rarity.toLowerCase()}">${unit.rarity}</div>
+                    <div class="unit-element element-${unit.element.toLowerCase()}">${unit.element}</div>
+                    <div class="unit-evolution">→ ${unit.evolution}</div>
+                </div>
+            `).join('');
+        }
+
+        // 更新调试信息
+        function updateDebugInfo(units, rarityFilter, elementFilter, searchTerm) {
+            const debugInfo = document.getElementById('debugInfo');
+            
+            const debugData = {
+                filterConditions: {
+                    rarity: rarityFilter || '所有稀有度',
+                    element: elementFilter || '所有元素',
+                    searchTerm: searchTerm || '无'
+                },
+                results: {
+                    totalUnits: unitsData.length,
+                    filteredCount: units.length,
+                    efficiency: units.length > 0 ? ((units.length / unitsData.length) * 100).toFixed(1) : 0
+                },
+                filteredUnits: units.map(unit => ({
+                    name: unit.name,
+                    rarity: unit.rarity,
+                    element: unit.element,
+                    evolution: unit.evolution
+                }))
+            };
+            
+            debugInfo.textContent = JSON.stringify(debugData, null, 2);
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Evolution Guide 筛选系统测试页面已加载');
+            console.log(`📊 总单位数: ${unitsData.length}`);
+            
+            // 显示所有可进化单位
+            const evolvableUnits = unitsData.filter(unit => 
+                ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity)
+            );
+            
+            console.log(`🔄 可进化单位数: ${evolvableUnits.length}`);
+            displayResults(evolvableUnits);
+            updateDebugInfo(evolvableUnits, '', '', '');
+        });
+    </script>
+</body>
+</html>

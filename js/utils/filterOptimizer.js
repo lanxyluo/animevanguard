@@ -378,7 +378,48 @@ export class FilterOptimizer {
             
             // 少数Legendary可以进化
             "julies": { name: "Julies", rarity: "Legendary", element: "Fire", evolutionName: "Julies (Explosion)" },
-            "todu": { name: "Todu", rarity: "Legendary", element: "Physical", evolutionName: "Todu (Unleashed)" }
+            "todu": { name: "Todu", rarity: "Legendary", element: "Physical", evolutionName: "Todu (Unleashed)" },
+            
+            // 添加更多来自unitsData的可进化单位
+            "goku_ultra_instinct": { name: "Goku (Ultra Instinct)", rarity: "Mythic", element: "Energy", evolutionName: "Ultra Instinct Mastery" },
+            "saitama": { name: "Saitama", rarity: "Mythic", element: "Physical", evolutionName: "One Punch Man" },
+            "goku_base": { name: "Goku", rarity: "Legendary", element: "Energy", evolutionName: "Super Saiyan Blue" },
+            "naruto_base": { name: "Naruto", rarity: "Legendary", element: "Wind", evolutionName: "Six Paths Sage Mode" },
+            "tanjiro": { name: "Tanjiro", rarity: "Epic", element: "Water", evolutionName: "Sun Breathing" },
+            "ichigo": { name: "Ichigo", rarity: "Legendary", element: "Dark", evolutionName: "Bankai Master" },
+            "luffy": { name: "Luffy", rarity: "Legendary", element: "Physical", evolutionName: "Gear 5" },
+            "all_might": { name: "All Might", rarity: "Epic", element: "Physical", evolutionName: "Symbol of Peace" },
+            "deku": { name: "Deku", rarity: "Rare", element: "Physical", evolutionName: "One For All Master" },
+            "bakugo": { name: "Bakugo", rarity: "Rare", element: "Fire", evolutionName: "Explosion Master" },
+            "todoroki": { name: "Todoroki", rarity: "Rare", element: "Ice", evolutionName: "Dual Quirk Master" },
+            "erwin": { name: "Erwin", rarity: "Epic", element: "Physical", evolutionName: "Commander" },
+            "levi": { name: "Levi", rarity: "Epic", element: "Physical", evolutionName: "Humanity's Strongest" },
+            "eren": { name: "Eren", rarity: "Rare", element: "Physical", evolutionName: "Founding Titan" },
+            "mikasa": { name: "Mikasa", rarity: "Rare", element: "Physical", evolutionName: "Ackerman" },
+            "gon": { name: "Gon", rarity: "Rare", element: "Physical", evolutionName: "Nen Master" },
+            "killua": { name: "Killua", rarity: "Rare", element: "Lightning", evolutionName: "Assassin" },
+            "hisoka": { name: "Hisoka", rarity: "Epic", element: "Physical", evolutionName: "Magician" },
+            "meruem": { name: "Meruem", rarity: "Legendary", element: "Physical", evolutionName: "Chimera Ant King" },
+            "netero": { name: "Netero", rarity: "Epic", element: "Physical", evolutionName: "Chairman" },
+            "kurapika": { name: "Kurapika", rarity: "Rare", element: "Light", evolutionName: "Chain User" },
+            "leorio": { name: "Leorio", rarity: "Rare", element: "Physical", evolutionName: "Doctor" },
+            "yusuke": { name: "Yusuke", rarity: "Rare", element: "Dark", evolutionName: "Spirit Detective" },
+            "hiei": { name: "Hiei", rarity: "Rare", element: "Fire", evolutionName: "Fire Demon" },
+            "kurama": { name: "Kurama", rarity: "Epic", element: "Wind", evolutionName: "Nine-Tailed Fox" },
+            "kaito": { name: "Kaito", rarity: "Epic", element: "Physical", evolutionName: "Phantom Thief" },
+            "edward": { name: "Edward", rarity: "Rare", element: "Physical", evolutionName: "Fullmetal Alchemist" },
+            "alphonse": { name: "Alphonse", rarity: "Rare", element: "Physical", evolutionName: "Armor Alchemist" },
+            "roy": { name: "Roy", rarity: "Rare", element: "Fire", evolutionName: "Flame Alchemist" },
+            "winry": { name: "Winry", rarity: "Rare", element: "Physical", evolutionName: "Automail Engineer" },
+            "scar": { name: "Scar", rarity: "Epic", element: "Physical", evolutionName: "Ishvalan" },
+            "bradley": { name: "Bradley", rarity: "Epic", element: "Physical", evolutionName: "Wrath" },
+            "lust": { name: "Lust", rarity: "Epic", element: "Physical", evolutionName: "Homunculus" },
+            "greed": { name: "Greed", rarity: "Epic", element: "Physical", evolutionName: "Homunculus" },
+            "envy": { name: "Envy", rarity: "Epic", element: "Physical", evolutionName: "Homunculus" },
+            "sloth": { name: "Sloth", rarity: "Epic", element: "Physical", evolutionName: "Homunculus" },
+            "gluttony": { name: "Gluttony", rarity: "Epic", element: "Physical", evolutionName: "Homunculus" },
+            "pride": { name: "Pride", rarity: "Epic", element: "Physical", evolutionName: "Homunculus" },
+            "wrath": { name: "Wrath", rarity: "Epic", element: "Physical", evolutionName: "Homunculus" }
         };
     }
 
@@ -437,24 +478,25 @@ export class FilterOptimizer {
             // 按稀有度分组
             rarity: {
                 "Secret": ["Alocard", "Igros", "Rengoku", "Tuji"], // 4个
-                "Mythic": ["Song Jinwu", "Obita", "Noruto", "Gujo", "Akazo", "Chaso", "Jag-o", "Sosuke", "Tengon"], // 9个
-                "Legendary": ["Julies", "Todu"], // 2个
-                "Epic": [], // 0个
-                "Rare": [], // 0个
+                "Mythic": ["Song Jinwu", "Obita", "Noruto", "Gujo", "Akazo", "Chaso", "Jag-o", "Sosuke", "Tengon", "Goku (Ultra Instinct)", "Saitama"], // 11个
+                "Legendary": ["Julies", "Todu", "Goku", "Naruto", "Ichigo", "Luffy", "Meruem"], // 7个
+                "Epic": ["Tanjiro", "All Might", "Erwin", "Levi", "Hisoka", "Netero", "Kurama", "Kaito", "Scar", "Bradley", "Lust", "Greed", "Envy", "Sloth", "Gluttony", "Pride", "Wrath"], // 17个
+                "Rare": ["Deku", "Bakugo", "Todoroki", "Eren", "Mikasa", "Gon", "Killua", "Kurapika", "Leorio", "Yusuke", "Hiei", "Edward", "Alphonse", "Roy", "Winry"], // 15个
                 "Common": [] // 0个
             },
             
             // 按元素分组
             element: {
-                "Fire": ["Rengoku", "Obita", "Jag-o", "Julies"], // 4个
-                "Dark": ["Alocard", "Tuji", "Chaso"], // 3个
+                "Fire": ["Rengoku", "Obita", "Jag-o", "Julies", "Bakugo", "Roy"], // 6个
+                "Dark": ["Alocard", "Tuji", "Chaso", "Ichigo", "Yusuke"], // 5个
                 "Shadow": ["Song Jinwu"], // 1个
-                "Physical": ["Igros", "Akazo", "Tengon", "Todu"], // 4个
-                "Wind": ["Noruto"], // 1个
-                "Energy": ["Gujo"], // 1个
-                "Lightning": ["Sosuke"], // 1个
-                "Water": [], // 0个
-                "Light": [] // 0个
+                "Physical": ["Igros", "Akazo", "Tengon", "Todu", "Saitama", "Luffy", "All Might", "Deku", "Erwin", "Levi", "Eren", "Mikasa", "Gon", "Hisoka", "Meruem", "Netero", "Kaito", "Scar", "Bradley", "Lust", "Greed", "Envy", "Sloth", "Gluttony", "Pride", "Wrath", "Winry"], // 27个
+                "Wind": ["Noruto", "Naruto", "Kurama"], // 3个
+                "Energy": ["Gujo", "Goku (Ultra Instinct)", "Goku"], // 3个
+                "Lightning": ["Sosuke", "Killua"], // 2个
+                "Water": ["Tanjiro"], // 1个
+                "Light": ["Kurapika"], // 1个
+                "Ice": ["Todoroki"] // 1个
             },
             
             // 组合数据（稀有度+元素）
@@ -465,12 +507,26 @@ export class FilterOptimizer {
                 "Mythic+Fire": ["Obita", "Jag-o"], // 2个
                 "Mythic+Dark": ["Chaso"], // 1个
                 "Mythic+Shadow": ["Song Jinwu"], // 1个
-                "Mythic+Physical": ["Akazo", "Tengon"], // 2个
+                "Mythic+Physical": ["Akazo", "Tengon", "Saitama"], // 3个
                 "Mythic+Wind": ["Noruto"], // 1个
-                "Mythic+Energy": ["Gujo"], // 1个
+                "Mythic+Energy": ["Gujo", "Goku (Ultra Instinct)", "Goku"], // 3个
                 "Mythic+Lightning": ["Sosuke"], // 1个
                 "Legendary+Fire": ["Julies"], // 1个
-                "Legendary+Physical": ["Todu"] // 1个
+                "Legendary+Physical": ["Todu", "Luffy", "Meruem"], // 3个
+                "Legendary+Energy": ["Goku"], // 1个
+                "Legendary+Wind": ["Naruto"], // 1个
+                "Legendary+Dark": ["Ichigo"], // 1个
+                "Epic+Fire": ["Roy"], // 1个
+                "Epic+Physical": ["All Might", "Erwin", "Levi", "Hisoka", "Netero", "Kaito", "Scar", "Bradley", "Lust", "Greed", "Envy", "Sloth", "Gluttony", "Pride", "Wrath"], // 16个
+                "Epic+Water": ["Tanjiro"], // 1个
+                "Epic+Wind": ["Kurama"], // 1个
+                "Rare+Fire": ["Bakugo", "Roy"], // 2个
+                "Rare+Physical": ["Deku", "Eren", "Mikasa", "Gon", "Edward", "Alphonse", "Winry"], // 7个
+                "Rare+Lightning": ["Killua"], // 1个
+                "Rare+Light": ["Kurapika"], // 1个
+                "Rare+Dark": ["Yusuke"], // 1个
+                "Rare+Ice": ["Todoroki"], // 1个
+                "Rare+Wind": ["Leorio"] // 1个
                 // 其他组合为0
             }
         };
@@ -585,7 +641,8 @@ export class FilterOptimizer {
             { value: "Energy", text: "Energy", count: this.evolvableUnitsData.element.Energy.length },
             { value: "Lightning", text: "Lightning", count: this.evolvableUnitsData.element.Lightning.length },
             { value: "Water", text: "Water", count: this.evolvableUnitsData.element.Water.length },
-            { value: "Light", text: "Light", count: this.evolvableUnitsData.element.Light.length }
+            { value: "Light", text: "Light", count: this.evolvableUnitsData.element.Light.length },
+            { value: "Ice", text: "Ice", count: this.evolvableUnitsData.element.Ice.length }
         ];
         
         // 保存当前选中的值

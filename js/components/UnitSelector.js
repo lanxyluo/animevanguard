@@ -524,8 +524,29 @@ export class UnitSelector {
     // New filtering logic function for Evolution Units data
     filterEvolutionUnits(units, selectedRarity, selectedElement, searchTerm = '') {
         return units.filter(unit => {
-            // 1. Only show units that can evolve (Rare, Epic, Legendary, Mythic rarity)
-            const canEvolve = ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity) || unit.canEvolve;
+            // 1. Check if unit can evolve using multiple methods
+            let canEvolve = false;
+            
+            // Method 1: Check rarity (Rare, Epic, Legendary, Mythic can evolve)
+            if (['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity)) {
+                canEvolve = true;
+            }
+            
+            // Method 2: Check if unit has evolution property
+            if (unit.evolution || unit.evolutionName) {
+                canEvolve = true;
+            }
+            
+            // Method 3: Check if unit has canEvolve property
+            if (unit.canEvolve) {
+                canEvolve = true;
+            }
+            
+            // Method 4: Check if unit exists in evolutionData (for units with specific evolution paths)
+            if (window.evolutionData && window.evolutionData[unit.id]) {
+                canEvolve = true;
+            }
+            
             if (!canEvolve) {
                 console.log(`❌ 过滤掉 ${unit.name}: 不可进化 (${unit.rarity})`);
                 return false;
@@ -547,8 +568,10 @@ export class UnitSelector {
             if (searchTerm) {
                 const searchLower = searchTerm.toLowerCase();
                 const nameMatch = unit.name.toLowerCase().includes(searchLower);
-                const evolutionMatch = unit.evolutionName && unit.evolutionName.toLowerCase().includes(searchLower);
-                const obtainMatch = unit.obtainMethod && unit.obtainMethod.toLowerCase().includes(searchLower);
+                const evolutionMatch = (unit.evolutionName && unit.evolutionName.toLowerCase().includes(searchLower)) ||
+                                     (unit.evolution && unit.evolution.toLowerCase().includes(searchLower));
+                const obtainMatch = (unit.obtainMethod && unit.obtainMethod.toLowerCase().includes(searchLower)) ||
+                                  (unit.obtainment && unit.obtainment.toLowerCase().includes(searchLower));
                 
                 if (!nameMatch && !evolutionMatch && !obtainMatch) {
                     console.log(`❌ 过滤掉 ${unit.name}: 搜索词不匹配 "${searchTerm}"`);
@@ -557,7 +580,7 @@ export class UnitSelector {
             }
             
             // 5. Pass all filter conditions
-            console.log(`✅ 保留 ${unit.name}: 通过所有筛选条件`);
+            console.log(`✅ 保留 ${unit.name}: 通过所有筛选条件 (${unit.rarity}, ${unit.element})`);
             return true;
         });
     }
