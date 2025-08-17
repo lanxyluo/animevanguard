@@ -91,6 +91,141 @@ a:hover {
     outline-offset: 2px;
 }
 
+/* Card Styles */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    backdrop-filter: blur(10px);
+    transition: var(--transition);
+}
+
+.card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.2);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.card-header i {
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+.card-header h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.3em;
+}
+
+/* Evolution Page Specific Styles */
+.evolution-page {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+}
+
+.evolution-left {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    height: fit-content;
+}
+
+.evolution-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Requirements Grid */
+.requirements-grid {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+.requirement-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.requirement-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.requirement-icon {
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+.requirement-details h4 {
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--text-color);
+    font-size: 1em;
+}
+
+.requirement-details p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9em;
+}
+
+.requirement-amount {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.1em;
+}
+
+/* Cost Items */
+.cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cost-item:last-child {
+    border-bottom: none;
+}
+
+.cost-item span:first-child {
+    color: var(--text-muted);
+}
+
+.cost-item span:last-child {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Farming Guide Card */
+.farming-guide-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+}
+
+.farming-guide-card .card-header {
+    border-bottom-color: var(--card-border);
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
     width: 8px;

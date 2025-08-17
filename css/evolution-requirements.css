@@ -693,6 +693,7 @@
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
+    border: 1px solid rgba(162, 155, 254, 0.3);
 }
 
 .cost-header {
@@ -758,6 +759,7 @@
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
+    border: 1px solid rgba(162, 155, 254, 0.3);
 }
 
 .materials-header {
