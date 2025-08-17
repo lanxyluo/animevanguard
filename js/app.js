@@ -7,6 +7,7 @@ import { elementIcons } from './config/constants.js';
 import { EvolutionPage } from './pages/evolution.js';
 import { DPSPage } from './pages/dps.js';
 import { DatabasePage } from './pages/database.js';
+import { TraitsBuilder } from './components/TraitsBuilder.js';
 
 // Import utility functions
 import { showError, showNotification } from './utils/dom.js';
@@ -33,6 +34,7 @@ export class App {
         this.evolutionPage = null;
         this.dpsPage = null;
         this.databasePage = null;
+        this.traitsBuilder = null;
     }
     
     async initialize() {
@@ -53,6 +55,9 @@ export class App {
             // Initialize Database Page
             this.databasePage = new DatabasePage(this);
             await this.databasePage.initialize(this.data);
+            
+            // Initialize Traits Builder
+            this.traitsBuilder = new TraitsBuilder();
             
             // Expose databasePage to global scope for onclick handlers
             window.databasePage = this.databasePage;
@@ -362,6 +367,9 @@ export class App {
         } else if (pageName === 'database' && this.databasePage) {
             console.log('🗄️ Calling database page show method');
             this.databasePage.show();
+        } else if (pageName === 'traits' && this.traitsBuilder) {
+            console.log('🎯 Calling traits builder show method');
+            this.traitsBuilder.show();
         } else if (pageName === 'codes') {
             console.log('🎁 Updating codes page');
             this.updateCodesPage();
