@@ -162,6 +162,14 @@ export class UnitSelector {
         this.populateUnitSelect();
         
         console.log('✅ All filters and unit select updated');
+        
+        // 额外的调试信息
+        console.log('🔍 Current state after setUnits:');
+        console.log('  - allUnits length:', this.allUnits.length);
+        console.log('  - filteredUnits length:', this.filteredUnits.length);
+        console.log('  - rarityFilter exists:', !!this.rarityFilter);
+        console.log('  - elementFilter exists:', !!this.elementFilter);
+        console.log('  - unitSelect exists:', !!this.unitSelect);
     }
     
     analyzeDataDistribution() {

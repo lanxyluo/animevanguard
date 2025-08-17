@@ -47,7 +47,7 @@ class EvolutionGuideManager {
   async initializeComponents() {
     try {
       // Initialize UnitSelector with enhanced options
-      this.components.unitSelector = new UnitSelector('unit-selection', {
+      this.components.unitSelector = new UnitSelector('unitSelectorContainer', {
         onUnitSelect: (unit) => this.handleUnitSelection(unit),
         showFilters: true,
         showSearch: true,
@@ -70,6 +70,10 @@ class EvolutionGuideManager {
   async loadEvolutionUnits() {
     try {
       showLoading('Loading evolution data...');
+      
+      console.log('🔍 Starting to load evolution units...');
+      console.log('📊 Total units in unitsData:', unitsData.length);
+      console.log('🔍 Sample units:', unitsData.slice(0, 3).map(u => ({ name: u.name, id: u.id, rarity: u.rarity })));
       
       // Filter units that can evolve
       const evolvableUnits = unitsData.filter(unit => {
@@ -102,7 +106,12 @@ class EvolutionGuideManager {
       
       // Set units to selector
       if (this.components.unitSelector) {
+        console.log('✅ UnitSelector component found, setting units...');
         this.components.unitSelector.setUnits(evolvableUnits, {});
+        console.log('✅ Units set to UnitSelector');
+      } else {
+        console.error('❌ UnitSelector component not found!');
+        console.log('🔍 Available components:', Object.keys(this.components));
       }
 
       hideLoading();
@@ -750,6 +759,16 @@ export class EvolutionPage {
     this.manager = new EvolutionGuideManager();
     console.log('✅ Evolution Page initialized');
     return true;
+  }
+
+  show() {
+    console.log('🎯 Evolution Page show method called');
+    if (this.manager && this.manager.isInitialized()) {
+      console.log('✅ Evolution Guide Manager is ready');
+      // 可以在这里添加页面显示逻辑
+    } else {
+      console.warn('⚠️ Evolution Guide Manager not ready yet');
+    }
   }
 
   cleanup() {

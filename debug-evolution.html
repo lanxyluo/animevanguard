@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Guide 调试页面</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .debug-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .debug-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .debug-output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .unit-display {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .unit-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .unit-details {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Evolution Guide 调试页面</h1>
+        
+        <div class="debug-section">
+            <h3>🎯 调试控制</h3>
+            <button class="btn" onclick="testDataFlow()">🧪 测试数据流</button>
+            <button class="btn" onclick="testUnitSelector()">🔍 测试UnitSelector</button>
+            <button class="btn" onclick="testFilters()">🎛️ 测试筛选器</button>
+            <button class="btn" onclick="clearDebug()">🗑️ 清除调试信息</button>
+        </div>
+        
+        <div class="debug-section">
+            <h3>📊 数据状态</h3>
+            <div id="dataStatus" class="debug-output">
+                点击测试按钮开始调试...
+            </div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🔍 控制台日志</h3>
+            <div id="consoleLog" class="debug-output">
+                控制台日志将在这里显示...
+            </div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>📋 单位列表</h3>
+            <div id="unitsList" class="debug-output">
+                单位列表将在这里显示...
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // 模拟数据 - 与evolution.js中使用的相同
+        const mockUnitsData = [
+            {
+                id: "goku_ultra_instinct",
+                name: "Goku (Ultra Instinct)",
+                rarity: "Mythic",
+                element: "Energy",
+                evolution: "Ultra Instinct",
+                obtainment: "Dragon Ball Banner (0.1% drop rate)"
+            },
+            {
+                id: "saitama",
+                name: "Saitama",
+                rarity: "Mythic",
+                element: "Physical",
+                evolution: "One Punch Man",
+                obtainment: "One Punch Man Banner (0.1% drop rate)"
+            },
+            {
+                id: "goku_base",
+                name: "Goku",
+                rarity: "Legendary",
+                element: "Energy",
+                evolution: "Base Form",
+                obtainment: "Dragon Ball Banner (2% drop rate)"
+            },
+            {
+                id: "naruto_base",
+                name: "Naruto",
+                rarity: "Legendary",
+                element: "Wind",
+                evolution: "Six Paths Sage Mode",
+                obtainment: "Naruto Banner (2% drop rate)"
+            },
+            {
+                id: "tanjiro",
+                name: "Tanjiro",
+                rarity: "Epic",
+                element: "Water",
+                evolution: "Sun Breathing",
+                obtainment: "Demon Slayer Banner (5% drop rate)"
+            },
+            {
+                id: "ichigo_base",
+                name: "Ichigo",
+                rarity: "Epic",
+                element: "Soul",
+                evolution: "Bankai",
+                obtainment: "Bleach Banner (5% drop rate)"
+            }
+        ];
+
+        const mockEvolutionData = {
+            "goku": {
+                unitId: "goku",
+                evolutions: [
+                    { tier: 1, name: "Goku", requirements: { level: 1, materials: [], cost: 1200 } },
+                    { tier: 2, name: "Super Saiyan Goku", requirements: { level: 40, materials: ["Saiyan Blood x4"], cost: 2500 } },
+                    { tier: 3, name: "Super Saiyan Blue Goku", requirements: { level: 60, materials: ["Divine Ki x3"], cost: 4500 } }
+                ]
+            },
+            "tanjiro": {
+                unitId: "tanjiro",
+                evolutions: [
+                    { tier: 1, name: "Tanjiro", requirements: { level: 1, materials: [], cost: 800 } },
+                    { tier: 2, name: "Tanjiro (Water Breathing Master)", requirements: { level: 35, materials: ["Water Essence x3"], cost: 1500 } },
+                    { tier: 3, name: "Tanjiro (Sun Breathing)", requirements: { level: 55, materials: ["Sun Stone x2"], cost: 2200 } }
+                ]
+            }
+        };
+
+        // 模拟RARITIES和ELEMENTS常量
+        const RARITIES = [
+            { value: "Common", label: "Common", canEvolve: false },
+            { value: "Uncommon", label: "Uncommon", canEvolve: false },
+            { value: "Rare", label: "Rare", canEvolve: true },
+            { value: "Epic", label: "Epic", canEvolve: true },
+            { value: "Legendary", label: "Legendary", canEvolve: true },
+            { value: "Mythic", label: "Mythic", canEvolve: true }
+        ];
+
+        const ELEMENTS = [
+            { value: "Fire", label: "Fire" },
+            { value: "Water", label: "Water" },
+            { value: "Wind", label: "Wind" },
+            { value: "Lightning", label: "Lightning" },
+            { value: "Dark", label: "Dark" },
+            { value: "Light", label: "Light" },
+            { value: "Physical", label: "Physical" },
+            { value: "Energy", label: "Energy" },
+            { value: "Soul", label: "Soul" }
+        ];
+
+        // 测试数据流
+        window.testDataFlow = function() {
+            console.log('🧪 开始测试数据流...');
+            
+            const dataStatus = document.getElementById('dataStatus');
+            let output = '🔍 数据流测试结果:\n\n';
+            
+            // 1. 检查基础数据
+            output += `📊 基础数据:\n`;
+            output += `  - 单位数据数量: ${mockUnitsData.length}\n`;
+            output += `  - 进化数据数量: ${Object.keys(mockEvolutionData).length}\n`;
+            output += `  - 稀有度类型: ${RARITIES.length}\n`;
+            output += `  - 元素类型: ${ELEMENTS.length}\n\n`;
+            
+            // 2. 检查可进化单位
+            const evolvableUnits = mockUnitsData.filter(unit => {
+                const possibleIds = [
+                    unit.id,
+                    unit.id.replace(/_base$/, ''),
+                    unit.id.replace(/_evolved$/, ''),
+                    unit.name.toLowerCase().replace(/\s+/g, ''),
+                    unit.name.toLowerCase().replace(/\s+/g, '').replace(/\([^)]*\)/g, '')
+                ];
+                
+                const hasEvolutionData = possibleIds.some(id => mockEvolutionData[id] !== undefined);
+                const canEvolveByRarity = ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(unit.rarity);
+                
+                return hasEvolutionData || canEvolveByRarity;
+            });
+            
+            output += `🔬 可进化单位分析:\n`;
+            output += `  - 可进化单位总数: ${evolvableUnits.length}\n`;
+            output += `  - 按稀有度分布:\n`;
+            
+            const rarityDistribution = {};
+            evolvableUnits.forEach(unit => {
+                rarityDistribution[unit.rarity] = (rarityDistribution[unit.rarity] || 0) + 1;
+            });
+            
+            Object.entries(rarityDistribution).forEach(([rarity, count]) => {
+                output += `    * ${rarity}: ${count}\n`;
+            });
+            
+            output += `\n  - 按元素分布:\n`;
+            const elementDistribution = {};
+            evolvableUnits.forEach(unit => {
+                elementDistribution[unit.element] = (elementDistribution[unit.element] || 0) + 1;
+            });
+            
+            Object.entries(elementDistribution).forEach(([element, count]) => {
+                output += `    * ${element}: ${count}\n`;
+            });
+            
+            dataStatus.textContent = output;
+            
+            // 更新单位列表显示
+            updateUnitsList(evolvableUnits);
+            
+            console.log('✅ 数据流测试完成');
+        };
+
+        // 测试UnitSelector
+        window.testUnitSelector = function() {
+            console.log('🔍 开始测试UnitSelector...');
+            
+            const consoleLog = document.getElementById('consoleLog');
+            consoleLog.textContent = '🔍 UnitSelector测试:\n\n';
+            
+            // 模拟UnitSelector的行为
+            const testUnits = mockUnitsData.filter(u => ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(u.rarity));
+            
+            consoleLog.textContent += `📊 测试单位数据:\n`;
+            consoleLog.textContent += `  - 总单位数: ${mockUnitsData.length}\n`;
+            consoleLog.textContent += `  - 可进化单位数: ${testUnits.length}\n`;
+            consoleLog.textContent += `  - 稀有度筛选器选项: ${RARITIES.filter(r => r.canEvolve).length}\n`;
+            consoleLog.textContent += `  - 元素筛选器选项: ${ELEMENTS.length}\n\n`;
+            
+            consoleLog.textContent += `🎯 筛选器测试:\n`;
+            
+            // 测试稀有度筛选
+            RARITIES.filter(r => r.canEvolve).forEach(rarity => {
+                const filtered = testUnits.filter(u => u.rarity === rarity.value);
+                consoleLog.textContent += `  - ${rarity.label}: ${filtered.length} 单位\n`;
+            });
+            
+            consoleLog.textContent += `\n`;
+            
+            // 测试元素筛选
+            ELEMENTS.forEach(element => {
+                const filtered = testUnits.filter(u => u.element === element.value);
+                consoleLog.textContent += `  - ${element.label}: ${filtered.length} 单位\n`;
+            });
+            
+            console.log('✅ UnitSelector测试完成');
+        };
+
+        // 测试筛选器
+        window.testFilters = function() {
+            console.log('🎛️ 开始测试筛选器...');
+            
+            const consoleLog = document.getElementById('consoleLog');
+            consoleLog.textContent += `\n🎛️ 筛选器组合测试:\n\n`;
+            
+            const testUnits = mockUnitsData.filter(u => ['Rare', 'Epic', 'Legendary', 'Mythic'].includes(u.rarity));
+            
+            // 测试稀有度 + 元素组合
+            const testCases = [
+                { rarity: 'Mythic', element: 'Energy' },
+                { rarity: 'Mythic', element: 'Physical' },
+                { rarity: 'Legendary', element: 'Wind' },
+                { rarity: 'Epic', element: 'Water' }
+            ];
+            
+            testCases.forEach(testCase => {
+                const filtered = testUnits.filter(u => 
+                    u.rarity === testCase.rarity && u.element === testCase.element
+                );
+                
+                consoleLog.textContent += `🔍 ${testCase.rarity} + ${testCase.element}: ${filtered.length} 单位\n`;
+                if (filtered.length > 0) {
+                    filtered.forEach(unit => {
+                        consoleLog.textContent += `    * ${unit.name}\n`;
+                    });
+                }
+                consoleLog.textContent += `\n`;
+            });
+            
+            console.log('✅ 筛选器测试完成');
+        };
+
+        // 更新单位列表显示
+        function updateUnitsList(units) {
+            const unitsList = document.getElementById('unitsList');
+            
+            if (units.length === 0) {
+                unitsList.textContent = '❌ 没有找到可进化单位';
+                return;
+            }
+            
+            let output = `📋 可进化单位列表 (${units.length} 个):\n\n`;
+            
+            units.forEach((unit, index) => {
+                output += `${index + 1}. ${unit.name}\n`;
+                output += `   - ID: ${unit.id}\n`;
+                output += `   - 稀有度: ${unit.rarity}\n`;
+                output += `   - 元素: ${unit.element}\n`;
+                output += `   - 进化: ${unit.evolution}\n`;
+                output += `\n`;
+            });
+            
+            unitsList.textContent = output;
+        }
+
+        // 清除调试信息
+        window.clearDebug = function() {
+            document.getElementById('dataStatus').textContent = '点击测试按钮开始调试...';
+            document.getElementById('consoleLog').textContent = '控制台日志将在这里显示...';
+            document.getElementById('unitsList').textContent = '单位列表将在这里显示...';
+            console.log('🗑️ 调试信息已清除');
+        };
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Evolution Guide 调试页面已加载');
+            console.log('📊 模拟数据已准备就绪');
+            console.log('🔍 可以开始测试数据流和组件功能');
+        });
+    </script>
+</body>
+</html>
