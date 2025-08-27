@@ -104,6 +104,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/evolution-requirements.css">
+    <link rel="stylesheet" href="css/pages/database.css">
+    <link rel="stylesheet" href="css/components/filters.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/components/pagination.css">
     
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -4647,7 +4651,7 @@
             <nav class="breadcrumb-nav" aria-label="Breadcrumb">
                 <ol class="breadcrumb-list">
                     <li class="breadcrumb-item">
-                        <a href="#evolution" class="breadcrumb-link">
+                        <a href="#home" class="breadcrumb-link">
                             <i class="fas fa-home"></i>
                             <span>Home</span>
                         </a>
@@ -4658,166 +4662,29 @@
                 </ol>
             </nav>
 
-            <!-- Unit Database Tools - Moved to top for immediate access -->
-            <div class="database-tools-container">
+            <!-- Unit Database Content -->
+            <div class="database-container">
                 <!-- Page Header -->
                 <div class="database-header">
                     <h1 class="page-title">Anime Vanguards Unit Database</h1>
                     <p class="page-subtitle">All Characters & Stats | 2025</p>
                 </div>
 
-                <!-- Recommendation Section -->
-                <section class="recommendation-section">
-                    <h3 class="section-title">Recommended for You</h3>
-                    <div class="recommendation-grid">
-                        <div class="recommend-card beginner">
-                            <div class="recommend-header">
-                                <i class="fas fa-star"></i>
-                                <h4>Beginner Friendly</h4>
-                            </div>
-                            <p>Powerful units suitable for beginners</p>
-                            <div class="recommend-units">
-                                <span class="unit-tag">Koguro</span>
-                                <span class="unit-tag">Arc</span>
-                                <span class="unit-tag">Yehowach</span>
-                            </div>
-                        </div>
-                        
-                        <div class="recommend-card dps">
-                            <div class="recommend-header">
-                                <i class="fas fa-bolt"></i>
-                                <h4>High DPS Output</h4>
-                            </div>
-                            <p>Top damage dealing units ranking</p>
-                            <div class="recommend-units">
-                                <span class="unit-tag">Saber Alter</span>
-                                <span class="unit-tag">Gilgamesh</span>
-                                <span class="unit-tag">Emiya</span>
-                            </div>
-                        </div>
-                        
-                        <div class="recommend-card latest">
-                            <div class="recommend-header">
-                                <i class="fas fa-clock"></i>
-                                <h4>Latest Units</h4>
-                            </div>
-                            <p>Recently updated characters</p>
-                            <div class="recommend-units">
-                                <span class="unit-tag">Artoria</span>
-                                <span class="unit-tag">Rin</span>
-                                <span class="unit-tag">Shirou</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Search and Filter Section -->
-                <section class="search-filter-section">
-                    <!-- Main Search Bar -->
-                    <div class="search-container">
-                        <div class="search-input-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="dbSearchInput" class="search-input" placeholder="Search units by name, description...">
-                            <button id="dbClearSearch" class="clear-search-btn" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Filter Controls -->
-                    <div class="filter-controls">
-                        <div class="filter-row">
-                            <div class="filter-group">
-                                <label for="dbRarityFilter">Rarity:</label>
-                                <select id="dbRarityFilter" class="filter-select">
-                                    <option value="">All Rarity</option>
-                                    <option value="Rare">Rare</option>
-                                    <option value="Epic">Epic</option>
-                                    <option value="Legendary">Legendary</option>
-                                    <option value="Secret">Secret</option>
-                                    <option value="Mythic">Mythic</option>
-                                    <option value="Mythical">Mythical</option>
-                                    <option value="Exclusive">Exclusive</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label for="dbElementFilter">Element:</label>
-                                <select id="dbElementFilter" class="filter-select">
-                                    <option value="">All Elements</option>
-                                    <option value="Fire">Fire</option>
-                                    <option value="Water">Water</option>
-                                    <option value="Wind">Wind</option>
-                                    <option value="Lightning">Lightning</option>
-                                    <option value="Dark">Dark</option>
-                                    <option value="Light">Light</option>
-                                    <option value="Physical">Physical</option>
-                                    <option value="Energy">Energy</option>
-                                    <option value="Soul">Soul</option>
-                                    <option value="Earth">Earth</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label for="dbAttackTypeFilter">Attack Type:</label>
-                                <select id="dbAttackTypeFilter" class="filter-select">
-                                    <option value="">All Attack Types</option>
-                                    <option value="Single Target">Single Target</option>
-                                    <option value="Circle AoE">Circle AoE</option>
-                                    <option value="Cone AoE">Cone AoE</option>
-                                    <option value="Line AoE">Line AoE</option>
-                                    <option value="Full AoE">Full AoE</option>
-                                </select>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <label for="dbUnitTypeFilter">Unit Type:</label>
-                                <select id="dbUnitTypeFilter" class="filter-select">
-                                    <option value="">All Types</option>
-                                    <option value="Melee">Melee</option>
-                                    <option value="Ranged">Ranged</option>
-                                    <option value="Support">Support</option>
-                                    <option value="Hybrid">Hybrid</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <!-- Quick Filter Tags -->
-                        <div class="quick-filter-tags">
-                            <button class="quick-filter-tag" data-filter="popular">
-                                <i class="fas fa-fire"></i> Popular
-                            </button>
-                            <button class="quick-filter-tag" data-filter="highDPS">
-                                <i class="fas fa-bolt"></i> High DPS
-                            </button>
-                            <button class="quick-filter-tag" data-filter="latest">
-                                <i class="fas fa-star"></i> Latest
-                            </button>
-                            <button class="quick-filter-tag" data-filter="beginner">
-                                <i class="fas fa-bullseye"></i> Beginner Friendly
-                            </button>
-                        </div>
-                        
-                        <!-- Active Filters Display -->
-                        <div id="activeFilters" class="active-filters">
-                            <!-- Active filters will be displayed here -->
-                        </div>
-                    </div>
-                </section>
+                <!-- Filter Panel Container -->
+                <div id="filterPanel" class="filter-panel-container">
+                    <!-- Filter components will be loaded here -->
+                </div>
 
                 <!-- Results Control Bar -->
-                <section class="results-control-bar">
+                <div class="results-control-bar">
                     <div class="results-info">
-                        <span id="resultsCount" class="results-count">Found 14 units</span>
+                        <span id="resultsCount" class="results-count">Found 0 units</span>
                         <div class="view-toggle">
                             <button class="view-btn active" data-view="grid">
                                 <i class="fas fa-th"></i>
                             </button>
                             <button class="view-btn" data-view="list">
                                 <i class="fas fa-list"></i>
-                            </button>
-                            <button class="view-btn" data-view="table">
-                                <i class="fas fa-table"></i>
                             </button>
                         </div>
                     </div>
@@ -4826,126 +4693,25 @@
                         <select id="sortSelect" class="sort-select">
                             <option value="name">Sort by Name</option>
                             <option value="rarity">Sort by Rarity</option>
-                            <option value="dps">Sort by DPS</option>
-                            <option value="latest">Sort by Update Time</option>
+                            <option value="recommendation">Sort by Recommendation</option>
                         </select>
-                        
-                        <!-- Selected Units Display -->
-                        <div id="selectedUnitsDisplay" class="selected-units-display" style="display: none;">
-                            <div class="selected-units-list">
-                                <!-- Selected units will be displayed here -->
-                            </div>
-                            <button id="clearAllSelected" class="clear-selected-btn">
-                                <i class="fas fa-trash"></i> Clear All
-                            </button>
-                        </div>
                         
                         <button id="compareButton" class="compare-button" disabled>
                             Compare Selected (<span id="selectedCount">0</span>)
                         </button>
                     </div>
-                </section>
-
-                <!-- Units Grid -->
-                <section class="units-grid-section">
-                    <div id="unitsGrid" class="units-grid">
-                        <!-- Unit cards will be dynamically generated here -->
-                    </div>
-                    
-                    <!-- Pagination -->
-                    <div class="pagination-section">
-                        <div class="pagination-controls">
-                            <span>Items per page:</span>
-                            <select id="itemsPerPage" class="items-per-page-select">
-                                <option value="8">8 units</option>
-                                <option value="12" selected>12 units</option>
-                                <option value="16">16 units</option>
-                                <option value="24">24 units</option>
-                            </select>
-                        </div>
-                        
-                        <div id="pagination" class="pagination">
-                            <!-- Pagination will be generated here -->
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Unit Comparison Section -->
-                <section class="unit-comparison-section">
-                    <h3><i class="fas fa-balance-scale"></i> Unit Comparison</h3>
-                    <div class="comparison-selects">
-                        <div class="comparison-select-group">
-                            <label for="compareUnit1">Unit 1:</label>
-                            <select id="compareUnit1" class="comparison-select">
-                                <option value="">Select Unit</option>
-                            </select>
-                        </div>
-                        
-                        <div class="comparison-select-group">
-                            <label for="compareUnit2">Unit 2:</label>
-                            <select id="compareUnit2" class="comparison-select">
-                                <option value="">Select Unit</option>
-                            </select>
-                        </div>
-                        
-                        <div class="comparison-select-group">
-                            <label for="compareUnit3">Unit 3:</label>
-                            <select id="compareUnit3" class="comparison-select">
-                                <option value="">Select Unit</option>
-                            </select>
-                        </div>
-                        
-                        <button id="compareUnits" class="compare-btn">
-                            <i class="fas fa-balance-scale"></i> Compare Units
-                        </button>
-                    </div>
-                </section>
-
-                <!-- Unit Details Section -->
-                <section class="unit-details-section">
-                    <h3><i class="fas fa-info-circle"></i> Unit Details</h3>
-                    <div id="unitDetails" class="unit-details-placeholder">
-                        <i class="fas fa-user"></i>
-                        <p>Select a unit to view detailed information</p>
-                    </div>
-                </section>
-            </div>
-
-
-
-
-
-            <!-- Related Tools Section -->
-            <section class="related-tools">
-                <div class="related-tools-container">
-                    <h2 class="related-tools-title">Related Tools</h2>
-                    <p class="related-tools-subtitle">Explore other useful tools for Anime Vanguards players</p>
-                    
-                    <div class="related-tools-grid">
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-arrow-up"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Evolution Guide</h3>
-                                <p>Plan your unit evolution with detailed material requirements and cost analysis.</p>
-                                <a href="#evolutionPage" class="tool-link">View Evolution Guide <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-crosshairs"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Traits Guide</h3>
-                                <p>Learn about unit traits and how to create powerful team synergies.</p>
-                                <a href="#traitsPage" class="tool-link">View Traits Guide <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </section>
+
+                <!-- Units Grid Container -->
+                <div id="unitsGrid" class="units-grid-container">
+                    <!-- Unit cards will be dynamically generated here -->
+                </div>
+
+                <!-- Pagination Container -->
+                <div id="pagination" class="pagination-container">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </div>
         </div>
 
         <!-- Traits Guide Page -->
