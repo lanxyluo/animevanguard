@@ -1,260 +1,291 @@
-// DOM manipulation utility functions
-
 /**
- * Show loading spinner
- * @param {string} elementId - ID of the loading element
- * @param {string} message - Loading message to display
+ * DOM Utility Functions
+ * Common DOM manipulation and UI helper functions
  */
-export function showLoading(elementId = 'loading', message = 'Loading...') {
-    const loadingElement = document.getElementById(elementId);
-    if (loadingElement) {
-        loadingElement.innerHTML = `
-            <div class="spinner"></div>
-            <p>${message}</p>
-        `;
-        loadingElement.classList.add('show');
-    }
-}
 
 /**
- * Hide loading spinner
- * @param {string} elementId - ID of the loading element
- */
-export function hideLoading(elementId = 'loading') {
-    const loadingElement = document.getElementById(elementId);
-    if (loadingElement) {
-        loadingElement.classList.remove('show');
-    }
-}
-
-/**
- * Show error message
- * @param {string} message - Error message to display
+ * Show error notification
+ * @param {string} message - Error message
  * @param {string} type - Error type ('error', 'warning', 'info')
- * @param {string} elementId - ID of the error element
- * @param {number} duration - Auto-hide duration in milliseconds (0 = no auto-hide)
+ * @param {number} duration - Duration in milliseconds
  */
-export function showError(message, type = 'error', elementId = 'errorMessage', duration = 5000) {
-    const errorElement = document.getElementById(elementId);
-    const errorTextElement = document.getElementById('errorText');
+export function showError(message, type = 'error', duration = 5000) {
+    const notification = createNotification(message, type);
+    document.body.appendChild(notification);
     
-    if (errorElement && errorTextElement) {
-        errorTextElement.textContent = message;
-        errorElement.className = `error-message ${type} show`;
-        
-        if (duration > 0) {
-            setTimeout(() => {
-                errorElement.classList.remove('show');
-            }, duration);
+    // Auto remove after duration
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
         }
-    }
+    }, duration);
+    
+    return notification;
 }
 
 /**
- * Hide error message
- * @param {string} elementId - ID of the error element
+ * Show success notification
+ * @param {string} message - Success message
+ * @param {number} duration - Duration in milliseconds
  */
-export function hideError(elementId = 'errorMessage') {
-    const errorElement = document.getElementById(elementId);
-    if (errorElement) {
-        errorElement.classList.remove('show');
-    }
+export function showNotification(message, duration = 3000) {
+    const notification = createNotification(message, 'success');
+    document.body.appendChild(notification);
+    
+    // Auto remove after duration
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, duration);
+    
+    return notification;
 }
 
 /**
- * Show notification/toast message
- * @param {string} message - Message to display
- * @param {string} type - Message type ('success', 'error', 'warning', 'info')
- * @param {number} duration - Display duration in milliseconds
+ * Create notification element
+ * @param {string} message - Message text
+ * @param {string} type - Notification type
+ * @returns {HTMLElement} Notification element
  */
-export function showNotification(message, type = 'info', duration = 3000) {
-    // Create notification element
+function createNotification(message, type) {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
         <div class="notification-content">
-            <span class="notification-message">${message}</span>
-            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+            <i class="fas fa-${getNotificationIcon(type)}"></i>
+            <span>${message}</span>
+            <button class="notification-close">
                 <i class="fas fa-times"></i>
             </button>
         </div>
     `;
     
-    // Add styles if not already present
-    if (!document.getElementById('notification-styles')) {
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-            .notification {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(162, 155, 254, 0.3);
-                border-radius: 8px;
-                padding: 1rem;
-                color: #ffffff;
-                z-index: 10000;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                max-width: 300px;
-            }
-            .notification.show {
-                transform: translateX(0);
-            }
-            .notification-content {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 1rem;
-            }
-            .notification-close {
-                background: none;
-                border: none;
-                color: #a29bfe;
-                cursor: pointer;
-                padding: 0.25rem;
-                border-radius: 4px;
-                transition: all 0.3s ease;
-            }
-            .notification-close:hover {
-                color: #ffffff;
-                background: rgba(255, 255, 255, 0.1);
-            }
-            .notification-success { border-color: rgba(46, 204, 113, 0.5); }
-            .notification-error { border-color: rgba(231, 76, 60, 0.5); }
-            .notification-warning { border-color: rgba(241, 196, 15, 0.5); }
-            .notification-info { border-color: rgba(52, 152, 219, 0.5); }
-        `;
-        document.head.appendChild(style);
-    }
+    // Add styles
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${getNotificationColor(type)};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+        max-width: 400px;
+        animation: slideInRight 0.3s ease-out;
+    `;
     
-    // Add to page
-    document.body.appendChild(notification);
-    
-    // Show animation
-    setTimeout(() => notification.classList.add('show'), 100);
-    
-    // Auto-hide
-    if (duration > 0) {
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, duration);
-    }
-}
-
-/**
- * Toggle element visibility
- * @param {string} elementId - ID of the element to toggle
- * @param {boolean} force - Force show/hide (optional)
- */
-export function toggleElement(elementId, force = null) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        if (force !== null) {
-            element.style.display = force ? 'block' : 'none';
-        } else {
-            element.style.display = element.style.display === 'none' ? 'block' : 'none';
+    // Add close functionality
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
         }
+    });
+    
+    return notification;
+}
+
+/**
+ * Get notification icon based on type
+ * @param {string} type - Notification type
+ * @returns {string} Icon class name
+ */
+function getNotificationIcon(type) {
+    const icons = {
+        success: 'check-circle',
+        error: 'exclamation-circle',
+        warning: 'exclamation-triangle',
+        info: 'info-circle'
+    };
+    return icons[type] || 'info-circle';
+}
+
+/**
+ * Get notification color based on type
+ * @param {string} type - Notification type
+ * @returns {string} CSS color value
+ */
+function getNotificationColor(type) {
+    const colors = {
+        success: '#28a745',
+        error: '#dc3545',
+        warning: '#ffc107',
+        info: '#17a2b8'
+    };
+    return colors[type] || '#17a2b8';
+}
+
+/**
+ * Show loading spinner
+ * @param {string} message - Loading message
+ * @returns {HTMLElement} Loading element
+ */
+export function showLoading(message = 'Loading...') {
+    const loading = document.createElement('div');
+    loading.className = 'loading-overlay';
+    loading.innerHTML = `
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>${message}</p>
+        </div>
+    `;
+    
+    loading.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+    
+    document.body.appendChild(loading);
+    return loading;
+}
+
+/**
+ * Hide loading spinner
+ * @param {HTMLElement} loadingElement - Loading element to hide
+ */
+export function hideLoading(loadingElement) {
+    if (loadingElement && loadingElement.parentNode) {
+        loadingElement.parentNode.removeChild(loadingElement);
     }
 }
 
 /**
- * Add CSS class to element
- * @param {string} elementId - ID of the element
- * @param {string} className - CSS class to add
+ * Debounce function
+ * @param {Function} func - Function to debounce
+ * @param {number} wait - Wait time in milliseconds
+ * @returns {Function} Debounced function
  */
-export function addClass(elementId, className) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.classList.add(className);
-    }
+export function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 /**
- * Remove CSS class from element
- * @param {string} elementId - ID of the element
- * @param {string} className - CSS class to remove
+ * Throttle function
+ * @param {Function} func - Function to throttle
+ * @param {number} limit - Time limit in milliseconds
+ * @returns {Function} Throttled function
  */
-export function removeClass(elementId, className) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.classList.remove(className);
-    }
+export function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
 }
 
 /**
- * Toggle CSS class on element
- * @param {string} elementId - ID of the element
- * @param {string} className - CSS class to toggle
+ * Format number with commas
+ * @param {number} num - Number to format
+ * @returns {string} Formatted number
  */
-export function toggleClass(elementId, className) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.classList.toggle(className);
-    }
+export function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 /**
- * Set element text content
- * @param {string} elementId - ID of the element
- * @param {string} text - Text content to set
+ * Format percentage
+ * @param {number} value - Value to format
+ * @param {number} decimals - Number of decimal places
+ * @returns {string} Formatted percentage
  */
-export function setText(elementId, text) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.textContent = text;
-    }
+export function formatPercentage(value, decimals = 1) {
+    return `${(value * 100).toFixed(decimals)}%`;
 }
 
 /**
- * Set element HTML content
- * @param {string} elementId - ID of the element
- * @param {string} html - HTML content to set
+ * Get element by selector with error handling
+ * @param {string} selector - CSS selector
+ * @param {HTMLElement} parent - Parent element (default: document)
+ * @returns {HTMLElement|null} Element or null if not found
  */
-export function setHTML(elementId, html) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.innerHTML = html;
+export function getElement(selector, parent = document) {
+    const element = parent.querySelector(selector);
+    if (!element) {
+        console.warn(`Element not found: ${selector}`);
     }
+    return element;
 }
 
 /**
- * Get element value
- * @param {string} elementId - ID of the element
- * @returns {string} - Element value
+ * Get all elements by selector with error handling
+ * @param {string} selector - CSS selector
+ * @param {HTMLElement} parent - Parent element (default: document)
+ * @returns {NodeList} Elements
  */
-export function getValue(elementId) {
-    const element = document.getElementById(elementId);
-    return element ? element.value : '';
+export function getElements(selector, parent = document) {
+    const elements = parent.querySelectorAll(selector);
+    if (elements.length === 0) {
+        console.warn(`No elements found: ${selector}`);
+    }
+    return elements;
 }
 
 /**
- * Set element value
- * @param {string} elementId - ID of the element
- * @param {string} value - Value to set
+ * Add CSS animation styles
  */
-export function setValue(elementId, value) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.value = value;
-    }
+export function addAnimationStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .loading-content p {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
-/**
- * Scroll element into view
- * @param {string} elementId - ID of the element to scroll to
- * @param {object} options - Scroll options
- */
-export function scrollToElement(elementId, options = {}) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            ...options
-        });
-    }
-} 
+// Initialize animation styles when module loads
+addAnimationStyles(); 

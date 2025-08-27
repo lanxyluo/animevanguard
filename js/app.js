@@ -58,15 +58,17 @@ export class App {
             
             // Initialize Traits Builder
             this.traitsBuilder = new TraitsBuilder();
+            await this.traitsBuilder.initialize();
             
-                    // Expose databasePage to global scope for onclick handlers
-        window.databasePage = this.databasePage;
-        
-        // Set up global event listeners
-        this.setupGlobalEvents();
-        
-        // Set up tool link handlers
-        this.setupToolLinks();
+            // Expose functions to global scope for onclick handlers
+            window.databasePage = this.databasePage;
+            window.showPage = (pageName) => this.showPage(pageName);
+            
+            // Set up global event listeners
+            this.setupGlobalEvents();
+            
+            // Set up tool link handlers
+            this.setupToolLinks();
             
             // Show homepage by default (no specific page)
             this.showHomepage();
