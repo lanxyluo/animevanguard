@@ -4034,6 +4034,309 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
+
+        /* New Homepage Styles */
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a29bfe;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Quick Access Section */
+        .quick-access-section {
+            margin-bottom: 4rem;
+        }
+
+        .quick-access-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .quick-access-card {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-access-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(108, 92, 231, 0.3);
+            border-color: rgba(162, 155, 254, 0.5);
+        }
+
+        .quick-access-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(162, 155, 254, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .quick-access-card:hover::before {
+            left: 100%;
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: #ffffff;
+        }
+
+        .card-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .card-content p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(162, 155, 254, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #a29bfe;
+        }
+
+        .card-arrow {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: #a29bfe;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-access-card:hover .card-arrow {
+            transform: translateX(5px);
+            color: #ffffff;
+        }
+
+        /* Top Units Section */
+        .top-units-section {
+            margin-bottom: 4rem;
+        }
+
+        .top-units-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .top-units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .unit-card {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
+        }
+
+        .unit-image {
+            margin-bottom: 1rem;
+        }
+
+        .unit-placeholder {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 2rem;
+            color: #ffffff;
+        }
+
+        .unit-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .unit-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat {
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+
+        .unit-tier {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .view-all-container {
+            text-align: center;
+        }
+
+        .view-all-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #ffffff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .quick-access-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .top-units-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1rem;
+            }
+
+            .quick-access-card {
+                padding: 1.5rem;
+            }
+
+            .card-arrow {
+                top: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .top-units-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -4066,113 +4369,185 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Homepage Introduction Section -->
-        <section class="homepage-intro">
-            <div class="intro-container">
-                <h1 class="main-title">Anime Vanguards Wiki</h1>
-                <p class="intro-subtitle">Unit Database, Tier List & Calculator</p>
-                
-                <div class="game-introduction">
-                    <h2>What is Anime Vanguards?</h2>
-                    <p>Anime Vanguards is an exciting tower defense game on Roblox where players summon powerful units and strategically deploy them to defend against waves of enemies. Success in this game requires careful planning, resource management, and understanding of unit mechanics.</p>
-                    
-                    <p>Our comprehensive tools help players optimize their gameplay by providing detailed unit information, tier rankings, and strategic insights to maximize their team's effectiveness.</p>
-                </div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <h1 class="hero-title">Anime Vanguards Tools & Database</h1>
+                <p class="hero-subtitle">Complete database and tools for Anime Vanguards characters. Explore stats, abilities, tier rankings, and build the perfect team.</p>
+            </div>
+        </section>
 
-                <div class="features-overview">
-                    <h2>Wiki Features</h2>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <h3>Unit Database</h3>
-                            <p>Comprehensive database of mainstream anime characters with stats, abilities, and detailed information. Search and filter by rarity, element, and obtain method.</p>
+        <!-- Quick Access Cards -->
+        <section class="quick-access-section">
+            <div class="quick-access-container">
+                <h2 class="section-title">Quick Access</h2>
+                <div class="quick-access-grid">
+                    <div class="quick-access-card" onclick="showPage('tierlist')">
+                        <div class="card-icon">
+                            <i class="fas fa-trophy"></i>
                         </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
+                        <div class="card-content">
                             <h3>Tier List</h3>
-                            <p>Updated tier rankings for all units based on their performance, utility, and strategic value. Make informed decisions about which units to prioritize.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-calculator"></i>
+                            <p>View updated tier rankings for all units based on performance and strategic value.</p>
+                            <div class="card-stats">
+                                <span class="stat-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>SS Tier: 5</span>
+                                </span>
+                                <span class="stat-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Total: 150+</span>
+                                </span>
                             </div>
+                        </div>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="quick-access-card" onclick="showPage('database')">
+                        <div class="card-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Unit Database</h3>
+                            <p>Browse complete unit information, stats, and abilities for all characters.</p>
+                            <div class="card-stats">
+                                <span class="stat-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>Searchable</span>
+                                </span>
+                                <span class="stat-item">
+                                    <i class="fas fa-filter"></i>
+                                    <span>Filterable</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="quick-access-card" onclick="showPage('calculator')">
+                        <div class="card-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="card-content">
                             <h3>Calculator</h3>
-                            <p>Advanced tools for calculating team compositions, damage output, and strategic planning to optimize your gameplay.</p>
+                            <p>Advanced tools for team composition, damage calculation, and strategic planning.</p>
+                            <div class="card-stats">
+                                <span class="stat-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>DPS Calc</span>
+                                </span>
+                                <span class="stat-item">
+                                    <i class="fas fa-cogs"></i>
+                                    <span>Team Builder</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="usage-guide">
-                    <h2>How to Use Our Tools</h2>
-                    <div class="steps-container">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h3>Choose Your Tool</h3>
-                                <p>Select from Unit Database, Tier List, Calculator, or About based on your current needs.</p>
+        <!-- Top 5 Units Preview -->
+        <section class="top-units-section">
+            <div class="top-units-container">
+                <h2 class="section-title">Top 5 Units</h2>
+                <div class="top-units-grid">
+                    <div class="unit-card">
+                        <div class="unit-image">
+                            <div class="unit-placeholder">
+                                <i class="fas fa-user"></i>
                             </div>
                         </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h3>Select Your Unit</h3>
-                                <p>Choose the unit you want to evolve or get information about from our comprehensive database.</p>
+                        <div class="unit-info">
+                            <h3 class="unit-name">Unit Name 1</h3>
+                            <div class="unit-stats">
+                                <span class="stat">DPS: 95</span>
+                                <span class="stat">Health: 1200</span>
+                                <span class="stat">Speed: 85</span>
+                            </div>
+                            <div class="unit-tier">SS Tier</div>
+                        </div>
+                    </div>
+
+                    <div class="unit-card">
+                        <div class="unit-image">
+                            <div class="unit-placeholder">
+                                <i class="fas fa-user"></i>
                             </div>
                         </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h3>Get Detailed Information</h3>
-                                <p>View evolution requirements, material costs, farming guides, and strategic recommendations.</p>
+                        <div class="unit-info">
+                            <h3 class="unit-name">Unit Name 2</h3>
+                            <div class="unit-stats">
+                                <span class="stat">DPS: 92</span>
+                                <span class="stat">Health: 1100</span>
+                                <span class="stat">Speed: 90</span>
+                            </div>
+                            <div class="unit-tier">SS Tier</div>
+                        </div>
+                    </div>
+
+                    <div class="unit-card">
+                        <div class="unit-image">
+                            <div class="unit-placeholder">
+                                <i class="fas fa-user"></i>
                             </div>
                         </div>
-                        
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <h3>Plan & Execute</h3>
-                                <p>Use the insights to plan your evolution path, optimize resource usage, and enhance your team performance.</p>
+                        <div class="unit-info">
+                            <h3 class="unit-name">Unit Name 3</h3>
+                            <div class="unit-stats">
+                                <span class="stat">DPS: 88</span>
+                                <span class="stat">Health: 1300</span>
+                                <span class="stat">Speed: 75</span>
                             </div>
+                            <div class="unit-tier">S Tier</div>
+                        </div>
+                    </div>
+
+                    <div class="unit-card">
+                        <div class="unit-image">
+                            <div class="unit-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="unit-info">
+                            <h3 class="unit-name">Unit Name 4</h3>
+                            <div class="unit-stats">
+                                <span class="stat">DPS: 85</span>
+                                <span class="stat">Health: 1000</span>
+                                <span class="stat">Speed: 95</span>
+                            </div>
+                            <div class="unit-tier">S Tier</div>
+                        </div>
+                    </div>
+
+                    <div class="unit-card">
+                        <div class="unit-image">
+                            <div class="unit-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="unit-info">
+                            <h3 class="unit-name">Unit Name 5</h3>
+                            <div class="unit-stats">
+                                <span class="stat">DPS: 82</span>
+                                <span class="stat">Health: 1150</span>
+                                <span class="stat">Speed: 80</span>
+                            </div>
+                            <div class="unit-tier">S Tier</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="faq-section">
-                    <h2>Frequently Asked Questions</h2>
-                    <div class="faq-container">
-                        <div class="faq-item">
-                            <h3>How accurate are the evolution guides?</h3>
-                            <p>Our evolution guides use the latest game data and are regularly updated to ensure accuracy. All material requirements, costs, and farming guides are based on current game mechanics.</p>
-                        </div>
-                        
-                        <div class="faq-item">
-                            <h3>Do I need to create an account to use the guides?</h3>
-                            <p>No account required! All our tools are completely free and accessible without registration. Simply visit the site and start using the guides immediately.</p>
-                        </div>
-                        
-                        <div class="faq-item">
-                            <h3>How often are the codes updated?</h3>
-                            <p>We update our codes section daily with new working codes. All codes are tested before being added to ensure they're valid and functional.</p>
-                        </div>
-                        
-                        <div class="faq-item">
-                            <h3>Can I use these tools on mobile devices?</h3>
-                            <p>Yes! Our website is fully responsive and optimized for mobile devices. All guides and tools work perfectly on smartphones and tablets.</p>
-                        </div>
-                        
-                        <div class="faq-item">
-                            <h3>How do I know which units to evolve first?</h3>
-                            <p>Focus on Vanguard and Secret rarity units first, as they provide the highest power increase. Check the evolution requirements and farming locations before starting to ensure efficient resource usage.</p>
-                        </div>
-                    </div>
+                <div class="view-all-container">
+                    <button class="view-all-btn" onclick="showPage('tierlist')">
+                        View All Units <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </section>
@@ -5670,4 +6045,5 @@
 
     </script>
 </body>
+</html> 
 </html> 
