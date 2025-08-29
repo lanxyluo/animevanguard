@@ -7,6 +7,7 @@ import { elementIcons } from './config/constants.js';
 import { EvolutionPage } from './pages/evolution.js';
 import { DPSPage } from './pages/dps.js';
 import { DatabasePage } from './pages/database.js';
+import { TierListPage } from './pages/tierlist.js';
 import { TraitsBuilder } from './components/TraitsBuilder.js';
 
 // Import utility functions
@@ -34,6 +35,7 @@ export class App {
         this.evolutionPage = null;
         this.dpsPage = null;
         this.databasePage = null;
+        this.tierListPage = null;
         this.traitsBuilder = null;
     }
     
@@ -55,6 +57,10 @@ export class App {
             // Initialize Database Page
             this.databasePage = new DatabasePage(this);
             await this.databasePage.initialize(this.data);
+            
+            // Initialize Tier List Page
+            this.tierListPage = new TierListPage(this);
+            await this.tierListPage.initialize(this.data);
             
             // Initialize Traits Builder
             this.traitsBuilder = new TraitsBuilder();
@@ -91,6 +97,7 @@ export class App {
             evolution: document.getElementById('evolutionPage'),
             dps: document.getElementById('dpsPage'),
             database: document.getElementById('databasePage'),
+            tierlist: document.getElementById('tierlistPage'),
             traits: document.getElementById('traitsPage'),
             codes: document.getElementById('codesPage'),
             about: document.getElementById('aboutPage')
@@ -375,6 +382,9 @@ export class App {
         } else if (pageName === 'database' && this.databasePage) {
             console.log('🗄️ Calling database page show method');
             this.databasePage.show();
+        } else if (pageName === 'tierlist' && this.tierListPage) {
+            console.log('🏆 Calling tier list page show method');
+            this.tierListPage.show();
         } else if (pageName === 'traits' && this.traitsBuilder) {
             console.log('🎯 Calling traits builder show method');
             this.traitsBuilder.show();
