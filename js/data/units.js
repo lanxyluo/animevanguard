@@ -248,10 +248,11 @@ export class UnitDataManager {
             // Search text filter
             if (filters.searchText) {
                 const searchLower = filters.searchText.toLowerCase();
+                const unitType = unit.type || unit.unitType || '';
                 const matchesSearch = unit.name.toLowerCase().includes(searchLower) ||
-                                    unit.description.toLowerCase().includes(searchLower) ||
+                                    (unit.description && unit.description.toLowerCase().includes(searchLower)) ||
                                     unit.element.toLowerCase().includes(searchLower) ||
-                                    unit.type.toLowerCase().includes(searchLower);
+                                    unitType.toLowerCase().includes(searchLower);
                 if (!matchesSearch) return false;
             }
             
@@ -266,7 +267,7 @@ export class UnitDataManager {
             }
             
             // Unit type filter
-            if (filters.unitType && unit.type !== filters.unitType) {
+            if (filters.unitType && unit.type !== filters.unitType && unit.unitType !== filters.unitType) {
                 return false;
             }
             
@@ -292,7 +293,11 @@ export class UnitDataManager {
         }
         
         if (quickFilters.highDPS.active) {
-            filtered = filtered.filter(unit => unit.type === 'DPS' && unit.stats.attack >= 7000);
+            filtered = filtered.filter(unit => {
+                const unitType = unit.type || unit.unitType || '';
+                const attack = unit.stats?.attack || unit.stats?.damage || 0;
+                return unitType === 'DPS' && attack >= 7000;
+            });
         }
         
         if (quickFilters.latest.active) {

@@ -14,7 +14,7 @@ export class DatabasePage {
         this.unitCards = [];
         
         // Data
-        this.dataManager = new UnitDataManager();
+        this.dataManager = null;
         
         // State
         this.currentView = 'grid';
@@ -24,24 +24,37 @@ export class DatabasePage {
         
         // UI elements
         this.elements = {};
-        
-        this.init();
     }
     
     async initialize(data) {
         console.log('🚀 Initializing Database Page...');
         
-        // Initialize UI elements
-        this.initializeUI();
-        
-        // Initialize components
-        this.initializeComponents();
-        
-        // Load initial data
-        this.loadUnits();
-        
-        console.log('✅ Database Page initialized!');
-        return true;
+        try {
+            // Store data if provided
+            if (data) {
+                this.data = data;
+            }
+            
+            // Initialize data manager with units data
+            const unitsData = data?.unitsData || [];
+            this.dataManager = new UnitDataManager(unitsData);
+            
+            // Initialize UI elements
+            this.initializeUI();
+            
+            // Initialize components
+            this.initializeComponents();
+            
+            // Load initial data
+            this.loadUnits();
+            
+            this.isInitialized = true;
+            console.log('✅ Database Page initialized!');
+            return true;
+        } catch (error) {
+            console.error('❌ Database Page initialization failed:', error);
+            throw error;
+        }
     }
     
     initializeUI() {

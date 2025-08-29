@@ -58,17 +58,17 @@ export class UnitCard {
                     <div class="stat-item">
                         <i class="fas fa-sword stat-icon"></i>
                         <span class="stat-label">Attack</span>
-                        <span class="stat-value">${this.unit.stats?.attack || 'N/A'}</span>
+                        <span class="stat-value">${this.getStatValue('attack', 'damage')}</span>
                     </div>
                     <div class="stat-item">
                         <i class="fas fa-shield-alt stat-icon"></i>
                         <span class="stat-label">Defense</span>
-                        <span class="stat-value">${this.unit.stats?.defense || 'N/A'}</span>
+                        <span class="stat-value">${this.getStatValue('defense', 'spa')}</span>
                     </div>
                     <div class="stat-item">
                         <i class="fas fa-magic stat-icon"></i>
                         <span class="stat-label">Skill</span>
-                        <span class="stat-value">${this.unit.stats?.skill || 'N/A'}</span>
+                        <span class="stat-value">${this.getStatValue('skill', 'dps')}</span>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@ export class UnitCard {
             <div class="unit-card-footer">
                 <div class="unit-type">
                     <i class="fas fa-user"></i>
-                    ${this.unit.type || 'Unknown'}
+                    ${this.unit.type || this.unit.unitType || 'Unknown'}
                 </div>
                 <button class="view-details-btn">
                     View Details
@@ -109,6 +109,17 @@ export class UnitCard {
         // For now, use the first letter of the unit name
         // Later this can be replaced with actual unit images
         return this.unit.name.charAt(0).toUpperCase();
+    }
+    
+    getStatValue(primaryKey, fallbackKey) {
+        // Handle both data structures: attack/defense/skill and damage/spa/dps
+        if (this.unit.stats?.[primaryKey] !== undefined) {
+            return this.unit.stats[primaryKey];
+        }
+        if (this.unit.stats?.[fallbackKey] !== undefined) {
+            return this.unit.stats[fallbackKey];
+        }
+        return 'N/A';
     }
     
     updateViewMode(viewMode) {
