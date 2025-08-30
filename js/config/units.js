@@ -1,763 +1,1059 @@
-﻿// Comprehensive Units Database for Anime Vanguards
-// Updated with mainstream anime characters
+// Anime Vanguards Units Database - Extended Edition
+// Based on community tier lists and game data
 
-export const unitsData = [
-    // ====== MYTHIC TIER UNITS ======
+export const unitsData = {
+  "units": [
+    // ====== EXISTING 16 UNITS ======
     {
-        id: "goku_ultra_instinct",
-        name: "Goku (Ultra Instinct)",
-        rarity: "Mythic",
-        element: "Energy",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Ultra Instinct",
-        stats: {
-            damage: 2000,
-            spa: 0.8,
-            range: 4,
-            dps: 2500
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Dragon Ball Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Ultra Instinct - Automatically dodges 80% of incoming attacks",
-            "God Ki - Damage increases by 50% when below 30% HP",
-            "Limitless Potential - Stats increase by 10% every 10 seconds"
-        ],
-        activeAbilities: [
-            "Kamehameha Wave - Deals 500% damage to all enemies in line",
-            "Instant Transmission - Teleports to any position on the field"
-        ],
-        pros: ["Highest damage potential", "Auto-dodge ability", "Teleportation", "God-tier stats"],
-        cons: ["Extremely expensive", "Very rare", "High deployment cost"],
-        description: "The ultimate form of Goku with Ultra Instinct mastery"
+      "id": "song-jinwu-monarch",
+      "name": "Song Jinwu (Monarch)",
+      "rarity": "Mythic",
+      "element": "Unknown",
+      "tier": "S",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Multiple summons", "3 different nukes", "Good DPS and range", "Great placement, performs at all upgrades"],
+      "cons": ["Nukes are 1 time use per game", "Needs mana to use summons/nukes"],
+      "description": "Top summoner with unmatched DPS and synergy with Igros",
+      "recommended_traits": ["Deadeye", "Damage Boost"],
+      "anime_source": "Solo Leveling"
     },
-
     {
-        id: "saitama",
-        name: "Saitama",
-        rarity: "Mythic",
-        element: "Physical",
-        attackType: "Full AoE",
-        unitType: "Melee",
-        evolution: "One Punch Man",
-        stats: {
-            damage: 3000,
-            spa: 2.0,
-            range: 3,
-            dps: 1500
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "One Punch Man Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "One Punch - 100% chance to instantly kill any enemy below 50% HP",
-            "Unlimited Power - Cannot be stunned, frozen, or controlled",
-            "Hero's Pride - Damage increases by 100% when fighting bosses"
-        ],
-        activeAbilities: [
-            "Serious Punch - Deals 1000% damage to all enemies (60s cooldown)",
-            "Consecutive Normal Punches - Rapid attack sequence"
-        ],
-        pros: ["Instant kill ability", "Boss killer", "Immune to status effects", "Massive damage"],
-        cons: ["Very slow attack speed", "Extremely expensive", "Limited range"],
-        description: "The strongest hero who can defeat any enemy with one punch"
+      "id": "akazo-destructive",
+      "name": "Akazo (Destructive)",
+      "rarity": "Mythic",
+      "element": "Fire",
+      "tier": "S+",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Very high DPS", "2nd highest full AoE in game", "Not dependent on other units", "Scales great with crit"],
+      "cons": ["Weak on placement until upgrade 2", "Not immune to debuffs or status effects"],
+      "description": "Deals heavy damage with massive AoE capabilities",
+      "recommended_traits": ["Deadeye", "Crit Damage"],
+      "anime_source": "Demon Slayer"
     },
-
-    // ====== LEGENDARY TIER UNITS ======
     {
-        id: "goku_base",
-        name: "Goku",
-        rarity: "Legendary",
-        element: "Energy",
-        attackType: "Single Target",
-        unitType: "Ranged",
-        evolution: "Base Form",
-        stats: {
-            damage: 1200,
-            spa: 1.2,
-            range: 8,
-            dps: 1000
-        },
-        deploymentCost: "High",
-        totalCost: "Very High",
-        upgradeLevel: 12,
-        placementLimit: 2,
-        obtainment: "Dragon Ball Banner (2% drop rate)",
-        passiveAbilities: [
-            "Saiyan Blood - Damage increases by 20% when below 50% HP",
-            "Fighting Spirit - Attack speed increases by 15% for each enemy killed"
-        ],
-        activeAbilities: [
-            "Kamehameha - Deals 300% damage to target and nearby enemies",
-            "Kaioken - Temporarily doubles all stats for 10 seconds"
-        ],
-        pros: ["High damage output", "Good range", "Saiyan transformation", "Versatile abilities"],
-        cons: ["High cost", "Requires HP management", "Limited placement"],
-        description: "The legendary Saiyan warrior with incredible fighting potential"
+      "id": "cha-in-blade-dancer",
+      "name": "Cha-In (Blade Dancer)",
+      "rarity": "Mythic",
+      "element": "Physical",
+      "tier": "S+",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Incredible DPS numbers", "Can trigger transformation frequently", "100% crit strike potential"],
+      "cons": ["Expensive to max", "Requires positioning"],
+      "description": "Blade master with transformation abilities",
+      "recommended_traits": ["Deadeye", "Speed Boost"],
+      "anime_source": "Solo Leveling"
     },
-
     {
-        id: "naruto_kcm",
-        name: "Naruto (KCM)",
-        rarity: "Legendary",
-        element: "Wind",
-        attackType: "Circle AoE",
-        unitType: "Hybrid",
-        evolution: "Kurama Chakra Mode",
-        stats: {
-            damage: 1000,
-            spa: 1.0,
-            range: 6,
-            dps: 1000
-        },
-        deploymentCost: "High",
-        totalCost: "Very High",
-        upgradeLevel: 12,
-        placementLimit: 2,
-        obtainment: "Naruto Banner (2% drop rate)",
-        passiveAbilities: [
-            "Kurama Chakra - Regenerates 5% HP per second",
-            "Wind Affinity - Wind element attacks deal 50% more damage",
-            "Nine Tails Power - Damage increases by 30% when HP is full"
-        ],
-        activeAbilities: [
-            "Rasengan - Deals 400% damage to target and stuns for 3 seconds",
-            "Shadow Clone Jutsu - Creates 2 clones that fight alongside"
-        ],
-        pros: ["Self-healing", "Wind element mastery", "Clone ability", "Good AoE"],
-        cons: ["High cost", "Requires full HP for bonus", "Medium range"],
-        description: "Naruto in his powerful Kurama Chakra Mode"
+      "id": "divalo-requiem",
+      "name": "Divalo (Requiem)",
+      "rarity": "Secret",
+      "element": "Time",
+      "tier": "SS",
+      "placement_cost": "Very High",
+      "max_placement": 1,
+      "category": "Support/DPS",
+      "evolution_required": true,
+      "pros": ["100% dodge chance", "Time Erasure ability", "Crowd control", "Unbreakable"],
+      "cons": ["Very expensive", "Only 1 placement", "Hard to obtain"],
+      "description": "The unbreakable king with time manipulation",
+      "recommended_traits": ["Range", "Cooldown Reduction"],
+      "anime_source": "JoJo's Bizarre Adventure"
     },
-
-    // ====== EPIC TIER UNITS ======
     {
-        id: "ichigo",
-        name: "Ichigo",
-        rarity: "Epic",
-        element: "Soul",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Bankai",
-        stats: {
-            damage: 800,
-            spa: 1.5,
-            range: 3,
-            dps: 533
-        },
-        deploymentCost: "Medium",
-        totalCost: "High",
-        upgradeLevel: 10,
-        placementLimit: 3,
-        obtainment: "Bleach Banner (8% drop rate)",
-        passiveAbilities: [
-            "Soul Reaper - Can attack ethereal enemies",
-            "Bankai Power - Damage increases by 25% when below 40% HP",
-            "Spiritual Pressure - Reduces enemy attack speed by 20%"
-        ],
-        activeAbilities: [
-            "Getsuga Tensho - Deals 250% damage to target and nearby enemies",
-            "Bankai Release - Temporarily increases damage by 100% for 15 seconds"
-        ],
-        pros: ["Anti-ethereal", "High burst damage", "Attack speed reduction", "Good survivability"],
-        cons: ["Low range", "Requires HP management", "Medium cost"],
-        description: "The powerful Soul Reaper with Bankai transformation"
+      "id": "igros-elite-knight",
+      "name": "Igros (Elite Knight)", 
+      "rarity": "Secret",
+      "element": "Dark",
+      "tier": "SS",
+      "placement_cost": "High",
+      "max_placement": 3,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Synergy with Song Jinwu", "High damage output", "Elite summons"],
+      "cons": ["Dependent on other units for max potential", "Expensive"],
+      "description": "Elite knight with powerful dark abilities",
+      "recommended_traits": ["Damage", "Range"],
+      "anime_source": "Solo Leveling"
     },
-
     {
-        id: "luffy_gear4",
-        name: "Luffy (Gear 4)",
-        rarity: "Epic",
-        element: "Physical",
-        attackType: "Cone AoE",
-        unitType: "Melee",
-        evolution: "Gear 4",
-        stats: {
-            damage: 900,
-            spa: 1.8,
-            range: 4,
-            dps: 500
-        },
-        deploymentCost: "Medium",
-        totalCost: "High",
-        upgradeLevel: 10,
-        placementLimit: 3,
-        obtainment: "One Piece Banner (8% drop rate)",
-        passiveAbilities: [
-            "Rubber Body - Takes 30% less damage from physical attacks",
-            "Haki Mastery - Can hit any enemy type including logia",
-            "Gear 4 Power - Attack speed increases by 40% when below 30% HP"
-        ],
-        activeAbilities: [
-            "Gomu Gomu no King Kong Gun - Deals 350% damage to all enemies in cone",
-            "Gear 4 Transformation - Increases all stats by 50% for 20 seconds"
-        ],
-        pros: ["Physical damage reduction", "Can hit all enemy types", "High burst damage", "Good AoE"],
-        cons: ["Low range", "Slow attack speed", "Requires HP management"],
-        description: "Luffy in his powerful Gear 4 transformation"
+      "id": "alucard-vampire-king",
+      "name": "Alucard (Vampire King)",
+      "rarity": "Secret", 
+      "element": "Blood",
+      "tier": "S+",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "Support/DPS",
+      "evolution_required": false,
+      "pros": ["Full AoE", "8 sec bleed", "20% buff to all source damage", "Cheap to upgrade"],
+      "cons": ["Lower raw damage", "Bleed dependent"],
+      "description": "Vampire lord with bleed and support abilities",
+      "recommended_traits": ["Bleed Boost", "Range"],
+      "anime_source": "Hellsing"
     },
-
     {
-        id: "tanjiro_sun_breathing",
-        name: "Tanjiro (Sun Breathing)",
-        rarity: "Epic",
-        element: "Fire",
-        attackType: "Line AoE",
-        unitType: "Melee",
-        evolution: "Sun Breathing",
-        stats: {
-            damage: 750,
-            spa: 1.3,
-            range: 5,
-            dps: 577
-        },
-        deploymentCost: "Medium",
-        totalCost: "High",
-        upgradeLevel: 10,
-        placementLimit: 3,
-        obtainment: "Demon Slayer Banner (8% drop rate)",
-        passiveAbilities: [
-            "Sun Breathing - Fire attacks deal 40% more damage",
-            "Demon Slayer - Deals 50% more damage to demon-type enemies",
-            "Water Breathing Mastery - Can switch to water element when needed"
-        ],
-        activeAbilities: [
-            "Hinokami Kagura - Deals 300% damage to all enemies in line",
-            "Sun Breathing Form - Increases damage and range by 30% for 15 seconds"
-        ],
-        pros: ["Fire element mastery", "Anti-demon bonus", "Good line AoE", "Element switching"],
-        cons: ["Medium range", "Requires positioning", "Medium cost"],
-        description: "Tanjiro mastering the legendary Sun Breathing technique"
+      "id": "jag-o-volcanic",
+      "name": "Jag-o (Volcanic)",
+      "rarity": "Mythic",
+      "element": "Fire",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["High damage AoE", "Burn effects", "Good for wave clearing"],
+      "cons": ["Expensive", "Fire element limitations"],
+      "description": "Fiery DPS beast with volcanic powers",
+      "recommended_traits": ["Burn Damage", "AoE Boost"],
+      "anime_source": "Jujutsu Kaisen"
     },
-
-    // ====== RARE TIER UNITS ======
     {
-        id: "tanjiro_base",
-        name: "Tanjiro",
-        rarity: "Rare",
-        element: "Water",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Water Breathing",
-        stats: {
-            damage: 500,
-            spa: 1.0,
-            range: 3,
-            dps: 500
-        },
-        deploymentCost: "Low",
-        totalCost: "Medium",
-        upgradeLevel: 8,
-        placementLimit: 4,
-        obtainment: "Demon Slayer Banner (15% drop rate)",
-        passiveAbilities: [
-            "Water Breathing - Water attacks deal 25% more damage",
-            "Demon Slayer - Deals 30% more damage to demon-type enemies",
-            "Enhanced Senses - Can detect invisible enemies"
-        ],
-        activeAbilities: [
-            "Water Wheel - Deals 200% damage to target and nearby enemies",
-            "Water Breathing Form - Increases damage by 40% for 10 seconds"
-        ],
-        pros: ["Water element mastery", "Anti-demon bonus", "Invisible detection", "Good value"],
-        cons: ["Low range", "Basic abilities", "Limited AoE"],
-        description: "The determined demon slayer with water breathing technique"
+      "id": "chaso-blood-curse",
+      "name": "Chaso (Blood Curse)",
+      "rarity": "Mythic", 
+      "element": "Blood",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Full AoE attacks", "DMG boost vs bleeding enemies", "4 placements"],
+      "cons": ["Requires bleeding enemies", "Complex setup"],
+      "description": "Blood curse specialist with AoE devastation",
+      "recommended_traits": ["Bleed", "Damage"],
+      "anime_source": "Jujutsu Kaisen"
     },
-
     {
-        id: "naruto_base",
-        name: "Naruto",
-        rarity: "Rare",
-        element: "Wind",
-        attackType: "Single Target",
-        unitType: "Ranged",
-        evolution: "Base Form",
-        stats: {
-            damage: 450,
-            spa: 1.2,
-            range: 6,
-            dps: 375
-        },
-        deploymentCost: "Low",
-        totalCost: "Medium",
-        upgradeLevel: 8,
-        placementLimit: 4,
-        obtainment: "Naruto Banner (15% drop rate)",
-        passiveAbilities: [
-            "Wind Affinity - Wind attacks deal 25% more damage",
-            "Uzumaki Stamina - Regenerates 2% HP per second",
-            "Nine Tails Chakra - Damage increases by 20% when HP is full"
-        ],
-        activeAbilities: [
-            "Rasengan - Deals 180% damage to target",
-            "Shadow Clone Jutsu - Creates 1 clone for 10 seconds"
-        ],
-        pros: ["Wind element mastery", "Self-healing", "Clone ability", "Good range"],
-        cons: ["Low damage", "Basic abilities", "Limited AoE"],
-        description: "The young ninja with wind chakra and shadow clone technique"
+      "id": "hakura-rin-dancer",
+      "name": "Hakura Rin (Dancer)",
+      "rarity": "Legendary",
+      "element": "Support",
+      "tier": "A",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "Support",
+      "evolution_required": false,
+      "pros": ["18% ally damage buff", "10% range buff", "Accessible from battle pass"],
+      "cons": ["No direct damage", "Requires other strong units"],
+      "description": "Best support unit for enhancing team performance",
+      "recommended_traits": ["Buff Duration", "Range"],
+      "anime_source": "Hololive"
     },
-
     {
-        id: "luffy_base",
-        name: "Luffy",
-        rarity: "Rare",
-        element: "Physical",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Base Form",
-        stats: {
-            damage: 550,
-            spa: 1.5,
-            range: 2,
-            dps: 367
-        },
-        deploymentCost: "Low",
-        totalCost: "Medium",
-        upgradeLevel: 8,
-        placementLimit: 4,
-        obtainment: "One Piece Banner (15% drop rate)",
-        passiveAbilities: [
-            "Rubber Body - Takes 20% less damage from physical attacks",
-            "Straw Hat Captain - Nearby allies gain 10% damage increase",
-            "Will of D - Cannot be stunned or controlled"
-        ],
-        activeAbilities: [
-            "Gomu Gomu no Pistol - Deals 200% damage to target",
-            "Gear 2 - Increases attack speed by 50% for 8 seconds"
-        ],
-        pros: ["Physical damage reduction", "Team buff", "Stun immunity", "Good burst"],
-        cons: ["Very low range", "Slow attack speed", "Basic abilities"],
-        description: "The rubber-powered pirate captain with unbreakable will"
+      "id": "super-brolzi",
+      "name": "Legendary Super Brolzi",
+      "rarity": "Legendary",
+      "element": "Energy",
+      "tier": "A",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["No evolution required", "High base damage", "AoE attacks", "Cost efficient"],
+      "cons": ["Limited compared to mythics", "No evolution potential"],
+      "description": "Powerful legendary that doesn't require evolution",
+      "recommended_traits": ["Damage", "Speed"],
+      "anime_source": "Dragon Ball"
     },
-
-    // ====== UNCOMMON TIER UNITS ======
     {
-        id: "zenitsu",
-        name: "Zenitsu",
-        rarity: "Uncommon",
-        element: "Lightning",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Thunder Breathing",
-        stats: {
-            damage: 300,
-            spa: 0.8,
-            range: 3,
-            dps: 375
-        },
-        deploymentCost: "Very Low",
-        totalCost: "Low",
-        upgradeLevel: 6,
-        placementLimit: 5,
-        obtainment: "Demon Slayer Banner (25% drop rate)",
-        passiveAbilities: [
-            "Thunder Breathing - Lightning attacks deal 30% more damage",
-            "Sleeping Power - Damage increases by 100% when asleep (random chance)",
-            "Lightning Speed - Attack speed increases by 25% when awake"
-        ],
-        activeAbilities: [
-            "Thunderclap and Flash - Deals 150% damage to target",
-            "Lightning Form - Increases damage by 60% for 5 seconds"
-        ],
-        pros: ["Lightning element mastery", "High burst potential", "Fast attacks", "Good value"],
-        cons: ["Random power boost", "Low range", "Unpredictable performance"],
-        description: "The lightning-fast demon slayer with thunder breathing technique"
+      "id": "tengon-flashiness",
+      "name": "Tengon (Flashiness)",
+      "rarity": "Mythic",
+      "element": "Physical",
+      "tier": "A",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["AOE damage", "Massive range", "Good upgrade scaling"],
+      "cons": ["High placement cost", "Requires evolution for full potential"],
+      "description": "Deals AOE damage in massive range",
+      "recommended_traits": ["Damage", "Range"],
+      "anime_source": "Demon Slayer"
     },
-
     {
-        id: "inosuke",
-        name: "Inosuke",
-        rarity: "Uncommon",
-        element: "Physical",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Beast Breathing",
-        stats: {
-            damage: 350,
-            spa: 1.0,
-            range: 2,
-            dps: 350
-        },
-        deploymentCost: "Very Low",
-        totalCost: "Low",
-        upgradeLevel: 6,
-        placementLimit: 5,
-        obtainment: "Demon Slayer Banner (25% drop rate)",
-        passiveAbilities: [
-            "Beast Breathing - Physical attacks deal 25% more damage",
-            "Wild Instinct - Can detect enemies through walls",
-            "Boar Mask - Takes 15% less damage from all sources"
-        ],
-        activeAbilities: [
-            "Beast Fang - Deals 180% damage to target",
-            "Wild Charge - Increases movement speed and damage by 40% for 6 seconds"
-        ],
-        pros: ["Physical damage bonus", "Wall detection", "Damage reduction", "Good burst"],
-        cons: ["Very low range", "Basic abilities", "Limited utility"],
-        description: "The wild demon slayer with beast breathing technique"
+      "id": "noruto-six-tails",
+      "name": "Noruto (Six Tails)",
+      "rarity": "Mythic",
+      "element": "Energy",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Great at clearing waves", "High damage output", "Good range"],
+      "cons": ["Expensive to max", "Evolution dependent"],
+      "description": "Powerful ninja with tailed beast chakra",
+      "recommended_traits": ["Damage", "Speed"],
+      "anime_source": "Naruto"
     },
-
-    // ====== COMMON TIER UNITS ======
     {
-        id: "swordsman",
-        name: "Swordsman",
-        rarity: "Common",
-        element: "Physical",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "None",
-        stats: {
-            damage: 200,
-            spa: 1.0,
-            range: 2,
-            dps: 200
-        },
-        deploymentCost: "Very Low",
-        totalCost: "Very Low",
-        upgradeLevel: 5,
-        placementLimit: 6,
-        obtainment: "Common Banner (40% drop rate)",
-        passiveAbilities: [
-            "Sword Mastery - Physical attacks deal 15% more damage",
-            "Basic Training - Cannot be stunned by weak attacks"
-        ],
-        activeAbilities: [
-            "Slash - Deals 120% damage to target"
-        ],
-        pros: ["Very cheap", "Physical damage bonus", "Stun resistance", "Easy to obtain"],
-        cons: ["Low damage", "Very low range", "Basic abilities", "No evolution"],
-        description: "A basic swordsman with fundamental combat training"
+      "id": "obita-awakened",
+      "name": "Obita (Awakened)",
+      "rarity": "Mythic",
+      "element": "Space",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Space-time abilities", "Good damage", "Utility skills"],
+      "cons": ["Complex mechanics", "Requires positioning"],
+      "description": "Awakened Uchiha with space-time mastery",
+      "recommended_traits": ["Damage", "Cooldown"],
+      "anime_source": "Naruto"
     },
-
     {
-        id: "archer",
-        name: "Archer",
-        rarity: "Common",
-        element: "Physical",
-        attackType: "Single Target",
-        unitType: "Ranged",
-        evolution: "None",
-        stats: {
-            damage: 180,
-            spa: 1.2,
-            range: 8,
-            dps: 150
-        },
-        deploymentCost: "Very Low",
-        totalCost: "Very Low",
-        upgradeLevel: 5,
-        placementLimit: 6,
-        obtainment: "Common Banner (40% drop rate)",
-        passiveAbilities: [
-            "Bow Mastery - Ranged attacks deal 15% more damage",
-            "Eagle Eye - Can attack flying enemies"
-        ],
-        activeAbilities: [
-            "Precise Shot - Deals 110% damage to target"
-        ],
-        pros: ["Very cheap", "Good range", "Anti-flying", "Easy to obtain"],
-        cons: ["Low damage", "Basic abilities", "No evolution", "Limited utility"],
-        description: "A basic archer with fundamental ranged combat skills"
+      "id": "sosuke-storm",
+      "name": "Sosuke (Storm)",
+      "rarity": "Mythic",
+      "element": "Lightning",
+      "tier": "A",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS/Support",
+      "evolution_required": true,
+      "pros": ["Stun abilities", "Double damage vs base form", "Good utility"],
+      "cons": ["Situational abilities", "Requires good positioning"],
+      "description": "Lightning-powered captain with stun abilities",
+      "recommended_traits": ["Stun Duration", "Damage"],
+      "anime_source": "Bleach"
     },
-
-    // ====== REAL ANIME VANGUARDS EVOLUTION UNITS ======
     {
-        id: "alocard",
-        name: "Alocard",
-        rarity: "Mythic",
-        element: "Dark",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Alocard (Vampire King)",
-        stats: {
-            damage: 1800,
-            spa: 1.5,
-            range: 3,
-            dps: 1200
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Hellsing Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Vampire Blood - Heals 10% HP for each enemy killed",
-            "Dark Aura - Reduces enemy attack by 20% within range",
-            "Immortal - Cannot be killed by normal attacks below 10% HP"
-        ],
-        activeAbilities: [
-            "Blood Drain - Deals 300% damage and heals for 50% of damage dealt",
-            "Dark Transformation - Increases all stats by 100% for 15 seconds"
-        ],
-        pros: ["Self-healing", "Dark element", "Immortal ability", "High damage"],
-        cons: ["Very expensive", "Limited range", "Dark element weakness"],
-        description: "The legendary vampire from Hellsing with dark powers"
+      "id": "sprintwagon",
+      "name": "Sprintwagon",
+      "rarity": "Epic",
+      "element": "Support",
+      "tier": "A",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "Support",
+      "evolution_required": false,
+      "pros": ["Crazy ROI", "Very cheap", "Good support abilities", "High placement count"],
+      "cons": ["No direct damage", "Support role only"],
+      "description": "Only Epic unit in top tiers, amazing value",
+      "recommended_traits": ["Buff Duration", "Range"],
+      "anime_source": "JoJo's Bizarre Adventure"
     },
-
     {
-        id: "songjinwu",
-        name: "Song Jinwu",
-        rarity: "Mythic",
-        element: "Dark",
-        attackType: "Full AoE",
-        unitType: "Ranged",
-        evolution: "Song Jinwu (Monarch)",
-        stats: {
-            damage: 2200,
-            spa: 2.0,
-            range: 6,
-            dps: 1100
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Solo Leveling Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Shadow Monarch - Controls shadows to attack enemies",
-            "Monarch's Authority - All allies within range gain 30% damage boost",
-            "Shadow Step - Can teleport to any shadow on the field"
-        ],
-        activeAbilities: [
-            "Shadow Army - Summons shadow soldiers to fight",
-            "Monarch's Wrath - Deals 500% damage to all enemies"
-        ],
-        pros: ["Shadow element", "Team buff", "Teleportation", "Massive AoE"],
-        cons: ["Very expensive", "Complex abilities", "Shadow element weakness"],
-        description: "The Shadow Monarch from Solo Leveling with ultimate shadow powers"
+      "id": "yehowach-almighty",
+      "name": "Yehowach (Almighty)",
+      "rarity": "Secret",
+      "element": "Holy",
+      "tier": "S",
+      "placement_cost": "Very High",
+      "max_placement": 2,
+      "category": "Support/DPS",
+      "evolution_required": false,
+      "pros": ["Status immunity", "Buffs allies", "High damage", "Future sight abilities"],
+      "cons": ["Very expensive", "Complex mechanics", "Limited placement"],
+      "description": "Quincy king with almighty powers",
+      "recommended_traits": ["Buff Duration", "Range"],
+      "anime_source": "Bleach"
     },
-
+    
+    // ====== NEW SECRET TIER UNITS ======
     {
-        id: "igros",
-        name: "Igros",
-        rarity: "Mythic",
-        element: "Physical",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Igros (Elite Knight)",
-        stats: {
-            damage: 2000,
-            spa: 1.8,
-            range: 2,
-            dps: 1111
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Knight Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Elite Knight - Physical attacks deal 50% more damage",
-            "Knight's Honor - Cannot be controlled or stunned",
-            "Blood Red Armor - Reduces incoming damage by 40%"
-        ],
-        activeAbilities: [
-            "Knight's Charge - Deals 400% damage and stuns target",
-            "Elite Formation - Buffs all nearby allies with 50% damage boost"
-        ],
-        pros: ["High physical damage", "Damage reduction", "Team buff", "Stun immunity"],
-        cons: ["Very expensive", "Low range", "Physical element weakness"],
-        description: "The elite knight with unmatched physical combat skills"
+      "id": "gojo-infinity",
+      "name": "Gojo (Infinity)",
+      "rarity": "Secret",
+      "element": "Space",
+      "tier": "SS",
+      "placement_cost": "Very High",
+      "max_placement": 1,
+      "category": "DPS/Support",
+      "evolution_required": true,
+      "pros": ["Infinity technique", "Domain expansion", "Teleportation", "Crowd control"],
+      "cons": ["Very expensive", "Only 1 placement", "Complex mechanics"],
+      "description": "The strongest sorcerer with infinity and domain powers",
+      "recommended_traits": ["Range", "Cooldown Reduction"],
+      "anime_source": "Jujutsu Kaisen"
     },
-
     {
-        id: "obita",
-        name: "Obita",
-        rarity: "Mythic",
-        element: "Fire",
-        attackType: "Single Target",
-        unitType: "Ranged",
-        evolution: "Obita (Awakened)",
-        stats: {
-            damage: 1900,
-            spa: 1.6,
-            range: 7,
-            dps: 1187
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Fire Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Awakened Power - Fire attacks deal 60% more damage",
-            "Flame Aura - Burns enemies for 20% damage over time",
-            "Fire Immunity - Immune to fire damage"
-        ],
-        activeAbilities: [
-            "Flame Burst - Deals 350% damage to target and nearby enemies",
-            "Awakened Form - Transforms and increases all stats by 80%"
-        ],
-        pros: ["High fire damage", "Burn effect", "Fire immunity", "Good range"],
-        cons: ["Very expensive", "Fire element weakness", "Complex abilities"],
-        description: "The awakened fire user with devastating flame powers"
+      "id": "sukuna-king-curses",
+      "name": "Sukuna (King of Curses)",
+      "rarity": "Secret",
+      "element": "Cursed",
+      "tier": "S+",
+      "placement_cost": "Very High",
+      "max_placement": 2,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Cursed techniques", "High damage output", "Multiple abilities", "Strong AoE"],
+      "cons": ["Very expensive", "Limited placement", "Complex setup"],
+      "description": "The king of curses with devastating cursed techniques",
+      "recommended_traits": ["Damage", "Cursed Boost"],
+      "anime_source": "Jujutsu Kaisen"
     },
-
     {
-        id: "noruto",
-        name: "Noruto",
-        rarity: "Mythic",
-        element: "Wind",
-        attackType: "Full AoE",
-        unitType: "Ranged",
-        evolution: "Noruto (Six Tails)",
-        stats: {
-            damage: 2100,
-            spa: 1.9,
-            range: 5,
-            dps: 1105
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Naruto Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Six Tails Chakra - Wind attacks deal 50% more damage",
-            "Chakra Mode - Increases attack speed by 30%",
-            "Wind Mastery - Can attack through walls"
-        ],
-        activeAbilities: [
-            "Wind Release - Deals 400% damage to all enemies",
-            "Six Tails Transformation - Increases all stats by 100% for 20 seconds"
-        ],
-        pros: ["High wind damage", "Attack speed boost", "Wall penetration", "Massive AoE"],
-        cons: ["Very expensive", "Wind element weakness", "Complex transformation"],
-        description: "The Six Tails jinchuriki with devastating wind powers"
+      "id": "madara-ultimate",
+      "name": "Madara (Ultimate)",
+      "rarity": "Secret",
+      "element": "Fire",
+      "tier": "S+",
+      "placement_cost": "Very High",
+      "max_placement": 2,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Eternal Mangekyo", "Susanoo", "Fire release", "Crowd control"],
+      "cons": ["Very expensive", "Limited placement", "Complex abilities"],
+      "description": "The ultimate Uchiha with legendary powers",
+      "recommended_traits": ["Damage", "Fire Boost"],
+      "anime_source": "Naruto"
     },
-
     {
-        id: "gujo",
-        name: "Gujo",
-        rarity: "Mythic",
-        element: "Energy",
-        attackType: "Single Target",
-        unitType: "Ranged",
-        evolution: "Gujo (Infinity)",
-        stats: {
-            damage: 2400,
-            spa: 2.2,
-            range: 8,
-            dps: 1090
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Cursed Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Infinity - Cannot be killed by normal attacks",
-            "Cursed Energy - Energy attacks deal 70% more damage",
-            "Domain Expansion - Creates a barrier that reduces enemy damage by 50%"
-        ],
-        activeAbilities: [
-            "Infinity Void - Deals 600% damage and stuns all enemies",
-            "Cursed Technique - Increases all stats by 120% for 25 seconds"
-        ],
-        pros: ["Immortality", "High energy damage", "Domain barrier", "Massive damage"],
-        cons: ["Very expensive", "Complex abilities", "Energy element weakness"],
-        description: "The cursed user with infinity technique and immortality"
+      "id": "whitebeard-prime",
+      "name": "Whitebeard (Prime)",
+      "rarity": "Secret",
+      "element": "Quake",
+      "tier": "S",
+      "placement_cost": "Very High",
+      "max_placement": 2,
+      "category": "DPS/Tank",
+      "evolution_required": true,
+      "pros": ["Quake fruit", "High durability", "AoE damage", "Tank capabilities"],
+      "cons": ["Very expensive", "Limited placement", "Slow movement"],
+      "description": "The strongest man in the world with quake powers",
+      "recommended_traits": ["Damage", "Tank Boost"],
+      "anime_source": "One Piece"
     },
-
+    
+    // ====== NEW MYTHIC TIER UNITS ======
     {
-        id: "rengoku",
-        name: "Rengoku",
-        rarity: "Mythic",
-        element: "Fire",
-        attackType: "Single Target",
-        unitType: "Melee",
-        evolution: "Rengoku (Purgatory)",
-        stats: {
-            damage: 2300,
-            spa: 1.7,
-            range: 4,
-            dps: 1352
-        },
-        deploymentCost: "Extremely High",
-        totalCost: "Extremely High",
-        upgradeLevel: 15,
-        placementLimit: 1,
-        obtainment: "Demon Slayer Banner (0.1% drop rate)",
-        passiveAbilities: [
-            "Purgatory Flame - Fire attacks deal 80% more damage",
-            "Flame Hashira - Cannot be burned or affected by fire",
-            "Burning Spirit - Damage increases by 50% when below 30% HP"
-        ],
-        activeAbilities: [
-            "Flame Breathing - Deals 450% damage to target and burns enemies",
-            "Purgatory Form - Increases all stats by 90% and becomes immune to damage"
-        ],
-        pros: ["High fire damage", "Fire immunity", "Damage boost at low HP", "Burning effect"],
-        cons: ["Very expensive", "Fire element weakness", "Complex abilities"],
-        description: "The Flame Hashira with purgatory flame powers"
+      "id": "tanjiro-hinokami",
+      "name": "Tanjiro (Hinokami)",
+      "rarity": "Mythic",
+      "element": "Fire",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Hinokami Kagura", "Sun breathing", "High damage", "Good range"],
+      "cons": ["Expensive", "Fire element weakness", "Requires evolution"],
+      "description": "Master of the legendary Hinokami Kagura technique",
+      "recommended_traits": ["Damage", "Fire Boost"],
+      "anime_source": "Demon Slayer"
     },
-
-    // ====== LIGHT ELEMENT UNIT ======
     {
-        id: "allmight",
-        name: "All Might",
-        rarity: "Legendary",
-        element: "Light",
-        attackType: "Full AoE",
-        unitType: "Melee",
-        evolution: "All Might (Prime)",
-        stats: {
-            damage: 1800,
-            spa: 1.2,
-            range: 5,
-            dps: 1500
-        },
-        deploymentCost: "Very High",
-        totalCost: "Very High",
-        upgradeLevel: 12,
-        placementLimit: 1,
-        obtainment: "My Hero Academia Banner (0.5% drop rate)",
-        passiveAbilities: [
-            "Symbol of Peace - Allies gain 30% damage boost",
-            "One For All - Damage increases by 10% per enemy defeated",
-            "Plus Ultra - Cannot be stunned or debuffed"
-        ],
-        activeAbilities: [
-            "Detroit Smash - Deals 400% damage to all enemies",
-            "United States of Smash - Ultimate attack dealing 800% damage"
-        ],
-        pros: ["High AoE damage", "Team support", "Status immunity", "Scaling damage"],
-        cons: ["Very expensive", "Limited placement", "Requires setup"],
-        description: "The Symbol of Peace with overwhelming light-based power"
+      "id": "zenitsu-god-speed",
+      "name": "Zenitsu (God Speed)",
+      "rarity": "Mythic",
+      "element": "Lightning",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Thunder breathing", "God speed", "High burst damage", "Fast attacks"],
+      "cons": ["Expensive", "Lightning element weakness", "Complex mechanics"],
+      "description": "Lightning-fast demon slayer with god speed abilities",
+      "recommended_traits": ["Speed", "Lightning Boost"],
+      "anime_source": "Demon Slayer"
+    },
+    {
+      "id": "inosuke-beast-king",
+      "name": "Inosuke (Beast King)",
+      "rarity": "Mythic",
+      "element": "Physical",
+      "tier": "A",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Beast breathing", "High physical damage", "Good AoE", "Tank capabilities"],
+      "cons": ["Expensive", "Physical element weakness", "Limited range"],
+      "description": "Beast breathing master with wild combat style",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Demon Slayer"
+    },
+    {
+      "id": "giyu-water-hashira",
+      "name": "Giyu (Water Hashira)",
+      "rarity": "Mythic",
+      "element": "Water",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Water breathing", "Hashira power", "High damage", "Good utility"],
+      "cons": ["Expensive", "Water element weakness", "Requires positioning"],
+      "description": "Water Hashira with mastery of water breathing techniques",
+      "recommended_traits": ["Damage", "Water Boost"],
+      "anime_source": "Demon Slayer"
+    },
+    {
+      "id": "shinobu-insect-hashira",
+      "name": "Shinobu (Insect Hashira)",
+      "rarity": "Mythic",
+      "element": "Poison",
+      "tier": "A",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS/Support",
+      "evolution_required": true,
+      "pros": ["Insect breathing", "Poison effects", "Support abilities", "Good utility"],
+      "cons": ["Expensive", "Poison element weakness", "Lower damage"],
+      "description": "Insect Hashira with poison and support capabilities",
+      "recommended_traits": ["Poison", "Support Boost"],
+      "anime_source": "Demon Slayer"
+    },
+    {
+      "id": "kakashi-copy-ninja",
+      "name": "Kakashi (Copy Ninja)",
+      "rarity": "Mythic",
+      "element": "Lightning",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Sharingan", "Lightning techniques", "High damage", "Versatile abilities"],
+      "cons": ["Expensive", "Lightning element weakness", "Complex mechanics"],
+      "description": "The Copy Ninja with Sharingan and lightning mastery",
+      "recommended_traits": ["Damage", "Lightning Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "itachi-akatsuki",
+      "name": "Itachi (Akatsuki)",
+      "rarity": "Mythic",
+      "element": "Fire",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "pros": ["Mangekyo Sharingan", "Fire techniques", "Genjutsu", "High damage"],
+      "cons": ["Expensive", "Fire element weakness", "Complex abilities"],
+      "description": "Akatsuki member with Mangekyo Sharingan powers",
+      "recommended_traits": ["Damage", "Fire Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "minato-yellow-flash",
+      "name": "Minato (Yellow Flash)",
+      "rarity": "Mythic",
+      "element": "Space",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Flying Thunder God", "Space-time jutsu", "High damage", "Teleportation"],
+      "cons": ["Expensive", "Space element weakness", "Complex positioning"],
+      "description": "The Yellow Flash with space-time mastery",
+      "recommended_traits": ["Damage", "Space Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "ace-fire-fist",
+      "name": "Ace (Fire Fist)",
+      "rarity": "Mythic",
+      "element": "Fire",
+      "tier": "A",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Fire fruit", "High fire damage", "Good AoE", "Logia immunity"],
+      "cons": ["Expensive", "Fire element weakness", "Limited utility"],
+      "description": "Fire Fist Ace with Logia devil fruit powers",
+      "recommended_traits": ["Damage", "Fire Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "luffy-gear-5",
+      "name": "Luffy (Gear 5)",
+      "rarity": "Mythic",
+      "element": "Physical",
+      "tier": "S+",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Gear 5 transformation", "High damage", "Good AoE", "Versatile abilities"],
+      "cons": ["Expensive", "Physical element weakness", "Complex mechanics"],
+      "description": "Straw Hat captain in his ultimate Gear 5 form",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "zoro-king-hell",
+      "name": "Zoro (King of Hell)",
+      "rarity": "Mythic",
+      "element": "Physical",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["King of Hell", "High damage", "Good range", "Sword mastery"],
+      "cons": ["Expensive", "Physical element weakness", "Limited AoE"],
+      "description": "The King of Hell with ultimate sword techniques",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "ichigo-bankai",
+      "name": "Ichigo (Bankai)",
+      "rarity": "Mythic",
+      "element": "Soul",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Bankai form", "High damage", "Good range", "Soul reaper powers"],
+      "cons": ["Expensive", "Soul element weakness", "Complex abilities"],
+      "description": "Soul Reaper with Bankai transformation",
+      "recommended_traits": ["Damage", "Soul Boost"],
+      "anime_source": "Bleach"
+    },
+    {
+      "id": "aizen-sosuke",
+      "name": "Aizen (Sosuke)",
+      "rarity": "Mythic",
+      "element": "Illusion",
+      "tier": "S",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS/Support",
+      "evolution_required": true,
+      "pros": ["Kyoka Suigetsu", "Illusion powers", "High damage", "Crowd control"],
+      "cons": ["Expensive", "Illusion element weakness", "Complex mechanics"],
+      "description": "Master manipulator with illusion and hypnosis powers",
+      "recommended_traits": ["Damage", "Illusion Boost"],
+      "anime_source": "Bleach"
+    },
+    {
+      "id": "yoruichi-thunder-god",
+      "name": "Yoruichi (Thunder God)",
+      "rarity": "Mythic",
+      "element": "Lightning",
+      "tier": "A",
+      "placement_cost": "High",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Thunder God form", "High speed", "Good damage", "Utility skills"],
+      "cons": ["Expensive", "Lightning element weakness", "Limited AoE"],
+      "description": "Thunder God with lightning-fast combat abilities",
+      "recommended_traits": ["Speed", "Lightning Boost"],
+      "anime_source": "Bleach"
+    },
+    
+    // ====== NEW LEGENDARY TIER UNITS ======
+    {
+      "id": "naruto-sage-mode",
+      "name": "Naruto (Sage Mode)",
+      "rarity": "Legendary",
+      "element": "Nature",
+      "tier": "A",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Sage mode", "Nature chakra", "Good damage", "No evolution needed"],
+      "cons": ["Medium cost", "Nature element weakness", "Limited utility"],
+      "description": "Naruto in powerful Sage Mode",
+      "recommended_traits": ["Damage", "Nature Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "sasuke-curse-mark",
+      "name": "Sasuke (Curse Mark)",
+      "rarity": "Legendary",
+      "element": "Lightning",
+      "tier": "A",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Curse mark", "Lightning techniques", "Good damage", "No evolution needed"],
+      "cons": ["Medium cost", "Lightning element weakness", "Limited AoE"],
+      "description": "Sasuke with curse mark powers",
+      "recommended_traits": ["Damage", "Lightning Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "sakura-medical-ninja",
+      "name": "Sakura (Medical Ninja)",
+      "rarity": "Legendary",
+      "element": "Support",
+      "tier": "A",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "Support",
+      "evolution_required": false,
+      "pros": ["Medical jutsu", "Healing abilities", "Good support", "High placement"],
+      "cons": ["No direct damage", "Support role only", "Requires allies"],
+      "description": "Medical ninja with healing and support abilities",
+      "recommended_traits": ["Healing", "Support Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "sanji-black-leg",
+      "name": "Sanji (Black Leg)",
+      "rarity": "Legendary",
+      "element": "Fire",
+      "tier": "A",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Black leg style", "Fire kicks", "Good damage", "No evolution needed"],
+      "cons": ["Medium cost", "Fire element weakness", "Limited range"],
+      "description": "Black Leg Sanji with fire-powered kicks",
+      "recommended_traits": ["Damage", "Fire Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "nami-weather-witch",
+      "name": "Nami (Weather Witch)",
+      "rarity": "Legendary",
+      "element": "Weather",
+      "tier": "A",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS/Support",
+      "evolution_required": false,
+      "pros": ["Weather control", "Lightning attacks", "Good utility", "No evolution needed"],
+      "cons": ["Medium cost", "Weather element weakness", "Lower damage"],
+      "description": "Weather witch with climate control abilities",
+      "recommended_traits": ["Weather", "Utility Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "usopp-sniper-king",
+      "name": "Usopp (Sniper King)",
+      "rarity": "Legendary",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Sniper skills", "Long range", "Good utility", "No evolution needed"],
+      "cons": ["Medium cost", "Physical element weakness", "Lower damage"],
+      "description": "Sniper King with long-range combat abilities",
+      "recommended_traits": ["Range", "Utility Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "chopper-monster-point",
+      "name": "Chopper (Monster Point)",
+      "rarity": "Legendary",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS/Tank",
+      "evolution_required": false,
+      "pros": ["Monster point", "High durability", "Good damage", "No evolution needed"],
+      "cons": ["Medium cost", "Physical element weakness", "Limited utility"],
+      "description": "Monster Point Chopper with enhanced combat abilities",
+      "recommended_traits": ["Damage", "Tank Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "robin-demonic",
+      "name": "Robin (Demonic)",
+      "rarity": "Legendary",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Devil fruit", "Multiple limbs", "Good utility", "No evolution needed"],
+      "cons": ["Medium cost", "Physical element weakness", "Lower damage"],
+      "description": "Demonic Robin with devil fruit powers",
+      "recommended_traits": ["Utility", "Physical Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "franky-cyborg",
+      "name": "Franky (Cyborg)",
+      "rarity": "Legendary",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS/Tank",
+      "evolution_required": false,
+      "pros": ["Cyborg body", "High durability", "Good damage", "No evolution needed"],
+      "cons": ["Medium cost", "Physical element weakness", "Limited utility"],
+      "description": "Cyborg Franky with mechanical enhancements",
+      "recommended_traits": ["Damage", "Tank Boost"],
+      "anime_source": "One Piece"
+    },
+    {
+      "id": "brook-soul-king",
+      "name": "Brook (Soul King)",
+      "rarity": "Legendary",
+      "element": "Soul",
+      "tier": "B",
+      "placement_cost": "Medium",
+      "max_placement": 4,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Soul powers", "Musical abilities", "Good utility", "No evolution needed"],
+      "cons": ["Medium cost", "Soul element weakness", "Lower damage"],
+      "description": "Soul King Brook with musical soul powers",
+      "recommended_traits": ["Utility", "Soul Boost"],
+      "anime_source": "One Piece"
+    },
+    
+    // ====== NEW EPIC TIER UNITS ======
+    {
+      "id": "kiba-inuzuka",
+      "name": "Kiba (Inuzuka)",
+      "rarity": "Epic",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Beast companion", "Good damage", "Low cost", "High placement"],
+      "cons": ["Physical element weakness", "Limited utility", "Basic abilities"],
+      "description": "Inuzuka clan member with beast companion",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "shino-aburame",
+      "name": "Shino (Aburame)",
+      "rarity": "Epic",
+      "element": "Insect",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Insect control", "Good utility", "Low cost", "High placement"],
+      "cons": ["Insect element weakness", "Lower damage", "Basic abilities"],
+      "description": "Aburame clan member with insect control",
+      "recommended_traits": ["Utility", "Insect Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "hinata-hyuuga",
+      "name": "Hinata (Hyuuga)",
+      "rarity": "Epic",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Byakugan", "Good damage", "Low cost", "High placement"],
+      "cons": ["Physical element weakness", "Limited utility", "Basic abilities"],
+      "description": "Hyuuga clan member with Byakugan",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "shikamaru-nara",
+      "name": "Shikamaru (Nara)",
+      "rarity": "Epic",
+      "element": "Shadow",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS/Support",
+      "evolution_required": false,
+      "pros": ["Shadow techniques", "Good utility", "Low cost", "High placement"],
+      "cons": ["Shadow element weakness", "Lower damage", "Basic abilities"],
+      "description": "Nara clan member with shadow techniques",
+      "recommended_traits": ["Utility", "Shadow Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "ino-yamanaka",
+      "name": "Ino (Yamanaka)",
+      "rarity": "Epic",
+      "element": "Support",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "Support",
+      "evolution_required": false,
+      "pros": ["Mind transfer", "Good support", "Low cost", "High placement"],
+      "cons": ["No direct damage", "Support role only", "Basic abilities"],
+      "description": "Yamanaka clan member with mind transfer",
+      "recommended_traits": ["Support", "Utility Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "choji-akimichi",
+      "name": "Choji (Akimichi)",
+      "rarity": "Epic",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS/Tank",
+      "evolution_required": false,
+      "pros": ["Expansion jutsu", "Good tank", "Low cost", "High placement"],
+      "cons": ["Physical element weakness", "Limited utility", "Basic abilities"],
+      "description": "Akimichi clan member with expansion techniques",
+      "recommended_traits": ["Tank", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "kankuro-puppet-master",
+      "name": "Kankuro (Puppet Master)",
+      "rarity": "Epic",
+      "element": "Physical",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Puppet control", "Good utility", "Low cost", "High placement"],
+      "cons": ["Physical element weakness", "Lower damage", "Basic abilities"],
+      "description": "Puppet master with mechanical puppets",
+      "recommended_traits": ["Utility", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "temari-wind-master",
+      "name": "Temari (Wind Master)",
+      "rarity": "Epic",
+      "element": "Wind",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Wind techniques", "Good damage", "Low cost", "High placement"],
+      "cons": ["Wind element weakness", "Limited utility", "Basic abilities"],
+      "description": "Wind master with powerful wind techniques",
+      "recommended_traits": ["Damage", "Wind Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "gaara-sand",
+      "name": "Gaara (Sand)",
+      "rarity": "Epic",
+      "element": "Earth",
+      "tier": "B",
+      "placement_cost": "Low",
+      "max_placement": 6,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Sand control", "Good damage", "Low cost", "High placement"],
+      "cons": ["Earth element weakness", "Limited utility", "Basic abilities"],
+      "description": "Sand user with sand manipulation abilities",
+      "recommended_traits": ["Damage", "Earth Boost"],
+      "anime_source": "Naruto"
+    },
+    
+    // ====== NEW RARE TIER UNITS ======
+    {
+      "id": "konohamaru-sarutobi",
+      "name": "Konohamaru (Sarutobi)",
+      "rarity": "Rare",
+      "element": "Wind",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Wind techniques", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Wind element weakness"],
+      "description": "Young Sarutobi clan member with wind chakra",
+      "recommended_traits": ["Damage", "Wind Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "moegi-uzumaki",
+      "name": "Moegi (Uzumaki)",
+      "rarity": "Rare",
+      "element": "Wood",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Wood release", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Wood element weakness"],
+      "description": "Uzumaki clan member with wood release",
+      "recommended_traits": ["Damage", "Wood Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "udon-iwabee",
+      "name": "Udon (Iwabee)",
+      "rarity": "Rare",
+      "element": "Physical",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Physical techniques", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
+      "description": "Physical combat specialist with basic techniques",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "tenten-weapon-master",
+      "name": "Tenten (Weapon Master)",
+      "rarity": "Rare",
+      "element": "Physical",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Weapon mastery", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
+      "description": "Weapon master with various combat tools",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "rock-lee-youth",
+      "name": "Rock Lee (Youth)",
+      "rarity": "Rare",
+      "element": "Physical",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Taijutsu mastery", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
+      "description": "Young taijutsu master with incredible speed",
+      "recommended_traits": ["Speed", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "neji-hyuuga-genin",
+      "name": "Neji (Hyuuga Genin)",
+      "rarity": "Rare",
+      "element": "Physical",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Byakugan", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
+      "description": "Young Hyuuga prodigy with Byakugan",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "kiba-inuzuka-genin",
+      "name": "Kiba (Inuzuka Genin)",
+      "rarity": "Rare",
+      "element": "Physical",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Beast companion", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
+      "description": "Young Inuzuka with basic beast techniques",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "shino-aburame-genin",
+      "name": "Shino (Aburame Genin)",
+      "rarity": "Rare",
+      "element": "Insect",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Insect control", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Insect element weakness"],
+      "description": "Young Aburame with basic insect techniques",
+      "recommended_traits": ["Utility", "Insect Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "hinata-hyuuga-genin",
+      "name": "Hinata (Hyuuga Genin)",
+      "rarity": "Rare",
+      "element": "Physical",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Byakugan", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
+      "description": "Young Hyuuga with basic Byakugan",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Naruto"
+    },
+    {
+      "id": "shikamaru-nara-genin",
+      "name": "Shikamaru (Nara Genin)",
+      "rarity": "Rare",
+      "element": "Shadow",
+      "tier": "C",
+      "placement_cost": "Very Low",
+      "max_placement": 8,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Shadow techniques", "Very cheap", "High placement", "Easy to obtain"],
+      "cons": ["Low damage", "Basic abilities", "Shadow element weakness"],
+      "description": "Young Nara with basic shadow techniques",
+      "recommended_traits": ["Utility", "Shadow Boost"],
+      "anime_source": "Naruto"
     }
-];
-
-// Unit categorization and filtering constants
-export const UNIT_RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'];
-export const UNIT_ELEMENTS = ['All Elements', 'Fire', 'Water', 'Wind', 'Lightning', 'Dark', 'Light', 'Physical', 'Energy', 'Soul'];
-export const UNIT_ATTACK_TYPES = ['All Types', 'Melee', 'Ranged', 'Support', 'Hybrid'];
-export const UNIT_SERIES = ['All Series', 'Dragon Ball', 'Naruto', 'One Piece', 'Demon Slayer', 'Bleach', 'One Punch Man', 'Generic'];
-
-// Color mapping for UI
-export const RARITY_COLORS = {
-    'Common': '#9CA3AF',      // Gray
-    'Uncommon': '#10B981',    // Green
-    'Rare': '#3B82F6',       // Blue
-    'Epic': '#8B5CF6',       // Purple
-    'Legendary': '#F59E0B',   // Orange
-    'Mythic': '#EF4444'      // Red
-};
-
-export const ELEMENT_COLORS = {
-    'Fire': '#EF4444',        // Red
-    'Water': '#3B82F6',      // Blue
-    'Wind': '#10B981',       // Green
-    'Lightning': '#F59E0B',  // Orange
-    'Dark': '#8B5CF6',       // Purple
-    'Light': '#FCD34D',      // Yellow
-    'Physical': '#6B7280',   // Gray
-    'Energy': '#EC4899',     // Pink
-    'Soul': '#8B5CF6',       // Purple
-    'Earth': '#A0522D',      // Brown
-    'Shadow': '#1F2937'      // Dark Gray
+  ],
+  "tiers": {
+    "SS": {
+      "description": "Absolute best units, game-changing power",
+      "color": "#ff6b6b"
+    },
+    "S+": {
+      "description": "Extremely powerful, meta-defining units", 
+      "color": "#ff8e53"
+    },
+    "S": {
+      "description": "Very strong units, highly recommended",
+      "color": "#ff6b9d"
+    },
+    "A": {
+      "description": "Good units, solid choices for most content",
+      "color": "#4ecdc4"
+    },
+    "B": {
+      "description": "Average units, usable but not optimal",
+      "color": "#45b7d1"
+    },
+    "C": {
+      "description": "Basic units, good for beginners and early game",
+      "color": "#95a5a6"
+    }
+  },
+  "rarities": {
+    "Vanguard": {"color": "#9b59b6", "chance": "0.005%"},
+    "Secret": {"color": "#e74c3c", "chance": "0.1%"},
+    "Mythic": {"color": "#f39c12", "chance": "1%"},
+    "Legendary": {"color": "#3498db", "chance": "3.5%"},
+    "Epic": {"color": "#9b59b6", "chance": "20%"},
+    "Rare": {"color": "#2ecc71", "chance": "75.495%"}
+  }
 };
