@@ -728,108 +728,9 @@
             font-weight: 500;
         }
 
-        /* Related Tools Section Styles */
-        .related-tools {
-            margin-top: 3rem;
-            padding: 2rem 0;
-            background: rgba(108, 92, 231, 0.05);
-            border-radius: 16px;
-            border: 1px solid rgba(162, 155, 254, 0.2);
-        }
 
-        .related-tools-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
 
-        .related-tools-title {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
 
-        .related-tools-subtitle {
-            font-size: 1rem;
-            color: #a29bfe;
-            text-align: center;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-        }
-
-        .related-tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .related-tool-card {
-            background: rgba(108, 92, 231, 0.1);
-            border: 1px solid rgba(162, 155, 254, 0.3);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .related-tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
-        }
-
-        .tool-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-
-        .tool-icon i {
-            font-size: 1.25rem;
-            color: #ffffff;
-        }
-
-        .tool-content h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 0.75rem;
-        }
-
-        .tool-content p {
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .tool-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #a29bfe;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .tool-link:hover {
-            color: #ffffff;
-        }
-
-        .tool-link i {
-            font-size: 0.8rem;
-            transition: transform 0.3s ease;
-        }
-
-        .tool-link:hover i {
-            transform: translateX(3px);
-        }
 
         /* Responsive Design for Homepage */
         @media (max-width: 768px) {
@@ -4601,37 +4502,7 @@
                 </div>
             </section>
 
-            <!-- Related Tools Section -->
-            <section class="related-tools">
-                <div class="related-tools-container">
-                    <h2 class="related-tools-title">Related Tools</h2>
-                    <p class="related-tools-subtitle">Explore other useful tools for Anime Vanguards players</p>
-                    
-                    <div class="related-tools-grid">
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Unit Database</h3>
-                                <p>Browse complete unit information, stats, and abilities for all characters.</p>
-                                <a href="#databasePage" class="tool-link">Browse Database <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-gift"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Free Codes</h3>
-                                <p>Get free gems, gold, and exclusive rewards with working Anime Vanguards codes.</p>
-                                <a href="#codesPage" class="tool-link">Get Free Codes <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+
         </div>
 
 
@@ -5365,48 +5236,7 @@
                 </div>
             </section>
 
-            <!-- Related Tools Section -->
-            <section class="related-tools">
-                <div class="related-tools-container">
-                    <h2 class="related-tools-title">Related Tools</h2>
-                    <p class="related-tools-subtitle">Explore other useful tools for Anime Vanguards players</p>
-                    
-                    <div class="related-tools-grid">
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-arrow-up"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Evolution Guide</h3>
-                                <p>Plan your unit evolution with detailed material requirements and cost analysis.</p>
-                                <a href="#evolutionPage" class="tool-link">View Evolution Guide <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Unit Database</h3>
-                                <p>Browse complete unit information, stats, and abilities for all characters.</p>
-                                <a href="#databasePage" class="tool-link">Browse Database <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-crosshairs"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Traits Guide</h3>
-                                <p>Learn about unit traits and how to create powerful team synergies.</p>
-                                <a href="#traitsPage" class="tool-link">View Traits Guide <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+
         </div>
 
         <!-- About Page -->
@@ -5430,48 +5260,8 @@
                 </div>
             </div>
             
-            <!-- Related Tools Section -->
-            <section class="related-tools">
-                <div class="related-tools-container">
-                    <h2 class="related-tools-title">Explore Our Tools</h2>
-                    <p class="related-tools-subtitle">Discover all the resources available for Anime Vanguards players</p>
-                    
-                    <div class="related-tools-grid">
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-arrow-up"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Evolution Guide</h3>
-                                <p>Plan your unit evolution with detailed material requirements and cost analysis.</p>
-                                <a href="#evolutionPage" class="tool-link">View Evolution Guide <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-gift"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Free Codes</h3>
-                                <p>Get free gems, gold, and rewards with our latest working codes.</p>
-                                <a href="#codesPage" class="tool-link">Get Codes <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="related-tool-card">
-                            <div class="tool-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div class="tool-content">
-                                <h3>Unit Database</h3>
-                                <p>Browse complete unit information, stats, and abilities for all characters.</p>
-                                <a href="#databasePage" class="tool-link">Browse Database <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+
+
         </div>
     </main>
 
