@@ -4608,245 +4608,111 @@
             </div>
         </div>
 
-        <!-- Traits Guide Page -->
-        <div id="traitsPage" class="page-container">
+        <!-- DPS Calculator Page -->
+        <div id="calculatorPage" class="page-container">
             <!-- Breadcrumb Navigation -->
             <nav class="breadcrumb-nav" aria-label="Breadcrumb">
                 <ol class="breadcrumb-list">
                     <li class="breadcrumb-item">
-                        <a href="#evolution" class="breadcrumb-link">
+                        <a href="#home" class="breadcrumb-link">
                             <i class="fas fa-home"></i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li class="breadcrumb-item">
-                        <span class="breadcrumb-current">Traits Guide</span>
+                        <span class="breadcrumb-current">DPS Calculator</span>
                     </li>
                 </ol>
             </nav>
 
-            <!-- Traits Tools - Moved to top for immediate access -->
-            <div class="traits-tools-container">
-                <!-- Search and Filter Section -->
-                <section class="traits-search-filter-section">
-                    <div class="search-container">
-                        <div class="search-input-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="traitsSearchInput" class="search-input" placeholder="Search traits by name, description...">
-                            <button id="traitsClearSearch" class="clear-search-btn" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Filter Controls -->
-                    <div class="filter-controls">
-                        <div class="filter-row">
-                            <div class="filter-group">
-                                <label for="traitsCategoryFilter">Category:</label>
-                                <select id="traitsCategoryFilter" class="filter-select">
-                                    <option value="">All Categories</option>
-                                    <option value="combat">Combat Traits</option>
-                                    <option value="defensive">Defensive Traits</option>
-                                    <option value="utility">Utility Traits</option>
-                                    <option value="synergy">Synergy Traits</option>
-                                    <option value="legendary">Legendary Traits</option>
-                                </select>
-                            </div>
+            <!-- DPS Calculator Content -->
+            <div class="dps-calculator-container">
+                <!-- Page Header -->
+                <div class="calculator-header">
+                    <h1 class="page-title">DPS Calculator</h1>
+                    <p class="page-description">Calculate your unit's damage output and optimize your build</p>
+                </div>
+
+                <!-- Main Calculator Layout -->
+                <div class="calculator-layout">
+                    <!-- Left Side - Input Area -->
+                    <div class="calculator-input-section">
+                        <div class="input-card">
+                            <h3><i class="fas fa-cog"></i> Unit Configuration</h3>
                             
-                            <div class="filter-group">
-                                <label for="traitsRarityFilter">Rarity:</label>
-                                <select id="traitsRarityFilter" class="filter-select">
-                                    <option value="">All Rarity</option>
-                                    <option value="common">Common</option>
-                                    <option value="rare">Rare</option>
-                                    <option value="epic">Epic</option>
-                                    <option value="legendary">Legendary</option>
+                            <!-- Unit Selection -->
+                            <div class="input-group">
+                                <label for="unitSelect">Select Unit:</label>
+                                <select id="unitSelect" class="unit-select">
+                                    <option value="">Choose a unit...</option>
                                 </select>
                             </div>
+
+                            <!-- Level Slider -->
+                            <div class="input-group">
+                                <label for="levelSlider">Level: <span id="levelValue">1</span></label>
+                                <input type="range" id="levelSlider" class="level-slider" min="1" max="12" value="1">
+                            </div>
+
+                            <!-- Trait Selection -->
+                            <div class="input-group">
+                                <label for="traitSelect">Select Trait:</label>
+                                <select id="traitSelect" class="trait-select">
+                                    <option value="">No Trait</option>
+                                </select>
+                            </div>
+
+                            <!-- Enemy Count -->
+                            <div class="input-group">
+                                <label for="enemyCount">Number of Enemies:</label>
+                                <input type="number" id="enemyCount" class="enemy-input" min="1" max="10" value="1">
+                            </div>
+
+                            <!-- Calculate Button -->
+                            <button id="calculateBtn" class="calculate-btn">
+                                <i class="fas fa-calculator"></i> Calculate DPS
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Side - Results Area -->
+                    <div class="calculator-results-section">
+                        <div class="results-card">
+                            <h3><i class="fas fa-chart-bar"></i> DPS Results</h3>
                             
-                            <div class="filter-group">
-                                <label for="traitsEffectFilter">Effect Type:</label>
-                                <select id="traitsEffectFilter" class="filter-select">
-                                    <option value="">All Effects</option>
-                                    <option value="damage">Damage Boost</option>
-                                    <option value="defense">Defense Boost</option>
-                                    <option value="utility">Utility</option>
-                                    <option value="synergy">Team Synergy</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <!-- Quick Filter Tags -->
-                        <div class="quick-filter-tags">
-                            <button class="quick-filter-tag" data-filter="popular">
-                                <i class="fas fa-fire"></i> Popular
-                            </button>
-                            <button class="quick-filter-tag" data-filter="meta">
-                                <i class="fas fa-star"></i> Meta
-                            </button>
-                            <button class="quick-filter-tag" data-filter="beginner">
-                                <i class="fas fa-bullseye"></i> Beginner Friendly
-                            </button>
-                            <button class="quick-filter-tag" data-filter="advanced">
-                                <i class="fas fa-crown"></i> Advanced
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Traits Builder Tool -->
-                <section class="traits-builder-section">
-                    <h3><i class="fas fa-tools"></i> Traits Builder</h3>
-                    <div class="traits-builder-tool">
-                        <div class="builder-controls">
-                            <div class="builder-group">
-                                <label for="unitForTraits">Select Unit:</label>
-                                <select id="unitForTraits" class="unit-select">
-                                    <option value="">Choose a unit to see available traits...</option>
-                                </select>
-                            </div>
-                            <div class="builder-group">
-                                <label for="traitSlot1">Trait Slot 1:</label>
-                                <select id="traitSlot1" class="trait-select">
-                                    <option value="">Select trait...</option>
-                                </select>
-                            </div>
-                            <div class="builder-group">
-                                <label for="traitSlot2">Trait Slot 2:</label>
-                                <select id="traitSlot2" class="trait-select">
-                                    <option value="">Select trait...</option>
-                                </select>
-                            </div>
-                            <div class="builder-group">
-                                <label for="traitSlot3">Trait Slot 3:</label>
-                                <select id="traitSlot3" class="trait-select">
-                                    <option value="">Select trait...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button id="analyzeTraits" class="analyze-traits-btn">
-                            <i class="fas fa-chart-bar"></i> Analyze Traits
-                        </button>
-                    </div>
-                </section>
-
-                <!-- Traits Results -->
-                <section class="traits-results-section">
-                    <h3><i class="fas fa-chart-line"></i> Traits Analysis</h3>
-                    <div id="traitsResults" class="traits-results-placeholder">
-                        <i class="fas fa-search"></i>
-                        <p>Select a unit and traits to see analysis results</p>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Traits Guide Introduction - Moved below the tools -->
-            <div class="traits-page">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="traits-header-main">
-                            <div class="traits-title-section">
-                                <i class="fas fa-star"></i>
-                                <div class="traits-title-content">
-                                    <h3>Anime Vanguards Traits Guide - Complete Traits System</h3>
-                                    <p class="traits-subtitle">Master the traits system to optimize your team composition and strategy</p>
-                                </div>
-                            </div>
-                            <div class="traits-stats-dashboard">
-                                <div class="stat-item">
-                                    <div class="stat-icon active">
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span class="stat-number">25+</span>
-                                        <span class="stat-label">Unique Traits</span>
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-icon updated">
-                                        <i class="fas fa-layer-group"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span class="stat-number">5</span>
-                                        <span class="stat-label">Trait Categories</span>
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-icon updated">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <span class="stat-label">Last Updated</span>
-                                        <span class="stat-date">January 2025</span>
-                                    </div>
+                            <div id="dpsResults" class="results-content">
+                                <div class="results-placeholder">
+                                    <i class="fas fa-calculator"></i>
+                                    <p>Configure your unit and click Calculate to see results</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="traits-content">
-                        <!-- Traits Overview Section -->
-                        <div class="traits-overview-section">
-                            <h4>What are Traits?</h4>
-                            <p>Traits are special abilities that units possess that provide various bonuses and effects. Understanding traits is crucial for building effective teams and maximizing your units' potential.</p>
-                            
-                            <div class="traits-categories">
-                                <div class="trait-category">
-                                    <div class="category-icon">
-                                        <i class="fas fa-sword"></i>
-                                    </div>
-                                    <div class="category-content">
-                                        <h5>Combat Traits</h5>
-                                        <p>Traits that enhance damage, critical hits, and combat effectiveness</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="trait-category">
-                                    <div class="category-icon">
-                                        <i class="fas fa-shield-alt"></i>
-                                    </div>
-                                    <div class="category-content">
-                                        <h5>Defensive Traits</h5>
-                                        <p>Traits that improve survivability and damage reduction</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="trait-category">
-                                    <div class="category-icon">
-                                        <i class="fas fa-magic"></i>
-                                    </div>
-                                    <div class="category-content">
-                                        <h5>Utility Traits</h5>
-                                        <p>Traits that provide special effects and unique abilities</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="trait-category">
-                                    <div class="category-icon">
-                                        <i class="fas fa-users"></i>
-                                    </div>
-                                    <div class="category-content">
-                                        <h5>Synergy Traits</h5>
-                                        <p>Traits that work together with other units for team bonuses</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="trait-category">
-                                    <div class="category-icon">
-                                        <i class="fas fa-crown"></i>
-                                    </div>
-                                    <div class="category-content">
-                                        <h5>Legendary Traits</h5>
-                                        <p>Rare and powerful traits that provide significant advantages</p>
-                                    </div>
-                                </div>
-                            </div>
+                </div>
+
+                <!-- Bottom Section - Preset Examples -->
+                <div class="preset-examples-section">
+                    <div class="preset-card">
+                        <h3><i class="fas fa-star"></i> Popular Builds</h3>
+                        <div class="preset-buttons">
+                            <button class="preset-btn" data-preset="meta-dps">
+                                <i class="fas fa-fire"></i> Meta DPS Build
+                            </button>
+                            <button class="preset-btn" data-preset="balanced">
+                                <i class="fas fa-balance-scale"></i> Balanced Build
+                            </button>
+                            <button class="preset-btn" data-preset="tank-killer">
+                                <i class="fas fa-shield-alt"></i> Tank Killer
+                            </button>
+                            <button class="preset-btn" data-preset="crowd-control">
+                                <i class="fas fa-users"></i> Crowd Control
+                            </button>
                         </div>
-
-
                     </div>
                 </div>
             </div>
+
+
         </div>
 
         <!-- Codes Page -->
