@@ -552,13 +552,13 @@ export class App {
         // Sort units by rarity and stats
         const sortedUnits = units.sort((a, b) => {
             // First by rarity
-            const rarityOrder = { 'SSR': 5, 'SR': 4, 'R': 3, 'N': 2, 'Common': 1 };
+            const rarityOrder = { 'Exclusive': 6, 'Mythic': 5, 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
             const rarityDiff = (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
             if (rarityDiff !== 0) return rarityDiff;
             
             // Then by total stats
-            const aStats = a.stats ? (a.stats.attack || 0) + (a.stats.defense || 0) + (a.stats.speed || 0) + (a.stats.hp || 0) : 0;
-            const bStats = b.stats ? (b.stats.attack || 0) + (b.stats.defense || 0) + (b.stats.speed || 0) + (b.stats.hp || 0) : 0;
+            const aStats = a.stats ? (a.stats.attack || 0) + (a.stats.defense || 0) + (a.stats.skill || 0) : 0;
+            const bStats = b.stats ? (b.stats.attack || 0) + (b.stats.defense || 0) + (b.stats.skill || 0) : 0;
             return bStats - aStats;
         });
         
@@ -568,11 +568,12 @@ export class App {
     
     generateTopUnitCard(unit) {
         const rarityColors = {
-            'SSR': '#FFD700', // Gold
-            'SR': '#C0C0C0',  // Silver
-            'R': '#CD7F32',   // Bronze
-            'N': '#4ECDC4',   // Teal
-            'Common': '#96CEB4' // Green
+            'Exclusive': '#FF6B9D', // Pink
+            'Mythic': '#FFD700',    // Gold
+            'Legendary': '#FF6B6B', // Red
+            'Epic': '#C0C0C0',     // Silver
+            'Rare': '#CD7F32',     // Bronze
+            'Common': '#96CEB4'    // Green
         };
         
         const rarityColor = rarityColors[unit.rarity] || '#96CEB4';
@@ -590,8 +591,7 @@ export class App {
                     <div class="unit-stats">
                         ${unit.stats?.attack ? `<span class="stat">ATK: ${unit.stats.attack}</span>` : ''}
                         ${unit.stats?.defense ? `<span class="stat">DEF: ${unit.stats.defense}</span>` : ''}
-                        ${unit.stats?.speed ? `<span class="stat">SPD: ${unit.stats.speed}</span>` : ''}
-                        ${unit.stats?.hp ? `<span class="stat">HP: ${unit.stats.hp}</span>` : ''}
+                        ${unit.stats?.skill ? `<span class="stat">SKL: ${unit.stats.skill}</span>` : ''}
                     </div>
                     <div class="unit-tier" style="background: ${rarityColor}">${tier} Tier</div>
                 </div>
@@ -604,16 +604,15 @@ export class App {
         let score = 0;
         
         // Rarity score
-        const rarityScores = { 'SSR': 100, 'SR': 80, 'R': 60, 'N': 40, 'Common': 20 };
+        const rarityScores = { 'Exclusive': 100, 'Mythic': 95, 'Legendary': 90, 'Epic': 70, 'Rare': 50, 'Common': 30 };
         score += rarityScores[unit.rarity] || 0;
         
         // Stats score
         if (unit.stats) {
-            const { attack, defense, speed, hp } = unit.stats;
-            if (attack) score += Math.min(attack / 10, 20);
-            if (defense) score += Math.min(defense / 10, 20);
-            if (speed) score += Math.min(speed / 10, 20);
-            if (hp) score += Math.min(hp / 100, 20);
+            const { attack, defense, skill } = unit.stats;
+            if (attack) score += Math.min(attack / 500, 20);
+            if (defense) score += Math.min(defense / 500, 20);
+            if (skill) score += Math.min(skill / 500, 20);
         }
         
         // Return tier based on score

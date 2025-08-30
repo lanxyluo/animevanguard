@@ -48,7 +48,7 @@ export class TierListPage {
         // 按稀有度排序每个tier内的单位
         Object.keys(tiers).forEach(tier => {
             tiers[tier].sort((a, b) => {
-                const rarityOrder = { 'SSR': 5, 'SR': 4, 'R': 3, 'N': 2, 'Common': 1 };
+                const rarityOrder = { 'Exclusive': 6, 'Mythic': 5, 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
                 return (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
             });
         });
@@ -61,34 +61,32 @@ export class TierListPage {
         let baseScore = 0;
         
         // 稀有度分数
-        const rarityScores = { 'SSR': 100, 'SR': 80, 'R': 60, 'N': 40, 'Common': 20 };
+        const rarityScores = { 'Exclusive': 100, 'Mythic': 95, 'Legendary': 90, 'Epic': 70, 'Rare': 50, 'Common': 30 };
         baseScore += rarityScores[unit.rarity] || 0;
         
         // 属性分数
         if (unit.stats) {
-            const { attack, defense, speed, hp } = unit.stats;
-            if (attack) baseScore += Math.min(attack / 10, 20);
-            if (defense) baseScore += Math.min(defense / 10, 20);
-            if (speed) baseScore += Math.min(speed / 10, 20);
-            if (hp) baseScore += Math.min(hp / 100, 20);
+            const { attack, defense, skill } = unit.stats;
+            if (attack) baseScore += Math.min(attack / 500, 20);
+            if (defense) baseScore += Math.min(defense / 500, 20);
+            if (skill) baseScore += Math.min(skill / 500, 20);
         }
         
         // 模式特定调整
         switch (mode) {
             case 'story':
-                // 故事模式偏好高攻击和速度
-                if (unit.stats?.attack > 80) baseScore += 15;
-                if (unit.stats?.speed > 80) baseScore += 10;
+                // 故事模式偏好高攻击和技能
+                if (unit.stats?.attack > 8000) baseScore += 15;
+                if (unit.stats?.skill > 8000) baseScore += 10;
                 break;
             case 'infinite':
-                // 无限模式偏好高防御和HP
-                if (unit.stats?.defense > 80) baseScore += 15;
-                if (unit.stats?.hp > 1000) baseScore += 10;
+                // 无限模式偏好高防御
+                if (unit.stats?.defense > 6000) baseScore += 15;
                 break;
             case 'pvp':
-                // PvP偏好平衡的属性和高速度
-                if (unit.stats?.speed > 85) baseScore += 15;
-                if (unit.stats?.attack > 75 && unit.stats?.defense > 75) baseScore += 10;
+                // PvP偏好平衡的属性和高技能
+                if (unit.stats?.skill > 8000) baseScore += 15;
+                if (unit.stats?.attack > 7000 && unit.stats?.defense > 5000) baseScore += 10;
                 break;
         }
         
@@ -104,20 +102,21 @@ export class TierListPage {
         const descriptions = [];
         
         // 稀有度描述
-        if (unit.rarity === 'SSR') descriptions.push('Ultra rare unit');
-        else if (unit.rarity === 'SR') descriptions.push('Super rare unit');
-        else if (unit.rarity === 'R') descriptions.push('Rare unit');
+        if (unit.rarity === 'Exclusive') descriptions.push('Exclusive unit');
+        else if (unit.rarity === 'Mythic') descriptions.push('Mythic unit');
+        else if (unit.rarity === 'Legendary') descriptions.push('Legendary unit');
+        else if (unit.rarity === 'Epic') descriptions.push('Epic unit');
+        else if (unit.rarity === 'Rare') descriptions.push('Rare unit');
         
         // 属性描述
         if (unit.element) descriptions.push(`${unit.element} element`);
         
         // 统计描述
         if (unit.stats) {
-            const { attack, defense, speed, hp } = unit.stats;
-            if (attack > 90) descriptions.push('High attack');
-            if (defense > 90) descriptions.push('High defense');
-            if (speed > 90) descriptions.push('High speed');
-            if (hp > 1200) descriptions.push('High HP');
+            const { attack, defense, skill } = unit.stats;
+            if (attack > 9000) descriptions.push('High attack');
+            if (defense > 6000) descriptions.push('High defense');
+            if (skill > 8000) descriptions.push('High skill');
         }
         
         // 模式特定描述
@@ -212,11 +211,12 @@ export class TierListPage {
     
     renderUnitCard(unit) {
         const rarityColors = {
-            'SSR': '#FFD700', // Gold
-            'SR': '#C0C0C0',  // Silver
-            'R': '#CD7F32',   // Bronze
-            'N': '#4ECDC4',   // Teal
-            'Common': '#96CEB4' // Green
+            'Exclusive': '#FF6B9D', // Pink
+            'Mythic': '#FFD700',    // Gold
+            'Legendary': '#FF6B6B', // Red
+            'Epic': '#C0C0C0',     // Silver
+            'Rare': '#CD7F32',     // Bronze
+            'Common': '#96CEB4'    // Green
         };
         
         const rarityColor = rarityColors[unit.rarity] || '#96CEB4';
@@ -237,8 +237,7 @@ export class TierListPage {
                         <div class="unit-stats">
                             ${unit.stats.attack ? `<span class="stat">ATK: ${unit.stats.attack}</span>` : ''}
                             ${unit.stats.defense ? `<span class="stat">DEF: ${unit.stats.defense}</span>` : ''}
-                            ${unit.stats.speed ? `<span class="stat">SPD: ${unit.stats.speed}</span>` : ''}
-                            ${unit.stats.hp ? `<span class="stat">HP: ${unit.stats.hp}</span>` : ''}
+                            ${unit.stats.skill ? `<span class="stat">SKL: ${unit.stats.skill}</span>` : ''}
                         </div>
                     ` : ''}
                 </div>
