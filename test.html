@@ -77,7 +77,7 @@
                 const { elementIcons } = await import('./js/config/constants.js');
                 
                 statusDiv.innerHTML = '<span class="success">✅ All modules loaded successfully!</span>';
-                outputDiv.innerHTML += '<div class="success">✓ Units data loaded: ' + unitsData.length + ' units</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Units data loaded: ' + (unitsData.units ? unitsData.units.length : 0) + ' units</div>';
                 outputDiv.innerHTML += '<div class="success">✓ Materials config loaded</div>';
                 outputDiv.innerHTML += '<div class="success">✓ Element icons loaded</div>';
                 
@@ -94,12 +94,13 @@
             
             try {
                 const { DatabasePage } = await import('./js/pages/database.js');
-                const { UnitDataManager, sampleUnits } = await import('./js/data/units.js');
+                const { UnitDataManager } = await import('./js/data/units.js');
+                const { unitsData } = await import('./js/config/units.js');
                 
                 // Create a mock app object
                 const mockApp = {
                     data: {
-                        unitsData: sampleUnits,
+                        unitsData: unitsData,
                         materialsConfig: {},
                         elementIcons: {}
                     }
@@ -110,7 +111,7 @@
                 await databasePage.initialize(mockApp.data);
                 
                 // Test data manager
-                const dataManager = new UnitDataManager(sampleUnits);
+                const dataManager = new UnitDataManager(unitsData.units || []);
                 const filteredUnits = dataManager.filterUnits({ searchText: 'Saber' });
                 
                 statusDiv.innerHTML = '<span class="success">✅ Database functionality working!</span>';

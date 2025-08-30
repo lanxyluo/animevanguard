@@ -140,7 +140,12 @@ export class UnitSelector {
     
     setUnits(unitsData, elementIcons) {
         // Use provided units data (from Unit Database)
-        this.allUnits = unitsData || [];
+        // Handle both array and object formats
+        if (unitsData && typeof unitsData === 'object' && unitsData.units) {
+            this.allUnits = unitsData.units || [];
+        } else {
+            this.allUnits = unitsData || [];
+        }
         this.elementIcons = elementIcons;
         this.filteredUnits = [...this.allUnits];
         

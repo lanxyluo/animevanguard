@@ -36,8 +36,9 @@ export class DatabasePage {
             }
             
             // Initialize data manager with units data
-            const unitsData = data?.unitsData || [];
-            this.dataManager = new UnitDataManager(unitsData);
+            const unitsData = data?.unitsData || {};
+            const units = unitsData.units || [];
+            this.dataManager = new UnitDataManager(units);
             
             // Initialize UI elements
             this.initializeUI();
