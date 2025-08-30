@@ -96,7 +96,7 @@ export class App {
             home: null, // home页面显示homepage-intro，不需要容器
             tierlist: document.getElementById('tierlistPage'),
             database: document.getElementById('databasePage'),
-            calculator: document.getElementById('traitsPage'), // 暂时映射到traits页面
+            calculator: document.getElementById('calculatorPage'),
             traits: document.getElementById('traitsPage'),
             codes: document.getElementById('codesPage'),
             about: document.getElementById('aboutPage')
