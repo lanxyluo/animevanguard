@@ -12,93 +12,128 @@ export class TierListPage {
     }
     
     async loadTierData() {
-        // 模拟tier list数据 - 实际项目中应该从API获取
+        console.log('🔄 Loading real tier data from units and evolution data...');
+        
+        // 从真实数据生成tier list
         this.tierData = {
-            all: {
-                S: [
-                    { id: '001', name: 'Shadow Assassin', avatar: '👤', description: 'High damage output with stealth abilities' },
-                    { id: '002', name: 'Crystal Mage', avatar: '👤', description: 'Powerful magic user with crowd control' },
-                    { id: '003', name: 'Iron Guardian', avatar: '👤', description: 'Tank with excellent defensive skills' }
-                ],
-                A: [
-                    { id: '004', name: 'Swift Archer', avatar: '👤', description: 'Fast ranged attacker with mobility' },
-                    { id: '005', name: 'Healing Priest', avatar: '👤', description: 'Support unit with strong healing' },
-                    { id: '006', name: 'Fire Warrior', avatar: '👤', description: 'Balanced fighter with fire abilities' }
-                ],
-                B: [
-                    { id: '007', name: 'Ice Sorcerer', avatar: '👤', description: 'Decent magic damage and control' },
-                    { id: '008', name: 'Light Cavalry', avatar: '👤', description: 'Fast but fragile melee unit' },
-                    { id: '009', name: 'Earth Defender', avatar: '👤', description: 'Good defense but low damage' }
-                ],
-                C: [
-                    { id: '010', name: 'Wind Scout', avatar: '👤', description: 'Fast but weak in combat' },
-                    { id: '011', name: 'Water Healer', avatar: '👤', description: 'Basic healing abilities' },
-                    { id: '012', name: 'Stone Golem', avatar: '👤', description: 'Slow but durable unit' }
-                ],
-                D: [
-                    { id: '013', name: 'Novice Fighter', avatar: '👤', description: 'Beginner unit with basic skills' },
-                    { id: '014', name: 'Apprentice Mage', avatar: '👤', description: 'Learning magic, not very effective' },
-                    { id: '015', name: 'Recruit Guard', avatar: '👤', description: 'Basic defensive unit' }
-                ]
-            },
-            story: {
-                S: [
-                    { id: '001', name: 'Shadow Assassin', avatar: '👤', description: 'Excellent for story progression' },
-                    { id: '002', name: 'Crystal Mage', avatar: '👤', description: 'Great for clearing story stages' }
-                ],
-                A: [
-                    { id: '004', name: 'Swift Archer', avatar: '👤', description: 'Good for story mode' },
-                    { id: '005', name: 'Healing Priest', avatar: '👤', description: 'Essential for story survival' }
-                ],
-                B: [
-                    { id: '007', name: 'Ice Sorcerer', avatar: '👤', description: 'Decent story performance' }
-                ],
-                C: [
-                    { id: '010', name: 'Wind Scout', avatar: '👤', description: 'Basic story unit' }
-                ],
-                D: [
-                    { id: '013', name: 'Novice Fighter', avatar: '👤', description: 'Not recommended for story' }
-                ]
-            },
-            infinite: {
-                S: [
-                    { id: '003', name: 'Iron Guardian', avatar: '👤', description: 'Best for infinite mode survival' },
-                    { id: '005', name: 'Healing Priest', avatar: '👤', description: 'Essential for long runs' }
-                ],
-                A: [
-                    { id: '001', name: 'Shadow Assassin', avatar: '👤', description: 'Good damage for infinite mode' },
-                    { id: '002', name: 'Crystal Mage', avatar: '👤', description: 'Strong magic for waves' }
-                ],
-                B: [
-                    { id: '006', name: 'Fire Warrior', avatar: '👤', description: 'Balanced infinite mode unit' }
-                ],
-                C: [
-                    { id: '008', name: 'Light Cavalry', avatar: '👤', description: 'Fast but fragile in infinite' }
-                ],
-                D: [
-                    { id: '014', name: 'Apprentice Mage', avatar: '👤', description: 'Too weak for infinite mode' }
-                ]
-            },
-            pvp: {
-                S: [
-                    { id: '001', name: 'Shadow Assassin', avatar: '👤', description: 'Top tier PvP damage dealer' },
-                    { id: '002', name: 'Crystal Mage', avatar: '👤', description: 'Excellent PvP crowd control' }
-                ],
-                A: [
-                    { id: '004', name: 'Swift Archer', avatar: '👤', description: 'Good PvP mobility and damage' },
-                    { id: '006', name: 'Fire Warrior', avatar: '👤', description: 'Solid PvP fighter' }
-                ],
-                B: [
-                    { id: '003', name: 'Iron Guardian', avatar: '👤', description: 'Decent PvP tank' }
-                ],
-                C: [
-                    { id: '009', name: 'Earth Defender', avatar: '👤', description: 'Basic PvP defense' }
-                ],
-                D: [
-                    { id: '015', name: 'Recruit Guard', avatar: '👤', description: 'Too weak for PvP' }
-                ]
-            }
+            all: this.generateTierData('all'),
+            story: this.generateTierData('story'),
+            infinite: this.generateTierData('infinite'),
+            pvp: this.generateTierData('pvp')
         };
+        
+        console.log('✅ Tier data loaded successfully:', this.tierData);
+    }
+    
+    generateTierData(mode) {
+        const { unitsData, evolutionData } = this.data;
+        const tiers = { S: [], A: [], B: [], C: [], D: [] };
+        
+        // 遍历所有单位数据
+        Object.values(unitsData).forEach(unit => {
+            const tier = this.calculateUnitTier(unit, mode);
+            if (tier && tiers[tier]) {
+                tiers[tier].push({
+                    id: unit.id,
+                    name: unit.name,
+                    avatar: unit.avatar || '👤',
+                    description: this.generateUnitDescription(unit, mode),
+                    rarity: unit.rarity,
+                    element: unit.element,
+                    stats: unit.stats
+                });
+            }
+        });
+        
+        // 按稀有度排序每个tier内的单位
+        Object.keys(tiers).forEach(tier => {
+            tiers[tier].sort((a, b) => {
+                const rarityOrder = { 'SSR': 5, 'SR': 4, 'R': 3, 'N': 2, 'Common': 1 };
+                return (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
+            });
+        });
+        
+        return tiers;
+    }
+    
+    calculateUnitTier(unit, mode) {
+        // 基于稀有度、属性和性能计算tier
+        let baseScore = 0;
+        
+        // 稀有度分数
+        const rarityScores = { 'SSR': 100, 'SR': 80, 'R': 60, 'N': 40, 'Common': 20 };
+        baseScore += rarityScores[unit.rarity] || 0;
+        
+        // 属性分数
+        if (unit.stats) {
+            const { attack, defense, speed, hp } = unit.stats;
+            if (attack) baseScore += Math.min(attack / 10, 20);
+            if (defense) baseScore += Math.min(defense / 10, 20);
+            if (speed) baseScore += Math.min(speed / 10, 20);
+            if (hp) baseScore += Math.min(hp / 100, 20);
+        }
+        
+        // 模式特定调整
+        switch (mode) {
+            case 'story':
+                // 故事模式偏好高攻击和速度
+                if (unit.stats?.attack > 80) baseScore += 15;
+                if (unit.stats?.speed > 80) baseScore += 10;
+                break;
+            case 'infinite':
+                // 无限模式偏好高防御和HP
+                if (unit.stats?.defense > 80) baseScore += 15;
+                if (unit.stats?.hp > 1000) baseScore += 10;
+                break;
+            case 'pvp':
+                // PvP偏好平衡的属性和高速度
+                if (unit.stats?.speed > 85) baseScore += 15;
+                if (unit.stats?.attack > 75 && unit.stats?.defense > 75) baseScore += 10;
+                break;
+        }
+        
+        // 根据分数分配tier
+        if (baseScore >= 120) return 'S';
+        if (baseScore >= 100) return 'A';
+        if (baseScore >= 80) return 'B';
+        if (baseScore >= 60) return 'C';
+        return 'D';
+    }
+    
+    generateUnitDescription(unit, mode) {
+        const descriptions = [];
+        
+        // 稀有度描述
+        if (unit.rarity === 'SSR') descriptions.push('Ultra rare unit');
+        else if (unit.rarity === 'SR') descriptions.push('Super rare unit');
+        else if (unit.rarity === 'R') descriptions.push('Rare unit');
+        
+        // 属性描述
+        if (unit.element) descriptions.push(`${unit.element} element`);
+        
+        // 统计描述
+        if (unit.stats) {
+            const { attack, defense, speed, hp } = unit.stats;
+            if (attack > 90) descriptions.push('High attack');
+            if (defense > 90) descriptions.push('High defense');
+            if (speed > 90) descriptions.push('High speed');
+            if (hp > 1200) descriptions.push('High HP');
+        }
+        
+        // 模式特定描述
+        switch (mode) {
+            case 'story':
+                descriptions.push('Good for story progression');
+                break;
+            case 'infinite':
+                descriptions.push('Suitable for infinite mode');
+                break;
+            case 'pvp':
+                descriptions.push('Effective in PvP');
+                break;
+        }
+        
+        return descriptions.join(', ') || 'Balanced unit';
     }
     
     show() {
@@ -176,14 +211,36 @@ export class TierListPage {
     }
     
     renderUnitCard(unit) {
+        const rarityColors = {
+            'SSR': '#FFD700', // Gold
+            'SR': '#C0C0C0',  // Silver
+            'R': '#CD7F32',   // Bronze
+            'N': '#4ECDC4',   // Teal
+            'Common': '#96CEB4' // Green
+        };
+        
+        const rarityColor = rarityColors[unit.rarity] || '#96CEB4';
+        
         return `
             <div class="unit-card" data-unit-id="${unit.id}">
                 <div class="unit-avatar">
                     ${unit.avatar}
                 </div>
                 <div class="unit-info">
-                    <h3 class="unit-name">${unit.name}</h3>
+                    <div class="unit-header">
+                        <h3 class="unit-name">${unit.name}</h3>
+                        <span class="unit-rarity" style="background: ${rarityColor}">${unit.rarity}</span>
+                    </div>
                     <p class="unit-description">${unit.description}</p>
+                    ${unit.element ? `<div class="unit-element">${unit.element}</div>` : ''}
+                    ${unit.stats ? `
+                        <div class="unit-stats">
+                            ${unit.stats.attack ? `<span class="stat">ATK: ${unit.stats.attack}</span>` : ''}
+                            ${unit.stats.defense ? `<span class="stat">DEF: ${unit.stats.defense}</span>` : ''}
+                            ${unit.stats.speed ? `<span class="stat">SPD: ${unit.stats.speed}</span>` : ''}
+                            ${unit.stats.hp ? `<span class="stat">HP: ${unit.stats.hp}</span>` : ''}
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         `;
@@ -214,13 +271,19 @@ export class TierListPage {
     }
     
     switchMode(mode) {
+        console.log(`🔄 Switching to ${mode} mode`);
         this.currentMode = mode;
         this.renderTierList();
     }
     
     showUnitDetails(unitId) {
-        // 这里可以添加显示单位详细信息的逻辑
-        console.log(`Showing details for unit: ${unitId}`);
-        // 可以打开模态框或跳转到单位数据库页面
+        console.log(`🔍 Showing details for unit: ${unitId}`);
+        // 可以在这里添加显示单位详细信息的逻辑
+        // 比如打开一个模态框或跳转到数据库页面
+        this.app.showPage('database');
+        // 触发数据库页面的单位搜索
+        if (this.app.databasePage) {
+            this.app.databasePage.searchUnit(unitId);
+        }
     }
 }

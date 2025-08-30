@@ -326,6 +326,9 @@ export class App {
         this.updatePageSEO('home');
         
         this.currentPage = 'home';
+        
+        // Generate Top 5 Units for homepage
+        this.generateTop5Units();
     }
     
     showPage(pageName) {
@@ -521,5 +524,104 @@ export class App {
         console.log('Expired codes count:', expiredCodes.length);
     }
     
+    generateTop5Units() {
+        console.log('🏆 Generating Top 5 Units for homepage...');
+        
+        const topUnitsGrid = document.getElementById('topUnitsGrid');
+        if (!topUnitsGrid) {
+            console.error('❌ Top units grid not found');
+            return;
+        }
+        
+        // Get top 5 units based on rarity and stats
+        const topUnits = this.getTop5Units();
+        
+        // Generate HTML for top units
+        const topUnitsHTML = topUnits.map(unit => this.generateTopUnitCard(unit)).join('');
+        
+        // Update the grid
+        topUnitsGrid.innerHTML = topUnitsHTML;
+        
+        console.log('✅ Top 5 Units generated successfully');
+    }
+    
+    getTop5Units() {
+        const { unitsData } = this.data;
+        const units = Object.values(unitsData);
+        
+        // Sort units by rarity and stats
+        const sortedUnits = units.sort((a, b) => {
+            // First by rarity
+            const rarityOrder = { 'SSR': 5, 'SR': 4, 'R': 3, 'N': 2, 'Common': 1 };
+            const rarityDiff = (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
+            if (rarityDiff !== 0) return rarityDiff;
+            
+            // Then by total stats
+            const aStats = a.stats ? (a.stats.attack || 0) + (a.stats.defense || 0) + (a.stats.speed || 0) + (a.stats.hp || 0) : 0;
+            const bStats = b.stats ? (b.stats.attack || 0) + (b.stats.defense || 0) + (b.stats.speed || 0) + (b.stats.hp || 0) : 0;
+            return bStats - aStats;
+        });
+        
+        // Return top 5
+        return sortedUnits.slice(0, 5);
+    }
+    
+    generateTopUnitCard(unit) {
+        const rarityColors = {
+            'SSR': '#FFD700', // Gold
+            'SR': '#C0C0C0',  // Silver
+            'R': '#CD7F32',   // Bronze
+            'N': '#4ECDC4',   // Teal
+            'Common': '#96CEB4' // Green
+        };
+        
+        const rarityColor = rarityColors[unit.rarity] || '#96CEB4';
+        const tier = this.getUnitTier(unit);
+        
+        return `
+            <div class="unit-card" onclick="showPage('database'); if(window.databasePage) window.databasePage.searchUnit('${unit.id}')">
+                <div class="unit-image">
+                    <div class="unit-placeholder">
+                        ${unit.avatar || '👤'}
+                    </div>
+                </div>
+                <div class="unit-info">
+                    <h3 class="unit-name">${unit.name}</h3>
+                    <div class="unit-stats">
+                        ${unit.stats?.attack ? `<span class="stat">ATK: ${unit.stats.attack}</span>` : ''}
+                        ${unit.stats?.defense ? `<span class="stat">DEF: ${unit.stats.defense}</span>` : ''}
+                        ${unit.stats?.speed ? `<span class="stat">SPD: ${unit.stats.speed}</span>` : ''}
+                        ${unit.stats?.hp ? `<span class="stat">HP: ${unit.stats.hp}</span>` : ''}
+                    </div>
+                    <div class="unit-tier" style="background: ${rarityColor}">${tier} Tier</div>
+                </div>
+            </div>
+        `;
+    }
+    
+    getUnitTier(unit) {
+        // Calculate tier based on rarity and stats
+        let score = 0;
+        
+        // Rarity score
+        const rarityScores = { 'SSR': 100, 'SR': 80, 'R': 60, 'N': 40, 'Common': 20 };
+        score += rarityScores[unit.rarity] || 0;
+        
+        // Stats score
+        if (unit.stats) {
+            const { attack, defense, speed, hp } = unit.stats;
+            if (attack) score += Math.min(attack / 10, 20);
+            if (defense) score += Math.min(defense / 10, 20);
+            if (speed) score += Math.min(speed / 10, 20);
+            if (hp) score += Math.min(hp / 100, 20);
+        }
+        
+        // Return tier based on score
+        if (score >= 120) return 'SS';
+        if (score >= 100) return 'S';
+        if (score >= 80) return 'A';
+        if (score >= 60) return 'B';
+        return 'C';
+    }
 
 } 

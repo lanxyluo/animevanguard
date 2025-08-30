@@ -144,7 +144,7 @@ export class UnitSelector {
         if (unitsData && typeof unitsData === 'object' && unitsData.units) {
             this.allUnits = unitsData.units || [];
         } else {
-            this.allUnits = unitsData || [];
+        this.allUnits = unitsData || [];
         }
         this.elementIcons = elementIcons;
         this.filteredUnits = [...this.allUnits];
