@@ -92,12 +92,12 @@ export class App {
     initializeNavigation() {
         console.log('🔧 Initializing navigation...');
         
-        // Get page containers
+        // Get page containers - 修复映射以匹配HTML中实际存在的容器
         this.pageContainers = {
-            evolution: document.getElementById('evolutionPage'),
-            dps: document.getElementById('dpsPage'),
-            database: document.getElementById('databasePage'),
+            home: null, // home页面显示homepage-intro，不需要容器
             tierlist: document.getElementById('tierlistPage'),
+            database: document.getElementById('databasePage'),
+            calculator: document.getElementById('traitsPage'), // 暂时映射到traits页面
             traits: document.getElementById('traitsPage'),
             codes: document.getElementById('codesPage'),
             about: document.getElementById('aboutPage')
@@ -105,9 +105,9 @@ export class App {
         
         console.log('📊 Page containers found:', Object.keys(this.pageContainers).filter(key => this.pageContainers[key]).length);
         
-        // Get homepage intro section
-        this.homepageIntro = document.querySelector('.homepage-intro');
-        console.log('🏠 Homepage intro found:', !!this.homepageIntro);
+        // Get homepage sections
+        this.homepageSections = document.querySelectorAll('.hero-section, .quick-access-section, .top-units-section');
+        console.log('🏠 Homepage sections found:', this.homepageSections.length);
         
         // Get navigation tabs
         this.navTabs = document.querySelectorAll('.nav-tab');
@@ -310,10 +310,10 @@ export class App {
             }
         });
         
-        // Show homepage intro
-        if (this.homepageIntro) {
-            this.homepageIntro.style.display = 'block';
-        }
+        // Show homepage sections
+        this.homepageSections.forEach(section => {
+            section.style.display = 'block';
+        });
         
         // Hide all page introductions on homepage
         const pageIntros = document.querySelectorAll('.page-introduction');
@@ -334,6 +334,12 @@ export class App {
         console.log('📄 Showing page:', pageName);
         console.log('📊 Available page containers:', Object.keys(this.pageContainers).filter(key => this.pageContainers[key]));
         
+        // 特殊处理home页面
+        if (pageName === 'home') {
+            this.showHomepage();
+            return;
+        }
+        
         // Hide all pages
         Object.values(this.pageContainers).forEach(container => {
             if (container) {
@@ -348,13 +354,16 @@ export class App {
         } else {
             console.error('❌ Page container not found:', pageName);
             console.log('🔍 Available containers:', Object.keys(this.pageContainers));
+            // 如果页面容器不存在，回退到home页面
+            console.log('🔄 Falling back to home page');
+            this.showHomepage();
             return;
         }
         
-        // Hide homepage intro on all specific pages
-        if (this.homepageIntro) {
-            this.homepageIntro.style.display = 'none';
-        }
+        // Hide homepage sections on all specific pages
+        this.homepageSections.forEach(section => {
+            section.style.display = 'none';
+        });
 
         // Handle page introductions
         const pageIntros = document.querySelectorAll('.page-introduction');
@@ -372,13 +381,10 @@ export class App {
         // Update SEO for the current page
         this.updatePageSEO(pageName);
         
-        // Call page-specific show methods
-        if (pageName === 'evolution' && this.evolutionPage) {
-            console.log('🧬 Calling evolution page show method');
-            this.evolutionPage.show();
-        } else if (pageName === 'dps' && this.dpsPage) {
-            console.log('⚔️ Calling DPS page show method');
-            this.dpsPage.show();
+        // Call page-specific show methods - 修复页面名称映射
+        if (pageName === 'calculator' && this.traitsBuilder) {
+            console.log('🎯 Calling traits builder show method for calculator');
+            this.traitsBuilder.show();
         } else if (pageName === 'database' && this.databasePage) {
             console.log('🗄️ Calling database page show method');
             this.databasePage.show();
