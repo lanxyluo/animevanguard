@@ -299,6 +299,32 @@ export class DatabasePage {
         }
     }
     
+    // 添加searchUnit方法，用于从Tier List页面搜索特定单位
+    searchUnit(unitId) {
+        console.log(`🔍 Searching for unit: ${unitId}`);
+        
+        // 如果filterPanel存在，使用其搜索功能
+        if (this.filterPanel && typeof this.filterPanel.clearSearch === 'function') {
+            // 清空当前搜索
+            this.filterPanel.clearSearch();
+            
+            // 设置搜索文本为单位ID或名称
+            const unit = this.dataManager.getUnitById(unitId);
+            if (unit) {
+                this.filterPanel.setSearchText(unit.name);
+                this.handleSearchChange(unit.name);
+            }
+        } else {
+            console.warn('⚠️ FilterPanel not initialized yet, cannot perform search');
+            // 延迟执行搜索，等待组件初始化完成
+            setTimeout(() => {
+                if (this.filterPanel && typeof this.filterPanel.clearSearch === 'function') {
+                    this.searchUnit(unitId);
+                }
+            }, 100);
+        }
+    }
+    
     destroy() {
         // Clean up components
         if (this.filterPanel) {

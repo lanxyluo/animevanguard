@@ -547,19 +547,28 @@ export class App {
     
     getTop5Units() {
         const { unitsData } = this.data;
-        const units = Object.values(unitsData);
+        const units = unitsData?.units || [];
         
         // Sort units by rarity and stats
         const sortedUnits = units.sort((a, b) => {
             // First by rarity
-            const rarityOrder = { 'Exclusive': 6, 'Mythic': 5, 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
+            const rarityOrder = { 'Secret': 6, 'Mythic': 5, 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
             const rarityDiff = (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
             if (rarityDiff !== 0) return rarityDiff;
             
-            // Then by total stats
-            const aStats = a.stats ? (a.stats.attack || 0) + (a.stats.defense || 0) + (a.stats.skill || 0) : 0;
-            const bStats = b.stats ? (b.stats.attack || 0) + (b.stats.defense || 0) + (b.stats.skill || 0) : 0;
-            return bStats - aStats;
+            // Then by tier (since stats might not be available)
+            const tierOrder = { 'SS': 6, 'S+': 5, 'S': 4, 'A': 3, 'B': 2, 'C': 1 };
+            const tierDiff = (tierOrder[b.tier] || 0) - (tierOrder[a.tier] || 0);
+            if (tierDiff !== 0) return tierDiff;
+            
+            // Fallback to stats if available
+            if (a.stats && b.stats) {
+                const aStats = (a.stats.attack || 0) + (a.stats.defense || 0) + (a.stats.skill || 0);
+                const bStats = (b.stats.attack || 0) + (b.stats.defense || 0) + (b.stats.skill || 0);
+                return bStats - aStats;
+            }
+            
+            return 0;
         });
         
         // Return top 5
@@ -568,8 +577,8 @@ export class App {
     
     generateTopUnitCard(unit) {
         const rarityColors = {
-            'Exclusive': '#FF6B9D', // Pink
-            'Mythic': '#FFD700',    // Gold
+            'Secret': '#FF6B9D',   // Pink
+            'Mythic': '#FFD700',   // Gold
             'Legendary': '#FF6B6B', // Red
             'Epic': '#C0C0C0',     // Silver
             'Rare': '#CD7F32',     // Bronze
@@ -604,10 +613,16 @@ export class App {
         let score = 0;
         
         // Rarity score
-        const rarityScores = { 'Exclusive': 100, 'Mythic': 95, 'Legendary': 90, 'Epic': 70, 'Rare': 50, 'Common': 30 };
+        const rarityScores = { 'Secret': 100, 'Mythic': 95, 'Legendary': 90, 'Epic': 70, 'Rare': 50, 'Common': 30 };
         score += rarityScores[unit.rarity] || 0;
         
-        // Stats score
+        // Tier score (if available)
+        if (unit.tier) {
+            const tierScores = { 'SS': 30, 'S+': 25, 'S': 20, 'A': 15, 'B': 10, 'C': 5 };
+            score += tierScores[unit.tier] || 0;
+        }
+        
+        // Stats score (if available)
         if (unit.stats) {
             const { attack, defense, skill } = unit.stats;
             if (attack) score += Math.min(attack / 500, 20);

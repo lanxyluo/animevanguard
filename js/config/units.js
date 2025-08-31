@@ -85,8 +85,8 @@ export const unitsData = {
       "anime_source": "Solo Leveling"
     },
     {
-      "id": "alucard-vampire-king",
-      "name": "Alucard (Vampire King)",
+      "id": "alocard-vampire-king",
+      "name": "Alocard (Vampire King)",
       "rarity": "Secret", 
       "element": "Blood",
       "tier": "S+",
@@ -133,8 +133,8 @@ export const unitsData = {
       "anime_source": "Jujutsu Kaisen"
     },
     {
-      "id": "hakura-rin-dancer",
-      "name": "Hakura Rin (Dancer)",
+      "id": "haruka-rin-dancer",
+      "name": "Haruka Rin (Dancer)",
       "rarity": "Legendary",
       "element": "Support",
       "tier": "A",

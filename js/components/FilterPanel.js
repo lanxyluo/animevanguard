@@ -219,6 +219,26 @@ export class FilterPanel {
         });
     }
     
+    // 添加clearSearch方法
+    clearSearch() {
+        const searchInput = this.container.querySelector('#searchInput');
+        if (searchInput) {
+            searchInput.value = '';
+            this.currentFilters.searchText = '';
+            this.updateClearSearchButton();
+        }
+    }
+    
+    // 添加setSearchText方法
+    setSearchText(text) {
+        const searchInput = this.container.querySelector('#searchInput');
+        if (searchInput) {
+            searchInput.value = text;
+            this.currentFilters.searchText = text;
+            this.updateClearSearchButton();
+        }
+    }
+    
     removeFilter(filterKey) {
         this.currentFilters[filterKey] = '';
         const select = this.container.querySelector(`#${filterKey}Filter`);
