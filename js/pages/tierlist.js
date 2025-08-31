@@ -112,8 +112,12 @@ export class TierListPage {
             'D': '#96CEB4'  // Green
         };
         
+        console.log('🎨 Rendering tier rows with data:', this.tierData);
+        
         return tiers.map(tier => {
             const units = this.tierData[tier] || [];
+            console.log(`📊 Tier ${tier} has ${units.length} units:`, units);
+            
             return `
                 <div class="tier-row" style="border-left: 5px solid ${tierColors[tier]}">
                     <div class="tier-label" style="background: ${tierColors[tier]}">
@@ -162,6 +166,35 @@ export class TierListPage {
     // 删除所有模式相关的方法
     destroy() {
         console.log('🗑️ TierListPage destroyed');
+    }
+    
+    // 添加show方法，这是主应用调用的入口点
+    show() {
+        console.log('Tier List shown');
+        console.log('📊 Current tier data:', this.tierData);
+        console.log('📊 App data:', this.data);
+        console.log('📊 Units data:', this.data?.unitsData);
+        
+        if (!this.tierData) {
+            console.error('❌ No tier data available! Attempting to reload...');
+            this.loadTierData().then(() => {
+                this.renderTierList();
+            });
+            return;
+        }
+        
+        this.renderTierList();
+    }
+    
+    // 添加renderTierList方法，用于渲染到正确的容器
+    renderTierList() {
+        const container = document.getElementById('tierListContent');
+        if (!container) {
+            console.error('❌ Container tierListContent not found!');
+            return;
+        }
+        
+        this.render(container);
     }
 }
 
