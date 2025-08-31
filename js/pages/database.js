@@ -1,7 +1,6 @@
 import { FilterPanel } from '../components/FilterPanel.js';
 import { UnitCard, UnitCardFactory } from '../components/UnitCard.js';
 import { Pagination } from '../components/Pagination.js';
-import { UnitDataManager } from '../data/units.js';
 
 export class DatabasePage {
     constructor(app) {
@@ -14,7 +13,9 @@ export class DatabasePage {
         this.unitCards = [];
         
         // Data
-        this.dataManager = null;
+        this.unitsData = null;
+        this.units = [];
+        this.filteredUnits = [];
         
         // State
         this.currentView = 'grid';
@@ -35,10 +36,10 @@ export class DatabasePage {
                 this.data = data;
             }
             
-            // Initialize data manager with units data
-            const unitsData = data?.unitsData || {};
-            const units = unitsData.units || [];
-            this.dataManager = new UnitDataManager(units);
+            // Store units data directly
+            this.unitsData = data?.unitsData || {};
+            this.units = this.unitsData.units || [];
+            this.filteredUnits = [...this.units]; // Start with all units
             
             // Initialize UI elements
             this.initializeUI();
@@ -134,13 +135,13 @@ export class DatabasePage {
     
     loadUnits() {
         // Get filtered and sorted units
-        const units = this.dataManager.getFilteredUnits();
+        const units = this.getFilteredUnits();
         
         // Update results count
         this.updateResultsCount(units.length);
         
         // Get paginated units
-        const paginatedUnits = this.dataManager.getPaginatedUnits(this.currentPage, this.itemsPerPage);
+        const paginatedUnits = this.getPaginatedUnits(this.currentPage, this.itemsPerPage);
         
         // Render unit cards
         this.renderUnitCards(paginatedUnits);
@@ -203,7 +204,7 @@ export class DatabasePage {
     
     // Event Handlers
     handleFilterChange(filters) {
-        this.dataManager.filterUnits(filters);
+        this.filterUnits(filters);
         this.currentPage = 1; // Reset to first page
         this.loadUnits();
     }
@@ -215,13 +216,13 @@ export class DatabasePage {
     }
     
     handleQuickFilterChange(quickFilters) {
-        this.dataManager.applyQuickFilters(quickFilters);
+        this.applyQuickFilters(quickFilters);
         this.currentPage = 1; // Reset to first page
         this.loadUnits();
     }
     
     handleSortChange(sortBy) {
-        this.dataManager.sortUnits(sortBy);
+        this.sortUnits(sortBy);
         this.currentPage = 1; // Reset to first page
         this.loadUnits();
     }
@@ -309,7 +310,7 @@ export class DatabasePage {
             this.filterPanel.clearSearch();
             
             // 设置搜索文本为单位ID或名称
-            const unit = this.dataManager.getUnitById(unitId);
+            const unit = this.getUnitById(unitId);
             if (unit) {
                 this.filterPanel.setSearchText(unit.name);
                 this.handleSearchChange(unit.name);
@@ -342,5 +343,103 @@ export class DatabasePage {
         
         this.unitCards = [];
         this.selectedUnits = [];
+    }
+
+    // Data management methods
+    getFilteredUnits() {
+        return this.filteredUnits;
+    }
+    
+    getPaginatedUnits(page, itemsPerPage) {
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return this.filteredUnits.slice(startIndex, endIndex);
+    }
+    
+    filterUnits(filters) {
+        this.filteredUnits = this.units.filter(unit => {
+            // Search text filter
+            if (filters.searchText && filters.searchText.trim()) {
+                const searchText = filters.searchText.toLowerCase();
+                if (!unit.name.toLowerCase().includes(searchText) && 
+                    !unit.description.toLowerCase().includes(searchText)) {
+                    return false;
+                }
+            }
+            
+            // Rarity filter
+            if (filters.rarity && filters.rarity !== 'all') {
+                if (unit.rarity !== filters.rarity) {
+                    return false;
+                }
+            }
+            
+            // Element filter
+            if (filters.element && filters.element !== 'all') {
+                if (unit.element !== filters.element) {
+                    return false;
+                }
+            }
+            
+            // Category filter
+            if (filters.category && filters.category !== 'all') {
+                if (unit.category !== filters.category) {
+                    return false;
+                }
+            }
+            
+            // Tier filter
+            if (filters.tier && filters.tier !== 'all') {
+                if (unit.tier !== filters.tier) {
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+    }
+    
+    applyQuickFilters(quickFilters) {
+        this.filteredUnits = this.units.filter(unit => {
+            // Evolution required filter
+            if (quickFilters.evolutionRequired !== undefined) {
+                if (unit.evolution_required !== quickFilters.evolutionRequired) {
+                    return false;
+                }
+            }
+            
+            // Placement cost filter
+            if (quickFilters.placementCost && quickFilters.placementCost !== 'all') {
+                if (unit.placement_cost !== quickFilters.placementCost) {
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+    }
+    
+    sortUnits(sortBy) {
+        this.filteredUnits.sort((a, b) => {
+            switch (sortBy) {
+                case 'name':
+                    return a.name.localeCompare(b.name);
+                case 'rarity':
+                    const rarityOrder = { 'Secret': 6, 'Mythic': 5, 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
+                    return (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
+                case 'tier':
+                    const tierOrder = { 'SS': 6, 'S+': 5, 'S': 4, 'A': 3, 'B': 2, 'C': 1 };
+                    return (tierOrder[b.tier] || 0) - (tierOrder[a.tier] || 0);
+                case 'placement_cost':
+                    const costOrder = { 'Very High': 4, 'High': 3, 'Medium': 2, 'Low': 1, 'Very Low': 0 };
+                    return (costOrder[b.placement_cost] || 0) - (costOrder[a.placement_cost] || 0);
+                default:
+                    return 0;
+            }
+        });
+    }
+    
+    getUnitById(unitId) {
+        return this.units.find(unit => unit.id === unitId);
     }
 } 

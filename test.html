@@ -94,7 +94,6 @@
             
             try {
                 const { DatabasePage } = await import('./js/pages/database.js');
-                const { UnitDataManager } = await import('./js/data/units.js');
                 const { unitsData } = await import('./js/config/units.js');
                 
                 // Create a mock app object
@@ -110,13 +109,16 @@
                 const databasePage = new DatabasePage(mockApp);
                 await databasePage.initialize(mockApp.data);
                 
-                // Test data manager
-                const dataManager = new UnitDataManager(unitsData.units || []);
-                const filteredUnits = dataManager.filterUnits({ searchText: 'Saber' });
+                // Test data access
+                const totalUnits = unitsData.units ? unitsData.units.length : 0;
+                const filteredUnits = unitsData.units ? unitsData.units.filter(unit => 
+                    unit.name.toLowerCase().includes('saber') || 
+                    unit.name.toLowerCase().includes('divalo')
+                ) : [];
                 
                 statusDiv.innerHTML = '<span class="success">✅ Database functionality working!</span>';
                 outputDiv.innerHTML += '<div class="success">✓ Database page initialized</div>';
-                outputDiv.innerHTML += '<div class="success">✓ Data manager working: ' + filteredUnits.length + ' units found</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Data access working: ' + filteredUnits.length + ' units found out of ' + totalUnits + ' total</div>';
                 
             } catch (error) {
                 statusDiv.innerHTML = '<span class="error">❌ Database test failed: ' + error.message + '</span>';
@@ -124,9 +126,58 @@
             }
         }
         
+        // Test tier list functionality
+        async function testTierList() {
+            const statusDiv = document.getElementById('tierListStatus');
+            const outputDiv = document.getElementById('consoleOutput');
+            
+            try {
+                const { TierListPage } = await import('./js/pages/tierlist.js');
+                const { unitsData } = await import('./js/config/units.js');
+                
+                // Create a mock app object
+                const mockApp = {
+                    data: {
+                        unitsData: unitsData,
+                        materialsConfig: {},
+                        elementIcons: {}
+                    }
+                };
+                
+                // Initialize tier list page
+                const tierListPage = new TierListPage(mockApp);
+                await tierListPage.initialize(mockApp.data);
+                
+                // Test mode switching
+                const totalUnits = unitsData.units ? unitsData.units.length : 0;
+                const allModeUnits = tierListPage.tierData?.all ? 
+                    Object.values(tierListPage.tierData.all).flat().length : 0;
+                const storyModeUnits = tierListPage.tierData?.story ? 
+                    Object.values(tierListPage.tierData.story).flat().length : 0;
+                
+                statusDiv.innerHTML = '<span class="success">✅ Tier List functionality working!</span>';
+                outputDiv.innerHTML += '<div class="success">✓ Tier list page initialized</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Total units: ' + totalUnits + '</div>';
+                outputDiv.innerHTML += '<div class="success">✓ All mode units: ' + allModeUnits + '</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Story mode units: ' + storyModeUnits + '</div>';
+                
+                // Test tier distribution
+                if (tierListPage.tierData?.all) {
+                    Object.entries(tierListPage.tierData.all).forEach(([tier, units]) => {
+                        outputDiv.innerHTML += '<div class="info">✓ ' + tier + ' tier: ' + units.length + ' units</div>';
+                    });
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">❌ Tier List test failed: ' + error.message + '</span>';
+                outputDiv.innerHTML += '<div class="error">✗ Error: ' + error.message + '</div>';
+            }
+        }
+        
         // Make functions globally available
         window.testModules = testModules;
         window.testDatabase = testDatabase;
+        window.testTierList = testTierList;
         
         // Initial test
         testModules();

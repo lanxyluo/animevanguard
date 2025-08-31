@@ -18,7 +18,12 @@ export const unitsData = {
       "cons": ["Nukes are 1 time use per game", "Needs mana to use summons/nukes"],
       "description": "Top summoner with unmatched DPS and synergy with Igros",
       "recommended_traits": ["Deadeye", "Damage Boost"],
-      "anime_source": "Solo Leveling"
+      "anime_source": "Solo Leveling",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "akazo-destructive",
@@ -34,7 +39,12 @@ export const unitsData = {
       "cons": ["Weak on placement until upgrade 2", "Not immune to debuffs or status effects"],
       "description": "Deals heavy damage with massive AoE capabilities",
       "recommended_traits": ["Deadeye", "Crit Damage"],
-      "anime_source": "Demon Slayer"
+      "anime_source": "Demon Slayer",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S",
+        "pvp": "S"
+      }
     },
     {
       "id": "cha-in-blade-dancer",
@@ -50,7 +60,12 @@ export const unitsData = {
       "cons": ["Expensive to max", "Requires positioning"],
       "description": "Blade master with transformation abilities",
       "recommended_traits": ["Deadeye", "Speed Boost"],
-      "anime_source": "Solo Leveling"
+      "anime_source": "Solo Leveling",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S+",
+        "pvp": "S"
+      }
     },
     {
       "id": "divalo-requiem",
@@ -66,7 +81,12 @@ export const unitsData = {
       "cons": ["Very expensive", "Only 1 placement", "Hard to obtain"],
       "description": "The unbreakable king with time manipulation",
       "recommended_traits": ["Range", "Cooldown Reduction"],
-      "anime_source": "JoJo's Bizarre Adventure"
+      "anime_source": "JoJo's Bizarre Adventure",
+      "mode_performance": {
+        "story": "SS",
+        "infinite": "SS",
+        "pvp": "SS"
+      }
     },
     {
       "id": "igros-elite-knight",
@@ -82,7 +102,12 @@ export const unitsData = {
       "cons": ["Dependent on other units for max potential", "Expensive"],
       "description": "Elite knight with powerful dark abilities",
       "recommended_traits": ["Damage", "Range"],
-      "anime_source": "Solo Leveling"
+      "anime_source": "Solo Leveling",
+      "mode_performance": {
+        "story": "SS",
+        "infinite": "S+",
+        "pvp": "S+"
+      }
     },
     {
       "id": "alocard-vampire-king",
@@ -98,7 +123,12 @@ export const unitsData = {
       "cons": ["Lower raw damage", "Bleed dependent"],
       "description": "Vampire lord with bleed and support abilities",
       "recommended_traits": ["Bleed Boost", "Range"],
-      "anime_source": "Hellsing"
+      "anime_source": "Hellsing",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "jag-o-volcanic",
@@ -114,7 +144,12 @@ export const unitsData = {
       "cons": ["Expensive", "Fire element limitations"],
       "description": "Fiery DPS beast with volcanic powers",
       "recommended_traits": ["Burn Damage", "AoE Boost"],
-      "anime_source": "Jujutsu Kaisen"
+      "anime_source": "Jujutsu Kaisen",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "chaso-blood-curse",
@@ -130,7 +165,12 @@ export const unitsData = {
       "cons": ["Requires bleeding enemies", "Complex setup"],
       "description": "Blood curse specialist with AoE devastation",
       "recommended_traits": ["Bleed", "Damage"],
-      "anime_source": "Jujutsu Kaisen"
+      "anime_source": "Jujutsu Kaisen",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "haruka-rin-dancer",
@@ -146,7 +186,12 @@ export const unitsData = {
       "cons": ["No direct damage", "Requires other strong units"],
       "description": "Best support unit for enhancing team performance",
       "recommended_traits": ["Buff Duration", "Range"],
-      "anime_source": "Hololive"
+      "anime_source": "Hololive",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "super-brolzi",
@@ -162,7 +207,12 @@ export const unitsData = {
       "cons": ["Limited compared to mythics", "No evolution potential"],
       "description": "Powerful legendary that doesn't require evolution",
       "recommended_traits": ["Damage", "Speed"],
-      "anime_source": "Dragon Ball"
+      "anime_source": "Dragon Ball",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "tengon-flashiness",
@@ -178,7 +228,12 @@ export const unitsData = {
       "cons": ["High placement cost", "Requires evolution for full potential"],
       "description": "Deals AOE damage in massive range",
       "recommended_traits": ["Damage", "Range"],
-      "anime_source": "Demon Slayer"
+      "anime_source": "Demon Slayer",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "noruto-six-tails",
@@ -194,7 +249,12 @@ export const unitsData = {
       "cons": ["Expensive to max", "Evolution dependent"],
       "description": "Powerful ninja with tailed beast chakra",
       "recommended_traits": ["Damage", "Speed"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "obita-awakened",
@@ -210,7 +270,12 @@ export const unitsData = {
       "cons": ["Complex mechanics", "Requires positioning"],
       "description": "Awakened Uchiha with space-time mastery",
       "recommended_traits": ["Damage", "Cooldown"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "sosuke-storm",
@@ -226,7 +291,12 @@ export const unitsData = {
       "cons": ["Situational abilities", "Requires good positioning"],
       "description": "Lightning-powered captain with stun abilities",
       "recommended_traits": ["Stun Duration", "Damage"],
-      "anime_source": "Bleach"
+      "anime_source": "Bleach",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "sprintwagon",
@@ -242,7 +312,12 @@ export const unitsData = {
       "cons": ["No direct damage", "Support role only"],
       "description": "Only Epic unit in top tiers, amazing value",
       "recommended_traits": ["Buff Duration", "Range"],
-      "anime_source": "JoJo's Bizarre Adventure"
+      "anime_source": "JoJo's Bizarre Adventure",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "yehowach-almighty",
@@ -258,7 +333,12 @@ export const unitsData = {
       "cons": ["Very expensive", "Complex mechanics", "Limited placement"],
       "description": "Quincy king with almighty powers",
       "recommended_traits": ["Buff Duration", "Range"],
-      "anime_source": "Bleach"
+      "anime_source": "Bleach",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     
     // ====== NEW SECRET TIER UNITS ======
@@ -276,7 +356,12 @@ export const unitsData = {
       "cons": ["Very expensive", "Only 1 placement", "Complex mechanics"],
       "description": "The strongest sorcerer with infinity and domain powers",
       "recommended_traits": ["Range", "Cooldown Reduction"],
-      "anime_source": "Jujutsu Kaisen"
+      "anime_source": "Jujutsu Kaisen",
+      "mode_performance": {
+        "story": "SS",
+        "infinite": "SS",
+        "pvp": "SS"
+      }
     },
     {
       "id": "sukuna-king-curses",
@@ -292,7 +377,12 @@ export const unitsData = {
       "cons": ["Very expensive", "Limited placement", "Complex setup"],
       "description": "The king of curses with devastating cursed techniques",
       "recommended_traits": ["Damage", "Cursed Boost"],
-      "anime_source": "Jujutsu Kaisen"
+      "anime_source": "Jujutsu Kaisen",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S+",
+        "pvp": "S"
+      }
     },
     {
       "id": "madara-ultimate",
@@ -308,7 +398,12 @@ export const unitsData = {
       "cons": ["Very expensive", "Limited placement", "Complex abilities"],
       "description": "The ultimate Uchiha with legendary powers",
       "recommended_traits": ["Damage", "Fire Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S+",
+        "pvp": "S"
+      }
     },
     {
       "id": "whitebeard-prime",
@@ -324,7 +419,12 @@ export const unitsData = {
       "cons": ["Very expensive", "Limited placement", "Slow movement"],
       "description": "The strongest man in the world with quake powers",
       "recommended_traits": ["Damage", "Tank Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     
     // ====== NEW MYTHIC TIER UNITS ======
@@ -342,7 +442,12 @@ export const unitsData = {
       "cons": ["Expensive", "Fire element weakness", "Requires evolution"],
       "description": "Master of the legendary Hinokami Kagura technique",
       "recommended_traits": ["Damage", "Fire Boost"],
-      "anime_source": "Demon Slayer"
+      "anime_source": "Demon Slayer",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "zenitsu-god-speed",
@@ -358,7 +463,12 @@ export const unitsData = {
       "cons": ["Expensive", "Lightning element weakness", "Complex mechanics"],
       "description": "Lightning-fast demon slayer with god speed abilities",
       "recommended_traits": ["Speed", "Lightning Boost"],
-      "anime_source": "Demon Slayer"
+      "anime_source": "Demon Slayer",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "inosuke-beast-king",
@@ -374,7 +484,12 @@ export const unitsData = {
       "cons": ["Expensive", "Physical element weakness", "Limited range"],
       "description": "Beast breathing master with wild combat style",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Demon Slayer"
+      "anime_source": "Demon Slayer",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "giyu-water-hashira",
@@ -390,7 +505,12 @@ export const unitsData = {
       "cons": ["Expensive", "Water element weakness", "Requires positioning"],
       "description": "Water Hashira with mastery of water breathing techniques",
       "recommended_traits": ["Damage", "Water Boost"],
-      "anime_source": "Demon Slayer"
+      "anime_source": "Demon Slayer",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "shinobu-insect-hashira",
@@ -406,7 +526,12 @@ export const unitsData = {
       "cons": ["Expensive", "Poison element weakness", "Lower damage"],
       "description": "Insect Hashira with poison and support capabilities",
       "recommended_traits": ["Poison", "Support Boost"],
-      "anime_source": "Demon Slayer"
+      "anime_source": "Demon Slayer",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "kakashi-copy-ninja",
@@ -422,7 +547,12 @@ export const unitsData = {
       "cons": ["Expensive", "Lightning element weakness", "Complex mechanics"],
       "description": "The Copy Ninja with Sharingan and lightning mastery",
       "recommended_traits": ["Damage", "Lightning Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "itachi-akatsuki",
@@ -437,7 +567,12 @@ export const unitsData = {
       "cons": ["Expensive", "Fire element weakness", "Complex abilities"],
       "description": "Akatsuki member with Mangekyo Sharingan powers",
       "recommended_traits": ["Damage", "Fire Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "minato-yellow-flash",
@@ -453,7 +588,12 @@ export const unitsData = {
       "cons": ["Expensive", "Space element weakness", "Complex positioning"],
       "description": "The Yellow Flash with space-time mastery",
       "recommended_traits": ["Damage", "Space Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "ace-fire-fist",
@@ -469,7 +609,12 @@ export const unitsData = {
       "cons": ["Expensive", "Fire element weakness", "Limited utility"],
       "description": "Fire Fist Ace with Logia devil fruit powers",
       "recommended_traits": ["Damage", "Fire Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "luffy-gear-5",
@@ -485,7 +630,12 @@ export const unitsData = {
       "cons": ["Expensive", "Physical element weakness", "Complex mechanics"],
       "description": "Straw Hat captain in his ultimate Gear 5 form",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S+",
+        "pvp": "A"
+      }
     },
     {
       "id": "zoro-king-hell",
@@ -501,7 +651,12 @@ export const unitsData = {
       "cons": ["Expensive", "Physical element weakness", "Limited AoE"],
       "description": "The King of Hell with ultimate sword techniques",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "ichigo-bankai",
@@ -517,7 +672,12 @@ export const unitsData = {
       "cons": ["Expensive", "Soul element weakness", "Complex abilities"],
       "description": "Soul Reaper with Bankai transformation",
       "recommended_traits": ["Damage", "Soul Boost"],
-      "anime_source": "Bleach"
+      "anime_source": "Bleach",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "aizen-sosuke",
@@ -533,7 +693,12 @@ export const unitsData = {
       "cons": ["Expensive", "Illusion element weakness", "Complex mechanics"],
       "description": "Master manipulator with illusion and hypnosis powers",
       "recommended_traits": ["Damage", "Illusion Boost"],
-      "anime_source": "Bleach"
+      "anime_source": "Bleach",
+      "mode_performance": {
+        "story": "S",
+        "infinite": "S",
+        "pvp": "A"
+      }
     },
     {
       "id": "yoruichi-thunder-god",
@@ -549,7 +714,12 @@ export const unitsData = {
       "cons": ["Expensive", "Lightning element weakness", "Limited AoE"],
       "description": "Thunder God with lightning-fast combat abilities",
       "recommended_traits": ["Speed", "Lightning Boost"],
-      "anime_source": "Bleach"
+      "anime_source": "Bleach",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     
     // ====== NEW LEGENDARY TIER UNITS ======
@@ -567,7 +737,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Nature element weakness", "Limited utility"],
       "description": "Naruto in powerful Sage Mode",
       "recommended_traits": ["Damage", "Nature Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "sasuke-curse-mark",
@@ -583,7 +758,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Lightning element weakness", "Limited AoE"],
       "description": "Sasuke with curse mark powers",
       "recommended_traits": ["Damage", "Lightning Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "sakura-medical-ninja",
@@ -599,7 +779,12 @@ export const unitsData = {
       "cons": ["No direct damage", "Support role only", "Requires allies"],
       "description": "Medical ninja with healing and support abilities",
       "recommended_traits": ["Healing", "Support Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "sanji-black-leg",
@@ -615,7 +800,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Fire element weakness", "Limited range"],
       "description": "Black Leg Sanji with fire-powered kicks",
       "recommended_traits": ["Damage", "Fire Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "nami-weather-witch",
@@ -631,7 +821,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Weather element weakness", "Lower damage"],
       "description": "Weather witch with climate control abilities",
       "recommended_traits": ["Weather", "Utility Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "A",
+        "infinite": "A",
+        "pvp": "B"
+      }
     },
     {
       "id": "usopp-sniper-king",
@@ -647,7 +842,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Physical element weakness", "Lower damage"],
       "description": "Sniper King with long-range combat abilities",
       "recommended_traits": ["Range", "Utility Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "chopper-monster-point",
@@ -663,7 +863,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Physical element weakness", "Limited utility"],
       "description": "Monster Point Chopper with enhanced combat abilities",
       "recommended_traits": ["Damage", "Tank Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "robin-demonic",
@@ -679,7 +884,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Physical element weakness", "Lower damage"],
       "description": "Demonic Robin with devil fruit powers",
       "recommended_traits": ["Utility", "Physical Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "franky-cyborg",
@@ -695,7 +905,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Physical element weakness", "Limited utility"],
       "description": "Cyborg Franky with mechanical enhancements",
       "recommended_traits": ["Damage", "Tank Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "brook-soul-king",
@@ -711,7 +926,12 @@ export const unitsData = {
       "cons": ["Medium cost", "Soul element weakness", "Lower damage"],
       "description": "Soul King Brook with musical soul powers",
       "recommended_traits": ["Utility", "Soul Boost"],
-      "anime_source": "One Piece"
+      "anime_source": "One Piece",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     
     // ====== NEW EPIC TIER UNITS ======
@@ -729,7 +949,12 @@ export const unitsData = {
       "cons": ["Physical element weakness", "Limited utility", "Basic abilities"],
       "description": "Inuzuka clan member with beast companion",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "shino-aburame",
@@ -745,7 +970,12 @@ export const unitsData = {
       "cons": ["Insect element weakness", "Lower damage", "Basic abilities"],
       "description": "Aburame clan member with insect control",
       "recommended_traits": ["Utility", "Insect Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "hinata-hyuuga",
@@ -761,7 +991,12 @@ export const unitsData = {
       "cons": ["Physical element weakness", "Limited utility", "Basic abilities"],
       "description": "Hyuuga clan member with Byakugan",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "shikamaru-nara",
@@ -777,7 +1012,12 @@ export const unitsData = {
       "cons": ["Shadow element weakness", "Lower damage", "Basic abilities"],
       "description": "Nara clan member with shadow techniques",
       "recommended_traits": ["Utility", "Shadow Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "ino-yamanaka",
@@ -793,7 +1033,12 @@ export const unitsData = {
       "cons": ["No direct damage", "Support role only", "Basic abilities"],
       "description": "Yamanaka clan member with mind transfer",
       "recommended_traits": ["Support", "Utility Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "choji-akimichi",
@@ -809,7 +1054,12 @@ export const unitsData = {
       "cons": ["Physical element weakness", "Limited utility", "Basic abilities"],
       "description": "Akimichi clan member with expansion techniques",
       "recommended_traits": ["Tank", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "kankuro-puppet-master",
@@ -825,7 +1075,12 @@ export const unitsData = {
       "cons": ["Physical element weakness", "Lower damage", "Basic abilities"],
       "description": "Puppet master with mechanical puppets",
       "recommended_traits": ["Utility", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "temari-wind-master",
@@ -841,7 +1096,12 @@ export const unitsData = {
       "cons": ["Wind element weakness", "Limited utility", "Basic abilities"],
       "description": "Wind master with powerful wind techniques",
       "recommended_traits": ["Damage", "Wind Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     {
       "id": "gaara-sand",
@@ -857,7 +1117,12 @@ export const unitsData = {
       "cons": ["Earth element weakness", "Limited utility", "Basic abilities"],
       "description": "Sand user with sand manipulation abilities",
       "recommended_traits": ["Damage", "Earth Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "B",
+        "infinite": "B",
+        "pvp": "C"
+      }
     },
     
     // ====== NEW RARE TIER UNITS ======
@@ -875,7 +1140,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Wind element weakness"],
       "description": "Young Sarutobi clan member with wind chakra",
       "recommended_traits": ["Damage", "Wind Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "moegi-uzumaki",
@@ -891,7 +1161,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Wood element weakness"],
       "description": "Uzumaki clan member with wood release",
       "recommended_traits": ["Damage", "Wood Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "udon-iwabee",
@@ -907,7 +1182,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
       "description": "Physical combat specialist with basic techniques",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "tenten-weapon-master",
@@ -923,7 +1203,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
       "description": "Weapon master with various combat tools",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "rock-lee-youth",
@@ -939,7 +1224,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
       "description": "Young taijutsu master with incredible speed",
       "recommended_traits": ["Speed", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "neji-hyuuga-genin",
@@ -955,7 +1245,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
       "description": "Young Hyuuga prodigy with Byakugan",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "kiba-inuzuka-genin",
@@ -971,7 +1266,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
       "description": "Young Inuzuka with basic beast techniques",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "shino-aburame-genin",
@@ -987,7 +1287,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Insect element weakness"],
       "description": "Young Aburame with basic insect techniques",
       "recommended_traits": ["Utility", "Insect Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "hinata-hyuuga-genin",
@@ -1003,7 +1308,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Physical element weakness"],
       "description": "Young Hyuuga with basic Byakugan",
       "recommended_traits": ["Damage", "Physical Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     },
     {
       "id": "shikamaru-nara-genin",
@@ -1019,7 +1329,12 @@ export const unitsData = {
       "cons": ["Low damage", "Basic abilities", "Shadow element weakness"],
       "description": "Young Nara with basic shadow techniques",
       "recommended_traits": ["Utility", "Shadow Boost"],
-      "anime_source": "Naruto"
+      "anime_source": "Naruto",
+      "mode_performance": {
+        "story": "C",
+        "infinite": "C",
+        "pvp": "C"
+      }
     }
   ],
   "tiers": {
