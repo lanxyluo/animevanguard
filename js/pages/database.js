@@ -291,6 +291,9 @@ export class DatabasePage {
         if (container) {
             container.style.display = 'block';
         }
+        
+        // Initialize the selected count when showing the page
+        this.updateCompareButton();
     }
     
     hide() {
