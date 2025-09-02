@@ -284,6 +284,29 @@ export const unitsData = {
         "story": "A",
         "infinite": "A",
         "pvp": "B"
+      },
+      // Enhanced data
+      "obtainment": "Battle Pass (Tier 50 reward)",
+      "deployment_cost": "800¥",
+      "total_upgrade_cost": "45,000¥",
+      "abilities": [
+        "Dance Performance: Provides 18% damage buff to all allies within range",
+        "Range Enhancement: Increases ally attack range by 10%",
+        "Inspiration: Boosts ally attack speed and critical hit chance"
+      ],
+      "optimal_traits": ["Buff Duration", "Range"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 2,
+        "cost_efficiency": 9,
+        "versatility": 10,
+        "survivability": 6
+      },
+      "detailed_stats": {
+        "base_damage": "None (Support only)",
+        "attack_speed": "N/A",
+        "range": "Large Support Range",
+        "special_abilities": "Team Buff, Range Boost"
       }
     },
     {
@@ -305,6 +328,29 @@ export const unitsData = {
         "story": "A",
         "infinite": "A",
         "pvp": "B"
+      },
+      // Enhanced data
+      "obtainment": "Summon (5% chance - Legendary)",
+      "deployment_cost": "1200¥",
+      "total_upgrade_cost": "55,000¥",
+      "abilities": [
+        "Legendary Super Saiyan: Transforms into legendary form with massive power boost",
+        "Energy Blast: Fires powerful ki blasts that deal AoE damage",
+        "Rampage Mode: Enters berserk state with increased attack speed and damage"
+      ],
+      "optimal_traits": ["Damage Boost", "Speed"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 8,
+        "cost_efficiency": 9,
+        "versatility": 7,
+        "survivability": 7
+      },
+      "detailed_stats": {
+        "base_damage": "High",
+        "attack_speed": "Fast",
+        "range": "Medium AoE",
+        "special_abilities": "Legendary Form, Energy Blast"
       }
     },
     {
@@ -1296,6 +1342,29 @@ export const unitsData = {
         "story": "B",
         "infinite": "B",
         "pvp": "C"
+      },
+      // Enhanced data
+      "obtainment": "Summon (5% chance - Legendary)",
+      "deployment_cost": "1000¥",
+      "total_upgrade_cost": "48,000¥",
+      "abilities": [
+        "Sniper Shot: Long-range precision attacks with high accuracy",
+        "Special Ammunition: Uses various ammo types for different effects",
+        "Observation Haki: Can target enemies beyond normal range"
+      ],
+      "optimal_traits": ["Range", "Accuracy"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 6,
+        "cost_efficiency": 7,
+        "versatility": 8,
+        "survivability": 5
+      },
+      "detailed_stats": {
+        "base_damage": "Medium",
+        "attack_speed": "Medium",
+        "range": "Very Long",
+        "special_abilities": "Sniper Shot, Special Ammo"
       }
     },
     {
