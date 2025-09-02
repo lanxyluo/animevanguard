@@ -1,5 +1,6 @@
-// Anime Vanguards Units Database - Extended Edition
-// Based on community tier lists and game data
+// Anime Vanguards Units Database - New Tier System
+// Based on official wiki and community feedback
+// New 5-tier system: META_DEFINING, STRONG_PICK, SOLID, SITUATIONAL, AVOID
 
 export const unitsData = {
   "units": [
@@ -9,7 +10,7 @@ export const unitsData = {
       "name": "Song Jinwu (Monarch)",
       "rarity": "Mythic",
       "element": "Unknown",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -23,6 +24,29 @@ export const unitsData = {
         "story": "S",
         "infinite": "S",
         "pvp": "A"
+      },
+      // Enhanced data
+      "obtainment": "Summon (1% chance - Mythic)",
+      "deployment_cost": "1700¥",
+      "total_upgrade_cost": "103,700¥",
+      "abilities": [
+        "Shadow Army: Summons shadow soldiers to assist in battle",
+        "Monarch's Authority: Increases damage and range significantly",
+        "Triple Nuke: Three powerful one-time use attacks per game"
+      ],
+      "optimal_traits": ["Monarch", "Deadeye"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 9,
+        "cost_efficiency": 7,
+        "versatility": 9,
+        "survivability": 8
+      },
+      "detailed_stats": {
+        "base_damage": "Very High",
+        "attack_speed": "Medium",
+        "range": "Large",
+        "special_abilities": "Shadow Army, Triple Nuke"
       }
     },
     {
@@ -30,7 +54,7 @@ export const unitsData = {
       "name": "Akazo (Destructive)",
       "rarity": "Mythic",
       "element": "Fire",
-      "tier": "S+",
+      "tier": "META_DEFINING",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -44,6 +68,29 @@ export const unitsData = {
         "story": "S+",
         "infinite": "S",
         "pvp": "S"
+      },
+      // Enhanced data
+      "obtainment": "Summon (1% chance - Mythic)",
+      "deployment_cost": "2000¥",
+      "total_upgrade_cost": "120,000¥",
+      "abilities": [
+        "Destructive Death: Massive AoE attack that devastates all enemies in range",
+        "Compass Needle: Automatically targets the strongest enemy with precision strikes",
+        "Annihilation Type: Transforms into ultimate form with doubled damage output"
+      ],
+      "optimal_traits": ["Monarch", "Crit Damage"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 8,
+        "versatility": 9,
+        "survivability": 7
+      },
+      "detailed_stats": {
+        "base_damage": "Extreme",
+        "attack_speed": "Medium",
+        "range": "Massive AoE",
+        "special_abilities": "Destructive Death, Compass Needle"
       }
     },
     {
@@ -51,7 +98,7 @@ export const unitsData = {
       "name": "Cha-In (Blade Dancer)",
       "rarity": "Mythic",
       "element": "Physical",
-      "tier": "S+",
+      "tier": "META_DEFINING",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -72,7 +119,7 @@ export const unitsData = {
       "name": "Divalo (Requiem)",
       "rarity": "Secret",
       "element": "Time",
-      "tier": "SS",
+      "tier": "META_DEFINING",
       "placement_cost": "Very High",
       "max_placement": 1,
       "category": "Support/DPS",
@@ -86,6 +133,29 @@ export const unitsData = {
         "story": "SS",
         "infinite": "SS",
         "pvp": "SS"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.1% chance - Secret)",
+      "deployment_cost": "2500¥",
+      "total_upgrade_cost": "150,000¥",
+      "abilities": [
+        "King Crimson Requiem: Erases time and can see into the future",
+        "Time Skip: Completely avoids all attacks during time erasure",
+        "Epitaph: Predicts enemy movements and counters perfectly"
+      ],
+      "optimal_traits": ["Monarch", "Cooldown Reduction"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 9,
+        "cost_efficiency": 6,
+        "versatility": 10,
+        "survivability": 10
+      },
+      "detailed_stats": {
+        "base_damage": "Very High",
+        "attack_speed": "Medium",
+        "range": "Large",
+        "special_abilities": "Time Erasure, 100% Dodge"
       }
     },
     {
@@ -93,7 +163,7 @@ export const unitsData = {
       "name": "Igros (Elite Knight)", 
       "rarity": "Secret",
       "element": "Dark",
-      "tier": "SS",
+      "tier": "META_DEFINING",
       "placement_cost": "High",
       "max_placement": 3,
       "category": "DPS",
@@ -107,6 +177,29 @@ export const unitsData = {
         "story": "SS",
         "infinite": "S+",
         "pvp": "S+"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.1% chance - Secret)",
+      "deployment_cost": "1200¥",
+      "total_upgrade_cost": "62,500¥",
+      "abilities": [
+        "Elite Command: Summons elite shadow knights to fight alongside",
+        "Dark Synergy: Gains massive damage boost when paired with Song Jinwu",
+        "Shadow Strike: Teleports to enemies and delivers devastating dark damage"
+      ],
+      "optimal_traits": ["Monarch", "Damage Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 8,
+        "versatility": 9,
+        "survivability": 9
+      },
+      "detailed_stats": {
+        "base_damage": "Extreme",
+        "attack_speed": "Fast",
+        "range": "Large",
+        "special_abilities": "Elite Command, Dark Synergy"
       }
     },
     {
@@ -114,7 +207,7 @@ export const unitsData = {
       "name": "Alocard (Vampire King)",
       "rarity": "Secret", 
       "element": "Blood",
-      "tier": "S+",
+      "tier": "META_DEFINING",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "Support/DPS",
@@ -135,7 +228,7 @@ export const unitsData = {
       "name": "Jag-o (Volcanic)",
       "rarity": "Mythic",
       "element": "Fire",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -156,7 +249,7 @@ export const unitsData = {
       "name": "Chaso (Blood Curse)",
       "rarity": "Mythic", 
       "element": "Blood",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -177,7 +270,7 @@ export const unitsData = {
       "name": "Haruka Rin (Dancer)",
       "rarity": "Legendary",
       "element": "Support",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "Support",
@@ -198,7 +291,7 @@ export const unitsData = {
       "name": "Legendary Super Brolzi",
       "rarity": "Legendary",
       "element": "Energy",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -219,7 +312,7 @@ export const unitsData = {
       "name": "Tengon (Flashiness)",
       "rarity": "Mythic",
       "element": "Physical",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -240,7 +333,7 @@ export const unitsData = {
       "name": "Noruto (Six Tails)",
       "rarity": "Mythic",
       "element": "Energy",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -261,7 +354,7 @@ export const unitsData = {
       "name": "Obita (Awakened)",
       "rarity": "Mythic",
       "element": "Space",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -282,7 +375,7 @@ export const unitsData = {
       "name": "Sosuke (Storm)",
       "rarity": "Mythic",
       "element": "Lightning",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS/Support",
@@ -303,7 +396,7 @@ export const unitsData = {
       "name": "Sprintwagon",
       "rarity": "Epic",
       "element": "Support",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "Support",
@@ -324,7 +417,7 @@ export const unitsData = {
       "name": "Yehowach (Almighty)",
       "rarity": "Secret",
       "element": "Holy",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "Very High",
       "max_placement": 2,
       "category": "Support/DPS",
@@ -338,16 +431,234 @@ export const unitsData = {
         "story": "S",
         "infinite": "S",
         "pvp": "A"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.1% chance - Secret)",
+      "deployment_cost": "1400¥",
+      "total_upgrade_cost": "67,550¥",
+      "abilities": [
+        "The Almighty: Can see and alter the future",
+        "Status Immunity: Immune to all debuffs and status effects",
+        "Ally Boost: Buffs all nearby allies with increased damage"
+      ],
+      "optimal_traits": ["Monarch", "Buff Duration"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 8,
+        "cost_efficiency": 6,
+        "versatility": 10,
+        "survivability": 9
+      },
+      "detailed_stats": {
+        "base_damage": "High",
+        "attack_speed": "Medium",
+        "range": "Large",
+        "special_abilities": "The Almighty, Status Immunity"
+      }
+    },
+    
+    // ====== MISSING OFFICIAL CHARACTERS FROM WIKI ======
+    {
+      "id": "the-falcon-of-light",
+      "name": "The Falcon (of Light)",
+      "rarity": "Secret",
+      "element": "Light",
+      "tier": "META_DEFINING",
+      "placement_cost": "Very Low",
+      "max_placement": 1,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Extremely cheap deployment", "High damage output", "No evolution needed", "Broken tier performance"],
+      "cons": ["Only 1 placement", "Limited in some modes"],
+      "description": "The legendary Falcon with unmatched cost efficiency",
+      "recommended_traits": ["Damage", "Range"],
+      "anime_source": "Berserk",
+      "mode_performance": {
+        "story": "SS",
+        "infinite": "SS", 
+        "pvp": "S"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.1% chance)",
+      "deployment_cost": "1000¥",
+      "total_upgrade_cost": "1000¥",
+      "abilities": [
+        "Sacrifice: Deals massive AoE damage to all enemies",
+        "Light Blessing: Buffs nearby allies with 15% damage boost",
+        "Cost Efficiency: Extremely cheap deployment cost"
+      ],
+      "optimal_traits": ["Monarch", "Damage Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 10,
+        "versatility": 8,
+        "survivability": 7
+      },
+      "detailed_stats": {
+        "base_damage": "Very High",
+        "attack_speed": "Medium",
+        "range": "Large AoE",
+        "special_abilities": "Sacrifice, Light Blessing"
+      }
+    },
+    {
+      "id": "koguro-unsealed",
+      "name": "Koguro (Unsealed)",
+      "rarity": "Vanguard",
+      "element": "Dark",
+      "tier": "META_DEFINING",
+      "placement_cost": "Very High",
+      "max_placement": 1,
+      "category": "Support/DPS",
+      "evolution_required": true,
+      "pros": ["Vanguard rarity", "Unsealed power", "Support capabilities", "Meta defining"],
+      "cons": ["Very expensive", "Only 1 placement", "Hard to obtain"],
+      "description": "Unsealed dark warrior with immense power",
+      "recommended_traits": ["Damage", "Support"],
+      "anime_source": "Tokyo Ghoul",
+      "mode_performance": {
+        "story": "SS",
+        "infinite": "SS",
+        "pvp": "SS"
+      }
+    },
+    {
+      "id": "iscanur-pride",
+      "name": "Iscanur (Pride)",
+      "rarity": "Vanguard", 
+      "element": "Holy",
+      "tier": "META_DEFINING",
+      "placement_cost": "Extreme",
+      "max_placement": 1,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Vanguard rarity", "Pride form", "Extreme damage", "Broken tier"],
+      "cons": ["Extremely expensive", "Only 1 placement", "Very rare"],
+      "description": "The embodiment of Pride with devastating power",
+      "recommended_traits": ["Damage", "Pride"],
+      "anime_source": "Seven Deadly Sins",
+      "mode_performance": {
+        "story": "SS",
+        "infinite": "SS",
+        "pvp": "S"
+      }
+    },
+    {
+      "id": "the-struggler-rampage",
+      "name": "The Struggler (Rampage)",
+      "rarity": "Secret",
+      "element": "Physical",
+      "tier": "META_DEFINING",
+      "placement_cost": "High",
+      "max_placement": 2,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Rampage mode", "High physical damage", "Meta tier", "Interchangeable with The King"],
+      "cons": ["Expensive", "Limited placement", "Requires evolution"],
+      "description": "The ultimate struggler in rampage state",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Berserk",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S+",
+        "pvp": "S"
+      }
+    },
+    {
+      "id": "the-king-apostle",
+      "name": "The King (Apostle)",
+      "rarity": "Mythic",
+      "element": "Dark",
+      "tier": "META_DEFINING",
+      "placement_cost": "High",
+      "max_placement": 2,
+      "category": "DPS",
+      "evolution_required": true,
+      "pros": ["Apostle form", "High damage", "Meta tier", "Interchangeable with The Struggler"],
+      "cons": ["Expensive", "Limited placement", "Dark element weakness"],
+      "description": "The apostle king with dark powers",
+      "recommended_traits": ["Damage", "Dark Boost"],
+      "anime_source": "Berserk",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S+", 
+        "pvp": "S"
+      }
+    },
+    {
+      "id": "smith-john",
+      "name": "Smith John",
+      "rarity": "Secret",
+      "element": "Physical",
+      "tier": "META_DEFINING",
+      "placement_cost": "High",
+      "max_placement": 2,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["No evolution needed", "High DPS", "Meta tier", "Versatile"],
+      "cons": ["Expensive", "Limited placement", "Physical element"],
+      "description": "The legendary smith with unmatched craftsmanship",
+      "recommended_traits": ["Damage", "Physical Boost"],
+      "anime_source": "Original",
+      "mode_performance": {
+        "story": "S+",
+        "infinite": "S+",
+        "pvp": "S"
+      }
+    },
+    {
+      "id": "song-jinwu-and-igros",
+      "name": "Song Jinwu and Igros",
+      "rarity": "Vanguard",
+      "element": "Dark",
+      "tier": "META_DEFINING",
+      "placement_cost": "High",
+      "max_placement": 1,
+      "category": "DPS",
+      "evolution_required": false,
+      "pros": ["Vanguard rarity", "Dual unit synergy", "High damage", "No evolution needed"],
+      "cons": ["Very expensive", "Only 1 placement", "Vanguard rarity"],
+      "description": "The ultimate duo of Song Jinwu and his shadow Igros",
+      "recommended_traits": ["Damage", "Shadow Boost"],
+      "anime_source": "Solo Leveling",
+      "mode_performance": {
+        "story": "SS",
+        "infinite": "SS",
+        "pvp": "S+"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.005% chance - Vanguard)",
+      "deployment_cost": "1700¥",
+      "total_upgrade_cost": "105,700¥",
+      "abilities": [
+        "Shadow Army: Summons shadow soldiers to fight",
+        "Monarch's Domain: Creates area of increased damage",
+        "Dual Strike: Both Jinwu and Igros attack simultaneously"
+      ],
+      "optimal_traits": ["Monarch", "Shadow Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 8,
+        "versatility": 9,
+        "survivability": 9
+      },
+      "detailed_stats": {
+        "base_damage": "Extreme",
+        "attack_speed": "Fast",
+        "range": "Large AoE",
+        "special_abilities": "Shadow Army, Monarch's Domain"
       }
     },
     
     // ====== NEW SECRET TIER UNITS ======
     {
-      "id": "gojo-infinity",
-      "name": "Gojo (Infinity)",
+      "id": "gujo-infinity", 
+      "name": "Gujo (Infinity)",
       "rarity": "Secret",
       "element": "Space",
-      "tier": "SS",
+      "tier": "META_DEFINING",
       "placement_cost": "Very High",
       "max_placement": 1,
       "category": "DPS/Support",
@@ -361,14 +672,37 @@ export const unitsData = {
         "story": "SS",
         "infinite": "SS",
         "pvp": "SS"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.1% chance - Secret)",
+      "deployment_cost": "2200¥",
+      "total_upgrade_cost": "135,000¥",
+      "abilities": [
+        "Infinity: Creates an infinite space barrier that stops all attacks",
+        "Domain Expansion: Unlimited Void that stuns all enemies",
+        "Blue/Red: Powerful cursed energy techniques with massive damage"
+      ],
+      "optimal_traits": ["Monarch", "Range"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 7,
+        "versatility": 10,
+        "survivability": 10
+      },
+      "detailed_stats": {
+        "base_damage": "Extreme",
+        "attack_speed": "Fast",
+        "range": "Massive",
+        "special_abilities": "Infinity, Domain Expansion"
       }
     },
     {
-      "id": "sukuna-king-curses",
-      "name": "Sukuna (King of Curses)",
+      "id": "sukono",
+      "name": "Sukono",
       "rarity": "Secret",
       "element": "Cursed",
-      "tier": "S+",
+      "tier": "META_DEFINING",
       "placement_cost": "Very High",
       "max_placement": 2,
       "category": "DPS",
@@ -382,6 +716,29 @@ export const unitsData = {
         "story": "S+",
         "infinite": "S+",
         "pvp": "S"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.1% chance - Secret)",
+      "deployment_cost": "2100¥",
+      "total_upgrade_cost": "128,000¥",
+      "abilities": [
+        "Malevolent Shrine: Domain expansion that slices all enemies within range",
+        "Cleave & Dismantle: Adjusts cutting attacks based on enemy cursed energy",
+        "Fire Arrow: Devastating flame technique that burns everything"
+      ],
+      "optimal_traits": ["Monarch", "Cursed Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 7,
+        "versatility": 9,
+        "survivability": 8
+      },
+      "detailed_stats": {
+        "base_damage": "Extreme",
+        "attack_speed": "Very Fast",
+        "range": "Large AoE",
+        "special_abilities": "Malevolent Shrine, Cleave/Dismantle"
       }
     },
     {
@@ -389,7 +746,7 @@ export const unitsData = {
       "name": "Madara (Ultimate)",
       "rarity": "Secret",
       "element": "Fire",
-      "tier": "S+",
+      "tier": "META_DEFINING",
       "placement_cost": "Very High",
       "max_placement": 2,
       "category": "DPS",
@@ -403,6 +760,29 @@ export const unitsData = {
         "story": "S+",
         "infinite": "S+",
         "pvp": "S"
+      },
+      // Enhanced data
+      "obtainment": "Summon (0.1% chance - Secret)",
+      "deployment_cost": "2300¥",
+      "total_upgrade_cost": "140,000¥",
+      "abilities": [
+        "Perfect Susanoo: Massive armored warrior that devastates the battlefield",
+        "Tengai Shinsei: Summons meteors that deal catastrophic AoE damage",
+        "Rinnegan Powers: Multiple special abilities including gravity manipulation"
+      ],
+      "optimal_traits": ["Monarch", "Fire Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 6,
+        "versatility": 9,
+        "survivability": 9
+      },
+      "detailed_stats": {
+        "base_damage": "Extreme",
+        "attack_speed": "Medium",
+        "range": "Massive AoE",
+        "special_abilities": "Perfect Susanoo, Tengai Shinsei"
       }
     },
     {
@@ -410,7 +790,7 @@ export const unitsData = {
       "name": "Whitebeard (Prime)",
       "rarity": "Secret",
       "element": "Quake",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "Very High",
       "max_placement": 2,
       "category": "DPS/Tank",
@@ -433,7 +813,7 @@ export const unitsData = {
       "name": "Tanjiro (Hinokami)",
       "rarity": "Mythic",
       "element": "Fire",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -447,6 +827,29 @@ export const unitsData = {
         "story": "S",
         "infinite": "S",
         "pvp": "A"
+      },
+      // Enhanced data
+      "obtainment": "Summon (1% chance - Mythic)",
+      "deployment_cost": "1600¥",
+      "total_upgrade_cost": "85,200¥",
+      "abilities": [
+        "Hinokami Kagura: Ancient sun breathing technique with devastating fire attacks",
+        "Sun Breathing: Most powerful breathing style, effective against all demons",
+        "Fire Dance: Creates a wall of flames that damages all enemies"
+      ],
+      "optimal_traits": ["Monarch", "Fire Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 9,
+        "cost_efficiency": 7,
+        "versatility": 8,
+        "survivability": 7
+      },
+      "detailed_stats": {
+        "base_damage": "Very High",
+        "attack_speed": "Fast",
+        "range": "Large AoE",
+        "special_abilities": "Hinokami Kagura, Sun Breathing"
       }
     },
     {
@@ -454,7 +857,7 @@ export const unitsData = {
       "name": "Zenitsu (God Speed)",
       "rarity": "Mythic",
       "element": "Lightning",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -475,7 +878,7 @@ export const unitsData = {
       "name": "Inosuke (Beast King)",
       "rarity": "Mythic",
       "element": "Physical",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -496,7 +899,7 @@ export const unitsData = {
       "name": "Giyu (Water Hashira)",
       "rarity": "Mythic",
       "element": "Water",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -517,7 +920,7 @@ export const unitsData = {
       "name": "Shinobu (Insect Hashira)",
       "rarity": "Mythic",
       "element": "Poison",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS/Support",
@@ -538,7 +941,7 @@ export const unitsData = {
       "name": "Kakashi (Copy Ninja)",
       "rarity": "Mythic",
       "element": "Lightning",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -552,6 +955,29 @@ export const unitsData = {
         "story": "S",
         "infinite": "S",
         "pvp": "A"
+      },
+      // Enhanced data
+      "obtainment": "Summon (1% chance - Mythic)",
+      "deployment_cost": "1800¥",
+      "total_upgrade_cost": "89,500¥",
+      "abilities": [
+        "Sharingan: Can copy enemy techniques and predict attacks",
+        "Chidori: Powerful lightning-based piercing attack",
+        "Lightning Blade: Enhanced version of Chidori with greater range"
+      ],
+      "optimal_traits": ["Monarch", "Lightning Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 9,
+        "cost_efficiency": 7,
+        "versatility": 9,
+        "survivability": 7
+      },
+      "detailed_stats": {
+        "base_damage": "Very High",
+        "attack_speed": "Fast",
+        "range": "Medium",
+        "special_abilities": "Sharingan, Chidori"
       }
     },
     {
@@ -559,7 +985,7 @@ export const unitsData = {
       "name": "Itachi (Akatsuki)",
       "rarity": "Mythic",
       "element": "Fire",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -579,7 +1005,7 @@ export const unitsData = {
       "name": "Minato (Yellow Flash)",
       "rarity": "Mythic",
       "element": "Space",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -600,7 +1026,7 @@ export const unitsData = {
       "name": "Ace (Fire Fist)",
       "rarity": "Mythic",
       "element": "Fire",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -621,7 +1047,7 @@ export const unitsData = {
       "name": "Luffy (Gear 5)",
       "rarity": "Mythic",
       "element": "Physical",
-      "tier": "S+",
+      "tier": "META_DEFINING",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -642,7 +1068,7 @@ export const unitsData = {
       "name": "Zoro (King of Hell)",
       "rarity": "Mythic",
       "element": "Physical",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -656,6 +1082,29 @@ export const unitsData = {
         "story": "S",
         "infinite": "S",
         "pvp": "A"
+      },
+      // Enhanced data
+      "obtainment": "Summon (1% chance - Mythic)",
+      "deployment_cost": "1900¥",
+      "total_upgrade_cost": "95,800¥",
+      "abilities": [
+        "King of Hell: Unlocks the power of Enma and becomes the King of Hell",
+        "Three Sword Style: Uses three swords simultaneously for devastating attacks",
+        "Conqueror's Haki: Intimidates weaker enemies and boosts damage"
+      ],
+      "optimal_traits": ["Monarch", "Physical Boost"],
+      "optimal_familiar": "Birb",
+      "ratings": {
+        "damage": 10,
+        "cost_efficiency": 7,
+        "versatility": 7,
+        "survivability": 8
+      },
+      "detailed_stats": {
+        "base_damage": "Extreme",
+        "attack_speed": "Very Fast",
+        "range": "Medium",
+        "special_abilities": "King of Hell, Three Sword Style"
       }
     },
     {
@@ -663,7 +1112,7 @@ export const unitsData = {
       "name": "Ichigo (Bankai)",
       "rarity": "Mythic",
       "element": "Soul",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -684,7 +1133,7 @@ export const unitsData = {
       "name": "Aizen (Sosuke)",
       "rarity": "Mythic",
       "element": "Illusion",
-      "tier": "S",
+      "tier": "STRONG_PICK",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS/Support",
@@ -705,7 +1154,7 @@ export const unitsData = {
       "name": "Yoruichi (Thunder God)",
       "rarity": "Mythic",
       "element": "Lightning",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "High",
       "max_placement": 4,
       "category": "DPS",
@@ -728,7 +1177,7 @@ export const unitsData = {
       "name": "Naruto (Sage Mode)",
       "rarity": "Legendary",
       "element": "Nature",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -749,7 +1198,7 @@ export const unitsData = {
       "name": "Sasuke (Curse Mark)",
       "rarity": "Legendary",
       "element": "Lightning",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -770,7 +1219,7 @@ export const unitsData = {
       "name": "Sakura (Medical Ninja)",
       "rarity": "Legendary",
       "element": "Support",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "Support",
@@ -791,7 +1240,7 @@ export const unitsData = {
       "name": "Sanji (Black Leg)",
       "rarity": "Legendary",
       "element": "Fire",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -812,7 +1261,7 @@ export const unitsData = {
       "name": "Nami (Weather Witch)",
       "rarity": "Legendary",
       "element": "Weather",
-      "tier": "A",
+      "tier": "SOLID",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS/Support",
@@ -833,7 +1282,7 @@ export const unitsData = {
       "name": "Usopp (Sniper King)",
       "rarity": "Legendary",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -854,7 +1303,7 @@ export const unitsData = {
       "name": "Chopper (Monster Point)",
       "rarity": "Legendary",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS/Tank",
@@ -875,7 +1324,7 @@ export const unitsData = {
       "name": "Robin (Demonic)",
       "rarity": "Legendary",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -896,7 +1345,7 @@ export const unitsData = {
       "name": "Franky (Cyborg)",
       "rarity": "Legendary",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS/Tank",
@@ -917,7 +1366,7 @@ export const unitsData = {
       "name": "Brook (Soul King)",
       "rarity": "Legendary",
       "element": "Soul",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Medium",
       "max_placement": 4,
       "category": "DPS",
@@ -940,7 +1389,7 @@ export const unitsData = {
       "name": "Kiba (Inuzuka)",
       "rarity": "Epic",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS",
@@ -961,7 +1410,7 @@ export const unitsData = {
       "name": "Shino (Aburame)",
       "rarity": "Epic",
       "element": "Insect",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS",
@@ -982,7 +1431,7 @@ export const unitsData = {
       "name": "Hinata (Hyuuga)",
       "rarity": "Epic",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS",
@@ -1003,7 +1452,7 @@ export const unitsData = {
       "name": "Shikamaru (Nara)",
       "rarity": "Epic",
       "element": "Shadow",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS/Support",
@@ -1024,7 +1473,7 @@ export const unitsData = {
       "name": "Ino (Yamanaka)",
       "rarity": "Epic",
       "element": "Support",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "Support",
@@ -1045,7 +1494,7 @@ export const unitsData = {
       "name": "Choji (Akimichi)",
       "rarity": "Epic",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS/Tank",
@@ -1066,7 +1515,7 @@ export const unitsData = {
       "name": "Kankuro (Puppet Master)",
       "rarity": "Epic",
       "element": "Physical",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS",
@@ -1087,7 +1536,7 @@ export const unitsData = {
       "name": "Temari (Wind Master)",
       "rarity": "Epic",
       "element": "Wind",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS",
@@ -1108,7 +1557,7 @@ export const unitsData = {
       "name": "Gaara (Sand)",
       "rarity": "Epic",
       "element": "Earth",
-      "tier": "B",
+      "tier": "SITUATIONAL",
       "placement_cost": "Low",
       "max_placement": 6,
       "category": "DPS",
@@ -1131,7 +1580,7 @@ export const unitsData = {
       "name": "Konohamaru (Sarutobi)",
       "rarity": "Rare",
       "element": "Wind",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1152,7 +1601,7 @@ export const unitsData = {
       "name": "Moegi (Uzumaki)",
       "rarity": "Rare",
       "element": "Wood",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1173,7 +1622,7 @@ export const unitsData = {
       "name": "Udon (Iwabee)",
       "rarity": "Rare",
       "element": "Physical",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1194,7 +1643,7 @@ export const unitsData = {
       "name": "Tenten (Weapon Master)",
       "rarity": "Rare",
       "element": "Physical",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1215,7 +1664,7 @@ export const unitsData = {
       "name": "Rock Lee (Youth)",
       "rarity": "Rare",
       "element": "Physical",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1236,7 +1685,7 @@ export const unitsData = {
       "name": "Neji (Hyuuga Genin)",
       "rarity": "Rare",
       "element": "Physical",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1257,7 +1706,7 @@ export const unitsData = {
       "name": "Kiba (Inuzuka Genin)",
       "rarity": "Rare",
       "element": "Physical",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1278,7 +1727,7 @@ export const unitsData = {
       "name": "Shino (Aburame Genin)",
       "rarity": "Rare",
       "element": "Insect",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1299,7 +1748,7 @@ export const unitsData = {
       "name": "Hinata (Hyuuga Genin)",
       "rarity": "Rare",
       "element": "Physical",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1320,7 +1769,7 @@ export const unitsData = {
       "name": "Shikamaru (Nara Genin)",
       "rarity": "Rare",
       "element": "Shadow",
-      "tier": "C",
+      "tier": "AVOID",
       "placement_cost": "Very Low",
       "max_placement": 8,
       "category": "DPS",
@@ -1338,29 +1787,35 @@ export const unitsData = {
     }
   ],
   "tiers": {
-    "SS": {
-      "description": "Absolute best units, game-changing power",
-      "color": "#ff6b6b"
+    "META_DEFINING": {
+      "name": "🔥 META DEFINING",
+      "description": "定义版本的顶级角色，游戏破坏者级别",
+      "color": "#ff4757",
+      "gradient": "linear-gradient(135deg, #ff4757, #ff3838)"
     },
-    "S+": {
-      "description": "Extremely powerful, meta-defining units", 
-      "color": "#ff8e53"
+    "STRONG_PICK": {
+      "name": "⚡ STRONG PICK", 
+      "description": "强力推荐角色，当前版本主流选择",
+      "color": "#ff6348",
+      "gradient": "linear-gradient(135deg, #ff6348, #ff5722)"
     },
-    "S": {
-      "description": "Very strong units, highly recommended",
-      "color": "#ff6b9d"
+    "SOLID": {
+      "name": "💎 SOLID",
+      "description": "稳定可靠的选择，适合大多数内容",
+      "color": "#3742fa",
+      "gradient": "linear-gradient(135deg, #3742fa, #2f3542)"
     },
-    "A": {
-      "description": "Good units, solid choices for most content",
-      "color": "#4ecdc4"
+    "SITUATIONAL": {
+      "name": "🛠️ SITUATIONAL",
+      "description": "特定场合使用，有一定价值",
+      "color": "#2ed573",
+      "gradient": "linear-gradient(135deg, #2ed573, #1dd1a1)"
     },
-    "B": {
-      "description": "Average units, usable but not optimal",
-      "color": "#45b7d1"
-    },
-    "C": {
-      "description": "Basic units, good for beginners and early game",
-      "color": "#95a5a6"
+    "AVOID": {
+      "name": "❌ AVOID",
+      "description": "不推荐使用，性能较差",
+      "color": "#747d8c",
+      "gradient": "linear-gradient(135deg, #747d8c, #57606f)"
     }
   },
   "rarities": {
