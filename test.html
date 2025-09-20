@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Vanguards - Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .info { color: #2196F3; }
+        button {
+            background: #a29bfe;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #8b7fd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Anime Vanguards - JavaScript Test</h1>
+        
+        <div class="test-section">
+            <h2>Module Loading Test</h2>
+            <div id="moduleStatus">Testing module loading...</div>
+            <button onclick="testModules()">Test Modules</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Database Page Test</h2>
+            <div id="databaseStatus">Testing database functionality...</div>
+            <button onclick="testDatabase()">Test Database</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Console Output</h2>
+            <div id="consoleOutput" style="background: #000; padding: 10px; border-radius: 5px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Test module imports
+        async function testModules() {
+            const statusDiv = document.getElementById('moduleStatus');
+            const outputDiv = document.getElementById('consoleOutput');
+            
+            try {
+                // Test importing modules
+                const { unitsData } = await import('./js/config/units.js');
+                const { materialsConfig } = await import('./js/config/materials.js');
+                const { elementIcons } = await import('./js/config/constants.js');
+                
+                statusDiv.innerHTML = '<span class="success">✅ All modules loaded successfully!</span>';
+                outputDiv.innerHTML += '<div class="success">✓ Units data loaded: ' + (unitsData.units ? unitsData.units.length : 0) + ' units</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Materials config loaded</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Element icons loaded</div>';
+                
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">❌ Module loading failed: ' + error.message + '</span>';
+                outputDiv.innerHTML += '<div class="error">✗ Error: ' + error.message + '</div>';
+            }
+        }
+        
+        // Test database functionality
+        async function testDatabase() {
+            const statusDiv = document.getElementById('databaseStatus');
+            const outputDiv = document.getElementById('consoleOutput');
+            
+            try {
+                const { DatabasePage } = await import('./js/pages/database.js');
+                const { unitsData } = await import('./js/config/units.js');
+                
+                // Create a mock app object
+                const mockApp = {
+                    data: {
+                        unitsData: unitsData,
+                        materialsConfig: {},
+                        elementIcons: {}
+                    }
+                };
+                
+                // Initialize database page
+                const databasePage = new DatabasePage(mockApp);
+                await databasePage.initialize(mockApp.data);
+                
+                // Test data access
+                const totalUnits = unitsData.units ? unitsData.units.length : 0;
+                const filteredUnits = unitsData.units ? unitsData.units.filter(unit => 
+                    unit.name.toLowerCase().includes('saber') || 
+                    unit.name.toLowerCase().includes('divalo')
+                ) : [];
+                
+                statusDiv.innerHTML = '<span class="success">✅ Database functionality working!</span>';
+                outputDiv.innerHTML += '<div class="success">✓ Database page initialized</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Data access working: ' + filteredUnits.length + ' units found out of ' + totalUnits + ' total</div>';
+                
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">❌ Database test failed: ' + error.message + '</span>';
+                outputDiv.innerHTML += '<div class="error">✗ Error: ' + error.message + '</div>';
+            }
+        }
+        
+        // Test tier list functionality
+        async function testTierList() {
+            const statusDiv = document.getElementById('tierListStatus');
+            const outputDiv = document.getElementById('consoleOutput');
+            
+            try {
+                const { TierListPage } = await import('./js/pages/tierlist.js');
+                const { unitsData } = await import('./js/config/units.js');
+                
+                // Create a mock app object
+                const mockApp = {
+                    data: {
+                        unitsData: unitsData,
+                        materialsConfig: {},
+                        elementIcons: {}
+                    }
+                };
+                
+                // Initialize tier list page
+                const tierListPage = new TierListPage(mockApp);
+                await tierListPage.initialize(mockApp.data);
+                
+                // Test mode switching
+                const totalUnits = unitsData.units ? unitsData.units.length : 0;
+                const allModeUnits = tierListPage.tierData?.all ? 
+                    Object.values(tierListPage.tierData.all).flat().length : 0;
+                const storyModeUnits = tierListPage.tierData?.story ? 
+                    Object.values(tierListPage.tierData.story).flat().length : 0;
+                
+                statusDiv.innerHTML = '<span class="success">✅ Tier List functionality working!</span>';
+                outputDiv.innerHTML += '<div class="success">✓ Tier list page initialized</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Total units: ' + totalUnits + '</div>';
+                outputDiv.innerHTML += '<div class="success">✓ All mode units: ' + allModeUnits + '</div>';
+                outputDiv.innerHTML += '<div class="success">✓ Story mode units: ' + storyModeUnits + '</div>';
+                
+                // Test tier distribution
+                if (tierListPage.tierData?.all) {
+                    Object.entries(tierListPage.tierData.all).forEach(([tier, units]) => {
+                        outputDiv.innerHTML += '<div class="info">✓ ' + tier + ' tier: ' + units.length + ' units</div>';
+                    });
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">❌ Tier List test failed: ' + error.message + '</span>';
+                outputDiv.innerHTML += '<div class="error">✗ Error: ' + error.message + '</div>';
+            }
+        }
+        
+        // Make functions globally available
+        window.testModules = testModules;
+        window.testDatabase = testDatabase;
+        window.testTierList = testTierList;
+        
+        // Initial test
+        testModules();
+    </script>
+</body>
+</html>
+

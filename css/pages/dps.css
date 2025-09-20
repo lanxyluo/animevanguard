@@ -1,0 +1,279 @@
+/* DPS Calculator Page Styles */
+
+.dps-calculator {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.dps-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.dps-header h1 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.dps-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* DPS calculation form */
+.dps-form {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--card-border);
+}
+
+.dps-form h2 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.dps-form h2 i {
+    color: var(--primary-color);
+}
+
+/* Level slider */
+.level-slider {
+    margin-bottom: var(--spacing-lg);
+}
+
+.level-slider label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.level-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.level-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Trait selection */
+.trait-selection {
+    margin-bottom: var(--spacing-lg);
+}
+
+.trait-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.trait-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.trait-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-color);
+}
+
+.trait-item.selected {
+    background: rgba(108, 92, 231, 0.2);
+    border-color: var(--primary-color);
+}
+
+.trait-item input[type="checkbox"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+}
+
+.trait-name {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* Game state inputs */
+.game-state {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.game-state-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-state-item label {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* DPS results */
+.dps-results {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--card-border);
+}
+
+.dps-results h2 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.dps-results h2 i {
+    color: var(--primary-color);
+}
+
+.dps-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.dps-stat {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dps-stat-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dps-stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.dps-stat-unit {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* Total DPS highlight */
+.total-dps {
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.2) 0%, rgba(162, 155, 254, 0.2) 100%);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    text-align: center;
+    margin-top: var(--spacing-lg);
+}
+
+.total-dps-label {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.total-dps-value {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.total-dps-unit {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* DPS comparison */
+.dps-comparison {
+    margin-top: var(--spacing-lg);
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-md);
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: var(--spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comparison-table th {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.comparison-table td {
+    color: var(--text-muted);
+}
+
+.comparison-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* DPS responsive */
+@media (max-width: 768px) {
+    .dps-breakdown {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-state {
+        grid-template-columns: 1fr;
+    }
+    
+    .trait-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .total-dps-value {
+        font-size: 2rem;
+    }
+    
+    .comparison-table {
+        font-size: 0.9rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: var(--spacing-xs);
+    }
+} 
