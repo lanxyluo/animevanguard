@@ -22,6 +22,7 @@ export class DatabasePage {
         this.currentPage = 1;
         this.itemsPerPage = 12;
         this.selectedUnits = [];
+        this.searchText = '';
         
         // UI elements
         this.elements = {};
@@ -44,11 +45,11 @@ export class DatabasePage {
             // Initialize UI elements
             this.initializeUI();
             
-            // Initialize components
-            this.initializeComponents();
+            // Initialize search functionality
+            this.initializeSearch();
             
-            // Load initial data
-            this.loadUnits();
+            // Show maintenance message
+            this.showMaintenanceMessage();
             
             this.isInitialized = true;
             console.log('✅ Database Page initialized!');
@@ -69,42 +70,61 @@ export class DatabasePage {
         
         // Store element references
         this.elements = {
-            resultsCount: document.getElementById('resultsCount'),
             unitsGrid: document.getElementById('unitsGrid'),
-            sortSelect: document.getElementById('sortSelect'),
-            compareButton: document.getElementById('compareButton'),
-            selectedCount: document.getElementById('selectedCount'),
-            viewToggle: document.querySelectorAll('.view-btn')
+            searchInput: document.getElementById('unitSearch'),
+            clearSearchBtn: document.getElementById('clearSearchBtn')
         };
-        
-        // Bind view toggle events
-        this.bindViewToggleEvents();
-        
-        // Bind sort events
-        this.bindSortEvents();
-        
-        // Bind compare button events
-        this.bindCompareEvents();
     }
     
-    initializeComponents() {
-        // Initialize Filter Panel
-        const filterPanelContainer = document.getElementById('filterPanel');
-        if (filterPanelContainer) {
-            this.filterPanel = new FilterPanel(filterPanelContainer, {
-                onFilterChange: (filters) => this.handleFilterChange(filters),
-                onSearchChange: (searchText) => this.handleSearchChange(searchText),
-                onQuickFilterChange: (quickFilters) => this.handleQuickFilterChange(quickFilters)
+    initializeSearch() {
+        // Initialize search functionality
+        if (this.elements.searchInput) {
+            this.elements.searchInput.addEventListener('input', (e) => {
+                this.handleSearchInput(e.target.value);
             });
         }
         
-        // Initialize Pagination
-        const paginationContainer = document.getElementById('pagination');
-        if (paginationContainer) {
-            this.pagination = new Pagination(paginationContainer, {
-                onPageChange: (page) => this.handlePageChange(page),
-                onItemsPerPageChange: (itemsPerPage) => this.handleItemsPerPageChange(itemsPerPage)
+        if (this.elements.clearSearchBtn) {
+            this.elements.clearSearchBtn.addEventListener('click', () => {
+                this.clearSearch();
             });
+        }
+    }
+    
+    showMaintenanceMessage() {
+        // Clear any existing content in units grid
+        if (this.elements.unitsGrid) {
+            this.elements.unitsGrid.innerHTML = '';
+        }
+        
+        // The maintenance message is already in the HTML
+        console.log('🔧 Database maintenance mode active');
+    }
+    
+    handleSearchInput(searchText) {
+        this.searchText = searchText;
+        
+        // Show/hide clear button
+        if (this.elements.clearSearchBtn) {
+            if (searchText.trim()) {
+                this.elements.clearSearchBtn.classList.add('show');
+            } else {
+                this.elements.clearSearchBtn.classList.remove('show');
+            }
+        }
+        
+        // For now, just log the search (no actual filtering yet)
+        console.log('🔍 Search:', searchText);
+    }
+    
+    clearSearch() {
+        if (this.elements.searchInput) {
+            this.elements.searchInput.value = '';
+            this.searchText = '';
+        }
+        
+        if (this.elements.clearSearchBtn) {
+            this.elements.clearSearchBtn.classList.remove('show');
         }
     }
     
@@ -291,9 +311,6 @@ export class DatabasePage {
         if (container) {
             container.style.display = 'block';
         }
-        
-        // Initialize the selected count when showing the page
-        this.updateCompareButton();
     }
     
     hide() {

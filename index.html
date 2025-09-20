@@ -1102,6 +1102,208 @@
             padding: 0 2rem;
         }
 
+        /* Search Section */
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(162, 155, 254, 0.3);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(162, 155, 254, 0.6);
+            box-shadow: 0 0 0 3px rgba(162, 155, 254, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: rgba(162, 155, 254, 0.6);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(162, 155, 254, 0.6);
+            font-size: 1.1rem;
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(162, 155, 254, 0.6);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .search-clear-btn:hover {
+            background: rgba(162, 155, 254, 0.1);
+            color: #a29bfe;
+        }
+
+        .search-clear-btn.show {
+            display: block;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+
+        .filter-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2rem;
+            background: rgba(108, 92, 231, 0.1);
+            border: 2px dashed rgba(162, 155, 254, 0.3);
+            border-radius: 12px;
+            color: rgba(162, 155, 254, 0.7);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .filter-placeholder i {
+            font-size: 1.5rem;
+        }
+
+        /* Maintenance Message */
+        .maintenance-message {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            margin: 3rem 0;
+        }
+
+        .maintenance-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(162, 155, 254, 0.1) 100%);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .maintenance-content i {
+            font-size: 4rem;
+            color: #a29bfe;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .maintenance-content h3 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .maintenance-content p {
+            color: rgba(162, 155, 254, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Pagination Placeholder */
+        .pagination-placeholder {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(162, 155, 254, 0.6);
+            font-style: italic;
+        }
+
+        /* Responsive Design for Database Page */
+        @media (max-width: 768px) {
+            .database-container {
+                padding: 0 1rem;
+            }
+            
+            .database-header .page-title {
+                font-size: 2rem;
+            }
+            
+            .database-header .page-subtitle {
+                font-size: 1rem;
+            }
+            
+            .search-container {
+                max-width: 100%;
+            }
+            
+            .search-input {
+                padding: 0.875rem 2.5rem 0.875rem 2.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .maintenance-content {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem;
+            }
+            
+            .maintenance-content h3 {
+                font-size: 1.5rem;
+            }
+            
+            .maintenance-content p {
+                font-size: 1rem;
+            }
+            
+            .filter-placeholder {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .database-header .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .search-input {
+                padding: 0.75rem 2.25rem 0.75rem 2.25rem;
+                font-size: 0.85rem;
+            }
+            
+            .maintenance-content {
+                padding: 1.5rem 1rem;
+            }
+            
+            .maintenance-content h3 {
+                font-size: 1.3rem;
+            }
+            
+            .maintenance-content i {
+                font-size: 3rem;
+            }
+        }
+
         /* Unit Comparison Section */
         .unit-comparison-section {
             background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(162, 155, 254, 0.1) 100%);
@@ -4475,49 +4677,47 @@
                 <!-- Page Header -->
                 <div class="database-header">
                     <h1 class="page-title">Anime Vanguards Unit Database</h1>
-                    <p class="page-subtitle">All Characters & Stats | 2025</p>
+                    <p class="page-subtitle">Complete unit information and stats for all characters</p>
                 </div>
 
-                <!-- Filter Panel Container -->
-                <div id="filterPanel" class="filter-panel-container">
-                    <!-- Filter components will be loaded here -->
-                </div>
-
-                <!-- Results Control Bar -->
-                <div class="results-control-bar">
-                    <div class="results-info">
-                        <span id="resultsCount" class="results-count">Found 0 units</span>
-                        <div class="view-toggle">
-                            <button class="view-btn active" data-view="grid">
-                                <i class="fas fa-th"></i>
-                            </button>
-                            <button class="view-btn" data-view="list">
-                                <i class="fas fa-list"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="results-controls">
-                        <select id="sortSelect" class="sort-select">
-                            <option value="name">Sort by Name</option>
-                            <option value="rarity">Sort by Rarity</option>
-                            <option value="recommendation">Sort by Recommendation</option>
-                        </select>
-                        
-                        <button id="compareButton" class="compare-button" disabled>
-                            Compare Selected (<span id="selectedCount"></span>)
+                <!-- Search Bar -->
+                <div class="search-section">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="unitSearch" class="search-input" placeholder="Search units by name, description...">
+                        <button class="search-clear-btn" id="clearSearchBtn">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Units Grid Container -->
-                <div id="unitsGrid" class="units-grid-container">
-                    <!-- Unit cards will be dynamically generated here -->
+                <!-- Filter Section (Placeholder) -->
+                <div class="filter-section">
+                    <div class="filter-placeholder">
+                        <i class="fas fa-filter"></i>
+                        <span>Advanced filters coming soon</span>
+                    </div>
                 </div>
 
-                <!-- Pagination Container -->
+                <!-- Unit Grid Container (Empty for now) -->
+                <div id="unitsGrid" class="units-grid-container">
+                    <!-- Unit cards will be loaded here -->
+                </div>
+
+                <!-- Maintenance Message -->
+                <div class="maintenance-message">
+                    <div class="maintenance-content">
+                        <i class="fas fa-tools"></i>
+                        <h3>🔄 Database is being updated with accurate unit data. Coming soon!</h3>
+                        <p>We're working hard to bring you the most comprehensive and up-to-date unit information. Stay tuned for the complete database launch!</p>
+                    </div>
+                </div>
+
+                <!-- Pagination Area (Placeholder) -->
                 <div id="pagination" class="pagination-container">
-                    <!-- Pagination will be generated here -->
+                    <div class="pagination-placeholder">
+                        <span>Pagination will be available when units are loaded</span>
+                    </div>
                 </div>
             </div>
         </div>
