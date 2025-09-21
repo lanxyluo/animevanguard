@@ -1386,25 +1386,7 @@ function sortUnits(units, sortBy = 'name', order = 'asc') {
   return sortedUnits;
 }
 
-/**
- * Get units by element (alias for getUnitsByElement)
- * @param {string} element - The element to filter by
- * @returns {Array} Array of units matching the element
- */
-function getUnitsByElement(element) {
-  if (!element) return unitDatabaseData;
-  return unitDatabaseData.filter(unit => unit.element === element);
-}
 
-/**
- * Get units by type (alias for getUnitsByType)
- * @param {string} type - The type to filter by (DPS, Support, Farm, Buffer)
- * @returns {Array} Array of units matching the type
- */
-function getUnitsByType(type) {
-  if (!type) return unitDatabaseData;
-  return unitDatabaseData.filter(unit => unit.type === type);
-}
 
 /**
  * Validate unit database data integrity

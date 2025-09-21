@@ -108,6 +108,7 @@
     <link rel="stylesheet" href="css/components/cards.css">
     <link rel="stylesheet" href="css/components/pagination.css">
     <link rel="stylesheet" href="css/pages/tierlist.css">
+    <link rel="stylesheet" href="css/calculator.css">
     
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -5431,95 +5432,90 @@
         </div>
 
         <!-- DPS Calculator Page -->
-        <div id="calculatorPage" class="page-container">
-            <!-- DPS Calculator Content -->
-            <div class="dps-calculator-container">
-                <!-- Page Header -->
-                <div class="calculator-header">
-                    <h1 class="page-title">DPS Calculator</h1>
-                    <p class="page-description">Calculate your unit's damage output and optimize your build</p>
-                    </div>
-                    
-                <!-- Main Calculator Layout -->
-                <div class="calculator-layout">
-                    <!-- Left Side - Input Area -->
-                    <div class="calculator-input-section">
-                        <div class="input-card">
-                            <h3><i class="fas fa-cog"></i> Unit Configuration</h3>
-                            
-                            <!-- Unit Selection -->
-                            <div class="input-group">
-                                <label for="unitSelect">Select Unit:</label>
-                                <select id="unitSelect" class="unit-select">
-                                    <option value="">Choose a unit...</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Level Slider -->
-                            <div class="input-group">
-                                <label for="levelSlider">Level: <span id="levelValue">1</span></label>
-                                <input type="range" id="levelSlider" class="level-slider" min="1" max="12" value="1">
-                            </div>
-                            
-                            <!-- Trait Selection -->
-                            <div class="input-group">
-                                <label for="traitSelect">Select Trait:</label>
-                                <select id="traitSelect" class="trait-select">
-                                    <option value="">No Trait</option>
-                                </select>
-                        </div>
-                        
-                            <!-- Enemy Count -->
-                            <div class="input-group">
-                                <label for="enemyCount">Number of Enemies:</label>
-                                <input type="number" id="enemyCount" class="enemy-input" min="1" max="10" value="1">
-                        </div>
-
-                            <!-- Calculate Button -->
-                            <button id="calculateBtn" class="calculate-btn">
-                                <i class="fas fa-calculator"></i> Calculate DPS
-                        </button>
-                    </div>
+        <div id="calculatorPage" class="page-container calculator-container">
+            <!-- Page Header -->
+            <div class="page-introduction">
+                <div class="intro-container">
+                    <h1 class="page-title calculator-title">DPS Calculator</h1>
+                    <p class="page-subtitle">Calculate your unit's damage output and optimize your build</p>
+                </div>
             </div>
 
-                    <!-- Right Side - Results Area -->
-                    <div class="calculator-results-section">
-                        <div class="results-card">
-                            <h3><i class="fas fa-chart-bar"></i> DPS Results</h3>
-                            
-                            <div id="dpsResults" class="results-content">
-                                <div class="results-placeholder">
-                                    <i class="fas fa-calculator"></i>
-                                    <p>Configure your unit and click Calculate to see results</p>
-                                    </div>
-                                    </div>
-                                </div>
-                                    </div>
-                                </div>
-                                
-                <!-- Bottom Section - Preset Examples -->
-                <div class="preset-examples-section">
-                    <div class="preset-card">
-                        <h3><i class="fas fa-star"></i> Popular Builds</h3>
-                        <div class="preset-buttons">
-                            <button class="preset-btn" data-preset="meta-dps">
-                                <i class="fas fa-fire"></i> Meta DPS Build
-                            </button>
-                            <button class="preset-btn" data-preset="balanced">
-                                <i class="fas fa-balance-scale"></i> Balanced Build
-                            </button>
-                            <button class="preset-btn" data-preset="tank-killer">
-                                <i class="fas fa-shield-alt"></i> Tank Killer
-                            </button>
-                            <button class="preset-btn" data-preset="crowd-control">
-                                <i class="fas fa-users"></i> Crowd Control
-                            </button>
-                                    </div>
-                                    </div>
+            <!-- DPS Calculator Content -->
+            <div class="calculator-content">
+                <!-- 三栏布局 -->
+                <div class="calculator-grid grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-screen">
+                    <!-- 左侧：角色选择 -->
+                    <div id="unit-selector-panel" class="calculator-panel rounded-xl p-6">
+                        <h2 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-users mr-2 text-blue-400"></i>
+                            Select Unit
+                        </h2>
+                        <div id="unit-search" class="mb-4">
+                            <input type="text" placeholder="Search units..." 
+                                   class="search-input w-full px-4 py-2 rounded-lg text-white">
+                        </div>
+                        <div id="unit-grid" class="unit-grid grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
+                            <!-- 动态生成角色卡片 -->
+                        </div>
+                    </div>
+
+                    <!-- 中间：结果显示 -->
+                    <div id="results-panel" class="calculator-panel rounded-xl p-6">
+                        <h2 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-chart-bar mr-2 text-green-400"></i>
+                            DPS Results
+                        </h2>
+                        <div id="dps-display" class="text-center mb-6">
+                            <div class="text-6xl font-bold text-blue-400 mb-2 dps-glow" id="dps-value">0</div>
+                            <div class="text-gray-400">Damage Per Second</div>
+                        </div>
+                        <div id="stats-breakdown" class="space-y-3">
+                            <!-- 详细数据展示 -->
+                        </div>
+                    </div>
+
+                    <!-- 右侧：配置面板 -->
+                    <div id="config-panel" class="calculator-panel rounded-xl p-6">
+                        <h2 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-cog mr-2 text-purple-400"></i>
+                            Configuration
+                        </h2>
+                        <div id="level-config" class="mb-6">
+                            <label class="block text-sm font-medium mb-2 text-gray-300">
+                                Level: <span id="level-value" class="text-blue-400 font-bold">1</span>
+                            </label>
+                            <input type="range" min="1" max="60" value="1" 
+                                   class="w-full h-2 bg-gray-700 rounded-lg" id="level-slider">
+                        </div>
+                        <div id="upgrade-config" class="mb-6">
+                            <label class="block text-sm font-medium mb-2 text-gray-300">Upgrade Level</label>
+                            <select id="upgrade-select" class="w-full px-3 py-2 rounded-lg">
+                                <option value="0">Upgrade 0</option>
+                                <option value="1">Upgrade 1</option>
+                                <!-- 动态生成 -->
+                            </select>
+                        </div>
+                        <div id="trait-config" class="mb-6">
+                            <label class="block text-sm font-medium mb-2 text-gray-300">Traits</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" value="damage">
+                                    <span class="text-sm">Damage Boost</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" value="speed">
+                                    <span class="text-sm">Speed Boost</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" value="range">
+                                    <span class="text-sm">Range Boost</span>
+                                </label>
                             </div>
                         </div>
-
-
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Codes Page -->
@@ -6283,6 +6279,13 @@
 
 
     </script>
+
+    <!-- DPS Calculator Modules -->
+    <script src="js/utils/calculations.js"></script>
+    <script src="js/modules/unit-selector.js"></script>
+    <script src="js/modules/config-panel.js"></script>
+    <script src="js/modules/results-display.js"></script>
+    <script src="js/modules/dps-calculator.js"></script>
 
     <!-- Unit Details Modal -->
     <div id="unitDetailsModal" class="modal-overlay" style="display: none;">

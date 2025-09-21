@@ -82,7 +82,7 @@ export class TierListPage {
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Quick Navigation -->
                 <div class="tier-navigation">
                     <div class="nav-buttons">
@@ -191,7 +191,7 @@ export class TierListPage {
                         ${this.getSpecialTags(character)}
                     </div>
                     <p class="tier-reason">${this.getTierReason(character, tierKey)}</p>
-                </div>
+                    </div>
                 <div class="hover-card">
                     <div class="hover-content">
                         <h4>${character.name}</h4>
@@ -205,7 +205,7 @@ export class TierListPage {
             </div>
         `).join('');
     }
-
+    
     getElementIcon(element) {
         const icons = {
             'Fire': '🔥',
