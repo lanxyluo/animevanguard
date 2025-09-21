@@ -66,230 +66,311 @@ export class TierListPage {
         
         const html = `
             <div class="tier-list-wrapper">
-                <!-- Filter Section -->
-                <div class="filter-section">
-                    <div class="filter-header">
-                        <h3><i class="fas fa-filter"></i> Filter & Sort Options</h3>
+                <!-- Meta Snapshot Header -->
+                <div class="meta-snapshot">
+                    <div class="meta-info">
+                        <h2><i class="fas fa-chart-line"></i> Meta Snapshot</h2>
+                        <p class="meta-date">Last updated: September 2025</p>
+                        <p class="meta-description">Priority rankings for current meta - 28 curated units across all tiers</p>
                     </div>
-                    <div class="filter-controls">
-                        <div class="filter-row">
-                            <div class="filter-group">
-                                <label>Tier:</label>
-                                <select id="tierFilter" class="filter-select">
-                                    <option value="">All Tiers</option>
-                                    <option value="BROKEN">🔥 BROKEN</option>
-                                    <option value="META">⚡ META</option>
-                                    <option value="SUB_META">💎 SUB-META</option>
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <label>Element:</label>
-                                <select id="elementFilter" class="filter-select">
-                                    <option value="">All Elements</option>
-                                    <option value="Unknown">❓ Unknown</option>
-                                    <option value="Dark">🌑 Dark</option>
-                                    <option value="Nature">🌿 Nature</option>
-                                    <option value="Holy">✨ Holy</option>
-                                    <option value="Fire">🔥 Fire</option>
-                                    <option value="Wind">💨 Wind</option>
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <label>Rarity:</label>
-                                <select id="rarityFilter" class="filter-select">
-                                    <option value="">All Rarities</option>
-                                    <option value="Vanguard">Vanguard</option>
-                                    <option value="Secret">Secret</option>
-                                    <option value="Mythic">Mythic</option>
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <label>Sort By:</label>
-                                <select id="sortBy" class="filter-select">
-                                    <option value="tier">Tier Ranking</option>
-                                    <option value="name">Name</option>
-                                    <option value="dps">DPS</option>
-                                    <option value="cost">Deploy Cost</option>
-                                    <option value="maxCost">Max Cost</option>
-                                </select>
-                            </div>
+                    <div class="quick-picks">
+                        <h3><i class="fas fa-star"></i> Quick Picks for Beginners</h3>
+                        <div class="quick-pick-tags">
+                            <span class="quick-tag">Easy to obtain</span>
+                            <span class="quick-tag">Low cost</span>
+                            <span class="quick-tag">High impact</span>
                         </div>
-                        <div class="filter-buttons">
-                            <button id="applyFilters" class="apply-btn">Apply Filters</button>
-                            <button id="clearFilters" class="clear-btn">Clear All</button>
-                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation -->
+                <div class="tier-navigation">
+                    <div class="nav-buttons">
+                        <button class="nav-btn" data-tier="BROKEN">🔥 BROKEN</button>
+                        <button class="nav-btn" data-tier="META">⚡ META</button>
+                        <button class="nav-btn" data-tier="SUB_META">💎 SUB-META</button>
+                        <button class="nav-btn" data-tier="DECENT">⭐ DECENT</button>
                     </div>
                 </div>
                 
+                <!-- Tier List Content -->
                 <div class="tier-list-container" id="tierListResults">
                     ${this.renderTiers(data)}
                 </div>
+
+                <!-- CTA Section -->
+                <div class="cta-section">
+                    <div class="cta-content">
+                        <h3><i class="fas fa-database"></i> Need detailed stats?</h3>
+                        <p>Check our comprehensive Unit Database for complete character information</p>
+                        <button class="cta-btn" onclick="window.location.hash = '#database'">
+                            <i class="fas fa-arrow-right"></i> View Unit Database
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Back to Top Button -->
+                <button class="back-to-top" id="backToTop" style="display: none;">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
             </div>
         `;
         
         container.innerHTML = html;
         
-        // Setup filter event listeners
-        this.setupFilterListeners(data);
+        // Setup navigation listeners
+        this.setupNavigationListeners(data);
+        
+        // Setup back to top button
+        this.setupBackToTop();
         
         console.log('✅ Tier list content rendered successfully');
     }
     
-    renderTiers(data) {
+    renderTiers(data, showTopTiersOnly = false) {
         if (!this.TIER_INFO) return '';
         
-        return Object.keys(this.TIER_INFO)
+        const tiersToShow = showTopTiersOnly 
+            ? Object.keys(this.TIER_INFO).filter(tier => tier === 'BROKEN' || tier === 'META')
+            : Object.keys(this.TIER_INFO);
+        
+        return tiersToShow
             .sort((a, b) => this.TIER_INFO[a].priority - this.TIER_INFO[b].priority)
             .map((tierKey, index) => {
                 const tierInfo = this.TIER_INFO[tierKey];
                 const characters = data[tierKey] || [];
                 
                 return `
-                    <div class="tier-row" data-tier="${tierKey}" style="animation-delay: ${index * 0.2}s">
-                        <div class="tier-label" data-tier="${tierKey}">
-                            <div class="tier-label-content">
-                                <div class="tier-name">${tierInfo.name}</div>
-                                <div class="tier-description">${tierInfo.description}</div>
+                    <div class="tier-section" id="tier-${tierKey}" data-tier="${tierKey}">
+                        <div class="tier-header" data-tier="${tierKey}">
+                            <div class="tier-title">
+                                <h2 class="tier-name">${this.getTierEmoji(tierKey)} ${tierInfo.name}</h2>
+                                <p class="tier-subtitle">${this.getTierSubtitle(tierKey)}</p>
                             </div>
-                            <div class="tier-count">${characters.length} ${characters.length === 1 ? 'unit' : 'units'}</div>
+                            <div class="tier-count">${characters.length} units</div>
                         </div>
-                        <div class="tier-characters">
+                        <div class="characters-grid">
                             ${this.renderCharacters(characters, tierKey)}
                         </div>
                     </div>
                 `;
             }).join('');
     }
+
+    getTierSubtitle(tierKey) {
+        const subtitles = {
+            'BROKEN': 'Dominate all content',
+            'META': 'Current top performers', 
+            'SUB_META': 'Solid specialized choices',
+            'DECENT': 'Usable alternatives'
+        };
+        return subtitles[tierKey] || 'Balanced options';
+    }
+
+    getTierEmoji(tierKey) {
+        const emojis = {
+            'BROKEN': '🔥',
+            'META': '⚡',
+            'SUB_META': '💎',
+            'DECENT': '📊'
+        };
+        return emojis[tierKey] || '⭐';
+    }
     
     renderCharacters(characters, tierKey) {
         return characters.map(character => `
-            <div class="character-card" data-character-id="${character.id}">
-                <div class="character-header">
-                    <h4 class="character-name">${character.name}</h4>
-                    <span class="character-rarity ${character.rarity.toLowerCase()}">${character.rarity}</span>
+            <div class="character-card" data-character-id="${character.id}" data-tier="${tierKey}">
+                <div class="character-avatar" data-rarity="${character.rarity.toLowerCase()}" data-element="${character.element.toLowerCase()}">
+                    <span class="avatar-letter">${character.name.charAt(0)}</span>
+                    <div class="element-icon">${this.getElementIcon(character.element)}</div>
                 </div>
-                <div class="character-element">
-                    <span class="element-badge" style="color: ${this.ELEMENT_INFO[character.element]?.color || '#ffffff'}">
-                        ${this.ELEMENT_INFO[character.element]?.icon || '❓'} ${character.element}
-                    </span>
-                </div>
-                <div class="character-stats">
-                    <div class="stat-row">
-                        <span class="stat-label">Deploy Cost:</span>
-                        <span class="stat-value">${character.deploymentCost.toLocaleString()}</span>
+                <div class="character-info">
+                    <h3 class="character-name">${character.name}</h3>
+                    <div class="character-tags">
+                        <span class="rarity-tag ${character.rarity.toLowerCase()}">${character.rarity}</span>
+                        ${this.getSpecialTags(character)}
                     </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Max Cost:</span>
-                        <span class="stat-value">${character.maxCost.toLocaleString()}</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">DPS:</span>
-                        <span class="stat-value">${character.stats?.dps?.toLocaleString() || 'N/A'}</span>
-                    </div>
+                    <p class="tier-reason">${this.getTierReason(character, tierKey)}</p>
                 </div>
-                <p class="character-description">${character.description}</p>
-                <div class="character-modes">
-                    ${Object.entries(character.gameMode).map(([mode, rating]) => 
-                        `<span class="mode-rating rating-${rating.toLowerCase().replace('+', 'plus')}">${mode}: ${rating}</span>`
-                    ).join('')}
-                </div>
-                <div class="character-source">
-                    <small>From: ${character.animeSource}</small>
+                <div class="hover-card">
+                    <div class="hover-content">
+                        <h4>${character.name}</h4>
+                        <p class="hover-rarity">${character.rarity} • ${character.element}</p>
+                        <p class="hover-reason">${this.getTierReason(character, tierKey)}</p>
+                        <a href="#database" class="view-details-link">
+                            <i class="fas fa-arrow-right"></i> View full details
+                        </a>
+                    </div>
                 </div>
             </div>
         `).join('');
     }
+
+    getElementIcon(element) {
+        const icons = {
+            'Fire': '🔥',
+            'Water': '💧', 
+            'Nature': '🌿',
+            'Wind': '💨',
+            'Dark': '🌑',
+            'Holy': '✨',
+            'Unknown': '❓'
+        };
+        return icons[element] || '❓';
+    }
+
+    getSpecialTags(character) {
+        let tags = '';
+        
+        // NEW PLAYER tag for beginner-friendly units
+        if (this.isNewPlayerFriendly(character)) {
+            tags += '<span class="special-tag new-player">NEW PLAYER</span>';
+        }
+        
+        // INVESTMENT tag for high-value units
+        if (this.isGoodInvestment(character)) {
+            tags += '<span class="special-tag investment">INVESTMENT</span>';
+        }
+        
+        return tags;
+    }
+
+    isNewPlayerFriendly(character) {
+        // Logic for beginner-friendly units
+        const beginnerFriendly = [
+            'Sukono', 'Haruka Rin (Dancer)', 'Song Jinwu (Monarch)', 
+            'Slime (King)', 'Friran (Teacher)', 'Alligator'
+        ];
+        return beginnerFriendly.includes(character.name);
+    }
+
+    isGoodInvestment(character) {
+        // Logic for good investment units
+        const goodInvestments = [
+            'Sukono', 'Cha-In (Blade Dancer)'
+        ];
+        return goodInvestments.includes(character.name);
+    }
+
+    getTierReason(character, tierKey) {
+        // Use character-specific reasons for better accuracy
+        const characterReasons = {
+            'Sukono': 'Cost-Efficient Powerhouse',
+            'Cha-In (Blade Dancer)': 'AoE Control Master',
+            'Haruka Rin (Dancer)': 'Essential Team Buffer',
+            'Slime (King)': 'F2P Friendly Carry',
+            'Conqueror vs Invulnerable': 'Boss Specialist',
+            'Song Jinwu (Monarch)': 'Solid Mid-Game Option',
+            'Akazo (Destructive)': 'Outclassed but Usable',
+            'Chaso (Blood Curse)': 'Evolution Material',
+            'Friran (Teacher)': 'Money Generation',
+            'Alligator': 'Early Game Filler'
+        };
+
+        if (characterReasons[character.name]) {
+            return characterReasons[character.name];
+        }
+
+        // Fallback to tier-based reasons
+        const reasons = {
+            'BROKEN': [
+                'Ultimate DPS + Versatility',
+                'Game-breaking Power',
+                'Dominates All Content',
+                'Meta Defining Unit'
+            ],
+            'META': [
+                'Cost-efficient Powerhouse',
+                'Current Meta King',
+                'Versatile Top Performer',
+                'Reliable High Impact'
+            ],
+            'SUB_META': [
+                'Boss Specialist',
+                'Situational Powerhouse',
+                'Solid Niche Pick',
+                'Reliable Alternative'
+            ],
+            'DECENT': [
+                'Early Game Carry',
+                'Budget Friendly',
+                'Situational Use',
+                'Decent Alternative'
+            ]
+        };
+        
+        const tierReasons = reasons[tierKey] || ['Balanced Choice'];
+        return tierReasons[Math.floor(Math.random() * tierReasons.length)];
+    }
     
-    setupFilterListeners(data) {
-        const tierFilter = document.getElementById('tierFilter');
-        const elementFilter = document.getElementById('elementFilter');
-        const rarityFilter = document.getElementById('rarityFilter');
-        const sortBy = document.getElementById('sortBy');
-        const applyBtn = document.getElementById('applyFilters');
-        const clearBtn = document.getElementById('clearFilters');
-        
-        if (!applyBtn || !clearBtn) return;
-        
-        applyBtn.addEventListener('click', () => {
-            this.applyFilters(data);
+    setupNavigationListeners(data) {
+        // Tier navigation buttons
+        const navButtons = document.querySelectorAll('.nav-btn');
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tier = button.getAttribute('data-tier');
+                this.scrollToTier(tier);
+            });
         });
-        
-        clearBtn.addEventListener('click', () => {
-            this.clearFilters(data);
+
+        // Character card hover effects
+        this.setupHoverEffects();
+    }
+
+    setupHoverEffects() {
+        const characterCards = document.querySelectorAll('.character-card');
+        characterCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('hovered');
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('hovered');
+            });
         });
     }
     
-    applyFilters(data) {
-        const tierFilter = document.getElementById('tierFilter')?.value || '';
-        const elementFilter = document.getElementById('elementFilter')?.value || '';
-        const rarityFilter = document.getElementById('rarityFilter')?.value || '';
-        const sortBy = document.getElementById('sortBy')?.value || 'tier';
-        
-        // Filter data
-        let filteredData = {};
-        
-        Object.keys(data).forEach(tierKey => {
-            if (tierFilter && tierKey !== tierFilter) return;
-            
-            const filteredCharacters = data[tierKey].filter(character => {
-                if (elementFilter && character.element !== elementFilter) return false;
-                if (rarityFilter && character.rarity !== rarityFilter) return false;
-                return true;
+    scrollToTier(tier) {
+        const tierElement = document.getElementById(`tier-${tier}`);
+        if (tierElement) {
+            tierElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
             });
             
-            if (filteredCharacters.length > 0) {
-                filteredData[tierKey] = filteredCharacters;
+            // Highlight the tier briefly
+            const tierHeader = tierElement.querySelector('.tier-header');
+            if (tierHeader) {
+                tierHeader.style.background = 'rgba(162, 155, 254, 0.3)';
+                setTimeout(() => {
+                    tierHeader.style.background = '';
+                }, 2000);
+            }
+            
+            console.log(`🎯 Scrolled to ${tier} tier`);
+        }
+    }
+
+    setupBackToTop() {
+        const backToTopBtn = document.getElementById('backToTop');
+        if (!backToTopBtn) return;
+
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
             }
         });
-        
-        // Sort data if needed
-        if (sortBy !== 'tier') {
-            Object.keys(filteredData).forEach(tierKey => {
-                filteredData[tierKey].sort((a, b) => {
-                    switch (sortBy) {
-                        case 'name':
-                            return a.name.localeCompare(b.name);
-                        case 'dps':
-                            return (b.stats?.dps || 0) - (a.stats?.dps || 0);
-                        case 'cost':
-                            return a.deploymentCost - b.deploymentCost;
-                        case 'maxCost':
-                            return a.maxCost - b.maxCost;
-                        default:
-                            return 0;
-                    }
-                });
+
+        // Smooth scroll to top when clicked
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
-        }
-        
-        // Re-render with filtered data
-        const resultsContainer = document.getElementById('tierListResults');
-        if (resultsContainer) {
-            resultsContainer.innerHTML = this.renderTiers(filteredData);
-        }
-        
-        console.log('🔍 Filters applied:', { tierFilter, elementFilter, rarityFilter, sortBy });
-    }
-    
-    clearFilters(data) {
-        // Reset all filter controls
-        const tierFilter = document.getElementById('tierFilter');
-        const elementFilter = document.getElementById('elementFilter');
-        const rarityFilter = document.getElementById('rarityFilter');
-        const sortBy = document.getElementById('sortBy');
-        
-        if (tierFilter) tierFilter.value = '';
-        if (elementFilter) elementFilter.value = '';
-        if (rarityFilter) rarityFilter.value = '';
-        if (sortBy) sortBy.value = 'tier';
-        
-        // Re-render with original data
-        const resultsContainer = document.getElementById('tierListResults');
-        if (resultsContainer) {
-            resultsContainer.innerHTML = this.renderTiers(data);
-        }
-        
-        console.log('🧹 Filters cleared');
+        });
     }
     
     destroy() {

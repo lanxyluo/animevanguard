@@ -403,6 +403,123 @@ const TIER_LIST_DATA = {
             animeSource: "Demon Slayer",
             obtainMethod: "Secret Banner",
             lastUpdated: "2025-01-17"
+        },
+        {
+            id: "sukono",
+            name: "Sukono",
+            tier: "META",
+            rarity: "Secret",
+            element: "Dark",
+            deploymentCost: 1900,
+            maxCost: 72000,
+            description: "Cost-efficient powerhouse with excellent value for investment",
+            pros: [
+                "Excellent cost efficiency",
+                "Strong Dark element",
+                "Beginner friendly",
+                "High investment value"
+            ],
+            cons: [
+                "Secret rarity acquisition",
+                "Dark element dependency"
+            ],
+            gameMode: {
+                story: "S",
+                infinite: "S",
+                raid: "S",
+                challenge: "S"
+            },
+            stats: {
+                dps: 118000,
+                range: 130,
+                placement: 5
+            },
+            abilities: [
+                "Dark Mastery",
+                "Cost Efficiency",
+                "Shadow Strike"
+            ],
+            animeSource: "Jujutsu Kaisen",
+            obtainMethod: "Secret Banner",
+            lastUpdated: "2025-01-17"
+        },
+        {
+            id: "cha_in_blade_dancer",
+            name: "Cha-In (Blade Dancer)",
+            tier: "META",
+            rarity: "Secret",
+            element: "Wind",
+            deploymentCost: 2100,
+            maxCost: 78000,
+            description: "AoE control master with wind-based area attacks",
+            pros: [
+                "AoE control mastery",
+                "Wind element power",
+                "Area damage specialist",
+                "High investment value"
+            ],
+            cons: [
+                "Secret rarity requirements",
+                "AoE focused playstyle"
+            ],
+            gameMode: {
+                story: "S",
+                infinite: "S",
+                raid: "S+",
+                challenge: "S"
+            },
+            stats: {
+                dps: 115000,
+                range: 140,
+                placement: 6
+            },
+            abilities: [
+                "Blade Dance",
+                "Wind Control",
+                "AoE Mastery"
+            ],
+            animeSource: "Sword Art Online",
+            obtainMethod: "Secret Banner",
+            lastUpdated: "2025-01-17"
+        },
+        {
+            id: "haruka_rin_dancer",
+            name: "Haruka Rin (Dancer)",
+            tier: "META",
+            rarity: "Secret",
+            element: "Nature",
+            deploymentCost: 1600,
+            maxCost: 68000,
+            description: "Essential team buffer with nature-based support abilities",
+            pros: [
+                "Team buffer abilities",
+                "Nature element support",
+                "Beginner friendly",
+                "Essential support role"
+            ],
+            cons: [
+                "Support focused role",
+                "Secret rarity acquisition"
+            ],
+            gameMode: {
+                story: "S",
+                infinite: "S",
+                raid: "S",
+                challenge: "S"
+            },
+            stats: {
+                dps: 95000,
+                range: 120,
+                placement: 6
+            },
+            abilities: [
+                "Dance of Nature",
+                "Team Buff",
+                "Support Mastery"
+            ],
+            animeSource: "Fairy Tail",
+            obtainMethod: "Secret Banner",
+            lastUpdated: "2025-01-17"
         }
     ],
 
@@ -719,6 +836,283 @@ const TIER_LIST_DATA = {
             animeSource: "Fate/Apocrypha",
             obtainMethod: "Secret Banner",
             lastUpdated: "2025-01-17"
+        },
+        {
+            id: "slime_king",
+            name: "Slime (King)",
+            tier: "SUB_META",
+            rarity: "Secret",
+            element: "Nature",
+            deploymentCost: 1200,
+            maxCost: 45000,
+            description: "F2P friendly carry with nature-based abilities",
+            pros: [
+                "F2P friendly",
+                "Low deployment cost",
+                "Nature element mastery",
+                "Beginner friendly"
+            ],
+            cons: [
+                "Secret rarity acquisition",
+                "Limited late-game potential"
+            ],
+            gameMode: {
+                story: "A+",
+                infinite: "A",
+                raid: "A",
+                challenge: "A"
+            },
+            stats: {
+                dps: 85000,
+                range: 110,
+                placement: 4
+            },
+            abilities: [
+                "Slime King Form",
+                "Nature Control",
+                "F2P Carry"
+            ],
+            animeSource: "That Time I Got Reincarnated as a Slime",
+            obtainMethod: "Secret Banner",
+            lastUpdated: "2025-01-17"
+        },
+        {
+            id: "conqueror_vs_invulnerable",
+            name: "Conqueror vs Invulnerable",
+            tier: "SUB_META",
+            rarity: "Secret",
+            element: "Holy",
+            deploymentCost: 2000,
+            maxCost: 68000,
+            description: "Boss specialist with holy-based combat abilities",
+            pros: [
+                "Boss specialist",
+                "Holy element power",
+                "Single-target focus",
+                "High damage potential"
+            ],
+            cons: [
+                "Boss-specific role",
+                "Secret rarity requirements"
+            ],
+            gameMode: {
+                story: "A",
+                infinite: "A+",
+                raid: "S",
+                challenge: "A+"
+            },
+            stats: {
+                dps: 92000,
+                range: 125,
+                placement: 5
+            },
+            abilities: [
+                "Conqueror's Might",
+                "Holy Strike",
+                "Boss Slayer"
+            ],
+            animeSource: "One Piece",
+            obtainMethod: "Secret Banner",
+            lastUpdated: "2025-01-17"
+        }
+    ],
+
+    // DECENT Tier - Usable alternatives and early game options
+    DECENT: [
+        {
+            id: "song_jinwu_monarch",
+            name: "Song Jinwu (Monarch)",
+            tier: "DECENT",
+            rarity: "Secret",
+            element: "Unknown",
+            deploymentCost: 1500,
+            maxCost: 55000,
+            description: "Solid mid-game option with monarch abilities",
+            pros: [
+                "Mid-game option",
+                "Monarch abilities",
+                "Beginner friendly",
+                "Unknown element"
+            ],
+            cons: [
+                "Outclassed by higher tiers",
+                "Limited late-game potential"
+            ],
+            gameMode: {
+                story: "A",
+                infinite: "A",
+                raid: "A",
+                challenge: "A"
+            },
+            stats: {
+                dps: 75000,
+                range: 100,
+                placement: 5
+            },
+            abilities: [
+                "Monarch's Authority",
+                "Royal Command",
+                "Mid-Game Power"
+            ],
+            animeSource: "Solo Leveling",
+            obtainMethod: "Secret Banner",
+            lastUpdated: "2025-01-17"
+        },
+        {
+            id: "akazo_destructive",
+            name: "Akazo (Destructive)",
+            tier: "DECENT",
+            rarity: "Secret",
+            element: "Fire",
+            deploymentCost: 1800,
+            maxCost: 62000,
+            description: "Outclassed but usable fire element unit",
+            pros: [
+                "Fire element access",
+                "Destructive abilities",
+                "Moderate cost",
+                "Usable performance"
+            ],
+            cons: [
+                "Outclassed by better units",
+                "Limited effectiveness"
+            ],
+            gameMode: {
+                story: "A",
+                infinite: "A",
+                raid: "A",
+                challenge: "A"
+            },
+            stats: {
+                dps: 70000,
+                range: 95,
+                placement: 4
+            },
+            abilities: [
+                "Destructive Power",
+                "Fire Mastery",
+                "Usable Alternative"
+            ],
+            animeSource: "Dragon Ball Z",
+            obtainMethod: "Secret Banner",
+            lastUpdated: "2025-01-17"
+        },
+        {
+            id: "chaso_blood_curse",
+            name: "Chaso (Blood Curse)",
+            tier: "DECENT",
+            rarity: "Mythic",
+            element: "Dark",
+            deploymentCost: 1400,
+            maxCost: 48000,
+            description: "Evolution material with dark-based abilities",
+            pros: [
+                "Evolution material",
+                "Dark element access",
+                "Low cost",
+                "Material value"
+            ],
+            cons: [
+                "Material focused role",
+                "Limited combat effectiveness"
+            ],
+            gameMode: {
+                story: "B+",
+                infinite: "B+",
+                raid: "B+",
+                challenge: "B+"
+            },
+            stats: {
+                dps: 65000,
+                range: 90,
+                placement: 3
+            },
+            abilities: [
+                "Blood Curse",
+                "Dark Material",
+                "Evolution Source"
+            ],
+            animeSource: "Naruto",
+            obtainMethod: "Mythic Banner",
+            lastUpdated: "2025-01-17"
+        },
+        {
+            id: "friran_teacher",
+            name: "Friran (Teacher)",
+            tier: "DECENT",
+            rarity: "Mythic",
+            element: "Nature",
+            deploymentCost: 1000,
+            maxCost: 35000,
+            description: "Money generation specialist with nature support",
+            pros: [
+                "Money generation",
+                "Nature element support",
+                "Beginner friendly",
+                "Low cost"
+            ],
+            cons: [
+                "Support focused role",
+                "Limited combat power"
+            ],
+            gameMode: {
+                story: "A",
+                infinite: "B+",
+                raid: "B+",
+                challenge: "A"
+            },
+            stats: {
+                dps: 60000,
+                range: 85,
+                placement: 4
+            },
+            abilities: [
+                "Money Generation",
+                "Nature Support",
+                "Teaching Mastery"
+            ],
+            animeSource: "Fairy Tail",
+            obtainMethod: "Mythic Banner",
+            lastUpdated: "2025-01-17"
+        },
+        {
+            id: "alligator",
+            name: "Alligator",
+            tier: "DECENT",
+            rarity: "Epic",
+            element: "Water",
+            deploymentCost: 800,
+            maxCost: 28000,
+            description: "Early game filler with water element abilities",
+            pros: [
+                "Early game filler",
+                "Water element access",
+                "Very low cost",
+                "Beginner friendly"
+            ],
+            cons: [
+                "Limited late-game use",
+                "Filler role only"
+            ],
+            gameMode: {
+                story: "B+",
+                infinite: "B",
+                raid: "B",
+                challenge: "B+"
+            },
+            stats: {
+                dps: 55000,
+                range: 80,
+                placement: 3
+            },
+            abilities: [
+                "Water Control",
+                "Early Game Filler",
+                "Basic Abilities"
+            ],
+            animeSource: "Pokemon",
+            obtainMethod: "Epic Banner",
+            lastUpdated: "2025-01-17"
         }
     ]
 };
@@ -745,6 +1139,13 @@ const TIER_INFO = {
         color: "#3742fa",
         gradient: "linear-gradient(135deg, #3742fa, #2f3542)",
         priority: 3
+    },
+    DECENT: {
+        name: "📊 DECENT",
+        description: "Usable alternatives and early game options",
+        color: "#3498db",
+        gradient: "linear-gradient(135deg, #3498db, #2980b9)",
+        priority: 4
     }
 };
 
@@ -762,7 +1163,8 @@ const ELEMENT_INFO = {
 const RARITY_INFO = {
     Vanguard: { color: "#e91e63", priority: 1 },
     Secret: { color: "#9c27b0", priority: 2 },
-    Mythic: { color: "#ff9800", priority: 3 }
+    Mythic: { color: "#ff9800", priority: 3 },
+    Epic: { color: "#3498db", priority: 4 }
 };
 
 /**

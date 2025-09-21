@@ -23,6 +23,7 @@ export class DatabasePage {
         this.itemsPerPage = 35; // Show all units on one page for now
         this.selectedUnits = [];
         this.searchText = '';
+        this.searchTimeout = null;
         
         // UI elements
         this.elements = {};
@@ -192,8 +193,15 @@ export class DatabasePage {
             }
         }
         
-        // Trigger filter change to apply search
-        this.handleFilterChange();
+        // Clear previous timeout
+        if (this.searchTimeout) {
+            clearTimeout(this.searchTimeout);
+        }
+        
+        // Debounce search with 300ms delay
+        this.searchTimeout = setTimeout(() => {
+            this.handleFilterChange();
+        }, 300);
     }
     
     clearSearch() {
@@ -306,12 +314,156 @@ export class DatabasePage {
     }
     
     showUnitDetails(unit) {
-        // For now, just log the unit details
-        console.log('Unit Details:', unit);
-        // TODO: Implement unit details modal
+        console.log('🔍 Opening unit details for:', unit.name);
+        
+        try {
+            // Get modal elements
+            const modal = document.getElementById('unitDetailsModal');
+            const modalAvatar = document.getElementById('modalAvatar');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBadges = document.getElementById('modalBadges');
+            const modalStats = document.getElementById('modalStats');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalPros = document.getElementById('modalPros');
+            const modalCons = document.getElementById('modalCons');
+            const modalObtainMethod = document.getElementById('modalObtainMethod');
+            const modalAvailability = document.getElementById('modalAvailability');
+            const modalEvolutionPath = document.getElementById('modalEvolutionPath');
+            const modalEvolutionText = document.getElementById('modalEvolutionText');
+            
+            if (!modal) {
+                console.error('❌ Modal element not found');
+                return;
+            }
+            
+            // Set avatar
+            const firstLetter = unit.name.charAt(0).toUpperCase();
+            modalAvatar.textContent = firstLetter;
+            modalAvatar.className = `modal-avatar ${unit.rarity.toLowerCase()}`;
+            
+            // Set title
+            modalTitle.textContent = unit.name;
+            
+            // Set badges
+            modalBadges.innerHTML = `
+                <div class="modal-badge rarity">${unit.rarity}</div>
+                <div class="modal-badge element">${unit.element}</div>
+                <div class="modal-badge tier">${unit.tier}</div>
+            `;
+            
+            // Set stats grid
+            modalStats.innerHTML = `
+                <div class="modal-stat-item">
+                    <div class="modal-stat-label">Deployment Cost</div>
+                    <div class="modal-stat-value">${unit.deploymentCost}¥</div>
+                </div>
+                <div class="modal-stat-item">
+                    <div class="modal-stat-label">Max Upgrade Cost</div>
+                    <div class="modal-stat-value">${unit.maxUpgradeCost}¥</div>
+                </div>
+                <div class="modal-stat-item">
+                    <div class="modal-stat-label">Cost Efficiency</div>
+                    <div class="modal-stat-value">${unit.costEfficiency}</div>
+                </div>
+                <div class="modal-stat-item">
+                    <div class="modal-stat-label">Base DPS</div>
+                    <div class="modal-stat-value">${unit.baseDPS}</div>
+                </div>
+                <div class="modal-stat-item">
+                    <div class="modal-stat-label">Range</div>
+                    <div class="modal-stat-value">${unit.range}</div>
+                </div>
+                <div class="modal-stat-item">
+                    <div class="modal-stat-label">Type</div>
+                    <div class="modal-stat-value">${unit.type}</div>
+                </div>
+            `;
+            
+            // Set description
+            modalDescription.textContent = unit.description;
+            
+            // Set pros
+            modalPros.innerHTML = unit.pros.map(pro => `<li>${pro}</li>`).join('');
+            
+            // Set cons
+            modalCons.innerHTML = unit.cons.map(con => `<li>${con}</li>`).join('');
+            
+            // Set additional info
+            modalObtainMethod.textContent = unit.obtainMethod || 'Unknown';
+            modalAvailability.textContent = unit.availability || 'Unknown';
+            
+            // Set evolution path if applicable
+            if (unit.evolutionPath && unit.evolutionPath !== 'None') {
+                modalEvolutionPath.style.display = 'block';
+                modalEvolutionText.textContent = unit.evolutionPath;
+            } else {
+                modalEvolutionPath.style.display = 'none';
+            }
+            
+            // Show modal with animation
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+            
+            // Add event listeners for closing
+            this.setupModalEventListeners();
+            
+        } catch (error) {
+            console.error('❌ Error opening unit details modal:', error);
+        }
+    }
+    
+    setupModalEventListeners() {
+        const modal = document.getElementById('unitDetailsModal');
+        const closeBtn = document.getElementById('modalCloseBtn');
+        
+        if (!modal || !closeBtn) return;
+        
+        // Close button click
+        closeBtn.addEventListener('click', () => {
+            this.closeModal();
+        });
+        
+        // Click outside modal to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                this.closeModal();
+            }
+        });
+        
+        // ESC key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                this.closeModal();
+            }
+        });
+    }
+    
+    closeModal() {
+        const modal = document.getElementById('unitDetailsModal');
+        if (!modal) return;
+        
+        // Remove show class for animation
+        modal.classList.remove('show');
+        
+        // Hide modal after animation
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
     }
     
     handleFilterChange() {
+        // Check if data is loaded
+        if (!this.units || !Array.isArray(this.units) || this.units.length === 0) {
+            console.warn('⚠️ Cannot filter: units data not loaded yet');
+            return;
+        }
+        
         const filters = {
             rarity: this.elements.rarityFilter?.value || '',
             element: this.elements.elementFilter?.value || '',
@@ -368,7 +520,8 @@ export class DatabasePage {
     
     updateResultsCount() {
         if (this.elements.resultsCount) {
-            this.elements.resultsCount.textContent = `Found ${this.filteredUnits.length} units`;
+            const count = this.filteredUnits ? this.filteredUnits.length : 0;
+            this.elements.resultsCount.textContent = `Found ${count} units`;
         }
     }
     
@@ -621,6 +774,24 @@ export class DatabasePage {
     }
     
     filterUnits(filters) {
+        // Add safety check for filters parameter
+        if (!filters) {
+            console.warn('⚠️ filterUnits called with undefined filters, using default');
+            filters = {
+                searchText: '',
+                rarity: '',
+                element: '',
+                type: ''
+            };
+        }
+        
+        // Ensure units array exists
+        if (!this.units || !Array.isArray(this.units)) {
+            console.warn('⚠️ No units data available for filtering');
+            this.filteredUnits = [];
+            return;
+        }
+        
         this.filteredUnits = this.units.filter(unit => {
             // Search text filter
             if (filters.searchText && filters.searchText.trim()) {
