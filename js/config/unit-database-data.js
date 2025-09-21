@@ -589,6 +589,604 @@ const unitDatabaseData = [
     isEvolution: true,
     baseForm: "Haruka Rin",
     tags: ["dancer", "healing", "nature", "support"]
+  },
+
+  // ====== SUB-META TIER UNITS (Medium Priority) ======
+  {
+    id: "the-falcon-of-darkness",
+    name: "The Falcon (of Darkness)",
+    rarity: "Mythic",
+    tier: "SUB-META",
+    element: "Dark",
+    type: "DPS",
+    deploymentCost: 1200,
+    maxUpgradeCost: 45000,
+    costEfficiency: "High",
+    baseDPS: "High",
+    maxDPS: "95k+ with dark attacks",
+    range: "Long",
+    description: "Dark variant of the Falcon with powerful shadow attacks. Good alternative to light version.",
+    pros: [
+      "Long range attacks",
+      "Dark element advantage",
+      "Good cost efficiency",
+      "Solid damage output"
+    ],
+    cons: [
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Not as strong as light version",
+      "Positioning dependent"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "The Falcon → The Falcon (of Darkness)",
+    isEvolution: true,
+    baseForm: "The Falcon",
+    tags: ["dark", "long-range", "falcon", "alternative"]
+  },
+  {
+    id: "gg-possessed",
+    name: "GG (Possessed)",
+    rarity: "Secret",
+    tier: "SUB-META",
+    element: "Dark",
+    type: "DPS",
+    deploymentCost: 1500,
+    maxUpgradeCost: 55000,
+    costEfficiency: "High",
+    baseDPS: "High",
+    maxDPS: "100k+ with possessed form",
+    range: "Medium",
+    description: "Possessed warrior with dark powers. Good DPS with unique mechanics.",
+    pros: [
+      "Possessed form transformation",
+      "High damage output",
+      "Good cost efficiency",
+      "Unique mechanics"
+    ],
+    cons: [
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Complex transformation",
+      "Positioning dependent"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "GG → GG (Possessed)",
+    isEvolution: true,
+    baseForm: "GG",
+    tags: ["possessed", "transformation", "dark", "unique"]
+  },
+  {
+    id: "leo-fangs",
+    name: "Leo (Fangs)",
+    rarity: "Secret",
+    tier: "SUB-META",
+    element: "Nature",
+    type: "DPS",
+    deploymentCost: 1800,
+    maxUpgradeCost: 60000,
+    costEfficiency: "Medium",
+    baseDPS: "High",
+    maxDPS: "105k+ with fang attacks",
+    range: "Short",
+    description: "Beast warrior with fang-based attacks. High damage but short range.",
+    pros: [
+      "High damage output",
+      "Fang-based attacks",
+      "Good survivability",
+      "Nature element mastery"
+    ],
+    cons: [
+      "Short range limitations",
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Positioning critical"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Leo → Leo (Fangs)",
+    isEvolution: true,
+    baseForm: "Leo",
+    tags: ["fangs", "beast", "nature", "short-range"]
+  },
+  {
+    id: "giant-queen-founder",
+    name: "Giant Queen (Founder)",
+    rarity: "Epic",
+    tier: "SUB-META",
+    element: "Nature",
+    type: "Support",
+    deploymentCost: 800,
+    maxUpgradeCost: 25000,
+    costEfficiency: "High",
+    baseDPS: "Medium",
+    maxDPS: "70k+ with support abilities",
+    range: "Medium",
+    description: "Giant queen with powerful support abilities. Excellent for team composition.",
+    pros: [
+      "Powerful support abilities",
+      "High cost efficiency",
+      "Team buffing skills",
+      "Good survivability"
+    ],
+    cons: [
+      "Limited personal damage",
+      "Requires team coordination",
+      "Positioning dependent",
+      "Limited placement (2 max)"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Giant Queen → Giant Queen (Founder)",
+    isEvolution: true,
+    baseForm: "Giant Queen",
+    tags: ["giant", "queen", "support", "team-buff"]
+  },
+  {
+    id: "slime-king",
+    name: "Slime (King)",
+    rarity: "Secret",
+    tier: "SUB-META",
+    element: "Water",
+    type: "DPS",
+    deploymentCost: 1200,
+    maxUpgradeCost: 40000,
+    costEfficiency: "High",
+    baseDPS: "High",
+    maxDPS: "90k+ with slime attacks",
+    range: "Medium",
+    description: "King of slimes with unique water-based attacks. Good DPS with special mechanics.",
+    pros: [
+      "Unique slime mechanics",
+      "Water element mastery",
+      "Good cost efficiency",
+      "High damage output"
+    ],
+    cons: [
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Complex mechanics",
+      "Positioning dependent"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Slime → Slime (King)",
+    isEvolution: true,
+    baseForm: "Slime",
+    tags: ["slime", "water", "king", "unique"]
+  },
+  {
+    id: "conqueror-vs-invulnerable",
+    name: "Conqueror vs Invulnerable",
+    rarity: "Secret",
+    tier: "SUB-META",
+    element: "Dark",
+    type: "DPS",
+    deploymentCost: 1600,
+    maxUpgradeCost: 50000,
+    costEfficiency: "High",
+    baseDPS: "High",
+    maxDPS: "98k+ with conqueror abilities",
+    range: "Medium",
+    description: "Dual-form warrior with conqueror and invulnerable modes. Versatile DPS unit.",
+    pros: [
+      "Dual-form mechanics",
+      "High damage output",
+      "Good cost efficiency",
+      "Versatile abilities"
+    ],
+    cons: [
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Complex form switching",
+      "Positioning dependent"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Conqueror → Conqueror vs Invulnerable",
+    isEvolution: true,
+    baseForm: "Conqueror",
+    tags: ["conqueror", "invulnerable", "dual-form", "versatile"]
+  },
+  {
+    id: "gazelle-zombie",
+    name: "Gazelle (Zombie)",
+    rarity: "Mythic",
+    tier: "SUB-META",
+    element: "Dark",
+    type: "Farm",
+    deploymentCost: 1000,
+    maxUpgradeCost: 35000,
+    costEfficiency: "High",
+    baseDPS: "Medium",
+    maxDPS: "75k+ with zombie abilities",
+    range: "Medium",
+    description: "Zombie gazelle with farming capabilities. Good for resource generation.",
+    pros: [
+      "Farming capabilities",
+      "High cost efficiency",
+      "Resource generation",
+      "Good survivability"
+    ],
+    cons: [
+      "Limited personal damage",
+      "Requires evolution",
+      "Positioning dependent",
+      "Limited placement (2 max)"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Gazelle → Gazelle (Zombie)",
+    isEvolution: true,
+    baseForm: "Gazelle",
+    tags: ["zombie", "farm", "resource", "gazelle"]
+  },
+  {
+    id: "astolfo-rider-of-black",
+    name: "Astolfo (Rider of Black)",
+    rarity: "Secret",
+    tier: "SUB-META",
+    element: "Wind",
+    type: "DPS",
+    deploymentCost: 1400,
+    maxUpgradeCost: 48000,
+    costEfficiency: "High",
+    baseDPS: "High",
+    maxDPS: "92k+ with rider abilities",
+    range: "Medium",
+    description: "Wind rider with high mobility and damage. Excellent for hit-and-run tactics.",
+    pros: [
+      "High mobility",
+      "Wind element mastery",
+      "Good cost efficiency",
+      "Hit-and-run tactics"
+    ],
+    cons: [
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Positioning dependent",
+      "Complex mechanics"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Astolfo → Astolfo (Rider of Black)",
+    isEvolution: true,
+    baseForm: "Astolfo",
+    tags: ["rider", "wind", "mobility", "hit-and-run"]
+  },
+  {
+    id: "roku-super-3",
+    name: "Roku (Super 3)",
+    rarity: "Secret",
+    tier: "SUB-META",
+    element: "Fire",
+    type: "DPS",
+    deploymentCost: 1300,
+    maxUpgradeCost: 42000,
+    costEfficiency: "High",
+    baseDPS: "High",
+    maxDPS: "88k+ with super form",
+    range: "Medium",
+    description: "Fire warrior with super form transformation. Good DPS with explosive attacks.",
+    pros: [
+      "Super form transformation",
+      "Fire element mastery",
+      "Good cost efficiency",
+      "Explosive attacks"
+    ],
+    cons: [
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Positioning dependent",
+      "Fire element limitations"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Roku → Roku (Super 3)",
+    isEvolution: true,
+    baseForm: "Roku",
+    tags: ["super-form", "fire", "explosive", "transformation"]
+  },
+  {
+    id: "the-smith-forged",
+    name: "The Smith (Forged)",
+    rarity: "Mythic",
+    tier: "SUB-META",
+    element: "Fire",
+    type: "Support",
+    deploymentCost: 900,
+    maxUpgradeCost: 30000,
+    costEfficiency: "High",
+    baseDPS: "Medium",
+    maxDPS: "65k+ with forging abilities",
+    range: "Medium",
+    description: "Master smith with powerful support and crafting abilities. Essential for team enhancement.",
+    pros: [
+      "Crafting abilities",
+      "Team enhancement skills",
+      "High cost efficiency",
+      "Essential support role"
+    ],
+    cons: [
+      "Limited personal damage",
+      "Requires team coordination",
+      "Positioning dependent",
+      "Limited placement (2 max)"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "The Smith → The Smith (Forged)",
+    isEvolution: true,
+    baseForm: "The Smith",
+    tags: ["smith", "forged", "crafting", "support"]
+  },
+
+  // ====== DECENT TIER UNITS (Completeness) ======
+  {
+    id: "friran-teacher",
+    name: "Friran (Teacher)",
+    rarity: "Mythic",
+    tier: "DECENT",
+    element: "Nature",
+    type: "Farm",
+    deploymentCost: 600,
+    maxUpgradeCost: 20000,
+    costEfficiency: "High",
+    baseDPS: "Low",
+    maxDPS: "50k+ with teaching abilities",
+    range: "Medium",
+    description: "Teacher with farming and support abilities. Good for early game resource generation.",
+    pros: [
+      "Farming capabilities",
+      "Teaching abilities",
+      "High cost efficiency",
+      "Early game viable"
+    ],
+    cons: [
+      "Low personal damage",
+      "Limited late game use",
+      "Positioning dependent",
+      "Limited placement (2 max)"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Friran → Friran (Teacher)",
+    isEvolution: true,
+    baseForm: "Friran",
+    tags: ["teacher", "farm", "early-game", "resource"]
+  },
+  {
+    id: "chaso-blood-curse",
+    name: "Chaso (Blood Curse)",
+    rarity: "Mythic",
+    tier: "DECENT",
+    element: "Dark",
+    type: "Support",
+    deploymentCost: 700,
+    maxUpgradeCost: 22000,
+    costEfficiency: "High",
+    baseDPS: "Medium",
+    maxDPS: "55k+ with blood curse",
+    range: "Medium",
+    description: "Dark support with blood curse abilities. Good for debuffing enemies.",
+    pros: [
+      "Blood curse abilities",
+      "Debuffing skills",
+      "High cost efficiency",
+      "Good support role"
+    ],
+    cons: [
+      "Limited personal damage",
+      "Requires team coordination",
+      "Positioning dependent",
+      "Limited placement (2 max)"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Chaso → Chaso (Blood Curse)",
+    isEvolution: true,
+    baseForm: "Chaso",
+    tags: ["blood-curse", "debuff", "support", "dark"]
+  },
+  {
+    id: "jag-o-volcanic",
+    name: "Jag-o (Volcanic)",
+    rarity: "Mythic",
+    tier: "DECENT",
+    element: "Fire",
+    type: "DPS",
+    deploymentCost: 800,
+    maxUpgradeCost: 25000,
+    costEfficiency: "High",
+    baseDPS: "Medium",
+    maxDPS: "70k+ with volcanic attacks",
+    range: "Medium",
+    description: "Volcanic warrior with fire-based attacks. Solid DPS for early to mid game.",
+    pros: [
+      "Volcanic attacks",
+      "Fire element mastery",
+      "High cost efficiency",
+      "Solid damage output"
+    ],
+    cons: [
+      "Limited late game use",
+      "Positioning dependent",
+      "Limited placement (2 max)",
+      "Requires evolution"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Jag-o → Jag-o (Volcanic)",
+    isEvolution: true,
+    baseForm: "Jag-o",
+    tags: ["volcanic", "fire", "solid", "early-game"]
+  },
+  {
+    id: "akazo-destructive",
+    name: "Akazo (Destructive)",
+    rarity: "Secret",
+    tier: "DECENT",
+    element: "Dark",
+    type: "DPS",
+    deploymentCost: 1000,
+    maxUpgradeCost: 35000,
+    costEfficiency: "Medium",
+    baseDPS: "High",
+    maxDPS: "80k+ with destructive abilities",
+    range: "Short",
+    description: "Destructive warrior with high damage but limited range. Good for close combat.",
+    pros: [
+      "High damage output",
+      "Destructive abilities",
+      "Good survivability",
+      "Close combat specialist"
+    ],
+    cons: [
+      "Short range limitations",
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Positioning critical"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Akazo → Akazo (Destructive)",
+    isEvolution: true,
+    baseForm: "Akazo",
+    tags: ["destructive", "close-combat", "high-damage", "short-range"]
+  },
+  {
+    id: "song-jinwu-monarch",
+    name: "Song Jinwu (Monarch)",
+    rarity: "Secret",
+    tier: "DECENT",
+    element: "Unknown",
+    type: "DPS",
+    deploymentCost: 1200,
+    maxUpgradeCost: 40000,
+    costEfficiency: "Medium",
+    baseDPS: "High",
+    maxDPS: "85k+ with monarch abilities",
+    range: "Medium",
+    description: "Monarch form of Song Jinwu. Good DPS but overshadowed by evolved version.",
+    pros: [
+      "Monarch abilities",
+      "High damage output",
+      "Good survivability",
+      "Solid performance"
+    ],
+    cons: [
+      "Overshadowed by evolved form",
+      "Limited placement (2 max)",
+      "Requires evolution",
+      "Not as strong as final form"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Song Jinwu → Song Jinwu (Monarch) → Song Jinwu and Igros",
+    isEvolution: true,
+    baseForm: "Song Jinwu",
+    tags: ["monarch", "intermediate", "solid", "solo-leveling"]
+  },
+  {
+    id: "mr-boo-evil",
+    name: "Mr. Boo (Evil)",
+    rarity: "Mythic",
+    tier: "DECENT",
+    element: "Dark",
+    type: "DPS",
+    deploymentCost: 650,
+    maxUpgradeCost: 18000,
+    costEfficiency: "High",
+    baseDPS: "Medium",
+    maxDPS: "60k+ with evil abilities",
+    range: "Medium",
+    description: "Evil form of Mr. Boo with dark powers. Decent DPS for early game.",
+    pros: [
+      "Evil abilities",
+      "High cost efficiency",
+      "Good early game performance",
+      "Dark element mastery"
+    ],
+    cons: [
+      "Limited late game use",
+      "Positioning dependent",
+      "Limited placement (2 max)",
+      "Requires evolution"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Mr. Boo → Mr. Boo (Evil)",
+    isEvolution: true,
+    baseForm: "Mr. Boo",
+    tags: ["evil", "early-game", "dark", "decent"]
+  },
+  {
+    id: "alligator",
+    name: "Alligator",
+    rarity: "Epic",
+    tier: "DECENT",
+    element: "Water",
+    type: "DPS",
+    deploymentCost: 400,
+    maxUpgradeCost: 12000,
+    costEfficiency: "High",
+    baseDPS: "Medium",
+    maxDPS: "45k+ with aquatic attacks",
+    range: "Short",
+    description: "Aquatic warrior with water-based attacks. Good for early game progression.",
+    pros: [
+      "Aquatic attacks",
+      "High cost efficiency",
+      "Good early game performance",
+      "Water element mastery"
+    ],
+    cons: [
+      "Short range limitations",
+      "Limited late game use",
+      "Positioning critical",
+      "Limited placement (2 max)"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Alligator → Alligator (Enhanced)",
+    isEvolution: false,
+    baseForm: "Alligator",
+    tags: ["alligator", "aquatic", "early-game", "water"]
+  },
+  {
+    id: "blossom",
+    name: "Blossom",
+    rarity: "Epic",
+    tier: "DECENT",
+    element: "Nature",
+    type: "Buffer",
+    deploymentCost: 350,
+    maxUpgradeCost: 10000,
+    costEfficiency: "High",
+    baseDPS: "Low",
+    maxDPS: "35k+ with blossom abilities",
+    range: "Medium",
+    description: "Nature buffer with blossoming abilities. Good for team enhancement in early game.",
+    pros: [
+      "Blossoming abilities",
+      "High cost efficiency",
+      "Team enhancement skills",
+      "Good early game support"
+    ],
+    cons: [
+      "Low personal damage",
+      "Limited late game use",
+      "Positioning dependent",
+      "Limited placement (2 max)"
+    ],
+    obtainMethod: "Summon from Banner",
+    availability: "Permanent",
+    evolutionPath: "Blossom → Blossom (Enhanced)",
+    isEvolution: false,
+    baseForm: "Blossom",
+    tags: ["blossom", "nature", "buffer", "early-game"]
   }
 ];
 
@@ -687,6 +1285,185 @@ function getUnitsByCostRange(minCost, maxCost) {
   );
 }
 
+/**
+ * Filter units by multiple criteria
+ * @param {Object} criteria - Filter criteria object
+ * @param {string} criteria.tier - Filter by tier
+ * @param {string} criteria.rarity - Filter by rarity
+ * @param {string} criteria.element - Filter by element
+ * @param {string} criteria.type - Filter by type
+ * @param {number} criteria.minCost - Minimum deployment cost
+ * @param {number} criteria.maxCost - Maximum deployment cost
+ * @param {string} criteria.search - Search query
+ * @returns {Array} Array of units matching all criteria
+ */
+function filterUnits(criteria) {
+  let filteredUnits = [...unitDatabaseData];
+  
+  if (criteria.tier) {
+    filteredUnits = filteredUnits.filter(unit => unit.tier === criteria.tier);
+  }
+  
+  if (criteria.rarity) {
+    filteredUnits = filteredUnits.filter(unit => unit.rarity === criteria.rarity);
+  }
+  
+  if (criteria.element) {
+    filteredUnits = filteredUnits.filter(unit => unit.element === criteria.element);
+  }
+  
+  if (criteria.type) {
+    filteredUnits = filteredUnits.filter(unit => unit.type === criteria.type);
+  }
+  
+  if (criteria.minCost !== undefined) {
+    filteredUnits = filteredUnits.filter(unit => unit.deploymentCost >= criteria.minCost);
+  }
+  
+  if (criteria.maxCost !== undefined) {
+    filteredUnits = filteredUnits.filter(unit => unit.deploymentCost <= criteria.maxCost);
+  }
+  
+  if (criteria.search) {
+    const searchTerm = criteria.search.toLowerCase().trim();
+    filteredUnits = filteredUnits.filter(unit => 
+      unit.name.toLowerCase().includes(searchTerm) ||
+      unit.description.toLowerCase().includes(searchTerm) ||
+      unit.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+    );
+  }
+  
+  return filteredUnits;
+}
+
+/**
+ * Sort units by specified criteria
+ * @param {Array} units - Array of units to sort
+ * @param {string} sortBy - Sort criteria (name, cost, dps, rarity, tier)
+ * @param {string} order - Sort order (asc, desc)
+ * @returns {Array} Sorted array of units
+ */
+function sortUnits(units, sortBy = 'name', order = 'asc') {
+  const sortedUnits = [...units];
+  
+  sortedUnits.sort((a, b) => {
+    let aValue, bValue;
+    
+    switch (sortBy) {
+      case 'name':
+        aValue = a.name.toLowerCase();
+        bValue = b.name.toLowerCase();
+        break;
+      case 'cost':
+        aValue = a.deploymentCost;
+        bValue = b.deploymentCost;
+        break;
+      case 'dps':
+        // Extract numeric value from maxDPS string
+        aValue = parseInt(a.maxDPS.replace(/\D/g, '')) || 0;
+        bValue = parseInt(b.maxDPS.replace(/\D/g, '')) || 0;
+        break;
+      case 'rarity':
+        const rarityOrder = { 'Vanguard': 4, 'Secret': 3, 'Mythic': 2, 'Epic': 1, 'Rare': 0 };
+        aValue = rarityOrder[a.rarity] || 0;
+        bValue = rarityOrder[b.rarity] || 0;
+        break;
+      case 'tier':
+        const tierOrder = { 'BROKEN': 4, 'META': 3, 'SUB-META': 2, 'DECENT': 1, 'LOW': 0 };
+        aValue = tierOrder[a.tier] || 0;
+        bValue = tierOrder[b.tier] || 0;
+        break;
+      default:
+        aValue = a.name.toLowerCase();
+        bValue = b.name.toLowerCase();
+    }
+    
+    if (aValue < bValue) return order === 'asc' ? -1 : 1;
+    if (aValue > bValue) return order === 'asc' ? 1 : -1;
+    return 0;
+  });
+  
+  return sortedUnits;
+}
+
+/**
+ * Get units by element (alias for getUnitsByElement)
+ * @param {string} element - The element to filter by
+ * @returns {Array} Array of units matching the element
+ */
+function getUnitsByElement(element) {
+  if (!element) return unitDatabaseData;
+  return unitDatabaseData.filter(unit => unit.element === element);
+}
+
+/**
+ * Get units by type (alias for getUnitsByType)
+ * @param {string} type - The type to filter by (DPS, Support, Farm, Buffer)
+ * @returns {Array} Array of units matching the type
+ */
+function getUnitsByType(type) {
+  if (!type) return unitDatabaseData;
+  return unitDatabaseData.filter(unit => unit.type === type);
+}
+
+/**
+ * Validate unit database data integrity
+ * @returns {Object} Validation results
+ */
+function validateDatabase() {
+  const validation = {
+    isValid: true,
+    errors: [],
+    warnings: [],
+    stats: {
+      totalUnits: unitDatabaseData.length,
+      tierCounts: {},
+      rarityCounts: {},
+      typeCounts: {},
+      elementCounts: {}
+    }
+  };
+  
+  // Check for duplicate IDs
+  const ids = unitDatabaseData.map(unit => unit.id);
+  const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+  if (duplicateIds.length > 0) {
+    validation.isValid = false;
+    validation.errors.push(`Duplicate IDs found: ${duplicateIds.join(', ')}`);
+  }
+  
+  // Check required fields
+  const requiredFields = ['id', 'name', 'rarity', 'tier', 'element', 'type', 'deploymentCost', 'maxUpgradeCost'];
+  unitDatabaseData.forEach((unit, index) => {
+    requiredFields.forEach(field => {
+      if (!unit[field] && unit[field] !== 0) {
+        validation.isValid = false;
+        validation.errors.push(`Unit ${index + 1} (${unit.name || 'Unknown'}) missing required field: ${field}`);
+      }
+    });
+  });
+  
+  // Check data type consistency
+  unitDatabaseData.forEach((unit, index) => {
+    if (typeof unit.deploymentCost !== 'number') {
+      validation.errors.push(`Unit ${index + 1} (${unit.name}) deploymentCost should be number`);
+    }
+    if (typeof unit.maxUpgradeCost !== 'number') {
+      validation.errors.push(`Unit ${index + 1} (${unit.name}) maxUpgradeCost should be number`);
+    }
+  });
+  
+  // Count statistics
+  unitDatabaseData.forEach(unit => {
+    validation.stats.tierCounts[unit.tier] = (validation.stats.tierCounts[unit.tier] || 0) + 1;
+    validation.stats.rarityCounts[unit.rarity] = (validation.stats.rarityCounts[unit.rarity] || 0) + 1;
+    validation.stats.typeCounts[unit.type] = (validation.stats.typeCounts[unit.type] || 0) + 1;
+    validation.stats.elementCounts[unit.element] = (validation.stats.elementCounts[unit.element] || 0) + 1;
+  });
+  
+  return validation;
+}
+
 // Export functions for use in other modules
 window.UnitDatabaseData = {
   loadAllUnits,
@@ -697,5 +1474,8 @@ window.UnitDatabaseData = {
   getUnitsByType,
   getUnitById,
   getTotalUnitCount,
-  getUnitsByCostRange
+  getUnitsByCostRange,
+  filterUnits,
+  sortUnits,
+  validateDatabase
 };
