@@ -4444,6 +4444,349 @@
                 gap: 0.5rem;
             }
         }
+        /* Unit Database Styles */
+        .units-grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 2rem 0;
+            padding: 0;
+        }
+
+        .unit-card {
+            width: 280px;
+            height: 320px;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(162, 155, 254, 0.05) 100%);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+            border-color: rgba(162, 155, 254, 0.6);
+        }
+
+        .unit-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .unit-avatar.vanguard {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .unit-avatar.secret {
+            background: linear-gradient(135deg, #9B59B6, #8E44AD);
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+        }
+
+        .unit-avatar.mythic {
+            background: linear-gradient(135deg, #E67E22, #D35400);
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+
+        .unit-avatar.epic {
+            background: linear-gradient(135deg, #3498DB, #2980B9);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .unit-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .unit-badges {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .rarity-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .rarity-badge.vanguard {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .rarity-badge.secret {
+            background: rgba(155, 89, 182, 0.2);
+            color: #9B59B6;
+            border: 1px solid rgba(155, 89, 182, 0.3);
+        }
+
+        .rarity-badge.mythic {
+            background: rgba(230, 126, 34, 0.2);
+            color: #E67E22;
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+
+        .rarity-badge.epic {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498DB;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .element-icon {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(162, 155, 254, 0.2);
+            color: #a29bfe;
+            border: 1px solid rgba(162, 155, 254, 0.3);
+        }
+
+        .unit-costs {
+            margin-bottom: 12px;
+        }
+
+        .deployment-cost {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin-bottom: 4px;
+        }
+
+        .upgrade-cost {
+            font-size: 12px;
+            color: #a29bfe;
+        }
+
+        .unit-description {
+            font-size: 13px;
+            color: #bdc3c7;
+            line-height: 1.4;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .view-details-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .view-details-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: rgba(108, 92, 231, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 2rem 0;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            color: #a29bfe;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .filter-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 8px 12px;
+            font-size: 14px;
+            min-width: 120px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #a29bfe;
+            box-shadow: 0 0 0 2px rgba(162, 155, 254, 0.2);
+        }
+
+        .clear-filters-btn {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filters-btn:hover {
+            background: rgba(231, 76, 60, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Results Section */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .results-count {
+            color: #a29bfe;
+            font-size: 14px;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 8px;
+        }
+
+        .view-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 155, 254, 0.3);
+            color: #a29bfe;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn.active {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            border-color: transparent;
+        }
+
+        .view-btn:hover {
+            background: rgba(162, 155, 254, 0.1);
+        }
+
+        /* No Results State */
+        .no-results {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #a29bfe;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .no-results p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design for Unit Database */
+        @media (max-width: 1200px) {
+            .units-grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .units-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .units-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .unit-card {
+                width: 100%;
+                height: 300px;
+                padding: 16px;
+            }
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-group {
+                width: 100%;
+            }
+            .filter-select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .units-grid-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .unit-card {
+                height: 280px;
+                padding: 14px;
+            }
+            .unit-name {
+                font-size: 16px;
+            }
+            .unit-description {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -4691,27 +5034,75 @@
                     </div>
                 </div>
 
-                <!-- Filter Section (Placeholder) -->
-                <div class="filter-section">
-                    <div class="filter-placeholder">
-                        <i class="fas fa-filter"></i>
-                        <span>Advanced filters coming soon</span>
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Rarity</label>
+                        <select class="filter-select" id="rarityFilter">
+                            <option value="">All Rarities</option>
+                            <option value="Vanguard">Vanguard</option>
+                            <option value="Secret">Secret</option>
+                            <option value="Mythic">Mythic</option>
+                            <option value="Epic">Epic</option>
+                        </select>
                     </div>
-                </div>
-
-                <!-- Unit Grid Container (Empty for now) -->
-                <div id="unitsGrid" class="units-grid-container">
-                    <!-- Unit cards will be loaded here -->
-                </div>
-
-                <!-- Maintenance Message -->
-                <div class="maintenance-message">
-                    <div class="maintenance-content">
-                        <i class="fas fa-tools"></i>
-                        <h3>🔄 Database is being updated with accurate unit data. Coming soon!</h3>
-                        <p>We're working hard to bring you the most comprehensive and up-to-date unit information. Stay tuned for the complete database launch!</p>
+                    <div class="filter-group">
+                        <label class="filter-label">Element</label>
+                        <select class="filter-select" id="elementFilter">
+                            <option value="">All Elements</option>
+                            <option value="Dark">Dark</option>
+                            <option value="Holy">Holy</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Nature">Nature</option>
+                            <option value="Water">Water</option>
+                            <option value="Wind">Wind</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
                     </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Type</label>
+                        <select class="filter-select" id="typeFilter">
+                            <option value="">All Types</option>
+                            <option value="DPS">DPS</option>
+                            <option value="Support">Support</option>
+                            <option value="Farm">Farm</option>
+                            <option value="Buffer">Buffer</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By</label>
+                        <select class="filter-select" id="sortFilter">
+                            <option value="name-asc">Name A-Z</option>
+                            <option value="name-desc">Name Z-A</option>
+                            <option value="dps-desc">DPS High-Low</option>
+                            <option value="cost-asc">Cost Low-High</option>
+                        </select>
+                    </div>
+                    <button class="clear-filters-btn" id="clearFiltersBtn">
+                        <i class="fas fa-times"></i> Clear Filters
+                    </button>
                 </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">Found 0 units</div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid">
+                        <i class="fas fa-th"></i> Grid
+                    </button>
+                    <button class="view-btn" data-view="list">
+                        <i class="fas fa-list"></i> List
+                    </button>
+                </div>
+            </div>
+
+            <!-- Unit Grid Container -->
+            <div id="unitsGrid" class="units-grid-container">
+                <!-- Unit cards will be loaded here -->
+            </div>
+
 
                 <!-- Pagination Area (Placeholder) -->
                 <div id="pagination" class="pagination-container">
@@ -5246,6 +5637,7 @@
     </main>
 
     <!-- Scripts -->
+    <script src="js/config/unit-database-data.js"></script>
     <script type="module" src="js/main.js"></script>
     <script src="js/pages/calculator.js"></script>
     

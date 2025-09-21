@@ -20,7 +20,7 @@ export class DatabasePage {
         // State
         this.currentView = 'grid';
         this.currentPage = 1;
-        this.itemsPerPage = 12;
+        this.itemsPerPage = 35; // Show all units on one page for now
         this.selectedUnits = [];
         this.searchText = '';
         
@@ -37,10 +37,8 @@ export class DatabasePage {
                 this.data = data;
             }
             
-            // Store units data directly
-            this.unitsData = data?.unitsData || {};
-            this.units = this.unitsData.units || [];
-            this.filteredUnits = [...this.units]; // Start with all units
+            // Load Unit Database data
+            await this.loadUnitDatabaseData();
             
             // Initialize UI elements
             this.initializeUI();
@@ -48,8 +46,11 @@ export class DatabasePage {
             // Initialize search functionality
             this.initializeSearch();
             
-            // Show maintenance message
-            this.showMaintenanceMessage();
+            // Initialize components
+            this.initializeComponents();
+            
+            // Render units
+            this.renderUnits();
             
             this.isInitialized = true;
             console.log('✅ Database Page initialized!');
@@ -57,6 +58,34 @@ export class DatabasePage {
         } catch (error) {
             console.error('❌ Database Page initialization failed:', error);
             throw error;
+        }
+    }
+    
+    async loadUnitDatabaseData() {
+        try {
+            // Wait for UnitDatabaseData to be available
+            let attempts = 0;
+            const maxAttempts = 50; // 5 seconds max wait
+            
+            while (typeof UnitDatabaseData === 'undefined' && attempts < maxAttempts) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            
+            if (typeof UnitDatabaseData !== 'undefined') {
+                this.units = UnitDatabaseData.loadAllUnits();
+                this.filteredUnits = [...this.units];
+                console.log('📊 Loaded', this.units.length, 'units from Unit Database');
+                console.log('📊 First few units:', this.units.slice(0, 3).map(u => u.name));
+            } else {
+                console.error('❌ UnitDatabaseData not available after waiting');
+                this.units = [];
+                this.filteredUnits = [];
+            }
+        } catch (error) {
+            console.error('❌ Failed to load Unit Database data:', error);
+            this.units = [];
+            this.filteredUnits = [];
         }
     }
     
@@ -72,7 +101,14 @@ export class DatabasePage {
         this.elements = {
             unitsGrid: document.getElementById('unitsGrid'),
             searchInput: document.getElementById('unitSearch'),
-            clearSearchBtn: document.getElementById('clearSearchBtn')
+            clearSearchBtn: document.getElementById('clearSearchBtn'),
+            resultsCount: document.getElementById('resultsCount'),
+            rarityFilter: document.getElementById('rarityFilter'),
+            elementFilter: document.getElementById('elementFilter'),
+            typeFilter: document.getElementById('typeFilter'),
+            sortFilter: document.getElementById('sortFilter'),
+            clearFiltersBtn: document.getElementById('clearFiltersBtn'),
+            viewToggle: document.querySelectorAll('.view-btn')
         };
     }
     
@@ -89,16 +125,59 @@ export class DatabasePage {
                 this.clearSearch();
             });
         }
-    }
-    
-    showMaintenanceMessage() {
-        // Clear any existing content in units grid
-        if (this.elements.unitsGrid) {
-            this.elements.unitsGrid.innerHTML = '';
+        
+        // Initialize filter functionality
+        if (this.elements.rarityFilter) {
+            this.elements.rarityFilter.addEventListener('change', () => {
+                this.handleFilterChange();
+            });
         }
         
-        // The maintenance message is already in the HTML
-        console.log('🔧 Database maintenance mode active');
+        if (this.elements.elementFilter) {
+            this.elements.elementFilter.addEventListener('change', () => {
+                this.handleFilterChange();
+            });
+        }
+        
+        if (this.elements.typeFilter) {
+            this.elements.typeFilter.addEventListener('change', () => {
+                this.handleFilterChange();
+            });
+        }
+        
+        if (this.elements.sortFilter) {
+            this.elements.sortFilter.addEventListener('change', () => {
+                this.handleFilterChange();
+            });
+        }
+        
+        if (this.elements.clearFiltersBtn) {
+            this.elements.clearFiltersBtn.addEventListener('click', () => {
+                this.clearAllFilters();
+            });
+        }
+        
+        // Initialize view toggle
+        if (this.elements.viewToggle) {
+            this.elements.viewToggle.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    this.handleViewToggle(e.target.dataset.view);
+                });
+            });
+        }
+    }
+    
+    showNoDataMessage() {
+        if (this.elements.unitsGrid) {
+            this.elements.unitsGrid.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-database"></i>
+                    <h3>No units found</h3>
+                    <p>Unable to load unit data. Please refresh the page and try again.</p>
+                </div>
+            `;
+        }
+        console.log('❌ No unit data available');
     }
     
     handleSearchInput(searchText) {
@@ -113,8 +192,8 @@ export class DatabasePage {
             }
         }
         
-        // For now, just log the search (no actual filtering yet)
-        console.log('🔍 Search:', searchText);
+        // Trigger filter change to apply search
+        this.handleFilterChange();
     }
     
     clearSearch() {
@@ -125,6 +204,171 @@ export class DatabasePage {
         
         if (this.elements.clearSearchBtn) {
             this.elements.clearSearchBtn.classList.remove('show');
+        }
+        
+        // Trigger filter change to apply cleared search
+        this.handleFilterChange();
+    }
+    
+    initializeComponents() {
+        // Initialize Filter Panel
+        if (this.elements.filterPanel) {
+            this.filterPanel = new FilterPanel(this.elements.filterPanel, {
+                onFilterChange: (filters) => this.handleFilterChange(filters)
+            });
+        }
+        
+        // Initialize Pagination
+        if (this.elements.pagination) {
+            this.pagination = new Pagination(this.elements.pagination, {
+                currentPage: this.currentPage,
+                totalItems: this.filteredUnits.length,
+                itemsPerPage: this.itemsPerPage,
+                onPageChange: (page) => this.handlePageChange(page)
+            });
+        }
+    }
+    
+    renderUnits() {
+        if (!this.elements.unitsGrid) {
+            console.error('Units grid container not found');
+            return;
+        }
+        
+        // Clear existing content
+        this.elements.unitsGrid.innerHTML = '';
+        
+        if (!this.units || this.units.length === 0) {
+            this.showNoDataMessage();
+            return;
+        }
+        
+        // Calculate pagination
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        const unitsToShow = this.filteredUnits.slice(startIndex, endIndex);
+        
+        // Create unit cards
+        unitsToShow.forEach(unit => {
+            const unitCard = this.createUnitCard(unit);
+            this.elements.unitsGrid.appendChild(unitCard);
+        });
+        
+        // Update pagination
+        if (this.pagination) {
+            this.pagination.update({
+                currentPage: this.currentPage,
+                totalItems: this.filteredUnits.length,
+                itemsPerPage: this.itemsPerPage
+            });
+        }
+        
+        console.log(`📊 Rendered ${unitsToShow.length} units (page ${this.currentPage})`);
+        this.updateResultsCount();
+    }
+    
+    createUnitCard(unit) {
+        const card = document.createElement('div');
+        card.className = 'unit-card';
+        
+        // Get first letter of unit name for avatar
+        const firstLetter = unit.name.charAt(0).toUpperCase();
+        
+        card.innerHTML = `
+            <div class="unit-avatar ${unit.rarity.toLowerCase()}">
+                ${firstLetter}
+            </div>
+            <div class="unit-name">${unit.name}</div>
+            <div class="unit-badges">
+                <div class="rarity-badge ${unit.rarity.toLowerCase()}">${unit.rarity}</div>
+                <div class="element-icon">${unit.element}</div>
+            </div>
+            <div class="unit-costs">
+                <div class="deployment-cost">${unit.deploymentCost}¥</div>
+                <div class="upgrade-cost">Upgrade: ${unit.maxUpgradeCost}¥</div>
+            </div>
+            <div class="unit-description">
+                ${unit.description}
+            </div>
+            <button class="view-details-btn">
+                View Details
+            </button>
+        `;
+        
+        // Add click handler for view details
+        const viewBtn = card.querySelector('.view-details-btn');
+        viewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.showUnitDetails(unit);
+        });
+        
+        return card;
+    }
+    
+    showUnitDetails(unit) {
+        // For now, just log the unit details
+        console.log('Unit Details:', unit);
+        // TODO: Implement unit details modal
+    }
+    
+    handleFilterChange() {
+        const filters = {
+            rarity: this.elements.rarityFilter?.value || '',
+            element: this.elements.elementFilter?.value || '',
+            type: this.elements.typeFilter?.value || '',
+            searchText: this.searchText || ''
+        };
+        
+        console.log('🔍 Filter changed:', filters);
+        
+        // Apply filters using the existing filterUnits method
+        this.filterUnits(filters);
+        
+        // Apply sorting
+        const sortValue = this.elements.sortFilter?.value || 'name-asc';
+        const [sortBy, order] = sortValue.split('-');
+        this.filteredUnits = UnitDatabaseData.sortUnits(this.filteredUnits, sortBy, order);
+        
+        this.currentPage = 1; // Reset to first page
+        this.renderUnits();
+        this.updateResultsCount();
+    }
+    
+    handlePageChange(page) {
+        this.currentPage = page;
+        this.renderUnits();
+    }
+    
+    
+    clearAllFilters() {
+        if (this.elements.rarityFilter) this.elements.rarityFilter.value = '';
+        if (this.elements.elementFilter) this.elements.elementFilter.value = '';
+        if (this.elements.typeFilter) this.elements.typeFilter.value = '';
+        if (this.elements.sortFilter) this.elements.sortFilter.value = 'name-asc';
+        if (this.elements.searchInput) this.elements.searchInput.value = '';
+        
+        this.searchText = '';
+        this.filteredUnits = [...this.units];
+        this.currentPage = 1;
+        this.renderUnits();
+        this.updateResultsCount();
+    }
+    
+    handleViewToggle(view) {
+        // Update active button
+        this.elements.viewToggle.forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        this.currentView = view;
+        // TODO: Implement list view
+        console.log('View changed to:', view);
+    }
+    
+    updateResultsCount() {
+        if (this.elements.resultsCount) {
+            this.elements.resultsCount.textContent = `Found ${this.filteredUnits.length} units`;
         }
     }
     
@@ -388,22 +632,22 @@ export class DatabasePage {
             }
             
             // Rarity filter
-            if (filters.rarity && filters.rarity !== 'all') {
+            if (filters.rarity && filters.rarity !== '') {
                 if (unit.rarity !== filters.rarity) {
                     return false;
                 }
             }
             
             // Element filter
-            if (filters.element && filters.element !== 'all') {
+            if (filters.element && filters.element !== '') {
                 if (unit.element !== filters.element) {
                     return false;
                 }
             }
             
-            // Category filter
-            if (filters.category && filters.category !== 'all') {
-                if (unit.category !== filters.category) {
+            // Type filter
+            if (filters.type && filters.type !== '') {
+                if (unit.type !== filters.type) {
                     return false;
                 }
             }
