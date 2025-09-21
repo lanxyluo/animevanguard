@@ -99,6 +99,10 @@
       gtag('config', 'G-H7C8MVNRR1');
     </script>
     
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4646989374895922"
+         crossorigin="anonymous"></script>
+    
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -5443,74 +5447,116 @@
 
             <!-- DPS Calculator Content -->
             <div class="calculator-content">
-                <!-- 三栏布局 -->
-                <div class="calculator-grid grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-screen">
-                    <!-- 左侧：角色选择 -->
-                    <div id="unit-selector-panel" class="calculator-panel rounded-xl p-6">
-                        <h2 class="text-xl font-semibold mb-4 flex items-center">
-                            <i class="fas fa-users mr-2 text-blue-400"></i>
-                            Select Unit
-                        </h2>
-                        <div id="unit-search" class="mb-4">
-                            <input type="text" placeholder="Search units..." 
-                                   class="search-input w-full px-4 py-2 rounded-lg text-white">
+                <!-- 优化后的四栏布局 -->
+                <div class="calculator-grid grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-screen">
+                    <!-- 左侧：角色选择 (2列宽) -->
+                    <div id="unit-selector-panel" class="lg:col-span-2 bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold flex items-center">
+                                <i class="fas fa-users mr-2 text-blue-400"></i>
+                                Select Unit
+                            </h2>
+                            <div class="text-sm text-gray-400" id="unit-count">0 units</div>
                         </div>
-                        <div id="unit-grid" class="unit-grid grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
+                        
+                        <!-- 搜索和筛选 -->
+                        <div class="space-y-3 mb-6">
+                            <input type="text" id="unit-search" placeholder="Search units..." 
+                                   class="w-full px-4 py-2 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500">
+                            
+                            <!-- 稀有度筛选 -->
+                            <div class="flex flex-wrap gap-2">
+                                <button class="rarity-filter active" data-rarity="all">All</button>
+                                <button class="rarity-filter" data-rarity="Vanguard">Vanguard</button>
+                                <button class="rarity-filter" data-rarity="Secret">Secret</button>
+                                <button class="rarity-filter" data-rarity="Mythic">Mythic</button>
+                                <button class="rarity-filter" data-rarity="Legendary">Legendary</button>
+                            </div>
+                        </div>
+
+                        <!-- 角色网格 (改为卡片式) -->
+                        <div id="unit-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
                             <!-- 动态生成角色卡片 -->
                         </div>
                     </div>
 
-                    <!-- 中间：结果显示 -->
-                    <div id="results-panel" class="calculator-panel rounded-xl p-6">
+                    <!-- 右上：DPS结果 -->
+                    <div id="results-panel" class="bg-gray-800 rounded-xl p-6">
                         <h2 class="text-xl font-semibold mb-4 flex items-center">
                             <i class="fas fa-chart-bar mr-2 text-green-400"></i>
                             DPS Results
                         </h2>
-                        <div id="dps-display" class="text-center mb-6">
-                            <div class="text-6xl font-bold text-blue-400 mb-2 dps-glow" id="dps-value">0</div>
-                            <div class="text-gray-400">Damage Per Second</div>
-                        </div>
-                        <div id="stats-breakdown" class="space-y-3">
-                            <!-- 详细数据展示 -->
+                        <div class="text-center space-y-4">
+                            <div class="relative">
+                                <div class="text-5xl font-bold text-blue-400 dps-glow" id="dps-value">0</div>
+                                <div class="text-gray-400 text-sm">Damage Per Second</div>
+                            </div>
+                            
+                            <!-- 快速统计卡片 -->
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div class="bg-gray-700 rounded-lg p-3">
+                                    <div class="text-gray-400">Damage</div>
+                                    <div class="text-white font-semibold" id="damage-value">0</div>
+                                </div>
+                                <div class="bg-gray-700 rounded-lg p-3">
+                                    <div class="text-gray-400">Range</div>
+                                    <div class="text-white font-semibold" id="range-value">0</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 右侧：配置面板 -->
-                    <div id="config-panel" class="calculator-panel rounded-xl p-6">
+                    <!-- 右下：配置面板 -->
+                    <div id="config-panel" class="bg-gray-800 rounded-xl p-6">
                         <h2 class="text-xl font-semibold mb-4 flex items-center">
                             <i class="fas fa-cog mr-2 text-purple-400"></i>
                             Configuration
                         </h2>
-                        <div id="level-config" class="mb-6">
-                            <label class="block text-sm font-medium mb-2 text-gray-300">
-                                Level: <span id="level-value" class="text-blue-400 font-bold">1</span>
-                            </label>
-                            <input type="range" min="1" max="60" value="1" 
-                                   class="w-full h-2 bg-gray-700 rounded-lg" id="level-slider">
+                        
+                        <!-- 选中角色信息 -->
+                        <div id="selected-unit-info" class="mb-6 p-3 bg-gray-700 rounded-lg hidden">
+                            <div class="flex items-center space-x-3">
+                                <img id="selected-unit-image" class="w-12 h-12 rounded-lg">
+                                <div>
+                                    <div id="selected-unit-name" class="font-semibold text-white"></div>
+                                    <div id="selected-unit-rarity" class="text-sm text-gray-400"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div id="upgrade-config" class="mb-6">
-                            <label class="block text-sm font-medium mb-2 text-gray-300">Upgrade Level</label>
-                            <select id="upgrade-select" class="w-full px-3 py-2 rounded-lg">
-                                <option value="0">Upgrade 0</option>
-                                <option value="1">Upgrade 1</option>
-                                <!-- 动态生成 -->
-                            </select>
-                        </div>
-                        <div id="trait-config" class="mb-6">
-                            <label class="block text-sm font-medium mb-2 text-gray-300">Traits</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-2" value="damage">
-                                    <span class="text-sm">Damage Boost</span>
+
+                        <!-- 配置选项 -->
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">
+                                    Level: <span id="level-value" class="text-blue-400">1</span>
                                 </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-2" value="speed">
-                                    <span class="text-sm">Speed Boost</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-2" value="range">
-                                    <span class="text-sm">Range Boost</span>
-                                </label>
+                                <input type="range" min="1" max="60" value="1" 
+                                       class="w-full h-2 bg-gray-700 rounded-lg slider" id="level-slider">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Upgrade Level</label>
+                                <select id="upgrade-select" class="w-full px-3 py-2 bg-gray-700 rounded-lg text-white">
+                                    <option value="0">Select a unit first</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Traits</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2" value="damage">
+                                        <span class="text-sm">Damage Boost</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2" value="speed">
+                                        <span class="text-sm">Speed Boost</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-2" value="range">
+                                        <span class="text-sm">Range Boost</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>

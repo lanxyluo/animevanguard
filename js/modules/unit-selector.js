@@ -32,6 +32,7 @@ class UnitSelector {
     init() {
         this.renderUnits();
         this.bindSearchEvents();
+        this.initializeFilters();
     }
 
     renderUnits(filteredUnits = this.units) {
@@ -66,15 +67,32 @@ class UnitSelector {
 
     createUnitCard(unit) {
         const card = document.createElement('div');
-        card.className = 'bg-gray-700 rounded-lg p-3 cursor-pointer hover:bg-gray-600 transition-all duration-200 hover:scale-105 unit-card-hover';
+        card.className = 'unit-card bg-gray-700 rounded-lg p-3 cursor-pointer transition-all duration-300 hover:bg-gray-600 hover:scale-105 hover:shadow-lg border-2 border-transparent';
+        
+        // 稀有度颜色
+        const rarityColors = {
+            'Vanguard': 'border-purple-500 bg-gradient-to-br from-purple-800 to-gray-700',
+            'Secret': 'border-red-500 bg-gradient-to-br from-red-800 to-gray-700',
+            'Mythic': 'border-yellow-500 bg-gradient-to-br from-yellow-800 to-gray-700',
+            'Legendary': 'border-orange-500 bg-gradient-to-br from-orange-800 to-gray-700'
+        };
+
         card.innerHTML = `
             <div class="text-center">
-                <div class="w-16 h-16 mx-auto rounded-lg mb-2 bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg">
-                    ${unit.name.charAt(0)}
+                <div class="relative mb-2">
+                    <img src="${unit.image || '/images/placeholder.png'}" 
+                         alt="${unit.name}" 
+                         class="w-16 h-16 mx-auto rounded-lg object-cover border-2 ${rarityColors[unit.rarity] ? 'border-current' : 'border-gray-600'}"
+                         onerror="this.src='/images/placeholder.png'">
+                    
+                    <!-- 稀有度标签 -->
+                    <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${this.getRarityColor(unit.rarity)}"></div>
                 </div>
-                <h3 class="text-sm font-medium text-white">${unit.name}</h3>
-                <div class="text-xs text-gray-400">${unit.rarity}</div>
-                <div class="text-xs text-blue-400">${unit.element}</div>
+                
+                <h3 class="text-xs font-medium text-white leading-tight mb-1">${unit.name}</h3>
+                <div class="text-xs px-2 py-1 rounded ${this.getRarityBadgeClass(unit.rarity)}">
+                    ${unit.rarity}
+                </div>
             </div>
         `;
         
@@ -83,6 +101,32 @@ class UnitSelector {
         });
 
         return card;
+    }
+
+    getRarityColor(rarity) {
+        const colors = {
+            'Vanguard': 'bg-purple-500',
+            'Secret': 'bg-red-500', 
+            'Mythic': 'bg-yellow-500',
+            'Legendary': 'bg-orange-500',
+            'Epic': 'bg-blue-500',
+            'Rare': 'bg-green-500',
+            'Common': 'bg-gray-500'
+        };
+        return colors[rarity] || 'bg-gray-500';
+    }
+
+    getRarityBadgeClass(rarity) {
+        const classes = {
+            'Vanguard': 'bg-purple-600 text-purple-100',
+            'Secret': 'bg-red-600 text-red-100',
+            'Mythic': 'bg-yellow-600 text-yellow-100', 
+            'Legendary': 'bg-orange-600 text-orange-100',
+            'Epic': 'bg-blue-600 text-blue-100',
+            'Rare': 'bg-green-600 text-green-100',
+            'Common': 'bg-gray-600 text-gray-100'
+        };
+        return classes[rarity] || 'bg-gray-600 text-gray-100';
     }
 
     selectUnit(unit, cardElement) {
@@ -98,18 +142,42 @@ class UnitSelector {
     }
 
     bindSearchEvents() {
-        const searchInput = document.querySelector('#unit-search input');
+        const searchInput = document.getElementById('unit-search');
         if (!searchInput) return;
         
         searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filtered = this.units.filter(unit => 
-                unit.name.toLowerCase().includes(searchTerm) ||
-                unit.rarity.toLowerCase().includes(searchTerm) ||
-                unit.element.toLowerCase().includes(searchTerm)
-            );
-            this.renderUnits(filtered);
+            this.filterUnits();
         });
+    }
+
+    initializeFilters() {
+        // 稀有度筛选
+        document.querySelectorAll('.rarity-filter').forEach(button => {
+            button.addEventListener('click', (e) => {
+                document.querySelectorAll('.rarity-filter').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                this.filterUnits();
+            });
+        });
+    }
+
+    filterUnits() {
+        const searchTerm = document.getElementById('unit-search').value.toLowerCase();
+        const activeRarity = document.querySelector('.rarity-filter.active')?.dataset.rarity || 'all';
+        
+        const filtered = this.units.filter(unit => {
+            const matchesSearch = unit.name.toLowerCase().includes(searchTerm) ||
+                                 unit.rarity.toLowerCase().includes(searchTerm) ||
+                                 (unit.element && unit.element.toLowerCase().includes(searchTerm));
+            const matchesRarity = activeRarity === 'all' || unit.rarity === activeRarity;
+            return matchesSearch && matchesRarity;
+        });
+        
+        this.renderUnits(filtered);
+        const unitCountEl = document.getElementById('unit-count');
+        if (unitCountEl) {
+            unitCountEl.textContent = `${filtered.length} units`;
+        }
     }
 }
 

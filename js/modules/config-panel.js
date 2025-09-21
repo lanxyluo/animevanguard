@@ -50,6 +50,35 @@ class ConfigPanel {
         // 根据角色更新配置选项
         if (!unit) return;
 
+        // 显示选中角色信息
+        const infoPanel = document.getElementById('selected-unit-info');
+        const nameEl = document.getElementById('selected-unit-name');
+        const rarityEl = document.getElementById('selected-unit-rarity');
+        const imageEl = document.getElementById('selected-unit-image');
+        
+        if (infoPanel && nameEl && rarityEl && imageEl) {
+            nameEl.textContent = unit.name;
+            rarityEl.textContent = unit.rarity;
+            imageEl.src = unit.image || '/images/placeholder.png';
+            infoPanel.classList.remove('hidden');
+        }
+
+        // 更新升级选项
+        const upgradeSelect = document.getElementById('upgrade-select');
+        if (upgradeSelect && unit.baseStats) {
+            upgradeSelect.innerHTML = '';
+            Object.keys(unit.baseStats).forEach(key => {
+                const option = document.createElement('option');
+                const upgradeNum = key.replace('upgrade_', '');
+                option.value = upgradeNum;
+                option.textContent = `Upgrade ${upgradeNum}`;
+                upgradeSelect.appendChild(option);
+            });
+        } else if (upgradeSelect) {
+            // 如果没有baseStats，生成默认选项
+            this.generateUpgradeOptions(upgradeSelect);
+        }
+
         const levelSlider = document.getElementById('level-slider');
         if (levelSlider) {
             // 根据角色稀有度设置最大等级

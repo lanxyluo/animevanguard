@@ -18,6 +18,7 @@ class ResultsDisplay {
     update(result) {
         this.updateDPSValue(result.dps);
         this.updateStatsBreakdown(result);
+        this.updateQuickStats(result);
     }
 
     updateDPSValue(dps) {
@@ -82,6 +83,20 @@ class ResultsDisplay {
                 </div>
             </div>
         `;
+    }
+
+    updateQuickStats(result) {
+        // 更新快速统计卡片
+        const damageValue = document.getElementById('damage-value');
+        const rangeValue = document.getElementById('range-value');
+        
+        if (damageValue) {
+            damageValue.textContent = result.baseDamage?.toLocaleString() || '0';
+        }
+        
+        if (rangeValue) {
+            rangeValue.textContent = result.range || '0';
+        }
     }
 }
 

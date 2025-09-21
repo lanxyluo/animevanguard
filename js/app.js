@@ -27,6 +27,7 @@ export class App {
         // Current state
         this.currentPage = 'tierlist';
         this.selectedUnit = null;
+        this.isSwitching = false;
         
         // DOM elements
         this.elements = {};
@@ -97,7 +98,6 @@ export class App {
             tierlist: document.getElementById('tierlistPage'),
             database: document.getElementById('databasePage'),
             calculator: document.getElementById('calculatorPage'),
-            traits: document.getElementById('traitsPage'),
             codes: document.getElementById('codesPage'),
             about: document.getElementById('aboutPage')
         };
@@ -209,7 +209,7 @@ export class App {
             };
             
             // Add both click and mousedown events
-            tab.addEventListener('click', clickHandler, true);
+            tab.addEventListener('click', clickHandler, false);
             tab.addEventListener('mousedown', (e) => {
                 console.log('🖱️ Mousedown on tab:', pageName);
             });
@@ -335,9 +335,18 @@ export class App {
         console.log('📄 Showing page:', pageName);
         console.log('📊 Available page containers:', Object.keys(this.pageContainers).filter(key => this.pageContainers[key]));
         
-        // 特殊处理home页面 - 跳转到Tier List
+        // Prevent rapid successive calls
+        if (this.isSwitching) {
+            console.log('⚠️ Page switch already in progress, ignoring:', pageName);
+            return;
+        }
+        
+        this.isSwitching = true;
+        
+        // 特殊处理home页面 - 显示首页内容
         if (pageName === 'home') {
-            this.showPage('tierlist');
+            this.showHomepage();
+            this.isSwitching = false;
             return;
         }
         
@@ -383,24 +392,22 @@ export class App {
         this.updatePageSEO(pageName);
         
         // Call page-specific show methods - 修复页面名称映射
-        if (pageName === 'calculator' && this.traitsBuilder) {
-            console.log('🎯 Calling traits builder show method for calculator');
-            this.traitsBuilder.show();
+        if (pageName === 'calculator' && this.dpsPage) {
+            console.log('🎯 Calling DPS calculator show method for calculator');
+            this.dpsPage.show();
         } else if (pageName === 'database' && this.databasePage) {
             console.log('🗄️ Calling database page show method');
             this.databasePage.show();
         } else if (pageName === 'tierlist' && this.tierListPage) {
             console.log('🏆 Calling tier list page show method');
             this.tierListPage.show();
-        } else if (pageName === 'traits' && this.traitsBuilder) {
-            console.log('🎯 Calling traits builder show method');
-            this.traitsBuilder.show();
         } else if (pageName === 'codes') {
             console.log('🎁 Updating codes page');
             this.updateCodesPage();
         }
         
         this.currentPage = pageName;
+        this.isSwitching = false;
         console.log('✅ Page switch completed. Current page:', this.currentPage);
     }
     
