@@ -25,7 +25,7 @@ export class App {
         };
         
         // Current state
-        this.currentPage = 'evolution';
+        this.currentPage = 'tierlist';
         this.selectedUnit = null;
         
         // DOM elements
@@ -75,8 +75,8 @@ export class App {
             
 
             
-            // Show homepage by default (no specific page)
-            this.showHomepage();
+            // Show Tier List by default
+            this.showPage('tierlist');
             
             this.isInitialized = true;
             console.log('✅ App initialized successfully!');
@@ -230,12 +230,12 @@ export class App {
             });
         });
         
-        // Logo click to go to homepage
+        // Logo click to go to Tier List
         const logo = document.querySelector('.logo');
         if (logo) {
             logo.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.showHomepage();
+                this.showPage('tierlist');
             });
             logo.style.cursor = 'pointer';
         }
@@ -335,9 +335,9 @@ export class App {
         console.log('📄 Showing page:', pageName);
         console.log('📊 Available page containers:', Object.keys(this.pageContainers).filter(key => this.pageContainers[key]));
         
-        // 特殊处理home页面
+        // 特殊处理home页面 - 跳转到Tier List
         if (pageName === 'home') {
-            this.showHomepage();
+            this.showPage('tierlist');
             return;
         }
         
