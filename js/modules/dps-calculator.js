@@ -96,8 +96,17 @@ class DPSCalculator {
     }
 }
 
+// 防止重复初始化
+let dpsCalculatorInitialized = false;
+
 // 等待数据加载完成后初始化
 function initializeDPSCalculator() {
+    // 防止重复初始化
+    if (dpsCalculatorInitialized) {
+        console.log('⏭️ DPS Calculator already initialized, skipping');
+        return;
+    }
+    
     // 检查依赖是否加载完成
     if (!window.UnitDatabaseData || !window.UnitSelector || !window.ConfigPanel || !window.ResultsDisplay || !window.calculateDPS) {
         console.log('Waiting for dependencies to load...');
@@ -108,6 +117,7 @@ function initializeDPSCalculator() {
     try {
         console.log('Initializing DPS Calculator...');
         new DPSCalculator();
+        dpsCalculatorInitialized = true;
         console.log('✅ DPS Calculator initialized successfully!');
     } catch (error) {
         console.error('❌ Failed to initialize DPS Calculator:', error);

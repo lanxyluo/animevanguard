@@ -4,6 +4,8 @@ export class TierListPage {
         this.dataManager = null;
         this.currentFilters = {};
         this.isLoading = false;
+        this.isRendering = false;
+        this.lastRenderTime = 0;
     }
     
     async initialize(data) {
@@ -26,6 +28,14 @@ export class TierListPage {
     
     async show() {
         console.log('🎯 Tier List shown');
+        
+        // 防止重复渲染 - 如果正在渲染或刚刚渲染过，则跳过
+        const now = Date.now();
+        if (this.isRendering || (now - this.lastRenderTime < 1000)) {
+            console.log('⏭️ Skipping duplicate render');
+            return;
+        }
+        
         await this.renderTierList();
     }
     
@@ -36,6 +46,10 @@ export class TierListPage {
             return;
         }
         
+        // 设置渲染状态
+        this.isRendering = true;
+        this.lastRenderTime = Date.now();
+        
         if (!this.dataManager) {
             container.innerHTML = `
                 <div class="loading-container">
@@ -43,6 +57,7 @@ export class TierListPage {
                     <p>Loading tier list data manager...</p>
                 </div>
             `;
+            this.isRendering = false;
             return;
         }
         
@@ -58,6 +73,8 @@ export class TierListPage {
                     <p>Please try refreshing the page.</p>
                 </div>
             `;
+        } finally {
+            this.isRendering = false;
         }
     }
     

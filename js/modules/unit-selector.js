@@ -3,9 +3,16 @@
 
 class UnitSelector {
     constructor(onUnitSelect) {
+        // 防止重复初始化
+        if (this.initialized) {
+            console.log('⏭️ UnitSelector already initialized, skipping');
+            return;
+        }
+        
         this.onUnitSelect = onUnitSelect;
         this.units = this.loadUnits();
         this.init();
+        this.initialized = true;
     }
 
     loadUnits() {
@@ -80,10 +87,10 @@ class UnitSelector {
         card.innerHTML = `
             <div class="text-center">
                 <div class="relative mb-2">
-                    <img src="${unit.image || '/images/placeholder.png'}" 
+                    <img src="${unit.image || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 64 64\'%3E%3Crect width=\'64\' height=\'64\' fill=\'%23374151\'/%3E%3Ctext x=\'32\' y=\'32\' text-anchor=\'middle\' dy=\'0.35em\' font-family=\'Arial\' font-size=\'24\' fill=\'%23fff\'%3E${unit.name.charAt(0)}%3C/text%3E%3C/svg%3E'}" 
                          alt="${unit.name}" 
                          class="w-16 h-16 mx-auto rounded-lg object-cover border-2 ${rarityColors[unit.rarity] ? 'border-current' : 'border-gray-600'}"
-                         onerror="this.src='/images/placeholder.png'">
+                         loading="lazy">
                     
                     <!-- 稀有度标签 -->
                     <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${this.getRarityColor(unit.rarity)}"></div>

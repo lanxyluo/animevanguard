@@ -400,7 +400,12 @@ export class App {
             this.databasePage.show();
         } else if (pageName === 'tierlist' && this.tierListPage) {
             console.log('🏆 Calling tier list page show method');
-            this.tierListPage.show();
+            // 防止重复调用 - 如果当前页面已经是tierlist，则跳过
+            if (this.currentPage !== 'tierlist') {
+                this.tierListPage.show();
+            } else {
+                console.log('⏭️ Skipping duplicate tierlist show call');
+            }
         } else if (pageName === 'codes') {
             console.log('🎁 Updating codes page');
             this.updateCodesPage();

@@ -59,7 +59,7 @@ class ConfigPanel {
         if (infoPanel && nameEl && rarityEl && imageEl) {
             nameEl.textContent = unit.name;
             rarityEl.textContent = unit.rarity;
-            imageEl.src = unit.image || '/images/placeholder.png';
+            imageEl.src = unit.image || `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23374151'/%3E%3Ctext x='32' y='32' text-anchor='middle' dy='0.35em' font-family='Arial' font-size='24' fill='%23fff'%3E${unit.name.charAt(0)}%3C/text%3E%3C/svg%3E`;
             infoPanel.classList.remove('hidden');
         }
 
