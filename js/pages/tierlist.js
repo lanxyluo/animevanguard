@@ -1,4 +1,4 @@
-export class TierListPage {
+class TierListPage {
     constructor(app) {
         this.app = app;
         this.dataManager = null;
@@ -13,14 +13,16 @@ export class TierListPage {
         this.data = data;
         
         try {
-            // Import the tier list data module
-            const { TierListDataManager, TIER_INFO, ELEMENT_INFO, RARITY_INFO } = await import('../tier-list-data.js');
-            this.dataManager = new TierListDataManager();
-            this.TIER_INFO = TIER_INFO;
-            this.ELEMENT_INFO = ELEMENT_INFO;
-            this.RARITY_INFO = RARITY_INFO;
-            
-            console.log('✅ Tier list data manager loaded successfully');
+            // Use the global data that should be available
+            if (window.TierListDataManager) {
+                this.dataManager = new window.TierListDataManager();
+                this.TIER_INFO = window.TIER_INFO;
+                this.ELEMENT_INFO = window.ELEMENT_INFO;
+                this.RARITY_INFO = window.RARITY_INFO;
+                console.log('✅ Tier list data manager loaded successfully');
+            } else {
+                console.error('❌ Tier list data not available globally');
+            }
         } catch (error) {
             console.error('❌ Failed to load tier list data manager:', error);
         }
@@ -50,26 +52,41 @@ export class TierListPage {
         this.isRendering = true;
         this.lastRenderTime = Date.now();
         
+        console.log('🔍 Checking data manager:', this.dataManager);
+        console.log('🔍 Checking global data:', window.TIER_LIST_DATA);
+        
         if (!this.dataManager) {
-            container.innerHTML = `
-                <div class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <p>Loading tier list data manager...</p>
-                </div>
-            `;
-            this.isRendering = false;
-            return;
+            // Try to initialize data manager again
+            if (window.TierListDataManager) {
+                this.dataManager = new window.TierListDataManager();
+                this.TIER_INFO = window.TIER_INFO;
+                this.ELEMENT_INFO = window.ELEMENT_INFO;
+                this.RARITY_INFO = window.RARITY_INFO;
+                console.log('✅ Data manager initialized from global');
+            } else {
+                container.innerHTML = `
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p>Loading tier list data manager...</p>
+                        <p>Debug: Global data not available</p>
+                    </div>
+                `;
+                this.isRendering = false;
+                return;
+            }
         }
         
         try {
             // Load tier list data
             const data = await this.dataManager.getAllData();
+            console.log('📊 Loaded data:', data);
             this.render(container, data);
         } catch (error) {
             console.error('❌ Failed to load tier list data:', error);
             container.innerHTML = `
                 <div class="error-container">
                     <h3>Failed to load tier list data</h3>
+                    <p>Error: ${error.message}</p>
                     <p>Please try refreshing the page.</p>
                 </div>
             `;
@@ -393,4 +410,9 @@ export class TierListPage {
     destroy() {
         console.log('🗑️ TierListPage destroyed');
     }
+}
+
+// Make TierListPage available globally
+if (typeof window !== 'undefined') {
+    window.TierListPage = TierListPage;
 }

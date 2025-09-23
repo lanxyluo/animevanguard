@@ -1465,20 +1465,22 @@ class TierListDataManager {
     }
 }
 
-// Export data and manager
-export { 
-    TIER_LIST_DATA, 
-    TIER_INFO, 
-    ELEMENT_INFO, 
-    RARITY_INFO, 
-    TierListDataManager 
-};
-
 // Create global instance for easy access
 if (typeof window !== 'undefined') {
-    window.TierListDataManager = new TierListDataManager();
+    window.TierListDataManager = TierListDataManager;
     window.TIER_LIST_DATA = TIER_LIST_DATA;
     window.TIER_INFO = TIER_INFO;
     window.ELEMENT_INFO = ELEMENT_INFO;
     window.RARITY_INFO = RARITY_INFO;
+}
+
+// Export data and manager (for module systems)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { 
+        TIER_LIST_DATA, 
+        TIER_INFO, 
+        ELEMENT_INFO, 
+        RARITY_INFO, 
+        TierListDataManager 
+    };
 }

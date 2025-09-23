@@ -1,8 +1,474 @@
-import { FilterPanel } from '../components/FilterPanel.js';
-import { UnitCard, UnitCardFactory } from '../components/UnitCard.js';
-import { Pagination } from '../components/Pagination.js';
+/**
+ * Filter Panel Component
+ * Handles search, filters, and quick filter functionality
+ */
+class FilterPanel {
+    constructor(container, options = {}) {
+        this.container = container;
+        this.options = {
+            onFilterChange: () => {},
+            onSearchChange: () => {},
+            onQuickFilterChange: () => {},
+            ...options
+        };
+        
+        this.currentFilters = {
+            searchText: '',
+            rarity: '',
+            element: '',
+            unitType: '',
+            role: ''
+        };
+        
+        this.quickFilters = {
+            popular: { label: 'Popular', icon: 'fas fa-fire', active: false },
+            highDPS: { label: 'High DPS', icon: 'fas fa-bolt', active: false },
+            latest: { label: 'Latest', icon: 'fas fa-star', active: false },
+            beginner: { label: 'Beginner Friendly', icon: 'fas fa-bullseye', active: false }
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.render();
+        this.bindEvents();
+    }
+    
+    render() {
+        this.container.innerHTML = `
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search units by name, description...">
+                    <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="filter-controls">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="rarityFilter">Rarity:</label>
+                        <select id="rarityFilter" class="filter-select">
+                            <option value="">All Rarity</option>
+                            <option value="Epic">Epic</option>
+                            <option value="Mythic">Mythic</option>
+                            <option value="Secret">Secret</option>
+                            <option value="Vanguard">Vanguard</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="elementFilter">Element:</label>
+                        <select id="elementFilter" class="filter-select">
+                            <option value="">All Elements</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Water">Water</option>
+                            <option value="Wind">Wind</option>
+                            <option value="Nature">Nature</option>
+                            <option value="Dark">Dark</option>
+                            <option value="Holy">Holy</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="unitTypeFilter">Unit Type:</label>
+                        <select id="unitTypeFilter" class="filter-select">
+                            <option value="">All Types</option>
+                            <option value="DPS">DPS</option>
+                            <option value="Support">Support</option>
+                            <option value="Farm">Farm</option>
+                            <option value="Buffer">Buffer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="roleFilter">Role:</label>
+                        <select id="roleFilter" class="filter-select">
+                            <option value="">All Roles</option>
+                            <option value="Melee">Melee</option>
+                            <option value="Ranged">Ranged</option>
+                            <option value="Magic">Magic</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="quick-filter-tags">
+                    ${Object.entries(this.quickFilters).map(([key, filter]) => `
+                        <button class="quick-filter-tag" data-filter="${key}">
+                            <i class="${filter.icon}"></i> ${filter.label}
+                        </button>
+                    `).join('')}
+                </div>
+                
+                <div id="activeFilters" class="active-filters" style="display: none;">
+                    <!-- Active filters will be displayed here -->
+                </div>
+            </div>
+        `;
+    }
+    
+    bindEvents() {
+        // Search input
+        const searchInput = this.container.querySelector('#searchInput');
+        const clearSearchBtn = this.container.querySelector('#clearSearchBtn');
+        
+        searchInput.addEventListener('input', (e) => {
+            this.currentFilters.searchText = e.target.value;
+            this.updateClearSearchButton();
+            this.options.onSearchChange(this.currentFilters.searchText);
+        });
+        
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            this.currentFilters.searchText = '';
+            this.updateClearSearchButton();
+            this.options.onSearchChange('');
+        });
+        
+        // Filter selects
+        const filterSelects = this.container.querySelectorAll('.filter-select');
+        filterSelects.forEach(select => {
+            select.addEventListener('change', (e) => {
+                const filterType = e.target.id.replace('Filter', '').toLowerCase();
+                this.currentFilters[filterType] = e.target.value;
+                this.updateActiveFilters();
+                this.options.onFilterChange(this.currentFilters);
+            });
+        });
+        
+        // Quick filter tags
+        const quickFilterTags = this.container.querySelectorAll('.quick-filter-tag');
+        quickFilterTags.forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                const filterKey = e.currentTarget.dataset.filter;
+                this.toggleQuickFilter(filterKey);
+            });
+        });
+    }
+    
+    updateClearSearchButton() {
+        const clearSearchBtn = this.container.querySelector('#clearSearchBtn');
+        const searchInput = this.container.querySelector('#searchInput');
+        
+        if (this.currentFilters.searchText.trim()) {
+            clearSearchBtn.style.display = 'block';
+        } else {
+            clearSearchBtn.style.display = 'none';
+        }
+    }
+    
+    toggleQuickFilter(filterKey) {
+        const tag = this.container.querySelector(`[data-filter="${filterKey}"]`);
+        this.quickFilters[filterKey].active = !this.quickFilters[filterKey].active;
+        
+        if (this.quickFilters[filterKey].active) {
+            tag.classList.add('active');
+        } else {
+            tag.classList.remove('active');
+        }
+        
+        this.options.onQuickFilterChange(this.quickFilters);
+    }
+    
+    updateActiveFilters() {
+        const activeFiltersContainer = this.container.querySelector('#activeFilters');
+        const activeFilters = Object.entries(this.currentFilters)
+            .filter(([key, value]) => value && key !== 'searchText');
+        
+        if (activeFilters.length === 0) {
+            activeFiltersContainer.style.display = 'none';
+            return;
+        }
+        
+        activeFiltersContainer.style.display = 'flex';
+        activeFiltersContainer.innerHTML = `
+            ${activeFilters.map(([key, value]) => `
+                <span class="active-filter-tag">
+                    ${this.getFilterLabel(key)}: ${value}
+                    <button class="remove-filter-btn" data-filter="${key}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </span>
+            `).join('')}
+            <button class="clear-all-filters-btn">
+                <i class="fas fa-trash"></i> Clear All
+            </button>
+        `;
+        
+        // Bind remove filter events
+        const removeFilterBtns = activeFiltersContainer.querySelectorAll('.remove-filter-btn');
+        removeFilterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const filterKey = e.currentTarget.dataset.filter;
+                this.removeFilter(filterKey);
+            });
+        });
+        
+        // Bind clear all filters event
+        const clearAllBtn = activeFiltersContainer.querySelector('.clear-all-filters-btn');
+        clearAllBtn.addEventListener('click', () => {
+            this.clearAllFilters();
+        });
+    }
+    
+    clearSearch() {
+        const searchInput = this.container.querySelector('#searchInput');
+        if (searchInput) {
+            searchInput.value = '';
+            this.currentFilters.searchText = '';
+            this.updateClearSearchButton();
+        }
+    }
+    
+    setSearchText(text) {
+        const searchInput = this.container.querySelector('#searchInput');
+        if (searchInput) {
+            searchInput.value = text;
+            this.currentFilters.searchText = text;
+            this.updateClearSearchButton();
+        }
+    }
+    
+    removeFilter(filterKey) {
+        this.currentFilters[filterKey] = '';
+        const select = this.container.querySelector(`#${filterKey}Filter`);
+        if (select) {
+            select.value = '';
+        }
+        this.updateActiveFilters();
+        this.options.onFilterChange(this.currentFilters);
+    }
+    
+    clearAllFilters() {
+        this.currentFilters = {
+            searchText: this.currentFilters.searchText,
+            rarity: '',
+            element: '',
+            unitType: '',
+            role: ''
+        };
+        
+        const filterSelects = this.container.querySelectorAll('.filter-select');
+        filterSelects.forEach(select => {
+            select.value = '';
+        });
+        
+        Object.keys(this.quickFilters).forEach(key => {
+            this.quickFilters[key].active = false;
+        });
+        
+        const quickFilterTags = this.container.querySelectorAll('.quick-filter-tag');
+        quickFilterTags.forEach(tag => {
+            tag.classList.remove('active');
+        });
+        
+        this.updateActiveFilters();
+        this.options.onFilterChange(this.currentFilters);
+        this.options.onQuickFilterChange(this.quickFilters);
+    }
+    
+    getFilterLabel(key) {
+        const labels = {
+            rarity: 'Rarity',
+            element: 'Element',
+            unitType: 'Type',
+            role: 'Role'
+        };
+        return labels[key] || key;
+    }
+    
+    getFilters() {
+        return {
+            ...this.currentFilters,
+            quickFilters: this.quickFilters
+        };
+    }
+    
+    setFilters(filters) {
+        this.currentFilters = { ...filters };
+        this.updateActiveFilters();
+        this.updateClearSearchButton();
+    }
+}
 
-export class DatabasePage {
+/**
+ * Unit Card Component
+ * Renders individual unit cards with all necessary information
+ */
+class UnitCard {
+    constructor(unit, options = {}) {
+        this.unit = unit;
+        this.options = {
+            onCardClick: () => {},
+            onViewDetails: () => {},
+            onSelect: () => {},
+            viewMode: 'grid',
+            selectable: false,
+            selected: false,
+            ...options
+        };
+        
+        this.element = null;
+        this.init();
+    }
+    
+    init() {
+        this.render();
+        this.bindEvents();
+    }
+    
+    render() {
+        const cardClass = this.options.viewMode === 'list' ? 'unit-card list-view' : 'unit-card';
+        const selectedClass = this.options.selected ? ' selected' : '';
+        
+        this.element = document.createElement('div');
+        this.element.className = cardClass + selectedClass;
+        this.element.dataset.unitId = this.unit.id;
+        
+        this.element.innerHTML = `
+            <div class="unit-card-header">
+                <div class="unit-avatar">
+                    ${this.getUnitAvatar()}
+                </div>
+                <div class="unit-info">
+                    <h4 class="unit-name">${this.unit.name}</h4>
+                    <div class="unit-meta">
+                        <span class="rarity-badge ${this.unit.rarity.toLowerCase()}">
+                            <i class="fas fa-star"></i>
+                            ${this.unit.rarity}
+                        </span>
+                        <span class="element-badge">
+                            <i class="fas fa-fire"></i>
+                            ${this.unit.element}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="unit-card-body">
+                <p class="unit-description">${this.unit.description || 'A powerful unit with unique abilities.'}</p>
+                <div class="unit-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-coins stat-icon"></i>
+                        <span class="stat-label">Cost</span>
+                        <span class="stat-value">${this.unit.deploymentCost || 'N/A'}¥</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-arrow-up stat-icon"></i>
+                        <span class="stat-label">Upgrade</span>
+                        <span class="stat-value">${this.unit.maxUpgradeCost || 'N/A'}V</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-bolt stat-icon"></i>
+                        <span class="stat-label">DPS</span>
+                        <span class="stat-value">${this.unit.maxDPS || 'N/A'}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="unit-card-footer">
+                <div class="unit-type">
+                    <i class="fas fa-user"></i>
+                    ${this.unit.type || this.unit.unitType || 'Unknown'}
+                </div>
+                <button class="view-details-btn">
+                    View Details
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                </div>
+            `;
+        }
+    
+    bindEvents() {
+        this.element.addEventListener('click', (e) => {
+            if (e.target.closest('.view-details-btn')) {
+                return;
+            }
+            this.options.onCardClick(this.unit);
+        });
+        
+        const viewDetailsBtn = this.element.querySelector('.view-details-btn');
+        viewDetailsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.options.onViewDetails(this.unit);
+        });
+    }
+    
+    getUnitAvatar() {
+        return this.unit.name.charAt(0).toUpperCase();
+    }
+    
+    getStatValue(primaryKey, fallbackKey) {
+        if (this.unit.stats?.[primaryKey] !== undefined) {
+            return this.unit.stats[primaryKey];
+        }
+        if (this.unit.stats?.[fallbackKey] !== undefined) {
+            return this.unit.stats[fallbackKey];
+        }
+        return 'N/A';
+    }
+    
+    updateViewMode(viewMode) {
+        this.options.viewMode = viewMode;
+        this.element.className = `unit-card ${viewMode === 'list' ? 'list-view' : ''}${this.options.selected ? ' selected' : ''}`;
+    }
+    
+    setSelected(selected) {
+        this.options.selected = selected;
+        if (selected) {
+            this.element.classList.add('selected');
+            } else {
+            this.element.classList.remove('selected');
+        }
+    }
+    
+    setSelectable(selectable) {
+        this.options.selectable = selectable;
+        if (selectable) {
+            this.element.style.cursor = 'pointer';
+        } else {
+            this.element.style.cursor = 'default';
+        }
+    }
+    
+    updateUnit(unit) {
+        this.unit = unit;
+        this.render();
+        this.bindEvents();
+    }
+    
+    destroy() {
+        if (this.element && this.element.parentNode) {
+            this.element.parentNode.removeChild(this.element);
+        }
+    }
+    
+    getElement() {
+        return this.element;
+    }
+}
+
+/**
+ * Unit Card Factory
+ * Creates unit cards with consistent styling and behavior
+ */
+class UnitCardFactory {
+    static create(unit, options = {}) {
+        return new UnitCard(unit, options);
+    }
+    
+    static createBatch(units, options = {}) {
+        return units.map(unit => this.create(unit, options));
+    }
+}
+
+
+// DatabasePage class for Unit Database functionality
+class DatabasePage {
     constructor(app) {
         this.app = app;
         this.isInitialized = false;
@@ -13,60 +479,49 @@ export class DatabasePage {
         this.unitCards = [];
         
         // Data
-        this.unitsData = null;
-        this.units = [];
+        this.allUnits = [];
         this.filteredUnits = [];
+        this.viewMode = 'grid'; // 'grid' or 'list'
         
         // State
-        this.currentView = 'grid';
-        this.currentPage = 1;
-        this.itemsPerPage = 35; // Show all units on one page for now
-        this.selectedUnits = [];
-        this.searchText = '';
+        this.isLoading = false;
         this.searchTimeout = null;
         
-        // UI elements
-        this.elements = {};
+        // Bind methods
+        this.handleFilterChange = this.handleFilterChange.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleQuickFilterChange = this.handleQuickFilterChange.bind(this);
+        this.handleCardClick = this.handleCardClick.bind(this);
+        this.handleViewDetails = this.handleViewDetails.bind(this);
     }
     
-    async initialize(data) {
-        console.log('🚀 Initializing Database Page...');
+    async init() {
+        if (this.isInitialized) return;
         
         try {
-            // Store data if provided
-            if (data) {
-                this.data = data;
+            this.showLoading();
+            await this.loadUnits();
+            
+            // Only proceed if we have data
+            if (this.allUnits && this.allUnits.length > 0) {
+                this.setupComponents();
+                this.render();
+                this.isInitialized = true;
+                this.hideLoading();
+            } else {
+                this.showError('No unit data available. Please check if the data file is loaded correctly.');
             }
-            
-            // Load Unit Database data
-            await this.loadUnitDatabaseData();
-            
-            // Initialize UI elements
-            this.initializeUI();
-            
-            // Initialize search functionality
-            this.initializeSearch();
-            
-            // Initialize components
-            this.initializeComponents();
-            
-            // Render units
-            this.renderUnits();
-            
-            this.isInitialized = true;
-            console.log('✅ Database Page initialized!');
-            return true;
         } catch (error) {
-            console.error('❌ Database Page initialization failed:', error);
-            throw error;
+            console.error('Failed to initialize DatabasePage:', error);
+            this.showError('Failed to load unit database. Please try again.');
         }
     }
     
-    async loadUnitDatabaseData() {
+    async loadUnits() {
         try {
             // Wait for UnitDatabaseData to be available
             let attempts = 0;
-            const maxAttempts = 50; // 5 seconds max wait
+            const maxAttempts = 100; // 10 seconds max wait
             
             while (typeof UnitDatabaseData === 'undefined' && attempts < maxAttempts) {
                 await new Promise(resolve => setTimeout(resolve, 100));
@@ -74,206 +529,179 @@ export class DatabasePage {
             }
             
             if (typeof UnitDatabaseData !== 'undefined') {
-                this.units = UnitDatabaseData.loadAllUnits();
-                this.filteredUnits = [...this.units];
-                console.log('📊 Loaded', this.units.length, 'units from Unit Database');
-                console.log('📊 First few units:', this.units.slice(0, 3).map(u => u.name));
+                this.allUnits = UnitDatabaseData.loadAllUnits();
+                this.filteredUnits = [...this.allUnits];
+                console.log('📊 Loaded', this.allUnits.length, 'units from Unit Database');
+                console.log('📊 First few units:', this.allUnits.slice(0, 3).map(u => u.name));
+                
+                // Validate data structure
+                if (this.allUnits.length > 0) {
+                    const firstUnit = this.allUnits[0];
+                    console.log('📊 Sample unit structure:', {
+                        id: firstUnit.id,
+                        name: firstUnit.name,
+                        rarity: firstUnit.rarity,
+                        deploymentCost: firstUnit.deploymentCost,
+                        maxUpgradeCost: firstUnit.maxUpgradeCost
+                    });
+                }
             } else {
                 console.error('❌ UnitDatabaseData not available after waiting');
-                this.units = [];
+                this.allUnits = [];
                 this.filteredUnits = [];
             }
         } catch (error) {
             console.error('❌ Failed to load Unit Database data:', error);
-            this.units = [];
+            this.allUnits = [];
             this.filteredUnits = [];
         }
     }
     
-    initializeUI() {
-        // Get existing database page container from HTML
-        const dbContainer = document.getElementById('databasePage');
-        if (!dbContainer) {
-            console.error('Database page container not found');
-            return;
-        }
-        
-        // Store element references
-        this.elements = {
-            unitsGrid: document.getElementById('unitsGrid'),
-            searchInput: document.getElementById('unitSearch'),
-            clearSearchBtn: document.getElementById('clearSearchBtn'),
-            resultsCount: document.getElementById('resultsCount'),
-            rarityFilter: document.getElementById('rarityFilter'),
-            elementFilter: document.getElementById('elementFilter'),
-            typeFilter: document.getElementById('typeFilter'),
-            sortFilter: document.getElementById('sortFilter'),
-            clearFiltersBtn: document.getElementById('clearFiltersBtn'),
-            viewToggle: document.querySelectorAll('.view-btn')
-        };
-    }
-    
-    initializeSearch() {
-        // Initialize search functionality
-        if (this.elements.searchInput) {
-            this.elements.searchInput.addEventListener('input', (e) => {
-                this.handleSearchInput(e.target.value);
-            });
-        }
-        
-        if (this.elements.clearSearchBtn) {
-            this.elements.clearSearchBtn.addEventListener('click', () => {
-                this.clearSearch();
-            });
-        }
-        
-        // Initialize filter functionality
-        if (this.elements.rarityFilter) {
-            this.elements.rarityFilter.addEventListener('change', () => {
-                this.handleFilterChange();
-            });
-        }
-        
-        if (this.elements.elementFilter) {
-            this.elements.elementFilter.addEventListener('change', () => {
-                this.handleFilterChange();
-            });
-        }
-        
-        if (this.elements.typeFilter) {
-            this.elements.typeFilter.addEventListener('change', () => {
-                this.handleFilterChange();
-            });
-        }
-        
-        if (this.elements.sortFilter) {
-            this.elements.sortFilter.addEventListener('change', () => {
-                this.handleFilterChange();
-            });
-        }
-        
-        if (this.elements.clearFiltersBtn) {
-            this.elements.clearFiltersBtn.addEventListener('click', () => {
-                this.clearAllFilters();
-            });
-        }
-        
-        // Initialize view toggle
-        if (this.elements.viewToggle) {
-            this.elements.viewToggle.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    this.handleViewToggle(e.target.dataset.view);
-                });
-            });
-        }
-    }
-    
-    showNoDataMessage() {
-        if (this.elements.unitsGrid) {
-            this.elements.unitsGrid.innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-database"></i>
-                    <h3>No units found</h3>
-                    <p>Unable to load unit data. Please refresh the page and try again.</p>
-                </div>
-            `;
-        }
-        console.log('❌ No unit data available');
-    }
-    
-    handleSearchInput(searchText) {
-        this.searchText = searchText;
-        
-        // Show/hide clear button
-        if (this.elements.clearSearchBtn) {
-            if (searchText.trim()) {
-                this.elements.clearSearchBtn.classList.add('show');
-            } else {
-                this.elements.clearSearchBtn.classList.remove('show');
+    getSampleUnits() {
+        return [
+            {
+                id: 1,
+                name: "Naruto Uzumaki",
+                rarity: "Legendary",
+                element: "Wind",
+                type: "DPS",
+                role: "Melee",
+                description: "The Seventh Hokage with incredible ninja abilities and the power of the Nine-Tails.",
+                stats: { attack: 95, defense: 85, skill: 90 }
+            },
+            {
+                id: 2,
+                name: "Goku",
+                rarity: "Mythic",
+                element: "Energy",
+                type: "DPS",
+                role: "Melee",
+                description: "A Saiyan warrior with the power to transform and achieve incredible strength.",
+                stats: { attack: 98, defense: 88, skill: 92 }
+            },
+            {
+                id: 3,
+                name: "Luffy",
+                rarity: "Legendary",
+                element: "Physical",
+                type: "DPS",
+                role: "Melee",
+                description: "The future Pirate King with the power of the Gomu Gomu no Mi Devil Fruit.",
+                stats: { attack: 92, defense: 82, skill: 88 }
+            },
+            {
+                id: 4,
+                name: "Ichigo Kurosaki",
+                rarity: "Legendary",
+                element: "Soul",
+                type: "DPS",
+                role: "Melee",
+                description: "A Soul Reaper with the power to protect the living world from Hollows.",
+                stats: { attack: 90, defense: 80, skill: 85 }
+            },
+            {
+                id: 5,
+                name: "Edward Elric",
+                rarity: "Epic",
+                element: "Earth",
+                type: "DPS",
+                role: "Melee",
+                description: "The Fullmetal Alchemist with the ability to perform alchemy without a transmutation circle.",
+                stats: { attack: 85, defense: 75, skill: 90 }
+            },
+            {
+                id: 6,
+                name: "Sakura Haruno",
+                rarity: "Epic",
+                element: "Light",
+                type: "Support",
+                role: "Magic",
+                description: "A medical ninja with incredible chakra control and healing abilities.",
+                stats: { attack: 70, defense: 85, skill: 95 }
+            },
+            {
+                id: 7,
+                name: "Vegeta",
+                rarity: "Mythic",
+                element: "Energy",
+                type: "DPS",
+                role: "Melee",
+                description: "The Prince of Saiyans with immense pride and incredible fighting power.",
+                stats: { attack: 96, defense: 86, skill: 90 }
+            },
+            {
+                id: 8,
+                name: "Zoro",
+                rarity: "Legendary",
+                element: "Physical",
+                type: "DPS",
+                role: "Melee",
+                description: "A master swordsman and the first mate of the Straw Hat Pirates.",
+                stats: { attack: 93, defense: 83, skill: 87 }
             }
-        }
-        
-        // Clear previous timeout
-        if (this.searchTimeout) {
-            clearTimeout(this.searchTimeout);
-        }
-        
-        // Debounce search with 300ms delay
-        this.searchTimeout = setTimeout(() => {
-            this.handleFilterChange();
-        }, 300);
+        ];
     }
     
-    clearSearch() {
-        if (this.elements.searchInput) {
-            this.elements.searchInput.value = '';
-            this.searchText = '';
-        }
+    setupComponents() {
+        const filterContainer = document.querySelector('#filterPanel');
         
-        if (this.elements.clearSearchBtn) {
-            this.elements.clearSearchBtn.classList.remove('show');
+        if (filterContainer) {
+            this.filterPanel = new FilterPanel(filterContainer, {
+                onFilterChange: this.handleFilterChange,
+                onSearchChange: this.handleSearchChange,
+                onQuickFilterChange: this.handleQuickFilterChange
+            });
         }
-        
-        // Trigger filter change to apply cleared search
-        this.handleFilterChange();
     }
     
-    initializeComponents() {
-        // Initialize Filter Panel
-        if (this.elements.filterPanel) {
-            this.filterPanel = new FilterPanel(this.elements.filterPanel, {
-                onFilterChange: (filters) => this.handleFilterChange(filters)
-            });
-        }
-        
-        // Initialize Pagination
-        if (this.elements.pagination) {
-            this.pagination = new Pagination(this.elements.pagination, {
-                currentPage: this.currentPage,
-                totalItems: this.filteredUnits.length,
-                itemsPerPage: this.itemsPerPage,
-                onPageChange: (page) => this.handlePageChange(page)
-            });
-        }
+    render() {
+        this.renderUnits();
     }
     
     renderUnits() {
-        if (!this.elements.unitsGrid) {
-            console.error('Units grid container not found');
+        const unitsContainer = document.querySelector('#unitsGrid');
+        if (!unitsContainer) {
+            console.error('❌ Units container not found');
             return;
         }
         
-        // Clear existing content
-        this.elements.unitsGrid.innerHTML = '';
+        // Clear existing units
+        unitsContainer.innerHTML = '';
+        this.unitCards = [];
         
-        if (!this.units || this.units.length === 0) {
-            this.showNoDataMessage();
-            return;
-        }
+        // Set container class based on view mode
+        unitsContainer.className = this.viewMode === 'list' ? 'units-list' : 'units-grid';
         
-        // Calculate pagination
-        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-        const endIndex = startIndex + this.itemsPerPage;
-        const unitsToShow = this.filteredUnits.slice(startIndex, endIndex);
+        // Show all filtered units (no pagination)
+        const unitsToShow = this.filteredUnits;
+        
+        console.log(`📊 Rendering ${unitsToShow.length} units (${this.filteredUnits.length} total)`);
         
         // Create unit cards
         unitsToShow.forEach(unit => {
-            const unitCard = this.createUnitCard(unit);
-            this.elements.unitsGrid.appendChild(unitCard);
+            const card = this.createUnitCard(unit);
+            unitsContainer.appendChild(card);
         });
         
-        // Update pagination
-        if (this.pagination) {
-            this.pagination.update({
-                currentPage: this.currentPage,
-                totalItems: this.filteredUnits.length,
-                itemsPerPage: this.itemsPerPage
-            });
+        // Update results count
+        const resultsCount = document.querySelector('#resultsCount');
+        if (resultsCount) {
+            const count = this.filteredUnits ? this.filteredUnits.length : 0;
+            resultsCount.textContent = `Found ${count} units`;
         }
         
-        console.log(`📊 Rendered ${unitsToShow.length} units (page ${this.currentPage})`);
-        this.updateResultsCount();
+        // Show empty state if no units
+        if (unitsToShow.length === 0) {
+            unitsContainer.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-search empty-icon"></i>
+                    <h3>No units found</h3>
+                    <p>Try adjusting your search criteria or filters.</p>
+                </div>
+            `;
+        }
     }
+    
     
     createUnitCard(unit) {
         const card = document.createElement('div');
@@ -296,7 +724,7 @@ export class DatabasePage {
                 <div class="upgrade-cost">Upgrade: ${unit.maxUpgradeCost}¥</div>
             </div>
             <div class="unit-description">
-                ${unit.description}
+                ${unit.description ? unit.description.substring(0, 100) + (unit.description.length > 100 ? '...' : '') : 'No description available'}
             </div>
             <button class="view-details-btn">
                 View Details
@@ -402,8 +830,16 @@ export class DatabasePage {
             
             // Show modal with animation
             modal.style.display = 'flex';
+            modal.style.opacity = '0';
+            modal.style.visibility = 'hidden';
+            
+            // Force reflow
+            modal.offsetHeight;
+            
             setTimeout(() => {
-                modal.classList.add('show');
+                modal.classList.add('active');
+                modal.style.opacity = '1';
+                modal.style.visibility = 'visible';
             }, 10);
             
             // Prevent body scroll
@@ -437,7 +873,7 @@ export class DatabasePage {
         
         // ESC key to close
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('show')) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
                 this.closeModal();
             }
         });
@@ -447,8 +883,10 @@ export class DatabasePage {
         const modal = document.getElementById('unitDetailsModal');
         if (!modal) return;
         
-        // Remove show class for animation
-        modal.classList.remove('show');
+        // Remove active class for animation
+        modal.classList.remove('active');
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
         
         // Hide modal after animation
         setTimeout(() => {
@@ -457,342 +895,19 @@ export class DatabasePage {
         }, 300);
     }
     
-    handleFilterChange() {
-        // Check if data is loaded
-        if (!this.units || !Array.isArray(this.units) || this.units.length === 0) {
-            console.warn('⚠️ Cannot filter: units data not loaded yet');
-            return;
-        }
-        
-        const filters = {
-            rarity: this.elements.rarityFilter?.value || '',
-            element: this.elements.elementFilter?.value || '',
-            type: this.elements.typeFilter?.value || '',
-            searchText: this.searchText || ''
-        };
-        
-        console.log('🔍 Filter changed:', filters);
-        
-        // Apply filters using the existing filterUnits method
-        this.filterUnits(filters);
-        
-        // Apply sorting
-        const sortValue = this.elements.sortFilter?.value || 'name-asc';
-        const [sortBy, order] = sortValue.split('-');
-        this.filteredUnits = UnitDatabaseData.sortUnits(this.filteredUnits, sortBy, order);
-        
-        this.currentPage = 1; // Reset to first page
-        this.renderUnits();
-        this.updateResultsCount();
-    }
-    
-    handlePageChange(page) {
-        this.currentPage = page;
-        this.renderUnits();
-    }
-    
-    
-    clearAllFilters() {
-        if (this.elements.rarityFilter) this.elements.rarityFilter.value = '';
-        if (this.elements.elementFilter) this.elements.elementFilter.value = '';
-        if (this.elements.typeFilter) this.elements.typeFilter.value = '';
-        if (this.elements.sortFilter) this.elements.sortFilter.value = 'name-asc';
-        if (this.elements.searchInput) this.elements.searchInput.value = '';
-        
-        this.searchText = '';
-        this.filteredUnits = [...this.units];
-        this.currentPage = 1;
-        this.renderUnits();
-        this.updateResultsCount();
-    }
-    
-    handleViewToggle(view) {
-        // Update active button
-        this.elements.viewToggle.forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        
-        this.currentView = view;
-        // TODO: Implement list view
-        console.log('View changed to:', view);
-    }
-    
-    updateResultsCount() {
-        if (this.elements.resultsCount) {
-            const count = this.filteredUnits ? this.filteredUnits.length : 0;
-            this.elements.resultsCount.textContent = `Found ${count} units`;
-        }
-    }
-    
-    bindViewToggleEvents() {
-        this.elements.viewToggle.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const view = e.currentTarget.dataset.view;
-                this.setViewMode(view);
-            });
-        });
-    }
-    
-    bindSortEvents() {
-        if (this.elements.sortSelect) {
-            this.elements.sortSelect.addEventListener('change', (e) => {
-                this.handleSortChange(e.target.value);
-            });
-        }
-    }
-    
-    bindCompareEvents() {
-        if (this.elements.compareButton) {
-            this.elements.compareButton.addEventListener('click', () => {
-                this.handleCompareUnits();
-            });
-        }
-    }
-    
-    loadUnits() {
-        // Get filtered and sorted units
-        const units = this.getFilteredUnits();
-        
-        // Update results count
-        this.updateResultsCount(units.length);
-        
-        // Get paginated units
-        const paginatedUnits = this.getPaginatedUnits(this.currentPage, this.itemsPerPage);
-        
-        // Render unit cards
-        this.renderUnitCards(paginatedUnits);
-        
-        // Update pagination
-        if (this.pagination) {
-            this.pagination.updatePagination(units.length, this.currentPage);
-        }
-    }
-    
-    renderUnitCards(units) {
-        const container = this.elements.unitsGrid;
-        if (!container) return;
-        
-        // Clear existing cards
-        container.innerHTML = '';
-        this.unitCards = [];
-        
-        // Set container class based on view mode
-        container.className = this.currentView === 'list' ? 'units-list' : 'units-grid';
-        
-        // Create unit cards
-        units.forEach(unit => {
-            const card = UnitCardFactory.create(unit, {
-                viewMode: this.currentView,
-                onCardClick: (unit) => this.handleUnitClick(unit),
-                onViewDetails: (unit) => this.handleViewDetails(unit)
-            });
-            
-            this.unitCards.push(card);
-            container.appendChild(card.getElement());
-        });
-    }
-    
-    updateResultsCount(count) {
-        if (this.elements.resultsCount) {
-            this.elements.resultsCount.textContent = `Found ${count} units`;
-        }
-    }
-    
-    setViewMode(view) {
-        this.currentView = view;
-        
-        // Update view toggle buttons
-        this.elements.viewToggle.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.view === view);
-        });
-        
-        // Update unit cards view mode
-        this.unitCards.forEach(card => {
-            card.updateViewMode(view);
-        });
-        
-        // Update container class
-        const container = this.elements.unitsGrid;
-        if (container) {
-            container.className = view === 'list' ? 'units-list' : 'units-grid';
-        }
-    }
-    
-    // Event Handlers
     handleFilterChange(filters) {
-        this.filterUnits(filters);
-        this.currentPage = 1; // Reset to first page
-        this.loadUnits();
+        this.applyFilters(filters);
+        this.render();
     }
     
-    handleSearchChange(searchText) {
-        const filters = this.filterPanel.getFilters();
-        filters.searchText = searchText;
-        this.handleFilterChange(filters);
-    }
-    
-    handleQuickFilterChange(quickFilters) {
-        this.applyQuickFilters(quickFilters);
-        this.currentPage = 1; // Reset to first page
-        this.loadUnits();
-    }
-    
-    handleSortChange(sortBy) {
-        this.sortUnits(sortBy);
-        this.currentPage = 1; // Reset to first page
-        this.loadUnits();
-    }
-    
-    handlePageChange(page) {
-        this.currentPage = page;
-        this.loadUnits();
-    }
-    
-    handleItemsPerPageChange(itemsPerPage) {
-        this.itemsPerPage = itemsPerPage;
-        this.currentPage = 1; // Reset to first page
-        this.loadUnits();
-    }
-    
-    handleUnitClick(unit) {
-        console.log('Unit clicked:', unit.name);
-        // Handle unit selection for comparison
-        this.toggleUnitSelection(unit);
-    }
-    
-    handleViewDetails(unit) {
-        console.log('View details for:', unit.name);
-        // Navigate to unit details page or show modal
-        // this.app.showUnitDetails(unit);
-    }
-    
-    handleCompareUnits() {
-        if (this.selectedUnits.length < 2) {
-            alert('Please select at least 2 units to compare');
-            return;
-        }
-        
-        console.log('Comparing units:', this.selectedUnits.map(u => u.name));
-        // Navigate to comparison page or show comparison modal
-        // this.app.showUnitComparison(this.selectedUnits);
-    }
-    
-    toggleUnitSelection(unit) {
-        const index = this.selectedUnits.findIndex(u => u.id === unit.id);
-        
-        if (index > -1) {
-            // Remove from selection
-            this.selectedUnits.splice(index, 1);
-            this.unitCards.find(card => card.unit.id === unit.id)?.setSelected(false);
-        } else {
-            // Add to selection
-            this.selectedUnits.push(unit);
-            this.unitCards.find(card => card.unit.id === unit.id)?.setSelected(true);
-        }
-        
-        this.updateCompareButton();
-    }
-    
-    updateCompareButton() {
-        if (this.elements.compareButton && this.elements.selectedCount) {
-            const count = this.selectedUnits.length;
-            this.elements.compareButton.disabled = count < 2;
-            this.elements.selectedCount.textContent = count;
-        }
-    }
-    
-    // Public methods
-    show() {
-        const container = document.getElementById('databasePage');
-        if (container) {
-            container.style.display = 'block';
-        }
-    }
-    
-    hide() {
-        const container = document.getElementById('databasePage');
-        if (container) {
-            container.style.display = 'none';
-        }
-    }
-    
-    // 添加searchUnit方法，用于从Tier List页面搜索特定单位
-    searchUnit(unitId) {
-        console.log(`🔍 Searching for unit: ${unitId}`);
-        
-        // 如果filterPanel存在，使用其搜索功能
-        if (this.filterPanel && typeof this.filterPanel.clearSearch === 'function') {
-            // 清空当前搜索
-            this.filterPanel.clearSearch();
-            
-            // 设置搜索文本为单位ID或名称
-            const unit = this.getUnitById(unitId);
-            if (unit) {
-                this.filterPanel.setSearchText(unit.name);
-                this.handleSearchChange(unit.name);
-            }
-        } else {
-            console.warn('⚠️ FilterPanel not initialized yet, cannot perform search');
-            // 延迟执行搜索，等待组件初始化完成
-            setTimeout(() => {
-                if (this.filterPanel && typeof this.filterPanel.clearSearch === 'function') {
-                    this.searchUnit(unitId);
-                }
-            }, 100);
-        }
-    }
-    
-    destroy() {
-        // Clean up components
-        if (this.filterPanel) {
-            // Add cleanup method if needed
-        }
-        
-        if (this.pagination) {
-            // Add cleanup method if needed
-        }
-        
-        // Clean up unit cards
-        this.unitCards.forEach(card => {
-            card.destroy();
-        });
-        
-        this.unitCards = [];
-        this.selectedUnits = [];
-    }
-
-    // Data management methods
-    getFilteredUnits() {
-        return this.filteredUnits;
-    }
-    
-    getPaginatedUnits(page, itemsPerPage) {
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        return this.filteredUnits.slice(startIndex, endIndex);
-    }
-    
-    filterUnits(filters) {
-        // Add safety check for filters parameter
-        if (!filters) {
-            console.warn('⚠️ filterUnits called with undefined filters, using default');
-            filters = {
-                searchText: '',
-                rarity: '',
-                element: '',
-                type: ''
-            };
-        }
-        
-        // Ensure units array exists
-        if (!this.units || !Array.isArray(this.units)) {
+    applyFilters(filters) {
+        if (!this.allUnits || !Array.isArray(this.allUnits)) {
             console.warn('⚠️ No units data available for filtering');
             this.filteredUnits = [];
             return;
         }
         
-        this.filteredUnits = this.units.filter(unit => {
+        this.filteredUnits = this.allUnits.filter(unit => {
             // Search text filter
             if (filters.searchText && filters.searchText.trim()) {
                 const searchText = filters.searchText.toLowerCase();
@@ -817,64 +932,208 @@ export class DatabasePage {
             }
             
             // Type filter
-            if (filters.type && filters.type !== '') {
-                if (unit.type !== filters.type) {
+            if (filters.unitType && filters.unitType !== '') {
+                if (unit.type !== filters.unitType) {
                     return false;
                 }
             }
             
-            // Tier filter
-            if (filters.tier && filters.tier !== 'all') {
-                if (unit.tier !== filters.tier) {
+            // Role filter
+            if (filters.role && filters.role !== '') {
+                if (unit.role !== filters.role) {
                     return false;
                 }
             }
             
             return true;
+        });
+    }
+    
+    applySearch(searchText) {
+        if (!this.allUnits || !Array.isArray(this.allUnits)) {
+            console.warn('⚠️ No units data available for searching');
+            this.filteredUnits = [];
+            return;
+        }
+        
+        if (!searchText || searchText.trim() === '') {
+            this.filteredUnits = [...this.allUnits];
+            return;
+        }
+        
+        const search = searchText.toLowerCase();
+        this.filteredUnits = this.allUnits.filter(unit => {
+            return unit.name.toLowerCase().includes(search) || 
+                   unit.description.toLowerCase().includes(search) ||
+                   unit.element.toLowerCase().includes(search) ||
+                   unit.type.toLowerCase().includes(search);
+        });
+    }
+    
+    handleSearchChange(searchText) {
+        // Debounce search
+        clearTimeout(this.searchTimeout);
+        this.searchTimeout = setTimeout(() => {
+            this.applySearch(searchText);
+            this.render();
+        }, 300);
+    }
+    
+    handleQuickFilterChange(quickFilters) {
+        this.applyQuickFilters(quickFilters);
+        this.render();
+    }
+    
+    
+    handleCardClick(unit) {
+        console.log('Unit clicked:', unit);
+        // Handle unit card click (e.g., show unit details modal)
+    }
+    
+    handleViewDetails(unit) {
+        console.log('View details clicked:', unit);
+        // Handle view details (e.g., navigate to unit details page)
+        this.app.navigateTo(`/unit/${unit.id}`);
+    }
+    
+    applyFilters(filters) {
+        this.filteredUnits = this.allUnits.filter(unit => {
+            return (
+                (!filters.rarity || unit.rarity === filters.rarity) &&
+                (!filters.element || unit.element === filters.element) &&
+                (!filters.unitType || unit.type === filters.unitType) &&
+                (!filters.role || unit.role === filters.role)
+            );
+        });
+    }
+    
+    applySearch(searchText) {
+        if (!searchText.trim()) {
+            this.filteredUnits = [...this.allUnits];
+            return;
+        }
+        
+        const searchLower = searchText.toLowerCase();
+        this.filteredUnits = this.allUnits.filter(unit => {
+            return (
+                unit.name.toLowerCase().includes(searchLower) ||
+                (unit.description && unit.description.toLowerCase().includes(searchLower)) ||
+                unit.element.toLowerCase().includes(searchLower) ||
+                unit.type.toLowerCase().includes(searchLower) ||
+                (unit.tags && unit.tags.some(tag => tag.toLowerCase().includes(searchLower)))
+            );
         });
     }
     
     applyQuickFilters(quickFilters) {
-        this.filteredUnits = this.units.filter(unit => {
-            // Evolution required filter
-            if (quickFilters.evolutionRequired !== undefined) {
-                if (unit.evolution_required !== quickFilters.evolutionRequired) {
-                    return false;
+        // Reset to all units first
+        this.filteredUnits = [...this.allUnits];
+        
+        // Apply quick filters
+        Object.entries(quickFilters).forEach(([key, filter]) => {
+            if (filter.active) {
+                switch (key) {
+                    case 'popular':
+                        // Sort by tier (BROKEN > META > SUB-META > DECENT)
+                        const tierOrder = { 'BROKEN': 4, 'META': 3, 'SUB-META': 2, 'DECENT': 1 };
+                        this.filteredUnits.sort((a, b) => (tierOrder[b.tier] || 0) - (tierOrder[a.tier] || 0));
+                        break;
+                    case 'highDPS':
+                        // Filter for high DPS units (extract numeric value from maxDPS)
+                        this.filteredUnits = this.filteredUnits.filter(unit => {
+                            const dpsValue = parseInt(unit.maxDPS?.replace(/\D/g, '') || '0');
+                            return dpsValue > 100000; // 100k+ DPS
+                        });
+                        break;
+                    case 'latest':
+                        // Sort by rarity (Vanguard > Secret > Mythic > Epic)
+                        const rarityOrder = { 'Vanguard': 4, 'Secret': 3, 'Mythic': 2, 'Epic': 1 };
+                        this.filteredUnits.sort((a, b) => (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0));
+                        break;
+                    case 'beginner':
+                        // Filter for lower cost units (beginner friendly)
+                        this.filteredUnits = this.filteredUnits.filter(unit => 
+                            unit.deploymentCost <= 2000
+                        );
+                        break;
                 }
-            }
-            
-            // Placement cost filter
-            if (quickFilters.placementCost && quickFilters.placementCost !== 'all') {
-                if (unit.placement_cost !== quickFilters.placementCost) {
-                    return false;
-                }
-            }
-            
-            return true;
-        });
-    }
-    
-    sortUnits(sortBy) {
-        this.filteredUnits.sort((a, b) => {
-            switch (sortBy) {
-                case 'name':
-                    return a.name.localeCompare(b.name);
-                case 'rarity':
-                    const rarityOrder = { 'Secret': 6, 'Mythic': 5, 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
-                    return (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
-                case 'tier':
-                    const tierOrder = { 'SS': 6, 'S+': 5, 'S': 4, 'A': 3, 'B': 2, 'C': 1 };
-                    return (tierOrder[b.tier] || 0) - (tierOrder[a.tier] || 0);
-                case 'placement_cost':
-                    const costOrder = { 'Very High': 4, 'High': 3, 'Medium': 2, 'Low': 1, 'Very Low': 0 };
-                    return (costOrder[b.placement_cost] || 0) - (costOrder[a.placement_cost] || 0);
-                default:
-                    return 0;
             }
         });
     }
     
-    getUnitById(unitId) {
-        return this.units.find(unit => unit.id === unitId);
+    toggleViewMode() {
+        this.viewMode = this.viewMode === 'grid' ? 'list' : 'grid';
+        
+        // Update view mode for all cards
+        this.unitCards.forEach(card => {
+            card.updateViewMode(this.viewMode);
+        });
+        
+        // Update view mode button
+        const viewModeBtn = document.querySelector('#viewModeBtn');
+        if (viewModeBtn) {
+            const icon = viewModeBtn.querySelector('i');
+            if (this.viewMode === 'grid') {
+                icon.className = 'fas fa-list';
+                viewModeBtn.title = 'Switch to List View';
+            } else {
+                icon.className = 'fas fa-th';
+                viewModeBtn.title = 'Switch to Grid View';
+            }
+        }
     }
-} 
+    
+    scrollToTop() {
+        const unitsContainer = document.querySelector('#unitsGrid');
+        if (unitsContainer) {
+            unitsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    
+    showLoading() {
+        const unitsContainer = document.querySelector('#unitsGrid');
+        if (unitsContainer) {
+            unitsContainer.innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading units...</p>
+                </div>
+            `;
+        }
+    }
+    
+    hideLoading() {
+        // Loading state will be replaced by renderUnits()
+    }
+    
+    showError(message) {
+        const unitsContainer = document.querySelector('#unitsGrid');
+        if (unitsContainer) {
+            unitsContainer.innerHTML = `
+                <div class="error-state">
+                    <i class="fas fa-exclamation-triangle error-icon"></i>
+                    <h3>Error</h3>
+                    <p>${message}</p>
+                    <button class="retry-btn" onclick="location.reload()">Retry</button>
+                </div>
+            `;
+        }
+    }
+    
+    destroy() {
+        // Clean up event listeners and references
+        this.unitCards.forEach(card => card.destroy());
+        this.unitCards = [];
+        
+        if (this.filterPanel) {
+            this.filterPanel = null;
+        }
+        
+        
+        this.isInitialized = false;
+    }
+}
+
+// Make DatabasePage available globally
+window.DatabasePage = DatabasePage;
+
