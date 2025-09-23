@@ -13,6 +13,22 @@
     <link rel="stylesheet" href="../css/components/cards.css">
     <link rel="stylesheet" href="../css/components/modals.css">
     <link rel="stylesheet" href="../css/pages/database.css">
+    <style>
+        /* Force unit card styles with inline CSS */
+        .database-page .unit-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        }
+        .database-page .unit-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)) !important;
+        }
+    </style>
 </head>
 <body>
     <div id="header-placeholder"></div>

@@ -705,7 +705,8 @@ class DatabasePage {
     
     createUnitCard(unit) {
         const card = document.createElement('div');
-        card.className = 'unit-card';
+        // Add rarity and element classes for color coding
+        card.className = `unit-card ${unit.rarity.toLowerCase()} ${unit.element.toLowerCase()}`;
         
         // Get first letter of unit name for avatar
         const firstLetter = unit.name.charAt(0).toUpperCase();
@@ -717,7 +718,7 @@ class DatabasePage {
             <div class="unit-name">${unit.name}</div>
             <div class="unit-badges">
                 <div class="rarity-badge ${unit.rarity.toLowerCase()}">${unit.rarity}</div>
-                <div class="element-icon">${unit.element}</div>
+                <div class="element-badge ${unit.element.toLowerCase()}">${unit.element}</div>
             </div>
             <div class="unit-costs">
                 <div class="deployment-cost">${unit.deploymentCost}¥</div>

@@ -355,20 +355,74 @@
 }
 
 /* Unit Cards */
-.unit-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+/* Force unit card styles with maximum specificity */
+.database-page .units-grid .unit-card,
+.database-page .units-list .unit-card,
+.database-page .unit-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    padding: 1.5rem !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
 }
 
-.unit-card::before {
+/* Rarity-based card colors */
+.database-page .unit-card.vanguard {
+    border-color: rgba(52, 152, 219, 0.6) !important;
+    box-shadow: 0 8px 32px rgba(52, 152, 219, 0.2) !important;
+}
+
+.database-page .unit-card.secret {
+    border-color: rgba(155, 89, 182, 0.6) !important;
+    box-shadow: 0 8px 32px rgba(155, 89, 182, 0.2) !important;
+}
+
+.database-page .unit-card.mythic {
+    border-color: rgba(231, 76, 60, 0.6) !important;
+    box-shadow: 0 8px 32px rgba(231, 76, 60, 0.2) !important;
+}
+
+.database-page .unit-card.epic {
+    border-color: rgba(241, 196, 15, 0.6) !important;
+    box-shadow: 0 8px 32px rgba(241, 196, 15, 0.2) !important;
+}
+
+/* Element-based card accent colors */
+.database-page .unit-card.fire {
+    border-left: 4px solid #e74c3c !important;
+}
+
+.database-page .unit-card.water {
+    border-left: 4px solid #3498db !important;
+}
+
+.database-page .unit-card.nature {
+    border-left: 4px solid #27ae60 !important;
+}
+
+.database-page .unit-card.dark {
+    border-left: 4px solid #8e44ad !important;
+}
+
+.database-page .unit-card.holy {
+    border-left: 4px solid #f1c40f !important;
+}
+
+.database-page .unit-card.wind {
+    border-left: 4px solid #1abc9c !important;
+}
+
+.database-page .unit-card.unknown {
+    border-left: 4px solid #95a5a6 !important;
+}
+
+.database-page .unit-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -381,7 +435,7 @@
     border-radius: 16px 16px 0 0;
 }
 
-.unit-card::after {
+.database-page .unit-card::after {
     content: '';
     position: absolute;
     top: 0;
@@ -395,18 +449,24 @@
     pointer-events: none;
 }
 
-.unit-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+.database-page .units-grid .unit-card:hover,
+.database-page .units-list .unit-card:hover,
+.database-page .unit-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)) !important;
 }
 
-.unit-card:hover::before {
+.database-page .units-grid .unit-card:hover::before,
+.database-page .units-list .unit-card:hover::before,
+.database-page .unit-card:hover::before {
     opacity: 1;
 }
 
-.unit-card:hover::after {
+.database-page .units-grid .unit-card:hover::after,
+.database-page .units-list .unit-card:hover::after,
+.database-page .unit-card:hover::after {
     opacity: 1;
 }
 
@@ -597,6 +657,56 @@
     font-weight: 500;
     margin-bottom: 0.5rem;
     box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
+}
+
+/* Element badge colors */
+.element-badge.fire {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(231, 76, 60, 0.1));
+    border-color: rgba(231, 76, 60, 0.4);
+    color: #e74c3c;
+    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.2);
+}
+
+.element-badge.water {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(52, 152, 219, 0.1));
+    border-color: rgba(52, 152, 219, 0.4);
+    color: #3498db;
+    box-shadow: 0 2px 6px rgba(52, 152, 219, 0.2);
+}
+
+.element-badge.nature {
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(39, 174, 96, 0.1));
+    border-color: rgba(39, 174, 96, 0.4);
+    color: #27ae60;
+    box-shadow: 0 2px 6px rgba(39, 174, 96, 0.2);
+}
+
+.element-badge.dark {
+    background: linear-gradient(135deg, rgba(142, 68, 173, 0.2), rgba(142, 68, 173, 0.1));
+    border-color: rgba(142, 68, 173, 0.4);
+    color: #8e44ad;
+    box-shadow: 0 2px 6px rgba(142, 68, 173, 0.2);
+}
+
+.element-badge.holy {
+    background: linear-gradient(135deg, rgba(241, 196, 15, 0.2), rgba(241, 196, 15, 0.1));
+    border-color: rgba(241, 196, 15, 0.4);
+    color: #f1c40f;
+    box-shadow: 0 2px 6px rgba(241, 196, 15, 0.2);
+}
+
+.element-badge.wind {
+    background: linear-gradient(135deg, rgba(26, 188, 156, 0.2), rgba(26, 188, 156, 0.1));
+    border-color: rgba(26, 188, 156, 0.4);
+    color: #1abc9c;
+    box-shadow: 0 2px 6px rgba(26, 188, 156, 0.2);
+}
+
+.element-badge.unknown {
+    background: linear-gradient(135deg, rgba(149, 165, 166, 0.2), rgba(149, 165, 166, 0.1));
+    border-color: rgba(149, 165, 166, 0.4);
+    color: #95a5a6;
+    box-shadow: 0 2px 6px rgba(149, 165, 166, 0.2);
 }
 
 .unit-cost {
