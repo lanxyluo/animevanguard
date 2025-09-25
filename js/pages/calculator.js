@@ -14,14 +14,69 @@ class DPSCalculatorPage {
         this.init();
     }
 
-    init() {
-        this.loadUnits();
+    async init() {
+        await this.loadUnits();
         this.loadTraits();
         this.setupEventListeners();
         this.updateUI();
     }
 
-    loadUnits() {
+    async loadUnits() {
+        try {
+            // Wait for UnitDatabaseData to be available
+            let attempts = 0;
+            const maxAttempts = 100; // 10 seconds max wait
+            
+            while (typeof UnitDatabaseData === 'undefined' && attempts < maxAttempts) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            
+            if (typeof UnitDatabaseData !== 'undefined') {
+                const allUnits = UnitDatabaseData.loadAllUnits();
+                
+                // Convert database units to calculator format
+                this.units = allUnits.map(unit => {
+                    // Extract numeric values from DPS strings and calculate base stats
+                    const maxDPSValue = this.extractDPSValue(unit.maxDPS);
+                    const baseDPSValue = this.extractDPSValue(unit.baseDPS);
+                    
+                    // Calculate base attack and speed from DPS and cost
+                    const baseAttack = this.calculateBaseAttack(unit, baseDPSValue);
+                    const baseSpeed = this.calculateBaseSpeed(unit, baseDPSValue, baseAttack);
+                    
+                    return {
+                        id: unit.id,
+                        name: unit.name,
+                        baseAttack: baseAttack,
+                        baseSpeed: baseSpeed,
+                        rarity: unit.rarity.toLowerCase(),
+                        tier: unit.tier,
+                        element: unit.element,
+                        type: unit.type,
+                        deploymentCost: unit.deploymentCost,
+                        maxUpgradeCost: unit.maxUpgradeCost,
+                        range: unit.range,
+                        description: unit.description,
+                        maxDPS: unit.maxDPS,
+                        baseDPS: unit.baseDPS,
+                        costEfficiency: unit.costEfficiency
+                    };
+                });
+                
+                console.log('📊 Loaded', this.units.length, 'units for DPS Calculator');
+            } else {
+                console.error('❌ UnitDatabaseData not available, using fallback data');
+                this.loadFallbackUnits();
+            }
+        } catch (error) {
+            console.error('❌ Failed to load units from database:', error);
+            this.loadFallbackUnits();
+        }
+    }
+    
+    loadFallbackUnits() {
+        // Fallback data if database is not available
         this.units = [
             { id: 'naruto', name: 'Naruto Uzumaki', baseAttack: 150, baseSpeed: 1.2, rarity: 'legendary' },
             { id: 'sasuke', name: 'Sasuke Uchiha', baseAttack: 140, baseSpeed: 1.4, rarity: 'legendary' },
@@ -30,6 +85,84 @@ class DPSCalculatorPage {
             { id: 'luffy', name: 'Monkey D. Luffy', baseAttack: 130, baseSpeed: 1.3, rarity: 'epic' },
             { id: 'ichigo', name: 'Ichigo Kurosaki', baseAttack: 145, baseSpeed: 1.25, rarity: 'epic' }
         ];
+    }
+    
+    extractDPSValue(dpsString) {
+        if (!dpsString) return 1000; // Default fallback
+        
+        // Extract numeric value from strings like "190k+ with summon abilities", "Very High", etc.
+        if (typeof dpsString === 'string') {
+            // Handle "k" notation
+            const kMatch = dpsString.match(/(\d+)k/);
+            if (kMatch) {
+                return parseInt(kMatch[1]) * 1000;
+            }
+            
+            // Handle direct numbers
+            const numberMatch = dpsString.match(/(\d+)/);
+            if (numberMatch) {
+                return parseInt(numberMatch[1]);
+            }
+            
+            // Handle text descriptions
+            const textDPS = {
+                'Very High': 150000,
+                'High': 100000,
+                'Medium': 50000,
+                'Low': 20000
+            };
+            
+            return textDPS[dpsString] || 1000;
+        }
+        
+        return typeof dpsString === 'number' ? dpsString : 1000;
+    }
+    
+    calculateBaseAttack(unit, baseDPSValue) {
+        // Calculate base attack based on unit properties
+        const rarityMultiplier = {
+            'Vanguard': 1.8,
+            'Secret': 1.5,
+            'Mythic': 1.2,
+            'Epic': 1.0
+        };
+        
+        const typeMultiplier = {
+            'DPS': 1.3,
+            'Support': 0.8,
+            'Farm': 0.6,
+            'Buffer': 0.7
+        };
+        
+        const baseValue = baseDPSValue / 10; // Scale down for base attack
+        const rarityBonus = rarityMultiplier[unit.rarity] || 1.0;
+        const typeBonus = typeMultiplier[unit.type] || 1.0;
+        
+        return Math.round(baseValue * rarityBonus * typeBonus);
+    }
+    
+    calculateBaseSpeed(unit, baseDPSValue, baseAttack) {
+        // Calculate base speed based on unit properties
+        const rangeMultiplier = {
+            'Long': 0.8,
+            'Medium': 1.0,
+            'Short': 1.2
+        };
+        
+        const typeMultiplier = {
+            'DPS': 1.1,
+            'Support': 1.3,
+            'Farm': 1.5,
+            'Buffer': 1.0
+        };
+        
+        const rangeBonus = rangeMultiplier[unit.range] || 1.0;
+        const typeBonus = typeMultiplier[unit.type] || 1.0;
+        
+        // Calculate speed to achieve the target DPS
+        const targetSpeed = baseDPSValue / baseAttack;
+        
+        return Math.max(0.5, Math.min(2.0, targetSpeed * rangeBonus * typeBonus));
     }
 
     loadTraits() {
@@ -96,7 +229,7 @@ class DPSCalculatorPage {
         this.units.forEach(unit => {
             const option = document.createElement('option');
             option.value = unit.id;
-            option.textContent = `${unit.name} (${unit.rarity})`;
+            option.textContent = `${unit.name} (${unit.rarity} ${unit.tier}) - ${unit.type} ${unit.element}`;
             unitSelect.appendChild(option);
         });
 
@@ -137,11 +270,43 @@ class DPSCalculatorPage {
     performCalculation() {
         const baseAttack = this.currentUnit.baseAttack;
         const baseSpeed = this.currentUnit.baseSpeed;
-        const levelMultiplier = 1 + (this.currentLevel - 1) * 0.1;
+        
+        // Enhanced level multiplier based on unit rarity
+        const rarityLevelBonus = {
+            'vanguard': 0.15,
+            'secret': 0.12,
+            'mythic': 0.10,
+            'epic': 0.08
+        };
+        
+        const levelBonus = rarityLevelBonus[this.currentUnit.rarity] || 0.08;
+        const levelMultiplier = 1 + (this.currentLevel - 1) * levelBonus;
+        
+        // Trait multipliers
         const traitDamageMultiplier = this.currentTrait ? this.currentTrait.damageMultiplier : 1.0;
         const traitSpeedMultiplier = this.currentTrait ? this.currentTrait.speedMultiplier : 1.0;
-
-        const finalAttack = baseAttack * levelMultiplier * traitDamageMultiplier;
+        
+        // Tier bonus multiplier
+        const tierMultiplier = {
+            'BROKEN': 1.5,
+            'META': 1.3,
+            'SUB-META': 1.1,
+            'DECENT': 1.0
+        };
+        
+        const tierBonus = tierMultiplier[this.currentUnit.tier] || 1.0;
+        
+        // Cost efficiency bonus
+        const efficiencyMultiplier = {
+            'High': 1.2,
+            'Medium': 1.0,
+            'Low': 0.8
+        };
+        
+        const efficiencyBonus = efficiencyMultiplier[this.currentUnit.costEfficiency] || 1.0;
+        
+        // Calculate final stats
+        const finalAttack = baseAttack * levelMultiplier * traitDamageMultiplier * tierBonus * efficiencyBonus;
         const finalSpeed = baseSpeed * traitSpeedMultiplier;
         const baseDPS = finalAttack * finalSpeed;
         const totalDPS = baseDPS * this.enemyCount;
@@ -155,7 +320,13 @@ class DPSCalculatorPage {
             levelMultiplier: levelMultiplier,
             traitDamageMultiplier: traitDamageMultiplier,
             traitSpeedMultiplier: traitSpeedMultiplier,
-            enemyCount: this.enemyCount
+            tierMultiplier: tierBonus,
+            efficiencyMultiplier: efficiencyBonus,
+            enemyCount: this.enemyCount,
+            unitTier: this.currentUnit.tier,
+            unitRarity: this.currentUnit.rarity,
+            unitType: this.currentUnit.type,
+            unitElement: this.currentUnit.element
         };
     }
 
@@ -164,21 +335,31 @@ class DPSCalculatorPage {
         if (!resultsContainer) return;
 
         resultsContainer.innerHTML = `
+            <div class="unit-info-header">
+                <h3>${this.currentUnit.name}</h3>
+                <div class="unit-badges">
+                    <span class="badge rarity-${results.unitRarity}">${results.unitRarity.toUpperCase()}</span>
+                    <span class="badge tier-${results.unitTier.toLowerCase().replace('-', '')}">${results.unitTier}</span>
+                    <span class="badge type-${results.unitType.toLowerCase()}">${results.unitType}</span>
+                    <span class="badge element-${results.unitElement.toLowerCase()}">${results.unitElement}</span>
+                </div>
+            </div>
+            
             <div class="dps-result-item">
                 <span class="dps-result-label">Base Attack</span>
-                <span class="dps-result-value">${Math.round(results.baseAttack)}</span>
+                <span class="dps-result-value">${Math.round(results.baseAttack).toLocaleString()}</span>
             </div>
             <div class="dps-result-item">
-                <span class="dps-result-label">Base Speed</span>
-                <span class="dps-result-value">${results.baseSpeed.toFixed(2)}</span>
+                <span class="dps-result-label">Attack Speed</span>
+                <span class="dps-result-value">${results.baseSpeed.toFixed(2)}/s</span>
             </div>
             <div class="dps-result-item">
                 <span class="dps-result-label">Base DPS</span>
-                <span class="dps-result-value">${Math.round(results.baseDPS)}</span>
+                <span class="dps-result-value">${Math.round(results.baseDPS).toLocaleString()}</span>
             </div>
-            <div class="dps-result-item">
+            <div class="dps-result-item highlight">
                 <span class="dps-result-label">Total DPS (${results.enemyCount} enemies)</span>
-                <span class="dps-result-value highlight">${Math.round(results.totalDPS)}</span>
+                <span class="dps-result-value">${Math.round(results.totalDPS).toLocaleString()}</span>
             </div>
             <div class="dps-result-item">
                 <span class="dps-result-label">Attacks per Second</span>
@@ -189,7 +370,7 @@ class DPSCalculatorPage {
                 <h4>Damage Breakdown</h4>
                 <div class="breakdown-item">
                     <span class="breakdown-label">Base Attack</span>
-                    <span class="breakdown-value">${this.currentUnit.baseAttack}</span>
+                    <span class="breakdown-value">${this.currentUnit.baseAttack.toLocaleString()}</span>
                 </div>
                 <div class="breakdown-item">
                     <span class="breakdown-label">Level ${this.currentLevel} Multiplier</span>
@@ -200,16 +381,44 @@ class DPSCalculatorPage {
                     <span class="breakdown-value">×${results.traitDamageMultiplier.toFixed(2)}</span>
                 </div>
                 <div class="breakdown-item">
+                    <span class="breakdown-label">Tier Bonus (${results.unitTier})</span>
+                    <span class="breakdown-value">×${results.tierMultiplier.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Cost Efficiency Bonus</span>
+                    <span class="breakdown-value">×${results.efficiencyMultiplier.toFixed(2)}</span>
+                </div>
+                <div class="breakdown-item">
                     <span class="breakdown-label">Final Attack</span>
-                    <span class="breakdown-value">${Math.round(results.baseAttack)}</span>
+                    <span class="breakdown-value">${Math.round(results.baseAttack).toLocaleString()}</span>
                 </div>
                 <div class="breakdown-item">
                     <span class="breakdown-label">Attack Speed</span>
-                    <span class="breakdown-value">${results.baseSpeed.toFixed(2)}</span>
+                    <span class="breakdown-value">${results.baseSpeed.toFixed(2)}/s</span>
                 </div>
                 <div class="breakdown-item">
                     <span class="breakdown-label">Enemy Count</span>
                     <span class="breakdown-value">×${results.enemyCount}</span>
+                </div>
+            </div>
+            
+            <div class="unit-stats-info">
+                <h4>Unit Information</h4>
+                <div class="info-item">
+                    <span class="info-label">Deployment Cost</span>
+                    <span class="info-value">¥${this.currentUnit.deploymentCost.toLocaleString()}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Max Upgrade Cost</span>
+                    <span class="info-value">¥${this.currentUnit.maxUpgradeCost.toLocaleString()}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Range</span>
+                    <span class="info-value">${this.currentUnit.range}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Database DPS</span>
+                    <span class="info-value">${this.currentUnit.maxDPS}</span>
                 </div>
             </div>
         `;
@@ -266,7 +475,10 @@ class DPSCalculatorPage {
     }
 
     loadMetaDPSPreset() {
-        this.currentUnit = this.units.find(u => u.id === 'goku');
+        // Find a BROKEN tier DPS unit
+        this.currentUnit = this.units.find(u => u.tier === 'BROKEN' && u.type === 'DPS') || 
+                          this.units.find(u => u.tier === 'META' && u.type === 'DPS') ||
+                          this.units[0];
         this.currentTrait = this.traits.find(t => t.id === 'legendary');
         this.currentLevel = 12;
         this.enemyCount = 5;
@@ -275,7 +487,10 @@ class DPSCalculatorPage {
     }
 
     loadBalancedPreset() {
-        this.currentUnit = this.units.find(u => u.id === 'sasuke');
+        // Find a balanced META tier unit
+        this.currentUnit = this.units.find(u => u.tier === 'META' && u.costEfficiency === 'High') ||
+                          this.units.find(u => u.tier === 'SUB-META' && u.type === 'DPS') ||
+                          this.units[1];
         this.currentTrait = this.traits.find(t => t.id === 'elemental');
         this.currentLevel = 8;
         this.enemyCount = 3;
@@ -284,7 +499,10 @@ class DPSCalculatorPage {
     }
 
     loadTankKillerPreset() {
-        this.currentUnit = this.units.find(u => u.id === 'naruto');
+        // Find a high damage single-target unit
+        this.currentUnit = this.units.find(u => u.type === 'DPS' && u.range === 'Short') ||
+                          this.units.find(u => u.tier === 'META' && u.type === 'DPS') ||
+                          this.units[2];
         this.currentTrait = this.traits.find(t => t.id === 'berserker');
         this.currentLevel = 10;
         this.enemyCount = 1;
@@ -293,7 +511,10 @@ class DPSCalculatorPage {
     }
 
     loadCrowdControlPreset() {
-        this.currentUnit = this.units.find(u => u.id === 'luffy');
+        // Find a unit good for multiple enemies
+        this.currentUnit = this.units.find(u => u.range === 'Long' && u.type === 'DPS') ||
+                          this.units.find(u => u.tier === 'META' && u.type === 'DPS') ||
+                          this.units[3];
         this.currentTrait = this.traits.find(t => t.id === 'swift');
         this.currentLevel = 6;
         this.enemyCount = 8;
