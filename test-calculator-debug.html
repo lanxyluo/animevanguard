@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPS Calculator Debug Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/pages/calculator.css">
+</head>
+<body>
+    <div class="min-h-screen bg-gray-900 text-white p-4">
+        <h1 class="text-3xl font-bold mb-6">DPS Calculator Debug Test</h1>
+        
+        <!-- Debug Info -->
+        <div class="bg-gray-800 p-4 rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-2">Debug Information</h2>
+            <div id="debug-info">
+                <p>Loading...</p>
+            </div>
+        </div>
+        
+        <!-- Test Controls -->
+        <div class="bg-gray-800 p-4 rounded-lg mb-6">
+            <h2 class="text-xl font-semibold mb-2">Test Controls</h2>
+            <button onclick="testUnitSelection()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded mr-2">Test Unit Selection</button>
+            <button onclick="testFilterButtons()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded mr-2">Test Filter Buttons</button>
+            <button onclick="testDPSCalculation()" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded">Test DPS Calculation</button>
+        </div>
+        
+        <!-- Calculator Interface -->
+        <div class="battle-prep-room">
+            <div class="battle-prep-grid">
+                <!-- Left column: Barracks -->
+                <div class="barracks-panel">
+                    <div class="panel-header">
+                        <div class="header-icon">
+                            <i class="fas fa-fort-awesome"></i>
+                        </div>
+                        <div class="header-content">
+                            <h2>Barracks</h2>
+                            <p>Select your combat unit</p>
+                        </div>
+                        <div class="unit-counter" id="unit-count">0 units</div>
+                    </div>
+                    
+                    <!-- Smart filtering system -->
+                    <div class="filter-system">
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="unit-search" placeholder="Search units..." class="search-input">
+                        </div>
+                        
+                        <!-- Multi-dimensional filtering -->
+                        <div class="filter-tabs">
+                            <div class="filter-group">
+                                <label>Rarity</label>
+                                <div class="filter-buttons">
+                                    <button class="filter-btn active" data-filter="all">All</button>
+                                    <button class="filter-btn" data-filter="Vanguard">Vanguard</button>
+                                    <button class="filter-btn" data-filter="Secret">Secret</button>
+                                    <button class="filter-btn" data-filter="Mythic">Mythic</button>
+                                    <button class="filter-btn" data-filter="Legendary">Legendary</button>
+                                </div>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label>Element</label>
+                                <div class="filter-buttons">
+                                    <button class="filter-btn active" data-element="all">All</button>
+                                    <button class="filter-btn" data-element="Fire">Fire</button>
+                                    <button class="filter-btn" data-element="Water">Water</button>
+                                    <button class="filter-btn" data-element="Wind">Wind</button>
+                                    <button class="filter-btn" data-element="Nature">Nature</button>
+                                    <button class="filter-btn" data-element="Dark">Dark</button>
+                                    <button class="filter-btn" data-element="Holy">Holy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3D unit cards grid -->
+                    <div class="units-grid" id="unit-grid">
+                        <!-- Dynamically generated 3D unit cards -->
+                    </div>
+                </div>
+
+                <!-- Middle column: Training Ground -->
+                <div class="training-ground-panel">
+                    <div class="panel-header">
+                        <div class="header-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="header-content">
+                            <h2>Training Ground</h2>
+                            <p>Configure unit parameters</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Selected unit display area -->
+                    <div class="selected-unit-display" id="selected-unit-display">
+                        <div class="unit-preview">
+                            <div class="unit-image-container">
+                                <img id="unit-preview-image" class="unit-preview-image" src="" alt="">
+                            </div>
+                            <div class="unit-info">
+                                <h3 id="unit-preview-name">Select a unit</h3>
+                                <div class="unit-badges" id="unit-preview-badges"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core configuration area -->
+                    <div class="core-config" id="core-config">
+                        <!-- Level configuration -->
+                        <div class="config-section">
+                            <h4><i class="fas fa-level-up-alt"></i> Level Configuration</h4>
+                            <div class="config-controls">
+                                <div class="slider-container">
+                                    <div class="slider-label">
+                                        <span>Level</span>
+                                        <span class="slider-value" id="level-value">1</span>
+                                    </div>
+                                    <input type="range" id="level-slider" class="slider" min="1" max="60" value="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upgrade configuration -->
+                        <div class="config-section">
+                            <h4><i class="fas fa-arrow-up"></i> Upgrade Configuration</h4>
+                            <div class="config-controls">
+                                <div class="slider-container">
+                                    <div class="slider-label">
+                                        <span>Upgrade Level</span>
+                                        <span class="slider-value" id="upgrade-value">0</span>
+                                    </div>
+                                    <input type="range" id="upgrade-slider" class="slider upgrade-slider" min="0" max="5" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic Buff configuration -->
+                        <div class="config-section">
+                            <h4><i class="fas fa-magic"></i> Basic Buffs</h4>
+                            <div class="buff-options">
+                                <label class="buff-option">
+                                    <input type="checkbox" id="attack-buff" value="1.2">
+                                    <span>Attack Power +20%</span>
+                                </label>
+                                <label class="buff-option">
+                                    <input type="checkbox" id="speed-buff" value="1.15">
+                                    <span>Attack Speed +15%</span>
+                                </label>
+                                <label class="buff-option">
+                                    <input type="checkbox" id="crit-buff" value="1.25">
+                                    <span>Critical Rate +25%</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right column: Command Center -->
+                <div class="command-center-panel">
+                    <div class="panel-header">
+                        <div class="header-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="header-content">
+                            <h2>Command Center</h2>
+                            <p>DPS calculation results</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Core DPS display -->
+                    <div class="dps-display">
+                        <div class="dps-main">
+                            <div class="dps-value" id="dps-value">0</div>
+                            <div class="dps-label">Damage Per Second</div>
+                        </div>
+                    </div>
+
+                    <!-- Stats comparison table -->
+                    <div class="stats-comparison">
+                        <h4><i class="fas fa-table"></i> Stats Comparison</h4>
+                        <div class="comparison-table">
+                            <div class="stat-row">
+                                <span class="stat-name">Base Attack</span>
+                                <span class="stat-value" id="base-attack">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Attack Speed</span>
+                                <span class="stat-value" id="attack-speed">0s</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Range</span>
+                                <span class="stat-value" id="range">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Level</span>
+                                <span class="stat-value" id="level">1</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Upgrade Level</span>
+                                <span class="stat-value" id="upgrade-level">+0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculation process display -->
+                    <div class="calculation-process">
+                        <h4><i class="fas fa-cogs"></i> Calculation Process</h4>
+                        <div class="calculation-steps" id="calculation-steps">
+                            <div class="step-item">
+                                <span class="step-label">Select a unit to start calculation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config/unit-database-data.js"></script>
+    <script src="js/utils/calculations.js"></script>
+    <script src="js/modules/unit-selector.js"></script>
+    <script src="js/modules/config-panel.js"></script>
+    <script src="js/modules/results-display.js"></script>
+    <script src="js/modules/dps-calculator.js"></script>
+
+    <script>
+        // Debug functions
+        function updateDebugInfo() {
+            const debugInfo = document.getElementById('debug-info');
+            const info = {
+                'UnitDatabaseData available': typeof UnitDatabaseData !== 'undefined',
+                'UnitSelector available': typeof UnitSelector !== 'undefined',
+                'DPSCalculator available': typeof DPSCalculator !== 'undefined',
+                'calculateDPS available': typeof calculateDPS !== 'undefined',
+                'Units loaded': window.dpsCalculator?.unitSelector?.units?.length || 0,
+                'Current unit': window.dpsCalculator?.state?.selectedUnit?.name || 'None'
+            };
+            
+            debugInfo.innerHTML = Object.entries(info)
+                .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
+                .join('');
+        }
+
+        function testUnitSelection() {
+            console.log('🧪 Testing unit selection...');
+            const units = window.dpsCalculator?.unitSelector?.units;
+            if (units && units.length > 0) {
+                const firstUnit = units[0];
+                console.log('Selecting unit:', firstUnit.name);
+                // Simulate unit selection
+                const unitCards = document.querySelectorAll('.unit-card');
+                if (unitCards.length > 0) {
+                    unitCards[0].click();
+                }
+            } else {
+                console.log('No units available for testing');
+            }
+        }
+
+        function testFilterButtons() {
+            console.log('🧪 Testing filter buttons...');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            console.log(`Found ${filterButtons.length} filter buttons`);
+            
+            filterButtons.forEach((btn, index) => {
+                console.log(`Button ${index}: ${btn.textContent} (${btn.dataset.filter || btn.dataset.element || 'no-data'})`);
+            });
+        }
+
+        function testDPSCalculation() {
+            console.log('🧪 Testing DPS calculation...');
+            if (window.dpsCalculator?.state?.selectedUnit) {
+                const result = window.calculateDPS(window.dpsCalculator.state);
+                console.log('DPS calculation result:', result);
+            } else {
+                console.log('No unit selected for DPS calculation');
+            }
+        }
+
+        // Update debug info every second
+        setInterval(updateDebugInfo, 1000);
+        
+        // Initial debug info update
+        setTimeout(updateDebugInfo, 1000);
+    </script>
+</body>
+</html>

@@ -18,32 +18,32 @@ class UnitSelector {
     loadUnits() {
         // Wait for data loading to complete
         if (window.UnitDatabaseData && window.UnitDatabaseData.loadAllUnits) {
-            console.log('Loading units from UnitDatabaseData...');
+            console.log('✅ Loading units from UnitDatabaseData...');
             const rawUnits = window.UnitDatabaseData.loadAllUnits();
-            console.log(`Loaded ${rawUnits.length} raw units from database`);
+            console.log(`📊 Loaded ${rawUnits.length} raw units from database`);
             
             // Use new data processing flow
             if (window.normalizeUnitsData) {
                 const normalizedUnits = window.normalizeUnitsData(rawUnits);
-                console.log(`Normalized ${normalizedUnits.length} units`);
+                console.log(`✅ Normalized ${normalizedUnits.length} units`);
                 
                 // Data integrity check
                 if (window.checkDataIntegrity) {
                     const integrityReport = window.checkDataIntegrity(normalizedUnits);
-                    console.log('Data integrity report:', integrityReport);
+                    console.log('📋 Data integrity report:', integrityReport);
                     
                     if (integrityReport.invalidUnits > 0) {
-                        console.warn(`[WARNING] ${integrityReport.invalidUnits} units have data issues:`, integrityReport.issues);
+                        console.warn(`⚠️ ${integrityReport.invalidUnits} units have data issues:`, integrityReport.issues);
                     }
                 }
                 
                 return normalizedUnits;
             } else {
-                console.warn('normalizeUnitsData function not available, using raw data');
+                console.warn('⚠️ normalizeUnitsData function not available, using raw data');
                 return rawUnits;
             }
         } else {
-            console.warn('UnitDatabaseData not available, retrying in 100ms...');
+            console.warn('⏳ UnitDatabaseData not available, retrying in 100ms...');
             // Delayed retry
             setTimeout(() => {
                 if (window.UnitDatabaseData && window.UnitDatabaseData.loadAllUnits) {
@@ -54,7 +54,7 @@ class UnitSelector {
                         this.units = rawUnits;
                     }
                     this.renderUnits();
-                    console.log(`Retry successful: loaded ${this.units.length} units`);
+                    console.log(`✅ Retry successful: loaded ${this.units.length} units`);
                 }
             }, 100);
             return [];
@@ -62,9 +62,11 @@ class UnitSelector {
     }
 
     init() {
+        console.log('🔗 Initializing UnitSelector...');
         this.renderUnits();
         this.bindSearchEvents();
         this.initializeFilters();
+        console.log('✅ UnitSelector initialization completed');
     }
 
     renderUnits(filteredUnits = this.units) {
@@ -162,6 +164,8 @@ class UnitSelector {
     }
 
     selectUnit(unit, cardElement) {
+        console.log('🎯 Selected unit:', unit.name);
+        
         // Remove previous selected state
         document.querySelectorAll('#unit-grid > div').forEach(el => {
             el.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-600');
@@ -173,8 +177,13 @@ class UnitSelector {
         // Display selected character basic info
         this.showUnitInfo(unit);
         
+        // Update Training Ground panel
+        this.updateTrainingGroundPanel(unit);
+        
         // Trigger selection callback
         this.onUnitSelect(unit);
+        
+        console.log('📊 Current DPS calculation:', this.calculateDPS(unit));
     }
 
     showUnitInfo(unit) {
@@ -250,26 +259,45 @@ class UnitSelector {
     }
 
     initializeFilters() {
-        // Rarity filter
-        document.querySelectorAll('.rarity-filter').forEach(button => {
+        console.log('🔗 Setting up filter event listeners...');
+        
+        // Filter buttons (both rarity and element)
+        document.querySelectorAll('.filter-btn').forEach(button => {
             button.addEventListener('click', (e) => {
-                document.querySelectorAll('.rarity-filter').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                this.filterUnits();
+                console.log('🔘 Filter button clicked:', e.target.textContent);
+                this.handleFilterClick(e.target);
             });
         });
+        
+        console.log('✅ Filter event listeners setup completed');
+    }
+
+    handleFilterClick(button) {
+        // Remove active state from other buttons in the same group
+        const parentGroup = button.closest('.filter-group');
+        if (parentGroup) {
+            parentGroup.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+        button.classList.add('active');
+        
+        // Apply filter
+        this.filterUnits();
     }
 
     filterUnits() {
         const searchTerm = document.getElementById('unit-search').value.toLowerCase();
-        const activeRarity = document.querySelector('.rarity-filter.active')?.dataset.rarity || 'all';
+        const activeRarity = document.querySelector('.filter-btn[data-filter].active')?.dataset.filter || 'all';
+        const activeElement = document.querySelector('.filter-btn[data-element].active')?.dataset.element || 'all';
         
         const filtered = this.units.filter(unit => {
             const matchesSearch = unit.name.toLowerCase().includes(searchTerm) ||
                                  unit.rarity.toLowerCase().includes(searchTerm) ||
                                  (unit.element && unit.element.toLowerCase().includes(searchTerm));
             const matchesRarity = activeRarity === 'all' || unit.rarity === activeRarity;
-            return matchesSearch && matchesRarity;
+            const matchesElement = activeElement === 'all' || unit.element === activeElement;
+            return matchesSearch && matchesRarity && matchesElement;
         });
         
         this.renderUnits(filtered);
@@ -277,6 +305,78 @@ class UnitSelector {
         if (unitCountEl) {
             unitCountEl.textContent = `${filtered.length} units`;
         }
+    }
+
+    updateTrainingGroundPanel(unit) {
+        // Update unit preview in Training Ground
+        const previewName = document.getElementById('unit-preview-name');
+        const previewBadges = document.getElementById('unit-preview-badges');
+        const previewImage = document.getElementById('unit-preview-image');
+        
+        if (previewName) {
+            previewName.textContent = unit.name;
+        }
+        
+        if (previewBadges) {
+            const rarityClass = `rarity-${unit.rarity.toLowerCase()}`;
+            previewBadges.innerHTML = `
+                <span class="unit-badge ${rarityClass}">${unit.rarity}</span>
+                ${unit.element ? `<span class="unit-badge element-${unit.element.toLowerCase()}">${unit.element}</span>` : ''}
+            `;
+        }
+        
+        if (previewImage) {
+            previewImage.src = unit.image || `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23374151'/%3E%3Ctext x='60' y='60' text-anchor='middle' dy='0.35em' font-family='Arial' font-size='48' fill='%23fff'%3E${unit.name.charAt(0)}%3C/text%3E%3C/svg%3E`;
+        }
+        
+        // Update level slider max based on rarity
+        const levelSlider = document.getElementById('level-slider');
+        if (levelSlider) {
+            const maxLevel = this.getMaxLevelForRarity(unit.rarity);
+            levelSlider.max = maxLevel;
+            levelSlider.value = 1;
+            
+            const levelValue = document.getElementById('level-value');
+            if (levelValue) {
+                levelValue.textContent = '1';
+            }
+        }
+        
+        // Reset upgrade slider
+        const upgradeSlider = document.getElementById('upgrade-slider');
+        if (upgradeSlider) {
+            upgradeSlider.value = 0;
+            const upgradeValue = document.getElementById('upgrade-value');
+            if (upgradeValue) {
+                upgradeValue.textContent = '0';
+            }
+        }
+        
+        // Reset buff options
+        const buffCheckboxes = document.querySelectorAll('.buff-option input[type="checkbox"]');
+        buffCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+
+    calculateDPS(unit) {
+        if (!unit) return 0;
+        
+        // Basic DPS calculation
+        const baseAttack = this.calculateBaseAttack(unit, 1);
+        const baseSpeed = this.calculateBaseSpeed(unit, 1);
+        return Math.round(baseAttack * baseSpeed);
+    }
+
+    getMaxLevelForRarity(rarity) {
+        const maxLevels = {
+            'Vanguard': 60,
+            'Secret': 50,
+            'Mythic': 40,
+            'Legendary': 30,
+            'Epic': 25
+        };
+        return maxLevels[rarity] || 30;
     }
 }
 

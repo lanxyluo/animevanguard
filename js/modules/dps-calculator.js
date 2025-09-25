@@ -82,6 +82,7 @@ class DPSCalculator {
     }
 
     onUnitSelect(unit) {
+        console.log('🎯 DPS Calculator received unit selection:', unit.name);
         this.state.selectedUnit = unit;
         this.updateCalculation();
         this.configPanel.updateForUnit(unit);
@@ -93,7 +94,10 @@ class DPSCalculator {
     }
 
     updateCalculation() {
+        console.log('🔄 Updating calculation...', this.state);
+        
         if (!this.state.selectedUnit) {
+            console.log('❌ No unit selected');
             this.resultsDisplay.update({
                 dps: 0,
                 baseDamage: 0,
@@ -107,7 +111,10 @@ class DPSCalculator {
             return;
         }
         
+        console.log('✅ Unit selected, calculating DPS...');
         const dpsResult = window.calculateDPS(this.state);
+        console.log('📊 DPS Result:', dpsResult);
+        
         this.resultsDisplay.update({
             ...dpsResult,
             unit: this.state.selectedUnit,
@@ -138,7 +145,7 @@ function initializeDPSCalculator() {
 
     try {
         console.log('Initializing DPS Calculator...');
-        new DPSCalculator();
+        window.dpsCalculator = new DPSCalculator();
         dpsCalculatorInitialized = true;
         console.log('✅ DPS Calculator initialized successfully!');
     } catch (error) {
@@ -149,5 +156,6 @@ function initializeDPSCalculator() {
 
 // Initialize after page load
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🔗 DPS Calculator DOM loaded');
     initializeDPSCalculator();
 });

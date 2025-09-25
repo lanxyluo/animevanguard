@@ -1103,10 +1103,8 @@ function addDebugControls() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('calculatorPage')) {
-        window.dpsCalculator = new DPSCalculatorPage();
-        
-        // Add debug controls
-        addDebugControls();
-    }
+    console.log('🔗 Calculator page DOM loaded');
+    
+    // Add debug controls
+    addDebugControls();
 });
