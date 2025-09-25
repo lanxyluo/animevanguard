@@ -1,9 +1,9 @@
-// 使用全局变量而不是ES6模块导入
+// Use global variables instead of ES6 module imports
 // import { loadAllUnits } from '../config/unit-database-data.js';
 
 class UnitSelector {
     constructor(onUnitSelect) {
-        // 防止重复初始化
+        // Prevent duplicate initialization
         if (this.initialized) {
             console.log('⏭️ UnitSelector already initialized, skipping');
             return;
@@ -16,18 +16,43 @@ class UnitSelector {
     }
 
     loadUnits() {
-        // 等待数据加载完成
+        // Wait for data loading to complete
         if (window.UnitDatabaseData && window.UnitDatabaseData.loadAllUnits) {
             console.log('Loading units from UnitDatabaseData...');
-            const units = window.UnitDatabaseData.loadAllUnits();
-            console.log(`Loaded ${units.length} units`);
-            return units;
+            const rawUnits = window.UnitDatabaseData.loadAllUnits();
+            console.log(`Loaded ${rawUnits.length} raw units from database`);
+            
+            // Use new data processing flow
+            if (window.normalizeUnitsData) {
+                const normalizedUnits = window.normalizeUnitsData(rawUnits);
+                console.log(`Normalized ${normalizedUnits.length} units`);
+                
+                // Data integrity check
+                if (window.checkDataIntegrity) {
+                    const integrityReport = window.checkDataIntegrity(normalizedUnits);
+                    console.log('Data integrity report:', integrityReport);
+                    
+                    if (integrityReport.invalidUnits > 0) {
+                        console.warn(`[WARNING] ${integrityReport.invalidUnits} units have data issues:`, integrityReport.issues);
+                    }
+                }
+                
+                return normalizedUnits;
+            } else {
+                console.warn('normalizeUnitsData function not available, using raw data');
+                return rawUnits;
+            }
         } else {
             console.warn('UnitDatabaseData not available, retrying in 100ms...');
-            // 延迟重试
+            // Delayed retry
             setTimeout(() => {
                 if (window.UnitDatabaseData && window.UnitDatabaseData.loadAllUnits) {
-                    this.units = window.UnitDatabaseData.loadAllUnits();
+                    const rawUnits = window.UnitDatabaseData.loadAllUnits();
+                    if (window.normalizeUnitsData) {
+                        this.units = window.normalizeUnitsData(rawUnits);
+                    } else {
+                        this.units = rawUnits;
+                    }
                     this.renderUnits();
                     console.log(`Retry successful: loaded ${this.units.length} units`);
                 }
@@ -76,7 +101,7 @@ class UnitSelector {
         const card = document.createElement('div');
         card.className = 'unit-card bg-gray-700 rounded-lg p-3 cursor-pointer transition-all duration-300 hover:bg-gray-600 hover:scale-105 hover:shadow-lg border-2 border-transparent';
         
-        // 稀有度颜色
+        // Rarity color
         const rarityColors = {
             'Vanguard': 'border-purple-500 bg-gradient-to-br from-purple-800 to-gray-700',
             'Secret': 'border-red-500 bg-gradient-to-br from-red-800 to-gray-700',
@@ -92,7 +117,7 @@ class UnitSelector {
                          class="w-16 h-16 mx-auto rounded-lg object-cover border-2 ${rarityColors[unit.rarity] ? 'border-current' : 'border-gray-600'}"
                          loading="lazy">
                     
-                    <!-- 稀有度标签 -->
+                    <!-- Rarity label -->
                     <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${this.getRarityColor(unit.rarity)}"></div>
                 </div>
                 
@@ -137,15 +162,82 @@ class UnitSelector {
     }
 
     selectUnit(unit, cardElement) {
-        // 移除之前的选中状态
+        // Remove previous selected state
         document.querySelectorAll('#unit-grid > div').forEach(el => {
-            el.classList.remove('ring-2', 'ring-blue-500');
+            el.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-600');
         });
         
-        // 添加选中状态
-        cardElement.classList.add('ring-2', 'ring-blue-500');
+        // Add selected state
+        cardElement.classList.add('ring-2', 'ring-blue-500', 'bg-blue-600');
         
+        // Display selected character basic info
+        this.showUnitInfo(unit);
+        
+        // Trigger selection callback
         this.onUnitSelect(unit);
+    }
+
+    showUnitInfo(unit) {
+        // Display selected unit basic info above unit grid
+        let infoPanel = document.getElementById('selected-unit-info');
+        if (!infoPanel) {
+            infoPanel = document.createElement('div');
+            infoPanel.id = 'selected-unit-info';
+            infoPanel.className = 'mb-4 p-4 bg-gray-800 rounded-lg border border-gray-600';
+            
+            const unitGrid = document.getElementById('unit-grid');
+            unitGrid.parentNode.insertBefore(infoPanel, unitGrid);
+        }
+
+        // Calculate basic attributes
+        const baseAttack = this.calculateBaseAttack(unit, 1);
+        const attackSpeed = this.calculateBaseSpeed(unit, 1);
+        const range = this.getRangeValue(unit.range);
+
+        infoPanel.innerHTML = `
+            <div class="flex items-center space-x-4">
+                <img src="${unit.image || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'%3E%3Crect width=\'48\' height=\'48\' fill=\'%23374151\'/%3E%3Ctext x=\'24\' y=\'24\' text-anchor=\'middle\' dy=\'0.35em\' font-family=\'Arial\' font-size=\'18\' fill=\'%23fff\'%3E${unit.name.charAt(0)}%3C/text%3E%3C/svg%3E'}" 
+                     alt="${unit.name}" 
+                     class="w-12 h-12 rounded-lg object-cover">
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-white">${unit.name}</h3>
+                    <div class="flex items-center space-x-2 text-sm text-gray-300">
+                        <span class="px-2 py-1 rounded ${this.getRarityBadgeClass(unit.rarity)}">${unit.rarity}</span>
+                        ${unit.element ? `<span class="px-2 py-1 rounded bg-gray-600 text-gray-100">${unit.element}</span>` : ''}
+                    </div>
+                </div>
+                <div class="text-right text-sm text-gray-300">
+                    <div>Attack power: <span class="text-white font-medium">${Math.round(baseAttack).toLocaleString()}</span></div>
+                    <div>Attack interval: <span class="text-white font-medium">${attackSpeed.toFixed(2)}s</span></div>
+                    <div>Range: <span class="text-white font-medium">${range}</span></div>
+                </div>
+            </div>
+        `;
+    }
+
+    calculateBaseAttack(unit, level) {
+        if (!unit.attack || !unit.attack.base) return 0;
+        return unit.attack.base + (level - 1) * (unit.attack.growth || 50);
+    }
+
+    calculateBaseSpeed(unit, level) {
+        if (!unit.speed || !unit.speed.base) return 1.0;
+        return unit.speed.base + (level - 1) * (unit.speed.growth || 0.1);
+    }
+
+    getRangeValue(range) {
+        if (typeof range === 'number') return range;
+        if (typeof range === 'string') {
+            const rangeMap = {
+                'Melee': 1,
+                'Short range': 2,
+                'Medium range': 3,
+                'Long range': 4,
+                'Ultra long range': 5
+            };
+            return rangeMap[range] || 1;
+        }
+        return 1;
     }
 
     bindSearchEvents() {
@@ -158,7 +250,7 @@ class UnitSelector {
     }
 
     initializeFilters() {
-        // 稀有度筛选
+        // Rarity filter
         document.querySelectorAll('.rarity-filter').forEach(button => {
             button.addEventListener('click', (e) => {
                 document.querySelectorAll('.rarity-filter').forEach(btn => btn.classList.remove('active'));
@@ -188,5 +280,5 @@ class UnitSelector {
     }
 }
 
-// 导出到全局变量
+// Export to global variables
 window.UnitSelector = UnitSelector;

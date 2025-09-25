@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DPS Calculator - Anime Vanguards Wiki</title>
     
-    <!-- 样式文件 -->
+    <!-- Style files -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="../css/pages/calculator.css">
 </head>
 <body>
-    <!-- 头部占位符 -->
+    <!-- Header placeholder -->
     <div id="header-placeholder"></div>
 
-    <!-- Calculator主内容 -->
+    <!-- Calculator main content -->
     <main class="calculator-page">
-        <!-- 页面介绍 -->
+        <!-- Page introduction -->
         <div class="page-introduction">
             <div class="intro-container">
                 <h1 class="page-title calculator-title">DPS Calculator</h1>
@@ -29,117 +29,194 @@
             </div>
         </div>
 
-        <!-- Calculator Grid -->
-        <div class="calculator-content">
-            <!-- 优化后的四栏布局 -->
-            <div class="calculator-grid grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-screen">
-                <!-- 左侧：角色选择 (2列宽) -->
-                <div id="unit-selector-panel" class="lg:col-span-2 bg-gray-800 rounded-xl p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold flex items-center">
-                            <i class="fas fa-users mr-2 text-blue-400"></i>
-                            Select Unit
-                        </h2>
-                        <div class="text-sm text-gray-400" id="unit-count">0 units</div>
+        <!-- Battle preparation room main content -->
+        <div class="battle-prep-room">
+            <!-- Three-column battle preparation room layout -->
+            <div class="battle-prep-grid">
+                
+                <!-- Left column: Barracks -->
+                <div class="barracks-panel">
+                    <div class="panel-header">
+                        <div class="header-icon">
+                            <i class="fas fa-fort-awesome"></i>
+                        </div>
+                        <div class="header-content">
+                            <h2>Barracks</h2>
+                            <p>Select your combat unit</p>
+                        </div>
+                        <div class="unit-counter" id="unit-count">35 units</div>
                     </div>
                     
-                    <!-- 搜索和筛选 -->
-                    <div class="space-y-3 mb-6">
-                        <input type="text" id="unit-search" placeholder="Search units..." 
-                               class="w-full px-4 py-2 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500">
+                    <!-- Smart filtering system -->
+                    <div class="filter-system">
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="unit-search" placeholder="Search units..." class="search-input">
+                        </div>
                         
-                        <!-- 稀有度筛选 -->
-                        <div class="flex flex-wrap gap-2">
-                            <button class="rarity-filter active" data-rarity="all">All</button>
-                            <button class="rarity-filter" data-rarity="Vanguard">Vanguard</button>
-                            <button class="rarity-filter" data-rarity="Secret">Secret</button>
-                            <button class="rarity-filter" data-rarity="Mythic">Mythic</button>
-                            <button class="rarity-filter" data-rarity="Legendary">Legendary</button>
+                        <!-- Multi-dimensional filtering -->
+                        <div class="filter-tabs">
+                            <div class="filter-group">
+                                <label>Rarity</label>
+                                <div class="filter-buttons">
+                                    <button class="filter-btn active" data-filter="all">All</button>
+                                    <button class="filter-btn" data-filter="Vanguard">Vanguard</button>
+                                    <button class="filter-btn" data-filter="Secret">Secret</button>
+                                    <button class="filter-btn" data-filter="Mythic">Mythic</button>
+                                    <button class="filter-btn" data-filter="Legendary">Legendary</button>
+                                </div>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label>Element</label>
+                                <div class="filter-buttons">
+                                    <button class="filter-btn active" data-element="all">All</button>
+                                    <button class="filter-btn" data-element="Fire">Fire</button>
+                                    <button class="filter-btn" data-element="Water">Water</button>
+                                    <button class="filter-btn" data-element="Wind">Wind</button>
+                                    <button class="filter-btn" data-element="Nature">Nature</button>
+                                    <button class="filter-btn" data-element="Dark">Dark</button>
+                                    <button class="filter-btn" data-element="Holy">Holy</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 角色网格 (改为卡片式) -->
-                    <div id="unit-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
-                        <!-- 动态生成角色卡片 -->
+                    <!-- 3D unit cards grid -->
+                    <div class="units-grid" id="unit-grid">
+                        <!-- Dynamically generated 3D unit cards -->
                     </div>
                 </div>
 
-                <!-- 右上：DPS结果 -->
-                <div id="results-panel" class="bg-gray-800 rounded-xl p-6">
-                    <h2 class="text-xl font-semibold mb-4 flex items-center">
-                        <i class="fas fa-chart-bar mr-2 text-green-400"></i>
-                        DPS Results
-                    </h2>
-                    <div class="text-center space-y-4">
-                        <div class="relative">
-                            <div class="text-5xl font-bold text-blue-400 dps-glow" id="dps-value">0</div>
-                            <div class="text-gray-400 text-sm">Damage Per Second</div>
+                <!-- Middle column: Training Ground -->
+                <div class="training-ground-panel">
+                    <div class="panel-header">
+                        <div class="header-icon">
+                            <i class="fas fa-dumbbell"></i>
                         </div>
-                        
-                        <!-- 快速统计卡片 -->
-                        <div class="grid grid-cols-2 gap-3 text-sm">
-                            <div class="bg-gray-700 rounded-lg p-3">
-                                <div class="text-gray-400">Damage</div>
-                                <div class="text-white font-semibold" id="damage-value">0</div>
+                        <div class="header-content">
+                            <h2>Training Ground</h2>
+                            <p>Configure unit parameters</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Selected unit display area -->
+                    <div class="selected-unit-display" id="selected-unit-display">
+                        <div class="unit-preview">
+                            <div class="unit-image-container">
+                                <img id="unit-preview-image" class="unit-preview-image" src="" alt="">
                             </div>
-                            <div class="bg-gray-700 rounded-lg p-3">
-                                <div class="text-gray-400">Range</div>
-                                <div class="text-white font-semibold" id="range-value">0</div>
+                            <div class="unit-info">
+                                <h3 id="unit-preview-name">Select a unit</h3>
+                                <div class="unit-badges" id="unit-preview-badges"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core configuration area -->
+                    <div class="core-config" id="core-config">
+                        <!-- Level configuration -->
+                        <div class="config-section">
+                            <h4><i class="fas fa-level-up-alt"></i> Level Configuration</h4>
+                            <div class="config-controls">
+                                <div class="slider-container">
+                                    <div class="slider-label">
+                                        <span>Level</span>
+                                        <span class="slider-value" id="level-value">1</span>
+                                    </div>
+                                    <input type="range" id="level-slider" class="slider" min="1" max="60" value="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upgrade configuration -->
+                        <div class="config-section">
+                            <h4><i class="fas fa-arrow-up"></i> Upgrade Configuration</h4>
+                            <div class="config-controls">
+                                <div class="slider-container">
+                                    <div class="slider-label">
+                                        <span>Upgrade Level</span>
+                                        <span class="slider-value" id="upgrade-value">0</span>
+                                    </div>
+                                    <input type="range" id="upgrade-slider" class="slider upgrade-slider" min="0" max="5" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic Buff configuration -->
+                        <div class="config-section">
+                            <h4><i class="fas fa-magic"></i> Basic Buffs</h4>
+                            <div class="buff-options">
+                                <label class="buff-option">
+                                    <input type="checkbox" id="attack-buff" value="1.2">
+                                    <span>Attack Power +20%</span>
+                                </label>
+                                <label class="buff-option">
+                                    <input type="checkbox" id="speed-buff" value="1.15">
+                                    <span>Attack Speed +15%</span>
+                                </label>
+                                <label class="buff-option">
+                                    <input type="checkbox" id="crit-buff" value="1.25">
+                                    <span>Critical Rate +25%</span>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 右下：配置面板 -->
-                <div id="config-panel" class="bg-gray-800 rounded-xl p-6">
-                    <h2 class="text-xl font-semibold mb-4 flex items-center">
-                        <i class="fas fa-cog mr-2 text-purple-400"></i>
-                        Configuration
-                    </h2>
+                <!-- Right column: Command Center -->
+                <div class="command-center-panel">
+                    <div class="panel-header">
+                        <div class="header-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="header-content">
+                            <h2>Command Center</h2>
+                            <p>DPS calculation results</p>
+                        </div>
+                    </div>
                     
-                    <!-- 选中角色信息 -->
-                    <div id="selected-unit-info" class="mb-6 p-3 bg-gray-700 rounded-lg hidden">
-                        <div class="flex items-center space-x-3">
-                            <img id="selected-unit-image" class="w-12 h-12 rounded-lg">
-                            <div>
-                                <div id="selected-unit-name" class="font-semibold text-white"></div>
-                                <div id="selected-unit-rarity" class="text-sm text-gray-400"></div>
+                    <!-- Core DPS display -->
+                    <div class="dps-display">
+                        <div class="dps-main">
+                            <div class="dps-value" id="dps-value">0</div>
+                            <div class="dps-label">Damage Per Second</div>
+                        </div>
+                    </div>
+
+                    <!-- Stats comparison table -->
+                    <div class="stats-comparison">
+                        <h4><i class="fas fa-table"></i> Stats Comparison</h4>
+                        <div class="comparison-table">
+                            <div class="stat-row">
+                                <span class="stat-name">Base Attack</span>
+                                <span class="stat-value" id="base-attack">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Attack Speed</span>
+                                <span class="stat-value" id="attack-speed">0s</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Range</span>
+                                <span class="stat-value" id="range">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Level</span>
+                                <span class="stat-value" id="level">1</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-name">Upgrade Level</span>
+                                <span class="stat-value" id="upgrade-level">+0</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 配置选项 -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">
-                                Level: <span id="level-value" class="text-blue-400">1</span>
-                            </label>
-                            <input type="range" min="1" max="60" value="1" 
-                                   class="w-full h-2 bg-gray-700 rounded-lg slider" id="level-slider">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Upgrade Level</label>
-                            <select id="upgrade-select" class="w-full px-3 py-2 bg-gray-700 rounded-lg text-white">
-                                <option value="0">Select a unit first</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Traits</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-2" value="damage">
-                                    <span class="text-sm">Damage Boost</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-2" value="speed">
-                                    <span class="text-sm">Speed Boost</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="mr-2" value="range">
-                                    <span class="text-sm">Range Boost</span>
-                                </label>
+                    <!-- Calculation process -->
+                    <div class="calculation-steps">
+                        <h4><i class="fas fa-calculator"></i> Calculation Process</h4>
+                        <div class="steps-container" id="calculation-steps">
+                            <div class="step-item">
+                                <span class="step-label">Select a unit to start calculation</span>
                             </div>
                         </div>
                     </div>
@@ -148,7 +225,7 @@
         </div>
     </main>
 
-    <!-- 脚本文件 -->
+    <!-- Script files -->
     <script src="../js/config/unit-database-data.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/utils/calculations.js"></script>

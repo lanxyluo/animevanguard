@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPS Calculator Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: white; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #2d5a2d; border-left: 4px solid #4caf50; }
+        .error { background: #5a2d2d; border-left: 4px solid #f44336; }
+        .info { background: #2d4a5a; border-left: 4px solid #2196f3; }
+        pre { background: #333; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>DPS Calculator Test</h1>
+    <div id="test-results"></div>
+
+    <script src="js/config/unit-database-data.js"></script>
+    <script src="js/utils/calculations.js"></script>
+    <script>
+        function runTests() {
+            const resultsDiv = document.getElementById('test-results');
+            
+        // 测试1: 数据加载
+        try {
+            const rawUnits = window.UnitDatabaseData.loadAllUnits();
+            resultsDiv.innerHTML += `
+                <div class="test-result success">
+                    <h3>✅ 原始数据加载测试</h3>
+                    <p>成功加载 ${rawUnits.length} 个原始单位</p>
+                </div>
+            `;
+            
+            // 测试2: 数据标准化
+            let normalizedUnits = [];
+            if (window.normalizeUnitsData) {
+                normalizedUnits = window.normalizeUnitsData(rawUnits);
+                resultsDiv.innerHTML += `
+                    <div class="test-result success">
+                        <h3>✅ 数据标准化测试</h3>
+                        <p>成功标准化 ${normalizedUnits.length} 个单位</p>
+                    </div>
+                `;
+            } else {
+                resultsDiv.innerHTML += `
+                    <div class="test-result error">
+                        <h3>❌ 数据标准化测试</h3>
+                        <p>normalizeUnitsData 函数不可用</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 测试3: 数据完整性检查
+            let integrityReport = null;
+            if (window.checkDataIntegrity) {
+                integrityReport = window.checkDataIntegrity(normalizedUnits);
+                resultsDiv.innerHTML += `
+                    <div class="test-result ${integrityReport.invalidUnits === 0 ? 'success' : 'error'}">
+                        <h3>${integrityReport.invalidUnits === 0 ? '✅' : '❌'} 数据完整性测试</h3>
+                        <p>有效单位: ${integrityReport.validUnits}/${integrityReport.totalUnits}</p>
+                        <p>警告数量: ${integrityReport.warnings}</p>
+                        ${integrityReport.invalidUnits > 0 ? `<p>无效单位: ${integrityReport.issues.map(i => i.name + ' (' + i.issues.join(', ') + ')').join(', ')}</p>` : ''}
+                    </div>
+                `;
+            }
+            
+            // 使用标准化后的数据进行后续测试
+            const units = normalizedUnits;
+                
+                // 测试3: DPS计算
+                const testUnits = units.slice(0, 5); // 测试前5个单位
+                testUnits.forEach(unit => {
+                    try {
+                        const dps1 = window.calculateDPS({
+                            selectedUnit: unit,
+                            level: 1,
+                            upgradeLevel: 0
+                        });
+                        
+                        const dps60 = window.calculateDPS({
+                            selectedUnit: unit,
+                            level: 60,
+                            upgradeLevel: 0
+                        });
+                        
+                        resultsDiv.innerHTML += `
+                            <div class="test-result info">
+                                <h3>📊 ${unit.name} (${unit.rarity})</h3>
+                                <p>等级1 DPS: ${dps1.dps.toLocaleString()}</p>
+                                <p>等级60 DPS: ${dps60.dps.toLocaleString()}</p>
+                                <p>基础DPS: ${unit.baseDPS}</p>
+                                <p>最大DPS: ${unit.maxDPS}</p>
+                                <p>射程: ${unit.range}</p>
+                            </div>
+                        `;
+                    } catch (error) {
+                        resultsDiv.innerHTML += `
+                            <div class="test-result error">
+                                <h3>❌ ${unit.name} 计算错误</h3>
+                                <p>错误: ${error.message}</p>
+                            </div>
+                        `;
+                    }
+                });
+                
+                // 测试4: 统计信息
+                if (integrityReport) {
+                    resultsDiv.innerHTML += `
+                        <div class="test-result info">
+                            <h3>📊 数据统计</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+                                <div>
+                                    <h4>稀有度分布</h4>
+                                    <ul>
+                                        ${Object.entries(integrityReport.statistics.rarityCounts).map(([rarity, count]) => 
+                                            `<li>${rarity}: ${count}</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4>等级分布</h4>
+                                    <ul>
+                                        ${Object.entries(integrityReport.statistics.tierCounts).map(([tier, count]) => 
+                                            `<li>${tier}: ${count}</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4>元素分布</h4>
+                                    <ul>
+                                        ${Object.entries(integrityReport.statistics.elementCounts).map(([element, count]) => 
+                                            `<li>${element}: ${count}</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4>类型分布</h4>
+                                    <ul>
+                                        ${Object.entries(integrityReport.statistics.typeCounts).map(([type, count]) => 
+                                            `<li>${type}: ${count}</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // 测试5: 配置参数
+                resultsDiv.innerHTML += `
+                    <div class="test-result info">
+                        <h3>⚙️ 游戏配置</h3>
+                        <pre>${JSON.stringify(window.GAME_CONFIG, null, 2)}</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML += `
+                    <div class="test-result error">
+                        <h3>❌ 测试失败</h3>
+                        <p>错误: ${error.message}</p>
+                        <pre>${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+        
+        // 页面加载完成后运行测试
+        window.addEventListener('load', runTests);
+    </script>
+</body>
+</html>

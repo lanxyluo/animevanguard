@@ -1,24 +1,36 @@
 /**
- * DPS Calculator Page
- * Handles unit DPS calculations with traits and level bonuses
+ * Battle Preparation Room DPS Calculator
+ * Immersive 3D battle preparation room experience with complete Buff system and intelligent recommendations
  */
-class DPSCalculatorPage {
+class BattlePrepCalculator {
     constructor() {
         this.units = [];
-        this.traits = [];
         this.currentUnit = null;
-        this.currentTrait = null;
         this.currentLevel = 1;
-        this.enemyCount = 1;
+        this.currentUpgrade = 0;
+        this.selectedBuffs = {
+            familiar: null,
+            elementBuffs: [],
+            passiveSkills: []
+        };
+        this.buffData = {
+            familiars: [],
+            elementBuffs: [],
+            passiveSkills: []
+        };
+        this.recommendations = [];
+        this.configurations = [];
         
         this.init();
     }
 
     async init() {
         await this.loadUnits();
-        this.loadTraits();
+        await this.loadBuffData();
         this.setupEventListeners();
-        this.updateUI();
+        this.renderUnits();
+        this.renderBuffSystem();
+        this.updateDPSDisplay();
     }
 
     async loadUnits() {
@@ -78,13 +90,39 @@ class DPSCalculatorPage {
     loadFallbackUnits() {
         // Fallback data if database is not available
         this.units = [
-            { id: 'naruto', name: 'Naruto Uzumaki', baseAttack: 150, baseSpeed: 1.2, rarity: 'legendary' },
-            { id: 'sasuke', name: 'Sasuke Uchiha', baseAttack: 140, baseSpeed: 1.4, rarity: 'legendary' },
-            { id: 'goku', name: 'Goku', baseAttack: 180, baseSpeed: 1.0, rarity: 'legendary' },
-            { id: 'vegeta', name: 'Vegeta', baseAttack: 170, baseSpeed: 1.1, rarity: 'legendary' },
-            { id: 'luffy', name: 'Monkey D. Luffy', baseAttack: 130, baseSpeed: 1.3, rarity: 'epic' },
-            { id: 'ichigo', name: 'Ichigo Kurosaki', baseAttack: 145, baseSpeed: 1.25, rarity: 'epic' }
+            { id: 'naruto', name: 'Naruto Uzumaki', baseAttack: 150, baseSpeed: 1.2, rarity: 'legendary', element: 'Wind', type: 'DPS' },
+            { id: 'sasuke', name: 'Sasuke Uchiha', baseAttack: 140, baseSpeed: 1.4, rarity: 'legendary', element: 'Fire', type: 'DPS' },
+            { id: 'goku', name: 'Goku', baseAttack: 180, baseSpeed: 1.0, rarity: 'legendary', element: 'Holy', type: 'DPS' },
+            { id: 'vegeta', name: 'Vegeta', baseAttack: 170, baseSpeed: 1.1, rarity: 'legendary', element: 'Fire', type: 'DPS' },
+            { id: 'luffy', name: 'Monkey D. Luffy', baseAttack: 130, baseSpeed: 1.3, rarity: 'epic', element: 'Nature', type: 'DPS' },
+            { id: 'ichigo', name: 'Ichigo Kurosaki', baseAttack: 145, baseSpeed: 1.25, rarity: 'epic', element: 'Dark', type: 'DPS' }
         ];
+    }
+
+    async loadBuffData() {
+        // Load Buff data
+        this.buffData = {
+            familiars: [
+                { id: 'dragon', name: 'Dragon', icon: '🐉', attackBonus: 0.15, speedBonus: 0.1, description: 'Increases attack by 15% and attack speed by 10%' },
+                { id: 'phoenix', name: 'Phoenix', icon: '🔥', attackBonus: 0.2, speedBonus: 0.05, description: 'Increases attack by 20% and attack speed by 5%' },
+                { id: 'wolf', name: 'Wolf', icon: '🐺', attackBonus: 0.1, speedBonus: 0.2, description: 'Increases attack by 10% and attack speed by 20%' },
+                { id: 'eagle', name: 'Eagle', icon: '🦅', attackBonus: 0.05, speedBonus: 0.25, description: 'Increases attack by 5% and attack speed by 25%' }
+            ],
+            elementBuffs: [
+                { id: 'fire_mastery', name: 'Fire Mastery', icon: '🔥', element: 'Fire', attackBonus: 0.25, description: 'Fire element units attack +25%' },
+                { id: 'water_mastery', name: 'Water Mastery', icon: '💧', element: 'Water', attackBonus: 0.25, description: 'Water element units attack +25%' },
+                { id: 'wind_mastery', name: 'Wind Mastery', icon: '💨', element: 'Wind', speedBonus: 0.3, description: 'Wind element units attack speed +30%' },
+                { id: 'nature_mastery', name: 'Nature Mastery', icon: '🌿', element: 'Nature', healthBonus: 0.2, description: 'Nature element units health +20%' },
+                { id: 'dark_mastery', name: 'Dark Mastery', icon: '🌑', element: 'Dark', attackBonus: 0.3, description: 'Dark element units attack +30%' },
+                { id: 'holy_mastery', name: 'Holy Mastery', icon: '✨', element: 'Holy', attackBonus: 0.2, speedBonus: 0.1, description: 'Holy element units attack +20%, attack speed +10%' }
+            ],
+            passiveSkills: [
+                { id: 'berserker', name: 'Berserker', icon: '⚔️', attackBonus: 0.3, healthPenalty: -0.1, description: 'Attack +30%, Health -10%' },
+                { id: 'swift_strike', name: 'Swift Strike', icon: '⚡', speedBonus: 0.4, attackPenalty: -0.1, description: 'Attack speed +40%, Attack -10%' },
+                { id: 'tank', name: 'Tank', icon: '🛡️', healthBonus: 0.5, speedPenalty: -0.2, description: 'Health +50%, Attack speed -20%' },
+                { id: 'balanced', name: 'Balanced', icon: '⚖️', attackBonus: 0.1, speedBonus: 0.1, healthBonus: 0.1, description: 'All stats +10%' }
+            ]
+        };
     }
     
     extractDPSValue(dpsString) {
@@ -173,6 +211,181 @@ class DPSCalculatorPage {
             { id: 'critical', name: 'Critical Master', damageMultiplier: 1.3, speedMultiplier: 1.0 },
             { id: 'elemental', name: 'Elemental Mastery', damageMultiplier: 1.4, speedMultiplier: 1.1 },
             { id: 'legendary', name: 'Legendary Power', damageMultiplier: 1.8, speedMultiplier: 1.2 }
+        ];
+    }
+
+    // Render 3D unit cards
+    renderUnits() {
+        const unitGrid = document.getElementById('unit-grid');
+        if (!unitGrid) return;
+
+        unitGrid.innerHTML = '';
+        
+        this.units.forEach(unit => {
+            const unitCard = this.createUnitCard(unit);
+            unitGrid.appendChild(unitCard);
+        });
+
+        // Update unit count
+        const unitCount = document.getElementById('unit-count');
+        if (unitCount) {
+            unitCount.textContent = `${this.units.length} units`;
+        }
+    }
+
+    createUnitCard(unit) {
+        const card = document.createElement('div');
+        card.className = 'unit-card-3d';
+        card.dataset.unitId = unit.id;
+        
+        const rarityClass = `rarity-${unit.rarity.toLowerCase()}`;
+        
+        card.innerHTML = `
+            <div class="unit-card-image">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="unit-card-name">${unit.name}</div>
+            <div class="unit-card-badges">
+                <span class="unit-badge ${rarityClass}">${unit.rarity}</span>
+                ${unit.element ? `<span class="unit-badge element-${unit.element.toLowerCase()}">${unit.element}</span>` : ''}
+            </div>
+        `;
+
+        card.addEventListener('click', () => this.selectUnit(unit));
+        return card;
+    }
+
+    // Render Buff system
+    renderBuffSystem() {
+        this.renderFamiliars();
+        this.renderElementBuffs();
+        this.renderPassiveSkills();
+        this.renderRecommendations();
+    }
+
+    renderFamiliars() {
+        const familiarGrid = document.getElementById('familiar-grid');
+        if (!familiarGrid) return;
+
+        familiarGrid.innerHTML = '';
+        
+        this.buffData.familiars.forEach(familiar => {
+            const option = document.createElement('div');
+            option.className = 'buff-option';
+            option.dataset.buffId = familiar.id;
+            option.dataset.buffType = 'familiar';
+            
+            option.innerHTML = `
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">${familiar.icon}</div>
+                <div class="buff-name">${familiar.name}</div>
+            `;
+            
+            option.addEventListener('click', () => this.selectBuff('familiar', familiar));
+            familiarGrid.appendChild(option);
+        });
+    }
+
+    renderElementBuffs() {
+        const elementBuffs = document.getElementById('element-buffs');
+        if (!elementBuffs) return;
+
+        elementBuffs.innerHTML = '';
+        
+        this.buffData.elementBuffs.forEach(buff => {
+            const option = document.createElement('div');
+            option.className = 'buff-option';
+            option.dataset.buffId = buff.id;
+            option.dataset.buffType = 'element';
+            
+            option.innerHTML = `
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">${buff.icon}</div>
+                <div class="buff-name">${buff.name}</div>
+            `;
+            
+            option.addEventListener('click', () => this.selectBuff('element', buff));
+            elementBuffs.appendChild(option);
+        });
+    }
+
+    renderPassiveSkills() {
+        const passiveSkills = document.getElementById('passive-skills');
+        if (!passiveSkills) return;
+
+        passiveSkills.innerHTML = '';
+        
+        this.buffData.passiveSkills.forEach(skill => {
+            const option = document.createElement('div');
+            option.className = 'buff-option';
+            option.dataset.buffId = skill.id;
+            option.dataset.buffType = 'passive';
+            
+            option.innerHTML = `
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">${skill.icon}</div>
+                <div class="buff-name">${skill.name}</div>
+            `;
+            
+            option.addEventListener('click', () => this.selectBuff('passive', skill));
+            passiveSkills.appendChild(option);
+        });
+    }
+
+    renderRecommendations() {
+        const recommendationCards = document.getElementById('recommendation-cards');
+        if (!recommendationCards) return;
+
+        // Generate intelligent recommendations
+        this.generateRecommendations();
+        
+        recommendationCards.innerHTML = '';
+        
+        this.recommendations.forEach(rec => {
+            const card = document.createElement('div');
+            card.className = 'recommendation-card';
+            
+            card.innerHTML = `
+                <div class="rec-title">${rec.title}</div>
+                <div class="rec-description">${rec.description}</div>
+            `;
+            
+            card.addEventListener('click', () => this.applyRecommendation(rec));
+            recommendationCards.appendChild(card);
+        });
+    }
+
+    generateRecommendations() {
+        if (!this.currentUnit) {
+            this.recommendations = [];
+            return;
+        }
+
+        this.recommendations = [
+            {
+                title: 'Maximum DPS Configuration',
+                description: 'Focus on maximizing attack power',
+                config: {
+                    familiar: this.buffData.familiars.find(f => f.id === 'phoenix'),
+                    elementBuffs: this.buffData.elementBuffs.filter(b => b.element === this.currentUnit.element),
+                    passiveSkills: [this.buffData.passiveSkills.find(s => s.id === 'berserker')]
+                }
+            },
+            {
+                title: 'Balanced Configuration',
+                description: 'Balance between attack power and speed',
+                config: {
+                    familiar: this.buffData.familiars.find(f => f.id === 'dragon'),
+                    elementBuffs: this.buffData.elementBuffs.filter(b => b.element === this.currentUnit.element),
+                    passiveSkills: [this.buffData.passiveSkills.find(s => s.id === 'balanced')]
+                }
+            },
+            {
+                title: 'Speed Priority',
+                description: 'Maximize attack speed',
+                config: {
+                    familiar: this.buffData.familiars.find(f => f.id === 'eagle'),
+                    elementBuffs: this.buffData.elementBuffs.filter(b => b.element === this.currentUnit.element),
+                    passiveSkills: [this.buffData.passiveSkills.find(s => s.id === 'swift_strike')]
+                }
+            }
         ];
     }
 
@@ -285,7 +498,7 @@ class DPSCalculatorPage {
         // Trait multipliers
         const traitDamageMultiplier = this.currentTrait ? this.currentTrait.damageMultiplier : 1.0;
         const traitSpeedMultiplier = this.currentTrait ? this.currentTrait.speedMultiplier : 1.0;
-        
+
         // Tier bonus multiplier
         const tierMultiplier = {
             'BROKEN': 1.5,
@@ -524,8 +737,376 @@ class DPSCalculatorPage {
 }
 
 // Initialize when DOM is loaded
+    // Select unit
+    selectUnit(unit) {
+        this.currentUnit = unit;
+        
+        // Update selected state
+        document.querySelectorAll('.unit-card-3d').forEach(card => {
+            card.classList.remove('selected');
+        });
+        document.querySelector(`[data-unit-id="${unit.id}"]`).classList.add('selected');
+        
+        // Update unit preview
+        this.updateUnitPreview();
+        
+        // Regenerate recommendations
+        this.renderRecommendations();
+        
+        // Update DPS display
+        this.updateDPSDisplay();
+    }
+
+    // Update unit preview
+    updateUnitPreview() {
+        if (!this.currentUnit) return;
+
+        const previewName = document.getElementById('unit-preview-name');
+        const previewBadges = document.getElementById('unit-preview-badges');
+        
+        if (previewName) {
+            previewName.textContent = this.currentUnit.name;
+        }
+        
+        if (previewBadges) {
+            const rarityClass = `rarity-${this.currentUnit.rarity.toLowerCase()}`;
+            previewBadges.innerHTML = `
+                <span class="unit-badge ${rarityClass}">${this.currentUnit.rarity}</span>
+                ${this.currentUnit.element ? `<span class="unit-badge element-${this.currentUnit.element.toLowerCase()}">${this.currentUnit.element}</span>` : ''}
+            `;
+        }
+    }
+
+    // Select Buff
+    selectBuff(type, buff) {
+        if (type === 'familiar') {
+            this.selectedBuffs.familiar = buff;
+            // Update UI state
+            document.querySelectorAll('.buff-option[data-buff-type="familiar"]').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`[data-buff-id="${buff.id}"]`).classList.add('active');
+        } else if (type === 'element') {
+            const index = this.selectedBuffs.elementBuffs.findIndex(b => b.id === buff.id);
+            if (index > -1) {
+                this.selectedBuffs.elementBuffs.splice(index, 1);
+            } else {
+                this.selectedBuffs.elementBuffs.push(buff);
+            }
+            // Update UI state
+            document.querySelector(`[data-buff-id="${buff.id}"]`).classList.toggle('active');
+        } else if (type === 'passive') {
+            const index = this.selectedBuffs.passiveSkills.findIndex(s => s.id === buff.id);
+            if (index > -1) {
+                this.selectedBuffs.passiveSkills.splice(index, 1);
+            } else {
+                this.selectedBuffs.passiveSkills.push(buff);
+            }
+            // Update UI state
+            document.querySelector(`[data-buff-id="${buff.id}"]`).classList.toggle('active');
+        }
+        
+        this.updateDPSDisplay();
+    }
+
+    // Apply recommendation configuration
+    applyRecommendation(rec) {
+        this.selectedBuffs = { ...rec.config };
+        this.renderBuffSystem();
+        this.updateDPSDisplay();
+    }
+
+    // Filter units
+    filterUnits(searchTerm) {
+        const cards = document.querySelectorAll('.unit-card-3d');
+        const term = searchTerm.toLowerCase();
+        
+        cards.forEach(card => {
+            const name = card.querySelector('.unit-card-name').textContent.toLowerCase();
+            const isVisible = name.includes(term);
+            card.style.display = isVisible ? 'block' : 'none';
+        });
+    }
+
+    // Handle filter button click
+    handleFilterClick(button) {
+        // Remove active state from other buttons
+        button.parentElement.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        button.classList.add('active');
+        
+        // Apply filter
+        const filterType = button.dataset.filter;
+        const elementType = button.dataset.element;
+        
+        if (filterType) {
+            this.filterByRarity(filterType);
+        } else if (elementType) {
+            this.filterByElement(elementType);
+        }
+    }
+
+    // Filter by rarity
+    filterByRarity(rarity) {
+        const cards = document.querySelectorAll('.unit-card-3d');
+        
+        cards.forEach(card => {
+            const unitId = card.dataset.unitId;
+            const unit = this.units.find(u => u.id === unitId);
+            
+            if (rarity === 'all' || unit.rarity === rarity) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Filter by element
+    filterByElement(element) {
+        const cards = document.querySelectorAll('.unit-card-3d');
+        
+        cards.forEach(card => {
+            const unitId = card.dataset.unitId;
+            const unit = this.units.find(u => u.id === unitId);
+            
+            if (element === 'all' || unit.element === element) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Update DPS display
+    updateDPSDisplay() {
+        if (!this.currentUnit) {
+            document.getElementById('dps-value').textContent = '0';
+            return;
+        }
+
+        const dps = this.calculateDPS();
+        const stats = this.calculateStats();
+        
+        // Update DPS value
+        document.getElementById('dps-value').textContent = this.formatNumber(dps);
+        
+        // Update stat cards
+        document.getElementById('attack-value').textContent = this.formatNumber(stats.attack);
+        document.getElementById('speed-value').textContent = this.formatNumber(stats.speed);
+        document.getElementById('range-value').textContent = stats.range;
+        document.getElementById('survival-value').textContent = this.formatNumber(stats.survival);
+        
+        // Update change percentages
+        this.updateStatChanges(stats);
+    }
+
+    // Calculate DPS
+    calculateDPS() {
+        if (!this.currentUnit) return 0;
+
+        let attack = this.currentUnit.baseAttack || 100;
+        let speed = this.currentUnit.baseSpeed || 1.0;
+        
+        // Apply level bonus
+        const levelMultiplier = 1 + (this.currentLevel - 1) * 0.1;
+        attack *= levelMultiplier;
+        speed *= levelMultiplier;
+        
+        // Apply Familiar bonus
+        if (this.selectedBuffs.familiar) {
+            attack *= (1 + this.selectedBuffs.familiar.attackBonus);
+            speed *= (1 + this.selectedBuffs.familiar.speedBonus);
+        }
+        
+        // Apply element Buff bonus
+        this.selectedBuffs.elementBuffs.forEach(buff => {
+            if (buff.element === this.currentUnit.element) {
+                attack *= (1 + (buff.attackBonus || 0));
+                speed *= (1 + (buff.speedBonus || 0));
+            }
+        });
+        
+        // Apply passive skill bonus
+        this.selectedBuffs.passiveSkills.forEach(skill => {
+            attack *= (1 + (skill.attackBonus || 0));
+            speed *= (1 + (skill.speedBonus || 0));
+        });
+        
+        return attack * speed;
+    }
+
+    // Calculate detailed stats
+    calculateStats() {
+        if (!this.currentUnit) return { attack: 0, speed: 0, range: 'Medium', survival: 0 };
+
+        let attack = this.currentUnit.baseAttack || 100;
+        let speed = this.currentUnit.baseSpeed || 1.0;
+        let survival = 1000; // Base health
+        
+        // Apply various bonuses...
+        const levelMultiplier = 1 + (this.currentLevel - 1) * 0.1;
+        attack *= levelMultiplier;
+        speed *= levelMultiplier;
+        survival *= levelMultiplier;
+        
+        return {
+            attack: Math.round(attack),
+            speed: Math.round(speed * 100) / 100,
+            range: this.currentUnit.range || 'Medium',
+            survival: Math.round(survival)
+        };
+    }
+
+    // Update stat changes
+    updateStatChanges(stats) {
+        // Here you can add comparison calculation with base values
+        document.getElementById('attack-change').textContent = '+0%';
+        document.getElementById('speed-change').textContent = '+0%';
+        document.getElementById('range-change').textContent = '+0%';
+        document.getElementById('survival-change').textContent = '+0%';
+    }
+
+    // Format number
+    formatNumber(num) {
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1) + 'M';
+        } else if (num >= 1000) {
+            return (num / 1000).toFixed(1) + 'K';
+        }
+        return Math.round(num).toString();
+    }
+
+    // Configuration management methods
+    saveConfiguration() {
+        const config = {
+            unit: this.currentUnit,
+            level: this.currentLevel,
+            upgrade: this.currentUpgrade,
+            buffs: this.selectedBuffs,
+            timestamp: new Date().toISOString()
+        };
+        
+        const configs = JSON.parse(localStorage.getItem('dps-configs') || '[]');
+        configs.push(config);
+        localStorage.setItem('dps-configs', JSON.stringify(configs));
+        
+        alert('Configuration saved!');
+    }
+
+    loadConfiguration() {
+        const configs = JSON.parse(localStorage.getItem('dps-configs') || '[]');
+        if (configs.length === 0) {
+            alert('No saved configurations!');
+            return;
+        }
+        
+        // Here you can add configuration selection interface
+        const latestConfig = configs[configs.length - 1];
+        this.applyConfiguration(latestConfig);
+    }
+
+    applyConfiguration(config) {
+        this.currentUnit = config.unit;
+        this.currentLevel = config.level;
+        this.currentUpgrade = config.upgrade;
+        this.selectedBuffs = config.buffs;
+        
+        this.renderUnits();
+        this.renderBuffSystem();
+        this.updateDPSDisplay();
+    }
+
+    shareConfiguration() {
+        const config = {
+            unit: this.currentUnit?.id,
+            level: this.currentLevel,
+            upgrade: this.currentUpgrade,
+            buffs: this.selectedBuffs
+        };
+        
+        const shareUrl = `${window.location.origin}${window.location.pathname}?config=${encodeURIComponent(JSON.stringify(config))}`;
+        
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            alert('Configuration link copied to clipboard!');
+        });
+    }
+}
+
+// Debug mode toggle
+function toggleDebugMode() {
+    window.DEBUG_MODE = !window.DEBUG_MODE;
+    console.log(`Debug mode: ${window.DEBUG_MODE ? 'enabled' : 'disabled'}`);
+    
+    // Update button display
+    const debugBtn = document.getElementById('debug-toggle');
+    if (debugBtn) {
+        debugBtn.textContent = window.DEBUG_MODE ? 'Disable Debug' : 'Enable Debug';
+        debugBtn.className = window.DEBUG_MODE ? 'btn btn-warning' : 'btn btn-secondary';
+    }
+}
+
+// Quick validation of all character data
+function quickValidateAll() {
+    console.log('🔍 Starting quick validation of all character data...');
+    
+    const units = window.UnitDatabaseData?.loadAllUnits() || [];
+    let validCount = 0;
+    let warningCount = 0;
+    
+    units.forEach(unit => {
+        const maxDPSValue = window.extractDPSValue(unit.maxDPS);
+        if (maxDPSValue > 0) {
+            // Calculate DPS at level 60 with max upgrades
+            const result = window.calculateDPS({
+                selectedUnit: unit,
+                level: 60,
+                upgradeLevel: 5
+            });
+            
+            const ratio = result.dps / maxDPSValue;
+            if (ratio > 0.5 && ratio < 2.0) {
+                validCount++;
+            } else {
+                warningCount++;
+                console.warn(`⚠️ ${unit.name}: Calculated DPS(${result.dps}) vs Database maxDPS(${maxDPSValue}) = ${ratio.toFixed(2)}`);
+            }
+        }
+    });
+    
+    console.log(`✅ Validation complete: ${validCount} normal, ${warningCount} abnormal`);
+    alert(`Validation complete!\nNormal: ${validCount}\nAbnormal: ${warningCount}\nCheck console for detailed results`);
+}
+
+// Add debug control buttons
+function addDebugControls() {
+    const controlsDiv = document.createElement('div');
+    controlsDiv.className = 'debug-controls';
+    controlsDiv.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        background: rgba(0,0,0,0.8);
+        padding: 10px;
+        border-radius: 5px;
+        color: white;
+    `;
+    
+    controlsDiv.innerHTML = `
+        <button id="debug-toggle" class="btn btn-secondary" onclick="toggleDebugMode()">Enable Debug</button>
+        <button class="btn btn-info" onclick="quickValidateAll()" style="margin-left: 5px;">Quick Validate</button>
+    `;
+    
+    document.body.appendChild(controlsDiv);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('calculatorPage')) {
         window.dpsCalculator = new DPSCalculatorPage();
+        
+        // Add debug controls
+        addDebugControls();
     }
 });

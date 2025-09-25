@@ -1,4 +1,4 @@
-// 使用全局变量而不是ES6模块导入
+// Use global variables instead of ES6 module imports
 // import { UnitSelector } from './unit-selector.js';
 // import { ConfigPanel } from './config-panel.js';
 // import { ResultsDisplay } from './results-display.js';
@@ -10,8 +10,7 @@ class DPSCalculator {
             selectedUnit: null,
             level: 1,
             upgradeLevel: 0,
-            traits: [],
-            familiar: null
+            buffs: {}
         };
         
         this.initializeComponents();
@@ -25,24 +24,24 @@ class DPSCalculator {
     }
 
     bindEvents() {
-        // 全局事件绑定
+        // Global event binding
         console.log('DPS Calculator events bound successfully');
         
-        // 窗口大小变化处理
+        // Window resize handling
         window.addEventListener('resize', this.handleResize.bind(this));
         
-        // 键盘快捷键
+        // Keyboard shortcuts
         document.addEventListener('keydown', this.handleKeydown.bind(this));
     }
 
     handleResize() {
-        // 处理窗口大小变化
+        // Handle window resize
         console.log('Window resized, recalculating...');
         this.updateCalculation();
     }
 
     handleKeydown(event) {
-        // 键盘快捷键处理
+        // Keyboard shortcut handling
         if (event.ctrlKey && event.key === 'r') {
             event.preventDefault();
             this.resetCalculator();
@@ -50,16 +49,15 @@ class DPSCalculator {
     }
 
     resetCalculator() {
-        // 重置计算器
+        // Reset calculator
         this.state = {
             selectedUnit: null,
             level: 1,
             upgradeLevel: 0,
-            traits: [],
-            familiar: null
+            buffs: {}
         };
         
-        // 重置UI
+        // ResetUI
         const levelSlider = document.getElementById('level-slider');
         const levelValue = document.getElementById('level-value');
         const upgradeSelect = document.getElementById('upgrade-select');
@@ -68,9 +66,15 @@ class DPSCalculator {
         if (levelValue) levelValue.textContent = '1';
         if (upgradeSelect) upgradeSelect.value = 0;
         
-        // 清除选中状态
+        // ResetBuffOptions
+        const buffCheckboxes = document.querySelectorAll('.buff-option input[type="checkbox"]');
+        buffCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        // Clear selected state
         document.querySelectorAll('#unit-grid > div').forEach(el => {
-            el.classList.remove('ring-2', 'ring-blue-500');
+            el.classList.remove('selected');
         });
         
         this.updateCalculation();
@@ -89,25 +93,43 @@ class DPSCalculator {
     }
 
     updateCalculation() {
-        if (!this.state.selectedUnit) return;
+        if (!this.state.selectedUnit) {
+            this.resultsDisplay.update({
+                dps: 0,
+                baseDamage: 0,
+                attackSpeed: 0,
+                range: 0,
+                level: this.state.level,
+                upgradeLevel: this.state.upgradeLevel,
+                buffs: this.state.buffs,
+                unit: null
+            });
+            return;
+        }
         
         const dpsResult = window.calculateDPS(this.state);
-        this.resultsDisplay.update(dpsResult);
+        this.resultsDisplay.update({
+            ...dpsResult,
+            unit: this.state.selectedUnit,
+            level: this.state.level,
+            upgradeLevel: this.state.upgradeLevel,
+            buffs: this.state.buffs
+        });
     }
 }
 
-// 防止重复初始化
+// Prevent duplicate initialization
 let dpsCalculatorInitialized = false;
 
-// 等待数据加载完成后初始化
+// Initialize after data loading is complete
 function initializeDPSCalculator() {
-    // 防止重复初始化
+    // Prevent duplicate initialization
     if (dpsCalculatorInitialized) {
         console.log('⏭️ DPS Calculator already initialized, skipping');
         return;
     }
     
-    // 检查依赖是否加载完成
+    // Check if dependencies are loaded
     if (!window.UnitDatabaseData || !window.UnitSelector || !window.ConfigPanel || !window.ResultsDisplay || !window.calculateDPS) {
         console.log('Waiting for dependencies to load...');
         setTimeout(initializeDPSCalculator, 100);
@@ -125,7 +147,7 @@ function initializeDPSCalculator() {
     }
 }
 
-// 页面加载完成后初始化
+// Initialize after page load
 document.addEventListener('DOMContentLoaded', () => {
     initializeDPSCalculator();
 });
