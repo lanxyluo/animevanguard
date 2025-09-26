@@ -115,13 +115,21 @@ class DPSCalculator {
         const dpsResult = window.calculateDPS(this.state);
         console.log('📊 DPS Result:', dpsResult);
         
-        this.resultsDisplay.update({
+        // Ensure all required data is passed to results display
+        const resultData = {
             ...dpsResult,
             unit: this.state.selectedUnit,
             level: this.state.level,
             upgradeLevel: this.state.upgradeLevel,
-            buffs: this.state.buffs
-        });
+            buffs: this.state.buffs,
+            // Ensure these values are explicitly set
+            baseDamage: dpsResult.baseDamage || 0,
+            attackSpeed: dpsResult.attackSpeed || 0,
+            range: dpsResult.range || 0
+        };
+        
+        console.log('📋 Final result data for display:', resultData);
+        this.resultsDisplay.update(resultData);
     }
 }
 
