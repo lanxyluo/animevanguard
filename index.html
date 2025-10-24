@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Anime Vanguards Beginner Helper | Quick Starter Guides & Unit Tips</title>
+    <meta
+      name="description"
+      content="Anime Vanguards beginner helper: learn top starter units, get tailored recommendations, and compare popular characters in minutes."
+    />
+    <link rel="icon" href="favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Anime Vanguards Beginner Helper",
+        "url": "https://animevanguardswiki.com/",
+        "description": "Beginner-friendly Anime Vanguards guide with unit recommendations and comparisons.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://animevanguardswiki.com/compare.html?focus={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-40 bg-slate-950/70 backdrop-blur border-b border-slate-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-3 text-indigo-200 font-semibold text-lg tracking-wide">
+            <span class="inline-flex h-8 w-8 rounded-full bg-indigo-500/20 items-center justify-center text-indigo-300">AV</span>
+            Anime Vanguards Helper
+          </a>
+          <button
+            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-slate-700 text-slate-300 hover:text-white"
+            data-mobile-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            ☰
+          </button>
+          <div class="hidden md:flex items-center gap-8 text-sm">
+            <a href="#features" class="text-slate-200 hover:text-indigo-200">Features</a>
+            <a href="#popular-units" class="text-slate-200 hover:text-indigo-200">Popular Units</a>
+            <a href="recommend.html" class="text-slate-200 hover:text-indigo-200">Recommendation</a>
+            <a href="compare.html" class="text-slate-200 hover:text-indigo-200">Compare Units</a>
+          </div>
+        </nav>
+        <div id="mobile-menu" data-mobile-menu class="hidden md:hidden pb-4">
+          <div class="flex flex-col gap-3 text-sm text-slate-200">
+            <a href="#features" class="hover:text-indigo-200">Features</a>
+            <a href="#popular-units" class="hover:text-indigo-200">Popular Units</a>
+            <a href="recommend.html" class="hover:text-indigo-200">Recommendation</a>
+            <a href="compare.html" class="hover:text-indigo-200">Compare Units</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 pb-16">
+      <section class="relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute -top-24 -left-24 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl"></div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <span class="text-xs font-semibold tracking-wide uppercase text-indigo-300">Anime Vanguards</span>
+              <h1 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                Anime Vanguards Beginner Helper
+              </h1>
+              <p class="mt-6 text-lg text-slate-300 max-w-xl">
+                Learn which units to build, how to structure your team, and where to spend your gems. Follow our 3-step
+                assistant and become battle-ready in minutes.
+              </p>
+              <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                <a
+                  class="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-indigo-500 hover:bg-indigo-400 text-white font-semibold shadow-lg shadow-indigo-500/20 transition"
+                  href="recommend.html"
+                >
+                  Get Unit Recommendations
+                </a>
+                <a
+                  class="inline-flex items-center justify-center px-6 py-3 rounded-2xl border border-slate-700 text-slate-200 hover:border-indigo-400 hover:text-indigo-200 transition"
+                  href="compare.html"
+                >
+                  Compare Popular Units
+                </a>
+              </div>
+              <div class="mt-10 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-700">
+                  <span class="inline-flex w-2 h-2 rounded-full bg-emerald-400"></span>
+                  Built for brand-new players
+                </span>
+                <span data-version-badge></span>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-3xl"></div>
+              <div class="relative gradient-border rounded-3xl p-[1px]">
+                <div class="rounded-3xl bg-slate-900/80 border border-slate-800/90 px-6 py-8 space-y-6">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-indigo-200">Why players love this helper</h2>
+                    <span class="text-xs text-slate-400">We focus on clarity</span>
+                  </div>
+                  <ul class="space-y-4 text-sm text-slate-300">
+                    <li class="flex items-start gap-3">
+                      <span class="mt-1 text-indigo-300">◆</span>
+                      <div>
+                        <p class="font-medium text-slate-100">3-question assistant</p>
+                        <p>Get tailored beginner picks without reading huge spreadsheets.</p>
+                      </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <span class="mt-1 text-indigo-300">◆</span>
+                      <div>
+                        <p class="font-medium text-slate-100">Easy star ratings</p>
+                        <p>Understand damage, cost efficiency, and difficulty at a glance.</p>
+                      </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <span class="mt-1 text-indigo-300">◆</span>
+                      <div>
+                        <p class="font-medium text-slate-100">Trusted by data</p>
+                        <p>Every recommendation references the official Anime Vanguards wiki.</p>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="pt-4 border-t border-slate-800">
+                    <p class="text-xs text-slate-500">
+                      Data verified against the official Anime Vanguards wiki and updated regularly when new patches drop.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header class="mb-12">
+            <h2 class="section-heading text-2xl font-semibold text-white">Get started in three simple steps</h2>
+            <p class="mt-3 text-slate-400 max-w-2xl">
+              Skip the overwhelming spreadsheets. Our tools break down builds and team choices into actionable tips for
+              fresh Anime Vanguards players.
+            </p>
+          </header>
+          <div class="grid gap-6 md:grid-cols-3">
+            <article class="gradient-border rounded-3xl p-[1px]">
+              <div class="noise-bg rounded-3xl bg-slate-900/70 border border-slate-800 h-full p-6 flex flex-col gap-4">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-200 text-lg font-semibold">
+                  1
+                </div>
+                <h3 class="text-xl font-semibold text-white">Beginner Recommendation</h3>
+                <p class="text-sm text-slate-300">
+                  Answer three quick questions and receive the top three starter-friendly units curated for your playstyle.
+                </p>
+                <a href="recommend.html" class="mt-auto inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-100 text-sm font-medium">
+                  Start the assistant →
+                </a>
+              </div>
+            </article>
+            <article class="gradient-border rounded-3xl p-[1px]">
+              <div class="noise-bg rounded-3xl bg-slate-900/70 border border-slate-800 h-full p-6 flex flex-col gap-4">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-200 text-lg font-semibold">
+                  2
+                </div>
+                <h3 class="text-xl font-semibold text-white">Unit Compare Tool</h3>
+                <p class="text-sm text-slate-300">
+                  Use star ratings and plain-language summaries to see which character suits your account right now.
+                </p>
+                <a href="compare.html" class="mt-auto inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-100 text-sm font-medium">
+                  Compare your picks →
+                </a>
+              </div>
+            </article>
+            <article class="gradient-border rounded-3xl p-[1px]">
+              <div class="noise-bg rounded-3xl bg-slate-900/70 border border-slate-800 h-full p-6 flex flex-col gap-4">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-200 text-lg font-semibold">
+                  3
+                </div>
+                <h3 class="text-xl font-semibold text-white">Popular Units Insights</h3>
+                <p class="text-sm text-slate-300">
+                  Track the meta with curated summaries of the most talked-about Anime Vanguards units.
+                </p>
+                <a href="#popular-units" class="mt-auto inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-100 text-sm font-medium">
+                  View highlights ↓
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="popular-units" class="py-20 bg-slate-950/60 border-y border-slate-800/70">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div>
+              <h2 class="section-heading text-2xl font-semibold text-white">Popular units right now</h2>
+              <p class="mt-3 text-sm text-slate-400 max-w-2xl">
+                Updated with every patch so you know which units are trending and why they matter. Pulled directly from
+                official wiki data and top player reports.
+              </p>
+            </div>
+            <div class="text-xs text-slate-400 flex flex-col items-start">
+              <span class="uppercase text-slate-500 tracking-wide">Data source</span>
+              <span>Official Anime Vanguards wiki & meta snapshots</span>
+            </div>
+          </header>
+          <div id="popular-units-container" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3"></div>
+          <div id="popular-units-empty" class="hidden text-center text-slate-400 text-sm py-8">
+            No popular units available right now. Check back after the next update.
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header class="mb-10 text-center">
+            <h2 class="section-heading text-2xl font-semibold text-white">Frequently asked questions</h2>
+            <p class="mt-3 text-slate-400">
+              Designed for new players who want direct, easy-to-follow answers without jargon.
+            </p>
+          </header>
+          <div id="faq-container" class="space-y-4"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mt-auto border-t border-slate-800/70 bg-slate-950/80">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-400">
+          <div>
+            <span class="font-semibold text-slate-200">Anime Vanguards Beginner Helper</span>
+            <p class="mt-1 text-xs text-slate-500">
+              Independent resource built for new players. Data sourced from Anime Vanguards official wiki & patch notes.
+            </p>
+          </div>
+          <div class="flex gap-4">
+            <a class="hover:text-indigo-300" href="recommend.html">Unit Recommendation</a>
+            <a class="hover:text-indigo-300" href="compare.html">Compare Units</a>
+          </div>
+          <div class="text-xs text-slate-500">
+            <p>Looking for data corrections? Contact the team via Discord: <span class="text-indigo-300">@av-helper</span>.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (!window.AV) {
+          console.error("AV helpers not available.");
+          return;
+        }
+
+        const { GameData, Utils, PageHandler } = window.AV;
+        PageHandler.initCommon();
+
+        // Populate popular units list
+        const container = document.getElementById("popular-units-container");
+        const emptyState = document.getElementById("popular-units-empty");
+        try {
+          const units = GameData.getAllUnits()
+            .sort((a, b) => {
+              const tierScore = (value) => {
+                const map = { "S+": 4, S: 3, A: 2, B: 1, C: 0 };
+                return map[value] ?? 0;
+              };
+              const scoreA = tierScore(b.tier) - tierScore(a.tier);
+              const ratingA = (b.ratings?.damage || 0) - (a.ratings?.damage || 0);
+              return scoreA !== 0 ? scoreA : ratingA;
+            })
+            .slice(0, 5);
+
+          if (!units.length) {
+            container.classList.add("hidden");
+            emptyState.classList.remove("hidden");
+          } else {
+            const html = units.map((unit) => Utils.generateUnitCard(unit)).join("");
+            container.innerHTML = html;
+            container.classList.remove("hidden");
+            emptyState.classList.add("hidden");
+          }
+        } catch (error) {
+          console.error("Failed to render popular units:", error);
+          container.classList.add("hidden");
+          emptyState.classList.remove("hidden");
+          Utils.showNotification("Unable to load popular units right now.", "warning");
+        }
+
+        // Populate FAQ
+        const faqContainer = document.getElementById("faq-container");
+        const faqs = GameData.getFaq();
+        faqContainer.innerHTML = faqs
+          .map(
+            (item, index) => `
+              <article data-faq-item class="border border-slate-800 rounded-2xl bg-slate-900/70 overflow-hidden">
+                <button
+                  class="w-full flex justify-between items-center text-left px-5 py-4 text-slate-200 hover:text-indigo-200 transition"
+                  aria-expanded="${index === 0 ? "true" : "false"}"
+                >
+                  <span class="font-medium">${item.question}</span>
+                  <span class="text-indigo-300 text-sm">${index === 0 ? "−" : "+"}</span>
+                </button>
+                <div class="${index === 0 ? "" : "hidden"} px-5 pb-5 text-sm text-slate-300" data-faq-answer>
+                  ${item.answer}
+                </div>
+              </article>
+            `
+          )
+          .join("");
+      });
+    </script>
+  </body>
+</html>
+
