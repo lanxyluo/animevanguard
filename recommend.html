@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>角色推荐器 - Anime Vanguards 新手助手</title>
+    <meta
+      name="description"
+      content="Anime Vanguards character recommender for beginners: answer 3 guided questions to discover the best DPS, support, and balanced heroes based on your budget."
+    />
+    <meta
+      name="keywords"
+      content="Anime Vanguards character recommender, Anime Vanguards beginner DPS guide, Anime Vanguards F2P support recommendations"
+    />
+    <link rel="icon" href="favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Anime Vanguards",
+        "url": "https://animevanguardswiki.com/recommend.html",
+        "isFamilyFriendly": true,
+        "inLanguage": "en",
+        "genre": ["Tower Defense", "Anime"],
+        "applicationCategory": "GameGuide",
+        "description": "Anime Vanguards starter helper that recommends top DPS, support, and balanced characters for new and veteran players based on budget and experience.",
+        "gamePlatform": ["PC", "Mobile"],
+        "publisher": {
+          "@type": "Organization",
+          "name": "Anime Vanguards Helper"
+        }
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-40 bg-slate-950/70 backdrop-blur border-b border-slate-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-3 text-indigo-200 font-semibold text-lg tracking-wide">
+            <span class="inline-flex h-8 w-8 rounded-full bg-indigo-500/20 items-center justify-center text-indigo-300">AV</span>
+            Anime Vanguards Helper
+          </a>
+          <button
+            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-slate-700 text-slate-300 hover:text-white"
+            data-mobile-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            &#9776;
+          </button>
+          <div class="hidden md:flex items-center gap-8 text-sm">
+            <a href="index.html#features" class="text-slate-200 hover:text-indigo-200">Features</a>
+            <a href="index.html#popular-units" class="text-slate-200 hover:text-indigo-200">Popular Units</a>
+            <a href="recommend.html" class="text-indigo-300 font-semibold">Recommendation</a>
+            <a href="compare.html" class="text-slate-200 hover:text-indigo-200">Compare Units</a>
+          </div>
+        </nav>
+        <div id="mobile-menu" data-mobile-menu class="hidden md:hidden pb-4">
+          <div class="flex flex-col gap-3 text-sm text-slate-200">
+            <a href="index.html#features" class="hover:text-indigo-200">Features</a>
+            <a href="index.html#popular-units" class="hover:text-indigo-200">Popular Units</a>
+            <a href="recommend.html" class="text-indigo-300 font-semibold">Recommendation</a>
+            <a href="compare.html" class="hover:text-indigo-200">Compare Units</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 bg-slate-950/70">
+      <section class="relative overflow-hidden border-b border-slate-800">
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute -top-24 -left-24 w-80 h-80 bg-indigo-500/15 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        </div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 relative z-10">
+          <div class="max-w-3xl">
+            <span class="text-xs font-semibold tracking-wide uppercase text-indigo-300">Anime Vanguards helper</span>
+            <h1 class="mt-4 text-3xl sm:text-4xl font-bold text-white leading-tight">
+              Personalized character recommendations in three guided steps
+            </h1>
+            <p class="mt-6 text-slate-300 text-lg">
+              Answer a quick trio of questions (experience, role preference, budget) and receive tailored Anime Vanguards picks,
+              complete with star ratings, acquisition tips, and why each hero matches your play style.
+            </p>
+            <div class="mt-6 text-sm text-slate-400 flex flex-wrap gap-4 items-center">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Optimized for new players & returning veterans
+              </div>
+              <div data-version-badge></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div id="recommender-app" class="space-y-10">
+            <div class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg shadow-slate-950/30">
+              <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h2 class="text-xl font-semibold text-white">Step-by-step wizard</h2>
+                  <p class="text-sm text-slate-400">Select one answer per step to build your tailored recommendation profile.</p>
+                </div>
+                <div class="flex items-center gap-3 text-xs text-slate-400">
+                  <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-300 font-semibold" data-current-step-count>1</span>
+                  <span>of</span>
+                  <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-slate-300 font-semibold">3</span>
+                </div>
+              </header>
+
+              <ol data-step-indicators class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                <li class="rounded-2xl border border-indigo-400/60 bg-indigo-500/10 px-4 py-3 text-indigo-200" data-step-indicator="experience">
+                  <span class="block text-xs uppercase tracking-wide text-indigo-300/80 mb-1">Step 1</span>
+                  Choose your experience level
+                </li>
+                <li class="rounded-2xl border border-slate-700 bg-slate-800/70 px-4 py-3 text-slate-400" data-step-indicator="role">
+                  <span class="block text-xs uppercase tracking-wide text-slate-500 mb-1">Step 2</span>
+                  Pick your role preference
+                </li>
+                <li class="rounded-2xl border border-slate-700 bg-slate-800/70 px-4 py-3 text-slate-400" data-step-indicator="budget">
+                  <span class="block text-xs uppercase tracking-wide text-slate-500 mb-1">Step 3</span>
+                  Set your spending plan
+                </li>
+              </ol>
+
+              <div class="mt-8 space-y-8">
+                <section data-step-panel="experience" class="flex flex-col gap-4">
+                  <header>
+                    <h3 class="text-lg font-semibold text-white">How experienced are you with Anime Vanguards?</h3>
+                    <p class="text-sm text-slate-400">
+                      Helps us balance beginner friendliness against raw tier rankings.
+                    </p>
+                  </header>
+                  <div class="grid gap-4 sm:grid-cols-3">
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="experience"
+                      data-option-value="newbie"
+                    >
+                      <span class="text-sm uppercase text-indigo-300/80">New player</span>
+                      <span class="text-lg font-semibold text-white">I just started</span>
+                      <p class="text-xs text-slate-400">Prioritize easy-to-use, low-investment heroes.</p>
+                    </button>
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="experience"
+                      data-option-value="some_exp"
+                    >
+                      <span class="text-sm uppercase text-indigo-300/80">Experienced</span>
+                      <span class="text-lg font-semibold text-white">I know the basics</span>
+                      <p class="text-xs text-slate-400">Balance damage and utility with manageable costs.</p>
+                    </button>
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="experience"
+                      data-option-value="veteran"
+                    >
+                      <span class="text-sm uppercase text-indigo-300/80">Veteran</span>
+                      <span class="text-lg font-semibold text-white">I chase meta</span>
+                      <p class="text-xs text-slate-400">Focus on tier rankings and peak performance.</p>
+                    </button>
+                  </div>
+                </section>
+
+                <section data-step-panel="role" class="hidden flex-col gap-4">
+                  <header>
+                    <h3 class="text-lg font-semibold text-white">What kind of role fits your squad?</h3>
+                    <p class="text-sm text-slate-400">
+                      We tune the scoring to boost your preferred playstyle.
+                    </p>
+                  </header>
+                  <div class="grid gap-4 sm:grid-cols-3">
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="role"
+                      data-option-value="damage"
+                    >
+                      <span class="text-sm uppercase text-rose-300/80">Damage</span>
+                      <span class="text-lg font-semibold text-white">Top DPS carry</span>
+                      <p class="text-xs text-slate-400">Burst, AOE, and boss-melting units.</p>
+                    </button>
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="role"
+                      data-option-value="support"
+                    >
+                      <span class="text-sm uppercase text-cyan-300/80">Support</span>
+                      <span class="text-lg font-semibold text-white">Utility & buffs</span>
+                      <p class="text-xs text-slate-400">Crowd control, healing, and range boosts.</p>
+                    </button>
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="role"
+                      data-option-value="balanced"
+                    >
+                      <span class="text-sm uppercase text-amber-300/80">Balanced</span>
+                      <span class="text-lg font-semibold text-white">Reliable hybrid</span>
+                      <p class="text-xs text-slate-400">Solid damage with survivability and utility.</p>
+                    </button>
+                  </div>
+                </section>
+
+                <section data-step-panel="budget" class="hidden flex-col gap-4">
+                  <header>
+                    <h3 class="text-lg font-semibold text-white">What is your budget strategy?</h3>
+                    <p class="text-sm text-slate-400">
+                      Filters out units that are hard to obtain for your spending level.
+                    </p>
+                  </header>
+                  <div class="grid gap-4 sm:grid-cols-3">
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="budget"
+                      data-option-value="f2p"
+                    >
+                      <span class="text-sm uppercase text-emerald-300/80">Free to play</span>
+                      <span class="text-lg font-semibold text-white">Zero spend</span>
+                      <p class="text-xs text-slate-400">Focus on Rare & Epic heroes with easy shards.</p>
+                    </button>
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="budget"
+                      data-option-value="light_spender"
+                    >
+                      <span class="text-sm uppercase text-indigo-300/80">Light spender</span>
+                      <span class="text-lg font-semibold text-white">Small boosts</span>
+                      <p class="text-xs text-slate-400">Unlock powerful Legendary picks with fair grind.</p>
+                    </button>
+                    <button
+                      type="button"
+                      class="option-card flex flex-col items-start gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-4 py-5 text-left hover:border-indigo-400/70 hover:bg-slate-900 transition"
+                      data-option-group="budget"
+                      data-option-value="whale"
+                    >
+                      <span class="text-sm uppercase text-rose-300/80">Whale</span>
+                      <span class="text-lg font-semibold text-white">All-in meta</span>
+                      <p class="text-xs text-slate-400">Access Mythic & Secret units with maxed potential.</p>
+                    </button>
+                  </div>
+                </section>
+              </div>
+
+              <footer class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="flex items-center gap-3 text-xs text-slate-400">
+                  <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-slate-300 font-semibold" data-progress-percent>33%</span>
+                  <span>Progress toward recommendation</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <button
+                    type="button"
+                    class="px-4 py-2 rounded-xl border border-slate-700 text-slate-300 hover:text-indigo-200 hover:border-indigo-400 transition"
+                    data-action="previous"
+                    disabled
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="px-5 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-semibold transition"
+                    data-action="next"
+                  >
+                    Next step
+                  </button>
+                </div>
+              </footer>
+            </div>
+
+            <div data-results-section class="hidden space-y-8">
+              <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                  <h2 class="text-2xl font-semibold text-white">Top 3 matches for you</h2>
+                  <p class="text-sm text-slate-400">
+                    Scored on beginner friendliness, damage, acquisition difficulty, and cost efficiency, tuned by your answers.
+                  </p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    class="px-4 py-2 rounded-xl border border-slate-700 text-slate-200 hover:border-indigo-400 hover:text-indigo-200 transition"
+                    data-action="restart"
+                  >
+                    Start over
+                  </button>
+                  <a
+                    class="px-4 py-2 rounded-xl border border-indigo-500/50 text-indigo-200 hover:bg-indigo-500/10 transition"
+                    href="compare.html"
+                    data-action="compare"
+                  >
+                    View compare tool
+                  </a>
+                  <button
+                    type="button"
+                    class="px-4 py-2 rounded-xl bg-emerald-500/90 hover:bg-emerald-400 text-slate-900 font-semibold transition"
+                    data-action="share"
+                  >
+                    Share results
+                  </button>
+                </div>
+              </header>
+
+              <div class="grid gap-6 lg:grid-cols-3" data-results-list></div>
+
+              <section class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 space-y-4">
+                <header>
+                  <h3 class="text-lg font-semibold text-white">Why these heroes were selected</h3>
+                  <p class="text-sm text-slate-400">
+                    Transparent scoring so you understand the trade-offs behind each pick.
+                  </p>
+                </header>
+                <ul class="space-y-2 text-sm text-slate-300" data-rationale-list></ul>
+              </section>
+
+              <section class="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 space-y-4">
+                <header class="flex items-center gap-3">
+                  <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-300 text-lg font-semibold">Next</span>
+                  <div>
+                    <h3 class="text-lg font-semibold text-white">Recommended next steps</h3>
+                    <p class="text-sm text-slate-400">
+                      Follow-through actions to make the most of your recommendations.
+                    </p>
+                  </div>
+                </header>
+                <div class="grid gap-3 sm:grid-cols-2 text-sm text-slate-300" data-next-steps></div>
+              </section>
+
+              <section class="bg-slate-900/40 border border-slate-800 rounded-3xl p-6" data-saved-results>
+                <header class="flex items-center justify-between">
+                  <h3 class="text-lg font-semibold text-white">Last saved recommendation</h3>
+                  <button
+                    type="button"
+                    class="text-xs text-slate-400 hover:text-rose-300 transition"
+                    data-action="clear-saved"
+                  >
+                    Clear history
+                  </button>
+                </header>
+                <p class="mt-3 text-sm text-slate-400">
+                  We store your latest results locally so you can revisit or compare later.
+                </p>
+                <div class="mt-4 grid gap-4 md:grid-cols-3" data-saved-results-list></div>
+                <p class="mt-3 text-xs text-slate-500" data-saved-results-empty>No saved results yet. Run the recommender to store your picks.</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pb-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+            <header>
+              <h2 class="section-heading text-2xl font-semibold text-white">How the scoring works</h2>
+            </header>
+            <div class="grid gap-6 md:grid-cols-2 text-sm text-slate-300">
+              <article class="space-y-2">
+                <h3 class="text-lg font-semibold text-indigo-200">Dynamic weighting</h3>
+                <p>Experience level shifts the priority between beginner friendliness, Tier ranking, and synergy requirements.</p>
+              </article>
+              <article class="space-y-2">
+                <h3 class="text-lg font-semibold text-indigo-200">Role targeting</h3>
+                <p>Role preference boosts the relevant stats (DPS, support utility, or balanced spreads) from the dataset.</p>
+              </article>
+              <article class="space-y-2">
+                <h3 class="text-lg font-semibold text-indigo-200">Budget filter</h3>
+                <p>Budget choice removes units above your rarity threshold or cost ceiling so results stay realistic.</p>
+              </article>
+              <article class="space-y-2">
+                <h3 class="text-lg font-semibold text-indigo-200">Explainable picks</h3>
+                <p>Each recommendation lists matching criteria, star ratings, and acquisition advice so you know the path forward.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mt-auto border-t border-slate-800/70 bg-slate-950/80">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-400">
+          <div>
+            <span class="font-semibold text-slate-200">Anime Vanguards Beginner Helper</span>
+            <p class="mt-1 text-xs text-slate-500">
+              Independent resource built for new players. Data sourced from Anime Vanguards official wiki & patch notes.
+            </p>
+          </div>
+          <div class="flex gap-4">
+            <a class="hover:text-indigo-300" href="recommend.html">Unit Recommendation</a>
+            <a class="hover:text-indigo-300" href="compare.html">Compare Units</a>
+          </div>
+          <div class="text-xs text-slate-500">
+            <p>Looking for data corrections? Contact the team via Discord: <span class="text-indigo-300">@av-helper</span>.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/recommender.js"></script>
+  </body>
+</html>
