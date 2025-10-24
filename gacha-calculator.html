@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gacha Cost Calculator - Anime Vanguards Pull Budget Estimator</title>
+    <meta
+      name="description"
+      content="Estimate how many gems you need to pull Anime Vanguards units such as Sukuna or Gojo. Enter banner rates, pity rules, and multi-pull costs to get expected pulls, percentile budgets, and success probabilities."
+    />
+    <meta
+      name="keywords"
+      content="anime vanguards gacha calculator, anime vanguards how many gems, anime vanguards pity calculator, gojo vs sukuna pulls"
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://animevanguardswiki.com/gacha-calculator.html" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Gacha Cost Calculator - Anime Vanguards Pull Budget Estimator" />
+    <meta
+      property="og:description"
+      content="Find the gem cost for Anime Vanguards banners. Expected pulls, 75%/90% success budgets, pity tracking, and saved plans in one place."
+    />
+    <meta property="og:url" content="https://animevanguardswiki.com/gacha-calculator.html" />
+    <meta property="og:site_name" content="Anime Vanguards Beginner Helper" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gacha Cost Calculator - Anime Vanguards Pull Budget Estimator" />
+    <meta
+      name="twitter:description"
+      content="The fastest way to answer “How many gems for Sukuna?” Configure rates, pity, and discounts, then bookmark the plan."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Anime Vanguards Gacha Cost Calculator",
+        "description": "Interactive calculator that estimates gem costs and success rates for Anime Vanguards banners.",
+        "url": "https://animevanguardswiki.com/gacha-calculator.html",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://animevanguardswiki.com/index.html" },
+            { "@type": "ListItem", "position": 2, "name": "Gacha Cost Calculator", "item": "https://animevanguardswiki.com/gacha-calculator.html" }
+          ]
+        }
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-slate-950/80 text-slate-200">
+    <header class="sticky top-0 z-40 bg-slate-950/70 backdrop-blur border-b border-slate-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center justify-between h-16">
+          <a href="index.html" class="flex items-center gap-3 text-indigo-200 font-semibold text-lg tracking-wide">
+            <span class="inline-flex h-8 w-8 rounded-full bg-indigo-500/20 items-center justify-center text-indigo-300">AV</span>
+            Anime Vanguards Helper
+          </a>
+          <button
+            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-slate-700 text-slate-300 hover:text-white"
+            data-mobile-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            &#9776;
+          </button>
+          <div class="hidden md:flex items-center gap-8 text-sm">
+            <a href="gacha-calculator.html" class="text-indigo-300 font-semibold">Gacha Calculator</a>
+            <a href="investment-optimizer.html" class="text-slate-200 hover:text-indigo-200">Investment Optimizer</a>
+            <a href="synergy-analyzer.html" class="text-slate-200 hover:text-indigo-200">Synergy Analyzer</a>
+            <a href="compare.html" class="text-slate-200 hover:text-indigo-200">Compare Units</a>
+            <a href="recommend.html" class="text-slate-200 hover:text-indigo-200">Recommendation</a>
+          </div>
+        </nav>
+        <div id="mobile-menu" data-mobile-menu class="hidden md:hidden pb-4">
+          <div class="flex flex-col gap-3 text-sm text-slate-200">
+            <a href="gacha-calculator.html" class="text-indigo-300 font-semibold">Gacha Calculator</a>
+            <a href="investment-optimizer.html" class="hover:text-indigo-200">Investment Optimizer</a>
+            <a href="synergy-analyzer.html" class="hover:text-indigo-200">Synergy Analyzer</a>
+            <a href="compare.html" class="hover:text-indigo-200">Compare Units</a>
+            <a href="recommend.html" class="hover:text-indigo-200">Recommendation</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <section class="relative overflow-hidden border-b border-slate-800">
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute -top-24 -left-32 w-80 h-80 bg-indigo-500/15 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl"></div>
+        </div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+          <div class="max-w-3xl">
+            <span class="text-xs font-semibold tracking-wide uppercase text-indigo-300">Gacha Calculator</span>
+            <h1 class="mt-4 text-3xl sm:text-4xl font-bold text-white leading-tight">
+              Plan every banner before you spend a single gem
+            </h1>
+            <p class="mt-6 text-lg text-slate-300">
+              Choose the featured unit, adjust base rates and pity rules, then instantly see expected pulls, 50/75/90% success budgets, and how safe your current gem stash really is.
+              Save the configuration so you can return on patch day with one click.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3 text-xs text-slate-400">
+              <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-700">
+                <span class="inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+                Most common question: “How many gems for Secret Sukuna?”
+              </span>
+              <span data-version-badge></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 lg:grid-cols-[360px_minmax(0,1fr)]">
+          <aside class="space-y-6">
+            <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 space-y-5" id="calculator-form">
+              <h2 class="text-xl font-semibold text-white">Configure the banner</h2>
+              <div class="space-y-4">
+                <label class="flex flex-col gap-2 text-sm">
+                  <span class="text-slate-300 font-medium">Featured unit</span>
+                  <select
+                    data-field="unit"
+                    class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  ></select>
+                  <span class="text-xs text-slate-500">Pick a unit to load default rarity data, or leave blank for a custom rate.</span>
+                </label>
+                <div class="grid grid-cols-1 gap-4">
+                  <label class="flex flex-col gap-1 text-sm">
+                    <span class="text-slate-300 font-medium">Single pull cost (gems)</span>
+                    <input
+                      type="number"
+                      min="1"
+                      step="1"
+                      value="50"
+                      data-field="single-cost"
+                      class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    />
+                  </label>
+                  <label class="flex flex-col gap-1 text-sm">
+                    <span class="text-slate-300 font-medium">Multi-pull cost (optional)</span>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      placeholder="500"
+                      data-field="multi-cost"
+                      class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    />
+                    <span class="text-xs text-slate-500">Leave blank if there is no discount for ten pulls.</span>
+                  </label>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <label class="flex flex-col gap-1 text-sm">
+                    <span class="text-slate-300 font-medium">Base rate (%)</span>
+                    <input
+                      type="number"
+                      min="0.01"
+                      step="0.01"
+                      value="0.50"
+                      data-field="base-rate"
+                      class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    />
+                  </label>
+                  <label class="flex flex-col gap-1 text-sm">
+                    <span class="text-slate-300 font-medium">Hard pity (pulls, 0 = none)</span>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value="0"
+                      data-field="hard-pity"
+                      class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    />
+                  </label>
+                </div>
+                <label class="flex flex-col gap-1 text-sm">
+                  <span class="text-slate-300 font-medium">Target success rate (%)</span>
+                  <input
+                    type="number"
+                    min="10"
+                    max="99.9"
+                    step="0.1"
+                    value="90"
+                    data-field="target-confidence"
+                    class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  />
+                  <span class="text-xs text-slate-500">The calculator will show how many pulls are needed to hit this success rate.</span>
+                </label>
+                <div class="grid grid-cols-1 gap-4">
+                  <label class="flex flex-col gap-1 text-sm">
+                    <span class="text-slate-300 font-medium">Current pity progress</span>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value="0"
+                      data-field="current-pulls"
+                      class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    />
+                  </label>
+                  <label class="flex flex-col gap-1 text-sm">
+                    <span class="text-slate-300 font-medium">Gems on hand</span>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value="0"
+                      data-field="current-gems"
+                      class="rounded-2xl bg-slate-900/80 border border-slate-800 px-4 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    />
+                    <span class="text-xs text-slate-500">We will estimate the success chance with this budget.</span>
+                  </label>
+                </div>
+              </div>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <button
+                  type="button"
+                  data-action="calculate"
+                  class="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-2xl bg-indigo-500 hover:bg-indigo-400 text-white font-semibold transition"
+                >
+                  Recalculate
+                </button>
+                <button
+                  type="button"
+                  data-action="save-config"
+                  class="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-2xl border border-slate-700 text-slate-200 hover:border-indigo-400 hover:text-indigo-200 transition"
+                >
+                  Save this plan
+                </button>
+              </div>
+            </div>
+
+            <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 space-y-8">
+              <section>
+                <h2 class="text-xl font-semibold text-white">Headline results</h2>
+                <div class="mt-4 grid gap-4 sm:grid-cols-3">
+                  <div class="rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
+                    <p class="text-xs uppercase tracking-wide text-slate-500">Expected pulls</p>
+                    <p class="text-2xl font-semibold text-indigo-200" data-output="expected-pulls">-</p>
+                  </div>
+                  <div class="rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
+                    <p class="text-xs uppercase tracking-wide text-slate-500">Expected gems</p>
+                    <p class="text-2xl font-semibold text-emerald-200" data-output="expected-gems">-</p>
+                  </div>
+                  <div class="rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
+                    <p class="text-xs uppercase tracking-wide text-slate-500">Target success budget</p>
+                    <p class="text-2xl font-semibold text-sky-200" data-output="target-gems">-</p>
+                  </div>
+                </div>
+                <p class="mt-3 text-xs text-slate-500" data-output="summary-line"></p>
+              </section>
+
+              <section>
+                <header class="flex items-center justify-between">
+                  <h3 class="text-lg font-semibold text-white">Success chance by pull count</h3>
+                  <span class="text-xs text-slate-500">Inclusive of hard pity</span>
+                </header>
+                <div class="mt-4 space-y-3" data-output="probability-bars"></div>
+              </section>
+
+              <section>
+                <h3 class="text-lg font-semibold text-white">Percentile lookup table</h3>
+                <div class="mt-4 overflow-x-auto">
+                  <table class="min-w-full text-sm text-left border border-slate-800 rounded-2xl overflow-hidden">
+                    <thead class="bg-slate-900 text-slate-300 uppercase text-xs tracking-wide">
+                      <tr>
+                        <th class="px-4 py-3">Success rate</th>
+                        <th class="px-4 py-3">Pulls needed</th>
+                        <th class="px-4 py-3">Gem budget</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800 text-slate-300" data-output="percentile-rows"></tbody>
+                  </table>
+                </div>
+              </section>
+
+              <section>
+                <h3 class="text-lg font-semibold text-white">Saved pull plans</h3>
+                <p class="mt-2 text-sm text-slate-400">
+                  Store multiple presets for upcoming banners—rate-up Secret, rerun Mythic, and more.
+                </p>
+                <div class="mt-4 space-y-3" data-output="saved-configs"></div>
+              </section>
+
+              <section>
+                <h3 class="text-lg font-semibold text-white">Tips</h3>
+                <ul class="mt-3 space-y-2 text-xs text-slate-400">
+                  <li>• Update the base rate whenever the banner rotates; limited pools often tweak probabilities.</li>
+                  <li>• Planning for 90% success usually prevents last-minute panic spending.</li>
+                  <li>• Keep your pity progress up to date to see the true remaining cost.</li>
+                </ul>
+              </section>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mt-auto border-t border-slate-800/70 bg-slate-950/80">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-400 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <span class="font-semibold text-slate-200">Anime Vanguards Beginner Helper</span>
+          <p class="text-xs text-slate-500 mt-1">
+            Independent toolset for new players. Data sourced from the official wiki, patch notes, and community reports.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-4">
+          <a class="hover:text-indigo-300" href="gacha-calculator.html">Gacha Calculator</a>
+          <a class="hover:text-indigo-300" href="investment-optimizer.html">Investment Optimizer</a>
+          <a class="hover:text-indigo-300" href="synergy-analyzer.html">Synergy Analyzer</a>
+          <a class="hover:text-indigo-300" href="compare.html">Compare Units</a>
+          <a class="hover:text-indigo-300" href="recommend.html">Recommendation</a>
+        </div>
+        <p class="text-xs text-slate-500">Need corrections? Ping us on Discord: <span class="text-indigo-300">@av-helper</span></p>
+      </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/gacha-calculator.js"></script>
+  </body>
+</html>
