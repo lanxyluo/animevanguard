@@ -24,7 +24,7 @@
       content="anime vanguards pity calculator, summon planner, anime vanguards codes, team builder, tier list 2024"
     />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://animevanguardswiki.com/" />
+    <link rel="canonical" href="https://www.animevanguardswiki.com/" />
     <link rel="icon" href="favicon.ico" />
     <link rel="preconnect" href="https://cdn.tailwindcss.com" />
     <meta property="og:type" content="website" />
@@ -33,28 +33,51 @@
       property="og:description"
       content="Plan Anime Vanguards pulls, estimate pity budgets, and preview squad builds from one landing page."
     />
-    <meta property="og:url" content="https://animevanguardswiki.com/" />
+    <meta property="og:url" content="https://www.animevanguardswiki.com/" />
     <meta property="og:site_name" content="Anime Vanguards Beginner Helper" />
+    <meta property="og:image" content="https://www.animevanguardswiki.com/assets/og/home-og.jpg" />
+    <meta property="og:image:alt" content="Anime Vanguards pity calculator dashboard preview" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Anime Vanguards Pity Calculator | Summon Planner Hub" />
     <meta
       name="twitter:description"
       content="Answer how many gems you need, then move straight into roster planning with embedded Anime Vanguards tools."
     />
+    <meta name="twitter:image" content="https://www.animevanguardswiki.com/assets/og/home-og.jpg" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Anime Vanguards Pity Calculator",
-        "url": "https://animevanguardswiki.com/",
-        "description": "Landing hub for Anime Vanguards players featuring an instant pity calculator, team builder preview, and links to tier, codes, and upgrade planners.",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://animevanguardswiki.com/compare.html?focus={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://www.animevanguardswiki.com/#website",
+            "name": "Anime Vanguards Pity Calculator",
+            "url": "https://www.animevanguardswiki.com/",
+            "inLanguage": "en",
+            "description": "Landing hub for Anime Vanguards players featuring an instant pity calculator, team builder preview, and links to tier, codes, and upgrade planners.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Anime Vanguards Helper"
+            },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://www.animevanguardswiki.com/compare.html?focus={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://www.animevanguardswiki.com/#app",
+            "name": "Anime Vanguards Toolkit",
+            "url": "https://www.animevanguardswiki.com/",
+            "applicationCategory": "GameUtility",
+            "operatingSystem": "Web",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "description": "Browser-based pity planner, upgrade optimizer, and roster guidance for Roblox Anime Vanguards."
+          }
+        ]
       }
     </script>
   </head>
