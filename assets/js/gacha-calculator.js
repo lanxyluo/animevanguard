@@ -14,8 +14,8 @@
   const STORAGE_KEY = "av-gacha-calculator-saves";
 
   const RARITY_DEFAULTS = {
-    Secret: { rate: 0.25, pity: 200 },
-    Mythic: { rate: 0.5, pity: 120 },
+    Secret: { rate: 0.004, pity: 0 },  // No guaranteed pity for Secret units
+    Mythic: { rate: 0.5, pity: 400 },
     Legendary: { rate: 1.5, pity: 80 },
     Epic: { rate: 5, pity: 0 },
     Rare: { rate: 12, pity: 0 },

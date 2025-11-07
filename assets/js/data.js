@@ -55,7 +55,7 @@ const UNITS_DATA = {
       source: "Standard Banner",
       method: "Summon (Gacha)",
       probability: "0.5%",
-      pity: "Mythic Pity",
+      pity: "Mythic Pity (400 pulls)",
     },
     beginner_info: {
       recommended: false,
@@ -94,8 +94,8 @@ const UNITS_DATA = {
     obtainment: {
       source: "Standard Banner",
       method: "Summon (Gacha)",
-      probability: "<0.5%",
-      pity: "Secret Pity",
+      probability: "0.004%",
+      pity: "No guaranteed pity",
     },
     beginner_info: {
       recommended: false,
@@ -134,8 +134,8 @@ const UNITS_DATA = {
     obtainment: {
       source: "Rift/Dungeon",
       method: "Act 3: Double Dungeon Disaster",
-      probability: "0.75%",
-      pity: "Guaranteed with Vowstone",
+      probability: "0.004%",
+      pity: "No guaranteed pity",
     },
     beginner_info: {
       recommended: false,
@@ -177,8 +177,8 @@ const UNITS_DATA = {
     obtainment: {
       source: "Standard Banner",
       method: "Summon (Gacha)",
-      probability: "<1%",
-      pity: "Secret Pity",
+      probability: "0.004%",
+      pity: "No guaranteed pity",
     },
     beginner_info: {
       recommended: false,
@@ -221,7 +221,7 @@ const UNITS_DATA = {
       source: "Standard Banner",
       method: "Summon (Gacha)",
       probability: "0.5%",
-      pity: "Mythic Pity",
+      pity: "Mythic Pity (400 pulls)",
     },
     beginner_info: {
       recommended: false,
@@ -264,7 +264,7 @@ const UNITS_DATA = {
       source: "Standard Banner",
       method: "Summon (Gacha)",
       probability: "0.5%",
-      pity: "Mythic Pity",
+      pity: "Mythic Pity (400 pulls)",
     },
     beginner_info: {
       recommended: true,
