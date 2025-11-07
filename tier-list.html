@@ -337,6 +337,23 @@
       </section>
     </main>
 
+    <!-- Unit Detail Modal -->
+    <div id="unit-detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+      <div class="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl border border-slate-700 bg-slate-900 shadow-2xl">
+        <!-- Close Button -->
+        <button onclick="closeUnitModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-slate-800/80 hover:bg-slate-700 border border-slate-600 flex items-center justify-center text-slate-300 hover:text-white transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <!-- Modal Content (will be populated by JavaScript) -->
+        <div id="modal-content" class="p-8">
+          <!-- Content will be inserted here -->
+        </div>
+      </div>
+    </div>
+
     <footer class="mt-auto border-t border-slate-800/70 bg-slate-950/80">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-400">
@@ -471,11 +488,11 @@
           grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4';
 
           unitsByTier[tier].forEach(unit => {
-            const card = document.createElement('a');
-            card.href = `recommend.html?unit=${unit.name}`;
+            const card = document.createElement('div');
             card.className = `group relative rounded-2xl border ${config.borderColor} bg-gradient-to-br ${config.color} p-4 hover:scale-105 transition-all duration-200 cursor-pointer`;
             card.dataset.role = unit.type;
             card.dataset.unitName = unit.name;
+            card.onclick = () => openUnitModal(unit);
 
             // Get rarity color
             const rarityColor = rarityColors[unit.rarity] || 'text-slate-400';
@@ -598,6 +615,222 @@
           });
         });
       }
+
+      // Modal functions
+      function openUnitModal(unit) {
+        const modal = document.getElementById('unit-detail-modal');
+        const modalContent = document.getElementById('modal-content');
+        
+        // Rarity colors
+        const rarityColors = {
+          'Secret': 'text-emerald-400',
+          'Mythic': 'text-red-400',
+          'Legendary': 'text-orange-400',
+          'Epic': 'text-purple-400',
+          'Rare': 'text-gray-400'
+        };
+
+        // Tier colors
+        const tierColors = {
+          'S+': 'text-purple-300',
+          'S': 'text-blue-300',
+          'A': 'text-emerald-300',
+          'B': 'text-yellow-300',
+          'C': 'text-slate-300'
+        };
+
+        const rarityColor = rarityColors[unit.rarity] || 'text-slate-400';
+        const tierColor = tierColors[unit.tier] || 'text-slate-300';
+
+        // Create pros list
+        const prosList = unit.pros.map(pro => `<li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span><span>${pro}</span></li>`).join('');
+        
+        // Create cons list
+        const consList = unit.cons.map(con => `<li class="flex items-start gap-2"><span class="text-red-400 mt-0.5">✗</span><span>${con}</span></li>`).join('');
+
+        // Create synergy list
+        const synergyList = unit.synergy.map(syn => `<li class="text-sm text-slate-300">• ${syn}</li>`).join('');
+
+        // Evolution info
+        const evolutionHTML = unit.evolution ? `
+          <div class="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 p-4">
+            <h4 class="font-semibold text-indigo-200 mb-2">Evolution Available</h4>
+            <p class="text-sm text-slate-300"><span class="font-medium">Evolves to:</span> ${unit.evolution.evolved_form}</p>
+            <p class="text-xs text-slate-400 mt-1">${unit.evolution.requirements.join(' • ')}</p>
+          </div>
+        ` : '';
+
+        modalContent.innerHTML = `
+          <!-- Header -->
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <h2 class="text-3xl font-bold text-white mb-2">${unit.displayName}</h2>
+              <div class="flex flex-wrap items-center gap-3 text-sm">
+                <span class="px-3 py-1 rounded-full bg-slate-800 ${rarityColor} font-semibold">${unit.rarity}</span>
+                <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300">${unit.element}</span>
+                <span class="px-3 py-1 rounded-full bg-slate-800 text-indigo-300">${unit.type}</span>
+                <span class="px-3 py-1 rounded-full bg-slate-800 ${tierColor} font-bold">${unit.tier} Tier</span>
+              </div>
+            </div>
+            <div class="w-20 h-20 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center">
+              <span class="text-4xl font-bold ${tierColor}">${unit.displayName.charAt(0)}</span>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-6">
+            <p class="text-slate-300 text-lg">${unit.description}</p>
+            <p class="text-sm text-slate-400 mt-2"><span class="font-semibold">Source:</span> ${unit.anime_source}</p>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="rounded-xl border border-slate-700 bg-slate-800/50 p-3">
+              <div class="text-xs text-slate-400 mb-1">Attack</div>
+              <div class="text-lg font-semibold text-white">${unit.stats.attack}</div>
+            </div>
+            <div class="rounded-xl border border-slate-700 bg-slate-800/50 p-3">
+              <div class="text-xs text-slate-400 mb-1">Health</div>
+              <div class="text-lg font-semibold text-white">${unit.stats.health}</div>
+            </div>
+            <div class="rounded-xl border border-slate-700 bg-slate-800/50 p-3">
+              <div class="text-xs text-slate-400 mb-1">Range</div>
+              <div class="text-lg font-semibold text-white">${unit.stats.range}</div>
+            </div>
+            <div class="rounded-xl border border-slate-700 bg-slate-800/50 p-3">
+              <div class="text-xs text-slate-400 mb-1">Speed</div>
+              <div class="text-lg font-semibold text-white">${unit.stats.speed}</div>
+            </div>
+          </div>
+
+          <!-- Ratings -->
+          <div class="mb-6">
+            <h3 class="text-xl font-semibold text-white mb-3">Performance Ratings</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${createRatingBar('Damage', unit.ratings.damage)}
+              ${createRatingBar('Survival', unit.ratings.survival)}
+              ${createRatingBar('Beginner Friendly', unit.ratings.beginner_friendly)}
+              ${createRatingBar('Cost Efficiency', unit.ratings.cost_efficiency)}
+            </div>
+          </div>
+
+          <!-- Pros & Cons -->
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-semibold text-white mb-3">Strengths</h3>
+              <ul class="space-y-2 text-sm text-slate-300">${prosList}</ul>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-white mb-3">Weaknesses</h3>
+              <ul class="space-y-2 text-sm text-slate-300">${consList}</ul>
+            </div>
+          </div>
+
+          <!-- Synergy -->
+          <div class="mb-6">
+            <h3 class="text-xl font-semibold text-white mb-3">Team Synergy</h3>
+            <ul class="space-y-1">${synergyList}</ul>
+          </div>
+
+          <!-- Obtainment -->
+          <div class="mb-6">
+            <h3 class="text-xl font-semibold text-white mb-3">How to Obtain</h3>
+            <div class="rounded-2xl border border-slate-700 bg-slate-800/50 p-4">
+              <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span class="text-slate-400">Source:</span>
+                  <span class="text-white font-medium ml-2">${unit.obtainment.source}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400">Method:</span>
+                  <span class="text-white font-medium ml-2">${unit.obtainment.method}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400">Drop Rate:</span>
+                  <span class="text-white font-medium ml-2">${unit.obtainment.probability}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400">Pity:</span>
+                  <span class="text-white font-medium ml-2">${unit.obtainment.pity}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Evolution -->
+          ${evolutionHTML}
+
+          <!-- Beginner Tips -->
+          ${unit.beginner_info.recommended ? `
+            <div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 mt-6">
+              <h4 class="font-semibold text-emerald-200 mb-2">✓ Beginner Recommended</h4>
+              <p class="text-sm text-slate-300">${unit.beginner_info.reason}</p>
+              <p class="text-xs text-slate-400 mt-2"><span class="font-medium">Tip:</span> ${unit.beginner_info.alternative}</p>
+            </div>
+          ` : `
+            <div class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 mt-6">
+              <h4 class="font-semibold text-amber-200 mb-2">⚠ Not Recommended for Beginners</h4>
+              <p class="text-sm text-slate-300">${unit.beginner_info.reason}</p>
+              <p class="text-xs text-slate-400 mt-2"><span class="font-medium">Alternative:</span> ${unit.beginner_info.alternative}</p>
+            </div>
+          `}
+
+          <!-- Links -->
+          <div class="flex flex-wrap gap-3 mt-6">
+            <a href="gacha-calculator.html" class="px-4 py-2 rounded-lg bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 text-sm font-semibold hover:bg-indigo-500/30 transition">
+              Calculate Pull Cost
+            </a>
+            <a href="synergy-analyzer.html" class="px-4 py-2 rounded-lg bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 text-sm font-semibold hover:bg-indigo-500/30 transition">
+              Build Team
+            </a>
+            <a href="compare.html" class="px-4 py-2 rounded-lg bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 text-sm font-semibold hover:bg-indigo-500/30 transition">
+              Compare Units
+            </a>
+          </div>
+        `;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeUnitModal() {
+        const modal = document.getElementById('unit-detail-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+
+      function createRatingBar(label, value) {
+        const percentage = (value / 5) * 100;
+        const color = value >= 4 ? 'bg-emerald-500' : value >= 3 ? 'bg-blue-500' : value >= 2 ? 'bg-yellow-500' : 'bg-red-500';
+        
+        return `
+          <div>
+            <div class="flex justify-between text-xs text-slate-400 mb-1">
+              <span>${label}</span>
+              <span>${value}/5</span>
+            </div>
+            <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div class="${color} h-full rounded-full transition-all duration-300" style="width: ${percentage}%"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Close modal on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeUnitModal();
+        }
+      });
+
+      // Close modal when clicking outside
+      document.getElementById('unit-detail-modal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'unit-detail-modal') {
+          closeUnitModal();
+        }
+      });
     </script>
   </body>
 </html>
