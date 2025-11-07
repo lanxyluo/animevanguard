@@ -132,12 +132,49 @@
             </p>
           </header>
 
+        </div>
+      </section>
+
+      <section class="py-16 border-b border-slate-800/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <header class="text-center">
+            <h2 class="text-2xl font-semibold text-white">Complete tier rankings</h2>
+            <p class="mt-3 text-sm text-slate-400">
+              Visual breakdown of all units by tier. Click any unit for detailed stats and team recommendations.
+            </p>
+          </header>
+
+          <!-- Dynamic Tier List Container -->
+          <div id="tier-list-container" class="space-y-8">
+            <!-- Will be populated by JavaScript -->
+          </div>
+
+          <!-- Role Filter -->
+          <div class="flex justify-center gap-3 flex-wrap">
+            <button data-role-filter="all" class="px-4 py-2 rounded-lg bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 text-sm font-semibold hover:bg-indigo-500/30 transition">
+              All Units
+            </button>
+            <button data-role-filter="DPS" class="px-4 py-2 rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700 text-sm hover:bg-slate-700 transition">
+              DPS
+            </button>
+            <button data-role-filter="Support" class="px-4 py-2 rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700 text-sm hover:bg-slate-700 transition">
+              Support
+            </button>
+            <button data-role-filter="Summoner" class="px-4 py-2 rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700 text-sm hover:bg-slate-700 transition">
+              Summoner
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-16 border-b border-slate-800/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)]">
             <section class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 space-y-5">
               <header>
                 <h2 class="text-xl font-semibold text-white">S+ tier highlights</h2>
                 <p class="text-sm text-slate-400">
-                  Units listed here warp the meta and justify emergency pity planning. Expect nerf watch notes and upgrade priorities for each patch window.
+                  Deep dive into the top units that define the current meta. Learn why these units are worth pulling and how to maximize their potential.
                 </p>
               </header>
               <div class="space-y-4">
@@ -184,7 +221,7 @@
               <header class="space-y-2">
                 <h2 class="text-xl font-semibold text-white">Patch change log</h2>
                 <p class="text-sm text-slate-400">
-                  Condensed notes from patch 1.11 so you know why the rankings shifted.
+                  Key meta shifts and balance changes in the latest patch.
                 </p>
               </header>
               <ul class="space-y-3 text-sm text-slate-300">
@@ -203,42 +240,10 @@
               </ul>
               <div class="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 p-4 text-xs text-indigo-100">
                 <p>
-                  Planning to pivot your roster? Run the <a href="synergy-analyzer.html" class="text-indigo-200 underline">Team Builder</a> with these updates and slot in anti-boss supports if you drop Chain Berserker.
+                  Planning your pulls? Use the <a href="gacha-calculator.html" class="text-indigo-200 underline">Pity Calculator</a> to estimate costs and the <a href="synergy-analyzer.html" class="text-indigo-200 underline">Team Builder</a> for synergy planning.
                 </p>
               </div>
             </aside>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-16 border-b border-slate-800/60">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <header class="text-center">
-            <h2 class="text-2xl font-semibold text-white">Complete tier rankings</h2>
-            <p class="mt-3 text-sm text-slate-400">
-              Visual breakdown of all units by tier. Click any unit for detailed stats and team recommendations.
-            </p>
-          </header>
-
-          <!-- Dynamic Tier List Container -->
-          <div id="tier-list-container" class="space-y-8">
-            <!-- Will be populated by JavaScript -->
-          </div>
-
-          <!-- Role Filter -->
-          <div class="flex justify-center gap-3 flex-wrap">
-            <button data-role-filter="all" class="px-4 py-2 rounded-lg bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 text-sm font-semibold hover:bg-indigo-500/30 transition">
-              All Units
-            </button>
-            <button data-role-filter="DPS" class="px-4 py-2 rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700 text-sm hover:bg-slate-700 transition">
-              DPS
-            </button>
-            <button data-role-filter="Support" class="px-4 py-2 rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700 text-sm hover:bg-slate-700 transition">
-              Support
-            </button>
-            <button data-role-filter="Summoner" class="px-4 py-2 rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700 text-sm hover:bg-slate-700 transition">
-              Summoner
-            </button>
           </div>
         </div>
       </section>
@@ -266,6 +271,98 @@
                 <!-- Will be populated by JavaScript -->
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Detailed Tier Analysis -->
+      <section id="tier-highlights" class="py-16 border-b border-slate-800/60">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <header class="text-center">
+            <h2 class="text-2xl font-semibold text-white">S+ tier detailed analysis</h2>
+            <p class="mt-3 text-sm text-slate-400">
+              Deep dive into meta-defining units with pull priorities and team recommendations.
+            </p>
+          </header>
+
+          <div class="grid gap-6 lg:grid-cols-2">
+            <article class="rounded-2xl border border-purple-500/30 bg-slate-900/70 p-5 space-y-3">
+              <header class="flex items-center justify-between flex-wrap gap-2">
+                <span class="text-lg font-semibold text-white">Sukuna</span>
+                <span class="text-xs uppercase tracking-wide text-emerald-200 px-3 py-1 rounded-full bg-emerald-500/20">Secret — DPS</span>
+              </header>
+              <p class="text-sm text-slate-300">
+                One of the strongest DPS units with 30% bonus damage against bosses. Peak DPS ceiling with strong AOE potential makes this the ultimate carry.
+              </p>
+              <div class="flex items-center justify-between pt-2 border-t border-slate-700">
+                <span class="text-xs text-slate-400">Pull priority:</span>
+                <span class="text-xs font-semibold text-rose-300">Ultimate</span>
+              </div>
+            </article>
+
+            <article class="rounded-2xl border border-purple-500/30 bg-slate-900/70 p-5 space-y-3">
+              <header class="flex items-center justify-between flex-wrap gap-2">
+                <span class="text-lg font-semibold text-white">Gojo</span>
+                <span class="text-xs uppercase tracking-wide text-red-200 px-3 py-1 rounded-full bg-red-500/20">Mythic — DPS</span>
+              </header>
+              <p class="text-sm text-slate-300">
+                Top-tier burst/AOE DPS with insane damage output. Holy element cuts debuff duration by 50%, making him a late-game powerhouse.
+              </p>
+              <div class="flex items-center justify-between pt-2 border-t border-slate-700">
+                <span class="text-xs text-slate-400">Pull priority:</span>
+                <span class="text-xs font-semibold text-rose-300">Very High</span>
+              </div>
+            </article>
+
+            <article class="rounded-2xl border border-purple-500/30 bg-slate-900/70 p-5 space-y-3">
+              <header class="flex items-center justify-between flex-wrap gap-2">
+                <span class="text-lg font-semibold text-white">Igros</span>
+                <span class="text-xs uppercase tracking-wide text-emerald-200 px-3 py-1 rounded-full bg-emerald-500/20">Secret — DPS</span>
+              </header>
+              <p class="text-sm text-slate-300">
+                Secret summoner synergy core that pairs perfectly with Song Jinwu. High sustained damage with bonus boss damage makes him essential for shadow army comps.
+              </p>
+              <div class="flex items-center justify-between pt-2 border-t border-slate-700">
+                <span class="text-xs text-slate-400">Pull priority:</span>
+                <span class="text-xs font-semibold text-purple-300">High</span>
+              </div>
+            </article>
+
+            <article class="rounded-2xl border border-purple-500/30 bg-slate-900/70 p-5 space-y-3">
+              <header class="flex items-center justify-between flex-wrap gap-2">
+                <span class="text-lg font-semibold text-white">Alucard</span>
+                <span class="text-xs uppercase tracking-wide text-emerald-200 px-3 py-1 rounded-full bg-emerald-500/20">Secret — DPS</span>
+              </header>
+              <p class="text-sm text-slate-300">
+                Top-tier bleed-focused DPS that shreds bosses. Massive single-target damage with bleed DOT pressure makes him a late-game raid staple.
+              </p>
+              <div class="flex items-center justify-between pt-2 border-t border-slate-700">
+                <span class="text-xs text-slate-400">Pull priority:</span>
+                <span class="text-xs font-semibold text-purple-300">High</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Meta Notes -->
+          <div class="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 p-6">
+            <h3 class="text-lg font-semibold text-white mb-3">Current meta insights</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-indigo-300">•</span>
+                <span><strong class="text-indigo-200">Secret units dominate:</strong> Sukuna, Igros, and Alucard lead endgame with unmatched boss damage</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-indigo-300">•</span>
+                <span><strong class="text-indigo-200">Gojo most accessible:</strong> Top Mythic choice with holy element utility</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-indigo-300">•</span>
+                <span><strong class="text-indigo-200">Summoner viable:</strong> Song Jinwu + Igros creates unique shadow legion strategies</span>
+              </li>
+            </ul>
+            <p class="text-xs text-indigo-200 mt-4">
+              💡 Planning your roster? Use the <a href="synergy-analyzer.html" class="underline hover:text-indigo-100">Team Builder</a> to optimize compositions.
+            </p>
           </div>
         </div>
       </section>
