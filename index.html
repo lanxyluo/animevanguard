@@ -127,43 +127,20 @@
           <div class="absolute top-1/3 -right-32 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl"></div>
           <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-emerald-400/10 rounded-full blur-3xl"></div>
         </div>
-        <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-          <div class="grid gap-12 xl:grid-cols-[minmax(0,1.35fr)_minmax(0,0.75fr)] items-start">
-            <div class="space-y-8">
-              <header class="space-y-4">
-                <span class="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-indigo-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-200">
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+          <div class="space-y-10">
+              <header class="space-y-4 text-center">
+                <div class="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-indigo-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-200">
                   Summon planner hub
-                </span>
+                </div>
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                   Anime Vanguards Pity Calculator
                 </h1>
-                <p class="text-base sm:text-lg text-slate-200/90">
-                  Drop rates, pity caps, and gem budgets come together in one place so you can answer
-                  <span class="text-indigo-200 font-semibold">"how many pulls will it take?"</span> before banners flip. Configure defaults with unit data or run purely custom math.
+                <p class="text-base sm:text-lg text-slate-200/90 max-w-3xl mx-auto">
+                  Calculate how many gems you need for any banner. Configure pull rates, pity, and your budget to see expected costs.
                 </p>
                 <div data-version-badge class="inline-block"></div>
               </header>
-
-              <ul class="grid gap-4 md:grid-cols-3 text-sm text-slate-300">
-                <li class="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-                  <p class="font-semibold text-slate-100">Data-backed pull planning</p>
-                  <p class="mt-2 text-xs sm:text-sm">
-                    Instantly estimate expected pulls and percentiles so "how many gems?" never requires guesswork.
-                  </p>
-                </li>
-                <li class="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-                  <p class="font-semibold text-slate-100">Smarter resource allocation</p>
-                  <p class="mt-2 text-xs sm:text-sm">
-                    Convert damage, survivability, and efficiency into clear priorities so limited yen lands where it matters.
-                  </p>
-                </li>
-                <li class="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-                  <p class="font-semibold text-slate-100">Actionable synergy insights</p>
-                  <p class="mt-2 text-xs sm:text-sm">
-                    Automatically surface buff chains, elemental gaps, and suggested substitutes to keep squads cohesive.
-                  </p>
-                </li>
-              </ul>
 
               <div class="rounded-3xl border border-slate-800 bg-slate-900/70 shadow-lg shadow-indigo-500/10">
                 <div class="border-b border-slate-800 px-6 py-5 flex flex-col gap-2">
@@ -346,127 +323,7 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <aside class="relative rounded-3xl border border-slate-800 bg-slate-900/70 overflow-hidden p-6 lg:p-8">
-              <div class="absolute inset-y-0 -right-8 w-56 bg-gradient-to-b from-indigo-500/30 via-slate-900 to-transparent blur-3xl pointer-events-none"></div>
-              <div class="relative space-y-6">
-                <span class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/70 px-3 py-1 text-xs uppercase tracking-wide text-slate-300">
-                  Team Builder preview
-                </span>
-                <h2 class="text-2xl font-semibold text-white leading-snug">
-                  Stress-test synergy once your pulls land
-                </h2>
-                <p class="text-sm text-slate-400">
-                  Spotlight buffs, coverage gaps, and substitute options before you lock upgrades. The team builder mirrors in-game archetypes so veteran and beginner squads stay cohesive.
-                </p>
-                <div class="rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-600/20 via-slate-900 to-slate-950 p-6 shadow-lg shadow-indigo-500/20">
-                  <div class="flex flex-col gap-4">
-                    <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-300">
-                      <span>Squad outline</span>
-                      <span class="text-indigo-200">Live DPS graph</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                      <div class="h-16 rounded-xl bg-slate-800/80 border border-slate-700/80"></div>
-                      <div class="h-16 rounded-xl bg-slate-800/40 border border-indigo-400/40"></div>
-                      <div class="h-16 rounded-xl bg-slate-800/80 border border-slate-700/80"></div>
-                      <div class="col-span-3 h-12 rounded-xl bg-slate-800/60 border border-slate-700/80"></div>
-                    </div>
-                    <p class="text-xs text-slate-400">
-                      Export squads to shareable codes, compare with meta templates, and track buff uptime per wave.
-                    </p>
-                  </div>
-                </div>
-                <ul class="space-y-3 text-sm text-slate-300">
-                  <li class="flex items-start gap-3">
-                    <span class="mt-1 h-2 w-2 rounded-full bg-indigo-400"></span>
-                    <p>Auto-matches your pulls to community tier templates so you know which role to fill next.</p>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="mt-1 h-2 w-2 rounded-full bg-emerald-400"></span>
-                    <p>Highlights elemental overlap, buff redundancy, and swap suggestions for balanced lanes.</p>
-                  </li>
-                </ul>
-                <a
-                  href="synergy-analyzer.html"
-                  class="inline-flex items-center justify-center gap-2 rounded-2xl bg-indigo-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
-                >
-                  Launch Team Builder
-                  <span aria-hidden="true">&rarr;</span>
-                </a>
-              </div>
-            </aside>
           </div>
-        </div>
-      </section>
-
-      <section class="py-16 border-b border-slate-800/60">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <header class="mb-10 text-center">
-            <h2 class="text-3xl font-semibold text-white">Three steps that keep your roster sharp</h2>
-            <p class="mt-3 text-slate-400 max-w-3xl mx-auto">
-              Bookmark each workflow so you can bounce between budgeting pulls, allocating upgrades, and checking team synergy without losing momentum.
-            </p>
-          </header>
-          <div class="grid gap-6 md:grid-cols-3">
-            <article class="rounded-3xl border border-indigo-500/40 bg-slate-900/70 p-6 space-y-3">
-              <h3 class="text-lg font-semibold text-white">1. Gacha cost calculator</h3>
-              <p class="text-sm text-slate-300">
-                Plan your gem spend with percentile budgets and pity-aware results. Save banner presets for future rotations.
-              </p>
-              <a class="inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-100 text-sm font-semibold" href="gacha-calculator.html">
-                Launch full calculator &rarr;
-              </a>
-            </article>
-            <article class="rounded-3xl border border-emerald-500/40 bg-slate-900/70 p-6 space-y-3">
-              <h3 class="text-lg font-semibold text-white">2. Investment optimizer</h3>
-              <p class="text-sm text-slate-300">
-                Rank upgrade targets by damage, survivability, and efficiency so every yen supports the runs you care about most.
-              </p>
-              <a class="inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-100 text-sm font-semibold" href="investment-optimizer.html">
-                Preview features &rarr;
-              </a>
-            </article>
-            <article class="rounded-3xl border border-sky-500/40 bg-slate-900/70 p-6 space-y-3">
-              <h3 class="text-lg font-semibold text-white">3. Team synergy analyzer</h3>
-              <p class="text-sm text-slate-300">
-                Sync your pulls with ready-made comp templates. Identify buff chains, gap fillers, and wave-by-wave roles.
-              </p>
-              <a class="inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-100 text-sm font-semibold" href="synergy-analyzer.html">
-                Build a squad &rarr;
-              </a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-16 border-b border-slate-800/60">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 lg:grid-cols-2">
-          <article class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 space-y-4">
-            <h3 class="text-2xl font-semibold text-white">Popular units right now</h3>
-            <p class="text-sm text-slate-400">
-              Updated every patch with the units most talked about by the community. Use the cards to jump straight into comparisons or save targets for your next banner plan.
-              Our data mirrors official patch notes plus verified Discord reports so you always know which S and S+ threats are warping the meta.
-            </p>
-            <p class="text-sm text-slate-400">
-              Pair the
-              <a href="gacha-calculator.html" class="text-indigo-300 hover:text-indigo-100">Pity Calculator</a>
-              with the
-              <a href="compare.html" class="text-indigo-300 hover:text-indigo-100">Compare Units tool</a>
-              to validate picks before you spend. Save your pulls for the top performers and keep an eye on new releases with our tier breakdowns.
-            </p>
-          </article>
-          <article class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 space-y-4">
-            <h3 class="text-2xl font-semibold text-white">Anime Vanguards Tier List 2024 highlights</h3>
-            <p class="text-sm text-slate-400">
-              We focus on clarity: tier placements call out why units rise or drop with each patch, how beginner friendly they feel, and which buffs push them into must-pull status.
-              If you are chasing meta, track our change logs to see when banner pity plans should be adjusted.
-            </p>
-            <p class="text-sm text-slate-400">
-              Combine tier notes with saved summon plans to decide whether to roll now or bank gems for reruns.
-              When the tier list shifts, rerun the calculator with the new pity cap and push the results into your upgrade queue.
-            </p>
-          </article>
         </div>
       </section>
 
