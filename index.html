@@ -124,15 +124,15 @@
       <section class="relative overflow-hidden border-b border-slate-800">
         <!-- Background Hero Image -->
         <div class="absolute inset-0 pointer-events-none">
-          <!-- 测试：100% 不透明度，无遮罩 -->
+          <!-- 测试：100% 不透明度，无遮罩 + 缓存破坏 -->
           <img 
-            src="assets/img/heroes/homepage-hero.jpg" 
+            src="assets/img/heroes/homepage-hero.jpg?v=20251108" 
             alt="Anime Vanguards Background" 
             class="w-full h-full object-cover"
             loading="eager"
             style="object-position: center; opacity: 1 !important; z-index: 1;"
             onerror="console.error('❌ Background image failed to load:', this.src);"
-            onload="console.log('✅ Background image loaded successfully:', this.src);"
+            onload="console.log('✅ Background image loaded successfully! Size:', this.naturalWidth + 'x' + this.naturalHeight);"
           />
           <!-- 暂时移除遮罩层来测试 -->
           <!-- <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/30 to-slate-950/60"></div> -->
