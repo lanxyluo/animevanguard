@@ -874,9 +874,9 @@
                   
                   <!-- View Details Button -->
                   <div class="mt-4">
-                    <button class="w-full rounded-lg px-4 py-2 text-sm font-medium bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/20 transition">
+                    <div class="w-full rounded-lg px-4 py-2 text-sm font-medium text-center bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/20 transition cursor-pointer">
                       View Details →
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -953,11 +953,16 @@
           
           // Add click event listeners
           grid.querySelectorAll('.unit-card').forEach(card => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function(e) {
+              console.log('Card clicked!'); // Debug log
               const unitId = this.getAttribute('data-unit-id');
+              console.log('Unit ID:', unitId); // Debug log
               const unit = allUnits.find(u => u.id === unitId);
+              console.log('Found unit:', unit); // Debug log
               if (unit) {
                 showUnitDetails(unit);
+              } else {
+                console.error('Unit not found for ID:', unitId);
               }
             });
           });
@@ -979,10 +984,17 @@
         
         // Show unit details modal
         function showUnitDetails(unit) {
+          console.log('showUnitDetails called with:', unit); // Debug log
           const modal = document.getElementById('unit-detail-modal');
           const modalContent = document.getElementById('modal-content');
           
-          if (!modal || !modalContent) return;
+          console.log('Modal element:', modal); // Debug log
+          console.log('Modal content element:', modalContent); // Debug log
+          
+          if (!modal || !modalContent) {
+            console.error('Modal elements not found!');
+            return;
+          }
           
           const rarityColor = getRarityColor(unit.rarity);
           
