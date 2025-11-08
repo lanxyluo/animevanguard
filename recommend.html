@@ -817,6 +817,7 @@
     </footer>
 
     <script src="assets/js/data.js"></script>
+    <script src="assets/js/character-images.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/recommender.js"></script>
     
@@ -973,6 +974,33 @@
           return `<span class="text-xs px-2 py-0.5 rounded-full border ${difficulty.class} font-medium">${difficulty.label}</span>`;
         }
         
+        // Get character image or emoji fallback
+        function getCharacterImageOrEmoji(unit) {
+          // Check if CharacterImages is available and if unit has an image
+          if (window.CharacterImages && window.CharacterImages.hasImage(unit)) {
+            const imagePath = window.CharacterImages.getPath(unit);
+            return `
+              <img 
+                src="${imagePath}" 
+                alt="${unit.displayName || unit.name}"
+                class="w-full h-full object-cover"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                loading="lazy"
+              />
+              <div class="w-full h-full hidden items-center justify-center text-5xl">
+                ${unit.emoji || '👤'}
+              </div>
+            `;
+          } else {
+            // Fallback to emoji
+            return `
+              <div class="w-full h-full flex items-center justify-center text-5xl">
+                ${unit.emoji || '👤'}
+              </div>
+            `;
+          }
+        }
+        
         // Create unit card HTML - Optimized compact visual design
         function createUnitCard(unit) {
           const rarityColor = getRarityColor(unit.rarity);
@@ -990,10 +1018,10 @@
               <!-- Card content -->
               <div class="relative p-4 flex flex-col items-center">
                 
-                <!-- Large emoji icon with gradient background -->
+                <!-- Large character image/emoji icon with gradient background -->
                 <div class="relative mb-3">
-                  <div class="w-24 h-24 rounded-2xl ${iconBg} flex items-center justify-center text-5xl shadow-lg border-2 ${rarityBorder} group-hover:scale-110 transition-transform duration-300">
-                    ${unit.emoji || '👤'}
+                  <div class="w-24 h-24 rounded-2xl ${iconBg} overflow-hidden shadow-lg border-2 ${rarityBorder} group-hover:scale-110 transition-transform duration-300">
+                    ${getCharacterImageOrEmoji(unit)}
                   </div>
                   <!-- Tier badge overlay -->
                   ${unit.tierList ? `

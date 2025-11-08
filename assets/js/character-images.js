@@ -15,36 +15,38 @@ const IMAGE_CONFIG = {
 };
 
 // 角色名称 -> 图片文件名映射
-// 注意：角色名称使用 data.js 中的 unit.name 值
+// ⚠️ 重要：使用 data.js 中的 unit.name 值（不是 displayName）
 const CHARACTER_IMAGE_MAP = {
-  // Secret 稀有度
-  'Gojo': 'gojo.png',
-  'Sukuna': 'sukuna.png',
+  // Mythic 稀有度 - 已添加图片 ✅
+  'goju': 'goju.png',              // Gojo
+  'song_jinwu': 'song_jinwu.png',  // Song Jinwu
+  'cha_in': 'cha_in.png',          // Cha-In
   
-  // Mythic 稀有度
-  'Igros': 'igros.png',
-  'Alucard': 'alucard.png',
-  'Song Jinwu': 'song-jinwu.png',
-  'Cha-In': 'cha-in.png',
-  'Sprintwagon': 'sprintwagon.png',
-  'Alligator': 'alligator.png',
-  'Broly': 'broly.png',
-  'All Might': 'all-might.png',
-  'Shanks': 'shanks.png',
-  'Whitebeard': 'whitebeard.png',
+  // Rare 稀有度 - 已添加图片 ✅
+  'norutu': 'norutu.png',          // Norutu
   
-  // Legendary 稀有度
-  'Jotaro': 'jotaro.png',
-  'Dio': 'dio.png',
-  'Luffy': 'luffy.png',
-  'Zoro': 'zoro.png',
-  'Naruto': 'naruto.png',
-  'Sasuke': 'sasuke.png',
-  'Ichigo': 'ichigo.png',
-  'Gon': 'gon.png',
-  'Killua': 'killua.png',
+  // Secret 稀有度 - 待添加
+  // 'sukuna': 'sukuna.png',
   
-  // 可以继续添加更多角色...
+  // Mythic 稀有度 - 待添加
+  // 'igros': 'igros.png',
+  // 'alucard': 'alucard.png',
+  // 'sprintwagon': 'sprintwagon.png',
+  // 'alligator': 'alligator.png',
+  // 'broly': 'broly.png',
+  // 'all_might': 'all_might.png',
+  // 'shanks': 'shanks.png',
+  // 'whitebeard': 'whitebeard.png',
+  
+  // Legendary 稀有度 - 待添加
+  // 'jotaro': 'jotaro.png',
+  // 'dio': 'dio.png',
+  // 'luffy': 'luffy.png',
+  // 'zoro': 'zoro.png',
+  // 'sasuke': 'sasuke.png',
+  // 'ichigo': 'ichigo.png',
+  // 'gon': 'gon.png',
+  // 'killua': 'killua.png',
 };
 
 /**
