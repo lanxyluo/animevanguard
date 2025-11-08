@@ -16,9 +16,9 @@
   const RARITY_DEFAULTS = {
     Secret: { rate: 0.004, pity: 0 },  // No guaranteed pity for Secret units
     Mythic: { rate: 0.5, pity: 400 },
-    Legendary: { rate: 1.5, pity: 80 },
-    Epic: { rate: 5, pity: 0 },
-    Rare: { rate: 12, pity: 0 },
+    Legendary: { rate: 4, pity: 50 },
+    Epic: { rate: 20, pity: 0 },  // High drop rate, no pity needed
+    Rare: { rate: 75.496, pity: 0 },
   };
 
   const PERCENTILES = [0.5, 0.75, 0.9, 0.95, 0.99];

@@ -306,8 +306,8 @@ const UNITS_DATA = {
     obtainment: {
       source: "Standard Banner",
       method: "Summon (Gacha)",
-      probability: "8%",
-      pity: "Epic Pity",
+      probability: "20%",
+      pity: "No pity (high drop rate)",
     },
     beginner_info: {
       recommended: true,
@@ -346,8 +346,8 @@ const UNITS_DATA = {
     obtainment: {
       source: "Standard Banner",
       method: "Summon (Gacha)",
-      probability: "8%",
-      pity: "Epic Pity",
+      probability: "20%",
+      pity: "No pity (high drop rate)",
     },
     beginner_info: {
       recommended: true,
