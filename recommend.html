@@ -520,9 +520,25 @@
                   <h2 class="text-2xl font-semibold text-white">All Characters Database</h2>
                   <p class="text-sm text-slate-400 mt-1">Browse all available units with detailed information</p>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-slate-400">
-                  <span class="font-semibold text-indigo-300" id="units-count-display">0</span>
-                  <span>characters</span>
+                <div class="flex items-center gap-4">
+                  <!-- Sort Dropdown ⭐ 差异化功能 -->
+                  <div class="flex items-center gap-2 text-sm">
+                    <label for="sort-select" class="text-slate-400">Sort by:</label>
+                    <select 
+                      id="sort-select" 
+                      class="px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-700 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition text-sm"
+                    >
+                      <option value="rarity">Rarity</option>
+                      <option value="cost">Cost (Low to High)</option>
+                      <option value="cost_efficiency">Cost Efficiency</option>
+                      <option value="get_difficulty">Get Difficulty</option>
+                    </select>
+                  </div>
+                  <!-- Character Count -->
+                  <div class="flex items-center gap-2 text-sm text-slate-400">
+                    <span class="font-semibold text-indigo-300" id="units-count-display">0</span>
+                    <span>characters</span>
+                  </div>
                 </div>
               </div>
 
@@ -582,6 +598,25 @@
                     </button>
                     <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition" data-filter="role" data-value="Hybrid">
                       Hybrid
+                    </button>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                  <!-- Beginner Friendly Filter ⭐ 差异化功能 -->
+                  <div class="flex flex-wrap gap-2 items-center">
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wide">For Beginners:</span>
+                    <button class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-500/30 transition" data-filter="beginner" data-value="all">
+                      All
+                    </button>
+                    <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-800 text-emerald-300 border border-emerald-700 hover:bg-emerald-700 transition" data-filter="beginner" data-value="high">
+                      ⭐ Highly Recommended
+                    </button>
+                    <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-800 text-amber-300 border border-amber-700 hover:bg-amber-700 transition" data-filter="beginner" data-value="medium">
+                      Moderate
+                    </button>
+                    <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-red-800 text-red-300 border border-red-700 hover:bg-red-700 transition" data-filter="beginner" data-value="low">
+                      Advanced Only
                     </button>
                   </div>
                 </div>
@@ -804,7 +839,9 @@
           search: '',
           rarity: 'all',
           role: 'all',
-          element: 'all'
+          element: 'all',
+          beginner: 'all',
+          sortBy: 'rarity' // rarity, cost, cost_efficiency, get_difficulty
         };
         
         // Get rarity color classes
@@ -817,6 +854,20 @@
             'Rare': 'text-slate-300 border-slate-500/40 bg-slate-500/20'
           };
           return colors[rarity] || colors['Rare'];
+        }
+        
+        // Get difficulty badge ⭐ 差异化功能
+        function getDifficultyBadge(unit) {
+          const difficultyMap = {
+            'Rare': { label: 'Easy', class: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
+            'Epic': { label: 'Moderate', class: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' },
+            'Legendary': { label: 'Hard', class: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
+            'Mythic': { label: 'Very Hard', class: 'bg-red-500/20 text-red-300 border-red-500/30' },
+            'Secret': { label: 'Extreme', class: 'bg-purple-500/20 text-purple-300 border-purple-500/30' }
+          };
+          
+          const difficulty = difficultyMap[unit.rarity] || difficultyMap['Rare'];
+          return `<span class="text-xs px-2 py-0.5 rounded-full border ${difficulty.class} font-medium">${difficulty.label}</span>`;
         }
         
         // Create unit card HTML
@@ -837,7 +888,10 @@
                 <div class="flex-1 min-w-0">
                   <div class="flex items-start justify-between gap-2 mb-3">
                     <h3 class="text-lg font-semibold text-white leading-tight">${unit.displayName}</h3>
-                    ${unit.tierList ? `<span class="text-xs px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-200 font-semibold">${unit.tierList}</span>` : ''}
+                    <div class="flex flex-col gap-1">
+                      ${unit.tierList ? `<span class="text-xs px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-200 font-semibold">${unit.tierList}</span>` : ''}
+                      ${getDifficultyBadge(unit)}
+                    </div>
                   </div>
                   
                   <div class="space-y-2 text-sm">
@@ -913,6 +967,21 @@
             filtered = filtered.filter(unit => unit.element === currentFilters.element);
           }
           
+          // Beginner friendly filter ⭐ 差异化功能
+          if (currentFilters.beginner !== 'all') {
+            filtered = filtered.filter(unit => {
+              const beginnerScore = unit.ratings?.beginner_friendly || 0;
+              if (currentFilters.beginner === 'high') {
+                return beginnerScore >= 4; // 4-5分为高度推荐
+              } else if (currentFilters.beginner === 'medium') {
+                return beginnerScore >= 2 && beginnerScore < 4; // 2-3分为中等
+              } else if (currentFilters.beginner === 'low') {
+                return beginnerScore < 2; // 0-1分为进阶
+              }
+              return true;
+            });
+          }
+          
           return filtered;
         }
         
@@ -935,13 +1004,43 @@
           grid.classList.remove('hidden');
           if (emptyState) emptyState.classList.add('hidden');
           
-          // Sort units by rarity and name
+          // Sort units based on sortBy filter ⭐ 差异化功能
           const rarityOrder = { 'Secret': 0, 'Mythic': 1, 'Legendary': 2, 'Epic': 3, 'Rare': 4 };
-          filtered.sort((a, b) => {
-            const rarityDiff = (rarityOrder[a.rarity] || 99) - (rarityOrder[b.rarity] || 99);
-            if (rarityDiff !== 0) return rarityDiff;
-            return (a.displayName || '').localeCompare(b.displayName || '');
-          });
+          
+          if (currentFilters.sortBy === 'rarity') {
+            // Sort by rarity and name
+            filtered.sort((a, b) => {
+              const rarityDiff = (rarityOrder[a.rarity] || 99) - (rarityOrder[b.rarity] || 99);
+              if (rarityDiff !== 0) return rarityDiff;
+              return (a.displayName || '').localeCompare(b.displayName || '');
+            });
+          } else if (currentFilters.sortBy === 'cost') {
+            // Sort by cost (low to high)
+            filtered.sort((a, b) => {
+              const costA = a.cost !== undefined ? a.cost : 9999;
+              const costB = b.cost !== undefined ? b.cost : 9999;
+              if (costA !== costB) return costA - costB;
+              return (a.displayName || '').localeCompare(b.displayName || '');
+            });
+          } else if (currentFilters.sortBy === 'cost_efficiency') {
+            // Sort by cost efficiency (damage/cost ratio, high to low)
+            filtered.sort((a, b) => {
+              const efficiencyA = (a.ratings?.damage && a.cost) ? (a.ratings.damage / a.cost) : 0;
+              const efficiencyB = (b.ratings?.damage && b.cost) ? (b.ratings.damage / b.cost) : 0;
+              if (efficiencyA !== efficiencyB) return efficiencyB - efficiencyA; // High to low
+              return (a.displayName || '').localeCompare(b.displayName || '');
+            });
+          } else if (currentFilters.sortBy === 'get_difficulty') {
+            // Sort by get difficulty (easy to hard)
+            // Rarity as proxy: Rare=1, Epic=2, Legendary=3, Mythic=4, Secret=5
+            const difficultyOrder = { 'Rare': 1, 'Epic': 2, 'Legendary': 3, 'Mythic': 4, 'Secret': 5 };
+            filtered.sort((a, b) => {
+              const diffA = difficultyOrder[a.rarity] || 99;
+              const diffB = difficultyOrder[b.rarity] || 99;
+              if (diffA !== diffB) return diffA - diffB;
+              return (a.displayName || '').localeCompare(b.displayName || '');
+            });
+          }
           
           // Generate HTML
           grid.innerHTML = filtered.map(unit => createUnitCard(unit)).join('');
@@ -954,11 +1053,8 @@
           // Add click event listeners
           grid.querySelectorAll('.unit-card').forEach(card => {
             card.addEventListener('click', function(e) {
-              console.log('Card clicked!'); // Debug log
               const unitName = this.getAttribute('data-unit-id');
-              console.log('Unit Name:', unitName); // Debug log
               const unit = allUnits.find(u => u.name === unitName);
-              console.log('Found unit:', unit); // Debug log
               if (unit) {
                 showUnitDetails(unit);
               } else {
@@ -984,12 +1080,8 @@
         
         // Show unit details modal
         function showUnitDetails(unit) {
-          console.log('showUnitDetails called with:', unit); // Debug log
           const modal = document.getElementById('unit-detail-modal');
           const modalContent = document.getElementById('modal-content');
-          
-          console.log('Modal element:', modal); // Debug log
-          console.log('Modal content element:', modalContent); // Debug log
           
           if (!modal || !modalContent) {
             console.error('Modal elements not found!');
@@ -1145,6 +1237,14 @@
           if (currentFilters.element !== 'all') {
             activeFilters.push({ type: 'element', label: `Element: ${currentFilters.element}`, value: currentFilters.element });
           }
+          if (currentFilters.beginner !== 'all') {
+            const beginnerLabels = {
+              'high': 'Beginner: Highly Recommended',
+              'medium': 'Beginner: Moderate',
+              'low': 'Beginner: Advanced Only'
+            };
+            activeFilters.push({ type: 'beginner', label: beginnerLabels[currentFilters.beginner] || `Beginner: ${currentFilters.beginner}`, value: currentFilters.beginner });
+          }
           
           if (activeFilters.length === 0) {
             activeFiltersContainer.classList.add('hidden');
@@ -1193,6 +1293,15 @@
             });
           }
           
+          // Sort dropdown handler ⭐ 差异化功能
+          const sortSelect = document.getElementById('sort-select');
+          if (sortSelect) {
+            sortSelect.addEventListener('change', function(e) {
+              currentFilters.sortBy = e.target.value;
+              renderUnits();
+            });
+          }
+          
           // Filter button handlers
           document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -1222,7 +1331,8 @@
                 search: '',
                 rarity: 'all',
                 role: 'all',
-                element: 'all'
+                element: 'all',
+                beginner: 'all'
               };
               
               // Reset search input
