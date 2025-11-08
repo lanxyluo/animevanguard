@@ -577,3 +577,15 @@ window.ANIME_VANGUARDS_DATA = {
   LAST_UPDATE,
 };
 
+// Export to window for global access
+window.GameData = {
+  UNITS_DATA,
+  RARITIES,
+  ELEMENTS,
+  RECOMMENDATION_RULES,
+  TEAM_TEMPLATES,
+  FAQ_DATA,
+  DATA_VERSION,
+  LAST_UPDATE,
+};
+
