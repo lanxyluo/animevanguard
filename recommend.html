@@ -93,6 +93,73 @@
         color: rgb(165, 180, 252) !important;
         border-color: rgba(99, 102, 241, 0.3) !important;
       }
+      
+      /* Enhanced Unit Card Styles */
+      .unit-card {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .unit-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.03),
+          transparent
+        );
+        transform: rotate(45deg);
+        transition: all 0.6s ease;
+        pointer-events: none;
+      }
+      
+      .unit-card:hover::before {
+        left: 100%;
+      }
+      
+      .unit-card:hover {
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+      }
+      
+      /* Rarity-specific shadow effects on hover */
+      .unit-card[data-unit-id]:hover {
+        transform: translateY(-4px) scale(1.02);
+      }
+      
+      /* Smooth grid animations */
+      #units-grid .unit-card {
+        animation: cardFadeIn 0.4s ease-out backwards;
+      }
+      
+      #units-grid .unit-card:nth-child(1) { animation-delay: 0.05s; }
+      #units-grid .unit-card:nth-child(2) { animation-delay: 0.1s; }
+      #units-grid .unit-card:nth-child(3) { animation-delay: 0.15s; }
+      #units-grid .unit-card:nth-child(4) { animation-delay: 0.2s; }
+      #units-grid .unit-card:nth-child(5) { animation-delay: 0.25s; }
+      #units-grid .unit-card:nth-child(6) { animation-delay: 0.3s; }
+      
+      @keyframes cardFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      
+      /* Responsive adjustments for compact grid */
+      @media (max-width: 640px) {
+        .unit-card {
+          font-size: 0.9rem;
+        }
+      }
     </style>
     <script type="application/ld+json">
       {
@@ -662,8 +729,8 @@
                 </div>
               </div>
 
-              <!-- Units Grid -->
-              <div id="units-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Units Grid - Compact layout with more columns -->
+              <div id="units-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                 <!-- Character cards will be dynamically inserted here -->
               </div>
 
@@ -856,6 +923,42 @@
           return colors[rarity] || colors['Rare'];
         }
         
+        // Get rarity gradient backgrounds for visual enhancement
+        function getRarityGradient(rarity) {
+          const gradients = {
+            'Secret': 'from-purple-600/30 to-purple-900/30',
+            'Mythic': 'from-blue-600/30 to-blue-900/30',
+            'Legendary': 'from-emerald-600/30 to-emerald-900/30',
+            'Epic': 'from-yellow-600/30 to-yellow-900/30',
+            'Rare': 'from-slate-600/30 to-slate-900/30'
+          };
+          return gradients[rarity] || gradients['Rare'];
+        }
+        
+        // Get rarity border color (stronger for card borders)
+        function getRarityBorderColor(rarity) {
+          const borders = {
+            'Secret': 'border-purple-500/60',
+            'Mythic': 'border-blue-500/60',
+            'Legendary': 'border-emerald-500/60',
+            'Epic': 'border-yellow-500/60',
+            'Rare': 'border-slate-600/50'
+          };
+          return borders[rarity] || borders['Rare'];
+        }
+        
+        // Get rarity icon background
+        function getRarityIconBg(rarity) {
+          const backgrounds = {
+            'Secret': 'bg-gradient-to-br from-purple-500 to-purple-700',
+            'Mythic': 'bg-gradient-to-br from-blue-500 to-blue-700',
+            'Legendary': 'bg-gradient-to-br from-emerald-500 to-emerald-700',
+            'Epic': 'bg-gradient-to-br from-yellow-500 to-yellow-700',
+            'Rare': 'bg-gradient-to-br from-slate-500 to-slate-700'
+          };
+          return backgrounds[rarity] || backgrounds['Rare'];
+        }
+        
         // Get difficulty badge ⭐ 差异化功能
         function getDifficultyBadge(unit) {
           const difficultyMap = {
@@ -870,70 +973,80 @@
           return `<span class="text-xs px-2 py-0.5 rounded-full border ${difficulty.class} font-medium">${difficulty.label}</span>`;
         }
         
-        // Create unit card HTML
+        // Create unit card HTML - Optimized compact visual design
         function createUnitCard(unit) {
           const rarityColor = getRarityColor(unit.rarity);
-          const tierClass = unit.tierList ? `text-${unit.tierList.toLowerCase().replace('+', 'plus')}-tier` : '';
+          const rarityGradient = getRarityGradient(unit.rarity);
+          const rarityBorder = getRarityBorderColor(unit.rarity);
+          const iconBg = getRarityIconBg(unit.rarity);
           
           return `
-            <div class="unit-card p-5 rounded-2xl border ${rarityColor} hover:border-indigo-500/50 transition cursor-pointer"
+            <div class="unit-card group relative rounded-2xl border-2 ${rarityBorder} bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer"
                  data-unit-id="${unit.name}">
-              <div class="flex items-start gap-4">
-                <!-- Unit Icon/Image Placeholder -->
-                <div class="flex-shrink-0 w-16 h-16 rounded-xl bg-slate-950/60 flex items-center justify-center text-2xl">
-                  ${unit.emoji || '👤'}
+              
+              <!-- Rarity glow background -->
+              <div class="absolute inset-0 bg-gradient-to-br ${rarityGradient} opacity-20"></div>
+              
+              <!-- Card content -->
+              <div class="relative p-4 flex flex-col items-center">
+                
+                <!-- Large emoji icon with gradient background -->
+                <div class="relative mb-3">
+                  <div class="w-24 h-24 rounded-2xl ${iconBg} flex items-center justify-center text-5xl shadow-lg border-2 ${rarityBorder} group-hover:scale-110 transition-transform duration-300">
+                    ${unit.emoji || '👤'}
+                  </div>
+                  <!-- Tier badge overlay -->
+                  ${unit.tierList ? `
+                    <div class="absolute -top-2 -right-2 px-2 py-1 rounded-lg bg-indigo-600 border-2 border-indigo-400 text-white text-xs font-bold shadow-lg">
+                      ${unit.tierList}
+                    </div>
+                  ` : ''}
                 </div>
                 
-                <!-- Unit Info -->
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-2 mb-3">
-                    <h3 class="text-lg font-semibold text-white leading-tight">${unit.displayName}</h3>
-                    <div class="flex flex-col gap-1">
-                      ${unit.tierList ? `<span class="text-xs px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-200 font-semibold">${unit.tierList}</span>` : ''}
-                      ${getDifficultyBadge(unit)}
-                    </div>
-                  </div>
-                  
-                  <div class="space-y-2 text-sm">
-                    <!-- Rarity -->
-                    <div class="flex items-center gap-2">
-                      <span class="text-slate-400">Rarity:</span>
-                      <span class="font-semibold ${rarityColor.split(' ')[0]}">${unit.rarity}</span>
-                    </div>
-                    
-                    <!-- Type/Role -->
-                    ${unit.type ? `
-                    <div class="flex items-center gap-2">
-                      <span class="text-slate-400">Type:</span>
-                      <span class="text-slate-300">${unit.type}</span>
-                    </div>
-                    ` : ''}
-                    
-                    <!-- Element -->
-                    ${unit.element ? `
-                    <div class="flex items-center gap-2">
-                      <span class="text-slate-400">Element:</span>
-                      <span class="text-slate-300">${unit.element}</span>
-                    </div>
-                    ` : ''}
-                    
-                    <!-- Cost -->
-                    ${unit.cost !== undefined ? `
-                    <div class="flex items-center gap-2">
-                      <span class="text-slate-400">Cost:</span>
-                      <span class="text-emerald-400 font-semibold">${unit.cost}</span>
-                    </div>
-                    ` : ''}
-                  </div>
-                  
-                  <!-- View Details Button -->
-                  <div class="mt-4">
-                    <div class="w-full rounded-lg px-4 py-2 text-sm font-medium text-center bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/20 transition cursor-pointer">
-                      View Details →
-                    </div>
-                  </div>
+                <!-- Character name -->
+                <h3 class="text-center font-bold text-white mb-2 text-base leading-tight min-h-[2.5rem] flex items-center">
+                  ${unit.displayName}
+                </h3>
+                
+                <!-- Rarity badge -->
+                <div class="mb-3">
+                  <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold ${rarityColor} border">
+                    ${unit.rarity}
+                  </span>
+                </div>
+                
+                <!-- Quick info tags -->
+                <div class="flex flex-wrap gap-1.5 justify-center mb-3 w-full">
+                  ${unit.type ? `
+                    <span class="px-2 py-0.5 rounded bg-slate-700/50 text-slate-300 text-xs border border-slate-600">
+                      ${unit.type}
+                    </span>
+                  ` : ''}
+                  ${unit.element ? `
+                    <span class="px-2 py-0.5 rounded bg-slate-700/50 text-slate-300 text-xs border border-slate-600">
+                      ${unit.element}
+                    </span>
+                  ` : ''}
+                  ${unit.cost !== undefined ? `
+                    <span class="px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-300 text-xs font-semibold border border-emerald-500/40">
+                      💎 ${unit.cost}
+                    </span>
+                  ` : ''}
+                </div>
+                
+                <!-- Difficulty badge -->
+                <div class="mb-3">
+                  ${getDifficultyBadge(unit)}
+                </div>
+                
+                <!-- View details button with hover effect -->
+                <div class="w-full mt-2 py-2 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-sm font-medium text-center group-hover:bg-indigo-500/20 group-hover:border-indigo-400/50 transition-all duration-200">
+                  View Details →
                 </div>
               </div>
+              
+              <!-- Shine effect on hover -->
+              <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             </div>
           `;
         }
